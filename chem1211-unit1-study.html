@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CHEM 1211 Unit 1 Study Set</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F6F7FB; --card:#FEFEFF; --card-2:#F1F3F9; --raised:#FFFFFF;
+  --ink:#2E3856; --body:#464F6B; --muted:#7E88A3; --faint:#A9B1C6;
+  --line:#E7EAF2; --line-2:#D9DEEC;
+  --indigo:#4255FF; --indigo-d:#2A20B8; --indigo-hover:#3A48EE; --indigo-soft:#EDEEFF; --indigo-soft-2:#DFE2FF;
+  --green:#2FA36B; --green-d:#1E7A4E; --green-soft:#E7F6EE;
+  --red:#E23D5B; --red-d:#B22C45; --red-soft:#FCE9EE;
+  --amber:#F0A81E; --amber-soft:#FDF1D8; --star:#FFC93C;
+  --shadow:0 2px 8px rgba(46,56,86,.08),0 1px 2px rgba(46,56,86,.05);
+  --shadow-md:0 6px 18px rgba(46,56,86,.10);
+  --shadow-lg:0 16px 44px rgba(46,56,86,.16);
+  --r:14px;
+}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);
+  font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,system-ui,'Helvetica Neue',Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;display:flex;flex-direction:column;align-items:center;
+  min-height:100vh;padding:0 18px 90px}
+.wrap{width:100%;max-width:720px}
+a{color:inherit}
+button{font-family:inherit}
+
+/* progress bar */
+#top-bar{position:fixed;top:0;left:0;right:0;height:4px;background:var(--line);z-index:60;display:none}
+#top-bar span{display:block;height:100%;width:0;background:var(--indigo);transition:width .45s cubic-bezier(.22,1,.36,1)}
+
+/* ---- buttons (Quizlet 3D) ---- */
+.btn{font-weight:700;border:none;border-radius:12px;cursor:pointer;font-size:15px;
+  transition:transform .07s ease,box-shadow .12s ease,background .15s ease;line-height:1}
+.btn-primary{background:var(--indigo);color:#fff;box-shadow:0 4px 0 var(--indigo-d);padding:15px 22px}
+.btn-primary:hover{background:var(--indigo-hover)}
+.btn-primary:active{transform:translateY(3px);box-shadow:0 1px 0 var(--indigo-d)}
+.btn-ghost{background:var(--raised);color:var(--ink);border:2px solid var(--line-2);box-shadow:0 3px 0 var(--line-2);padding:13px 20px}
+.btn-ghost:hover{border-color:var(--indigo);color:var(--indigo)}
+.btn-ghost:active{transform:translateY(2px);box-shadow:0 1px 0 var(--line-2)}
+.icon-btn{background:transparent;border:none;color:var(--muted);font-weight:600;font-size:14px;cursor:pointer;
+  padding:8px 12px;border-radius:10px;transition:background .15s,color .15s;display:inline-flex;align-items:center;gap:6px}
+.icon-btn:hover{background:var(--card-2);color:var(--ink)}
+.round-btn{width:44px;height:44px;border-radius:50%;background:var(--raised);border:2px solid var(--line-2);
+  box-shadow:var(--shadow);color:var(--ink);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:transform .1s,border-color .15s}
+.round-btn:hover{border-color:var(--indigo);color:var(--indigo)}
+.round-btn:active{transform:scale(.92)}
+.round-btn:disabled{opacity:.35;cursor:not-allowed}
+
+/* ============ HOME ============ */
+#home{display:none;padding-top:40px}
+#home.on{display:block}
+.set-eyebrow{font-size:12px;font-weight:800;letter-spacing:.12em;color:var(--indigo);margin-bottom:10px}
+.set-title{font-size:40px;font-weight:800;letter-spacing:-.02em;color:var(--ink);line-height:1.05;margin-bottom:14px}
+.set-meta{display:flex;flex-wrap:wrap;gap:20px;color:var(--muted);font-size:14px;font-weight:600;margin-bottom:26px}
+.set-meta b{color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:26px}
+.chip{background:var(--raised);border:2px solid var(--line-2);border-radius:100px;padding:9px 17px;font-size:13.5px;
+  font-weight:700;color:var(--body);cursor:pointer;transition:all .14s;display:inline-flex;align-items:center;gap:8px}
+.chip:hover{border-color:var(--indigo);color:var(--indigo)}
+.chip.active{background:var(--indigo);border-color:var(--indigo);color:#fff}
+.chip .cc{font-size:12px;opacity:.75}
+.chip.active .cc{opacity:.9}
+
+.mode-grid{display:grid;grid-template-columns:1fr;gap:13px;margin-bottom:34px}
+@media(min-width:560px){.mode-grid{grid-template-columns:1fr 1fr}}
+.mode-card{background:var(--raised);border:2px solid var(--line);border-radius:18px;padding:20px 22px;cursor:pointer;
+  display:flex;align-items:center;gap:16px;text-align:left;box-shadow:var(--shadow);
+  transition:transform .13s ease,box-shadow .16s ease,border-color .15s}
+.mode-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);border-color:var(--indigo)}
+.mode-card:active{transform:translateY(-1px)}
+.mode-ico{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:25px;flex-shrink:0}
+.mi-flash{background:var(--indigo-soft)}.mi-learn{background:var(--amber-soft)}.mi-match{background:var(--green-soft)}
+.mode-tx h3{font-size:17px;font-weight:800;color:var(--ink);margin-bottom:3px}
+.mode-tx p{font-size:13px;color:var(--muted);font-weight:500;line-height:1.4}
+
+.terms-head{font-size:13px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin:0 0 13px 2px}
+.term-row{background:var(--raised);border:2px solid var(--line);border-radius:13px;padding:15px 18px;margin-bottom:9px;
+  display:grid;grid-template-columns:minmax(120px,0.9fr) 1.6fr;gap:18px;align-items:start}
+.term-row .t{font-weight:800;color:var(--ink);font-size:14.5px}
+.term-row .d{color:var(--body);font-size:14px;line-height:1.5}
+@media(max-width:460px){.term-row{grid-template-columns:1fr;gap:5px}}
+
+/* ============ MODE BAR (shared) ============ */
+.mode-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 0 8px;width:100%}
+.mode-bar .mt{font-size:15px;font-weight:800;color:var(--ink)}
+.mode-bar .rt{display:flex;align-items:center;gap:6px}
+.pill{background:var(--card-2);border-radius:100px;padding:6px 14px;font-size:13px;font-weight:700;color:var(--body)}
+.pill.time{color:var(--indigo);font-variant-numeric:tabular-nums}
+
+/* ============ FLASHCARDS ============ */
+#flash{display:none;width:100%;flex-direction:column;align-items:center}
+#flash.on{display:flex}
+.fc-count{font-size:13px;font-weight:700;color:var(--muted);margin:6px 0 12px;align-self:center}
+.flashcard{width:100%;max-width:660px;height:min(64vh,440px);perspective:2200px;cursor:pointer;margin-bottom:16px}
+.fc-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.2,.9,.3,1)}
+.flashcard.flipped .fc-inner{transform:rotateY(180deg)}
+.fc-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  background:var(--raised);border:2px solid var(--line);border-radius:20px;box-shadow:var(--shadow-md);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px 34px;overflow:auto}
+.fc-back{transform:rotateY(180deg)}
+.fc-kicker{position:absolute;top:16px;left:20px;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.fc-star{position:absolute;top:12px;right:14px;background:none;border:none;font-size:22px;cursor:pointer;color:var(--faint);line-height:1;padding:6px}
+.fc-star.on{color:var(--star)}
+.fc-q{font-size:clamp(17px,2.4vw,22px);font-weight:600;line-height:1.5;color:var(--ink);max-width:560px}
+.fc-a-label{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--green);margin-bottom:10px}
+.fc-a{font-size:clamp(17px,2.3vw,21px);font-weight:800;color:var(--ink);margin-bottom:14px;line-height:1.35}
+.fc-exp{font-size:14px;color:var(--body);line-height:1.6;max-width:540px}
+.fc-exp strong{color:var(--ink)}
+.fc-hint{font-size:12px;color:var(--faint);font-weight:600;margin-top:14px}
+.fc-diagram{margin:4px auto 12px;max-width:340px}
+.fc-nav{display:flex;align-items:center;justify-content:center;gap:22px;width:100%;max-width:660px}
+.fc-nav .lbl{font-size:12.5px;color:var(--muted);font-weight:600;min-width:120px;text-align:center}
+
+/* ============ LEARN ============ */
+#learn{display:none;width:100%;flex-direction:column;align-items:center}
+#learn.on{display:flex}
+.mastery{width:100%;max-width:660px;margin:6px 0 16px}
+.mastery-track{height:12px;border-radius:100px;background:var(--line);overflow:hidden;display:flex}
+.mastery-track i{height:100%;display:block;transition:width .5s cubic-bezier(.22,1,.36,1)}
+.mt-learn{background:var(--amber)} .mt-master{background:var(--green)}
+.mastery-legend{display:flex;justify-content:space-between;margin-top:9px;font-size:12px;font-weight:700}
+.ml-a{color:var(--amber)} .ml-m{color:var(--green)} .ml-r{color:var(--muted)}
+
+/* ============ Question card (Learn) ============ */
+.q-card{width:100%;max-width:660px;background:var(--raised);border:2px solid var(--line);border-radius:20px;
+  box-shadow:var(--shadow);padding:26px 28px 24px;margin-bottom:12px}
+.q-kicker{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.q-text{font-size:17.5px;line-height:1.55;font-weight:600;color:var(--ink);margin-bottom:20px}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:center;gap:13px;width:100%;padding:14px 16px;background:var(--raised);
+  border:2px solid var(--line-2);border-radius:13px;color:var(--ink);font-size:15px;text-align:left;cursor:pointer;
+  box-shadow:0 2px 0 var(--line-2);transition:transform .07s,box-shadow .12s,border-color .13s,background .13s}
+.opt:hover:not(:disabled){border-color:var(--indigo);background:var(--indigo-soft)}
+.opt:active:not(:disabled){transform:translateY(2px);box-shadow:0 0 0 var(--line-2)}
+.opt-l{width:28px;height:28px;border-radius:8px;background:var(--card-2);display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:800;color:var(--muted);flex-shrink:0;transition:all .13s}
+.opt:hover:not(:disabled) .opt-l{background:var(--indigo);color:#fff}
+.opt.correct{border-color:var(--green);background:var(--green-soft);box-shadow:0 2px 0 var(--green-d)}
+.opt.correct .opt-l{background:var(--green);color:#fff}
+.opt.wrong{border-color:var(--red);background:var(--red-soft);box-shadow:0 2px 0 var(--red-d);animation:shake .4s}
+.opt.wrong .opt-l{background:var(--red);color:#fff}
+.opt.reveal{border-color:var(--green);background:var(--green-soft);opacity:.72}
+.opt.reveal .opt-l{background:var(--green);color:#fff}
+.opt:disabled{cursor:default}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
+
+.fb{width:100%;max-width:660px;background:var(--raised);border:2px solid var(--line);border-radius:16px;
+  padding:17px 21px;margin-bottom:12px;display:none;animation:rise .28s ease both}
+.fb.ok{border-color:var(--green);background:var(--green-soft)}
+.fb.no{border-color:var(--red);background:var(--red-soft)}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.fb-l{font-size:12.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px}
+.fb.ok .fb-l{color:var(--green-d)} .fb.no .fb-l{color:var(--red-d)}
+.fb-t{font-size:14px;line-height:1.65;color:var(--body)}
+.fb-t strong{color:var(--ink);font-weight:700}
+.math-block{display:block;background:#F2F1FF;border:1px solid var(--indigo-soft-2);border-radius:9px;
+  padding:9px 14px;font-family:'Cascadia Code','SF Mono',ui-monospace,monospace;font-size:12.5px;color:#3B32C4;
+  margin-bottom:10px;line-height:1.65;white-space:pre-wrap}
+.lec{margin-top:13px;padding:11px 14px;background:var(--indigo-soft);border:1px solid var(--indigo-soft-2);border-radius:11px;
+  color:var(--indigo-d);font-size:12.5px;font-weight:700;line-height:1.5}
+.lec .row{display:block;padding:2px 0}
+.lec a{color:var(--indigo);text-decoration:none;border-bottom:1px solid var(--indigo-soft-2)}
+.lec a:hover{color:var(--indigo-d)}
+
+/* diagram wrap (light) */
+.diagram{background:var(--card-2);border:1px solid var(--line);border-radius:14px;padding:12px 8px 8px;margin-bottom:18px;text-align:center}
+.diagram svg{max-width:100%;height:auto;display:block;margin:0 auto}
+.diagram table.tacc{margin:4px auto 6px;border-collapse:collapse;font-size:13.5px;color:var(--ink)}
+.tacc th{font-weight:700;color:var(--muted);font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;padding:2px 16px 8px;border-bottom:1.5px solid var(--line-2);text-align:center}
+.tacc th:first-child{border-right:2px solid var(--line-2)}
+.tacc td{padding:5px 16px}
+.tacc .ta-lbl{color:var(--body);text-align:left}
+.tacc .ta-val{font-family:'Cascadia Code',ui-monospace,monospace;color:var(--ink);text-align:right;font-weight:600}
+.tacc td:nth-child(2){border-right:2px solid var(--line-2)}
+
+.next-btn{width:100%;max-width:660px;margin-bottom:8px;display:none}
+
+/* round-complete / finish overlays */
+.interstitial{display:none;width:100%;max-width:560px;flex-direction:column;align-items:center;text-align:center;padding:44px 20px;animation:rise .4s ease both}
+.interstitial.on{display:flex}
+.big-emoji{font-size:64px;margin-bottom:16px}
+.inter-title{font-size:27px;font-weight:800;color:var(--ink);margin-bottom:8px;letter-spacing:-.01em}
+.inter-sub{font-size:15px;color:var(--muted);line-height:1.6;margin-bottom:24px}
+.stat-row{display:flex;gap:12px;width:100%;margin-bottom:24px}
+.stat{flex:1;background:var(--raised);border:2px solid var(--line);border-radius:15px;padding:16px 10px}
+.stat .n{font-size:26px;font-weight:800;margin-bottom:3px}.stat .l{font-size:11.5px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.stat.g .n{color:var(--green)} .stat.a .n{color:var(--amber)} .stat.i .n{color:var(--indigo)}
+.inter-actions{display:flex;gap:11px;width:100%}
+.inter-actions .btn{flex:1;text-align:center}
+
+/* ============ MATCH ============ */
+#match{display:none;width:100%;flex-direction:column;align-items:center}
+#match.on{display:flex}
+.match-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;width:100%;max-width:680px;margin:8px 0}
+@media(max-width:520px){.match-grid{grid-template-columns:repeat(2,1fr);gap:9px}}
+.tile{min-height:104px;background:var(--raised);border:2px solid var(--line-2);border-radius:15px;box-shadow:0 3px 0 var(--line-2);
+  padding:13px 12px;font-size:13.5px;font-weight:600;color:var(--ink);line-height:1.35;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  transition:transform .09s,box-shadow .12s,border-color .13s,background .13s,opacity .3s}
+.tile:hover{border-color:var(--indigo)}
+.tile.sel{border-color:var(--indigo);background:var(--indigo-soft);box-shadow:0 3px 0 var(--indigo-d);transform:translateY(-2px)}
+.tile.ok{border-color:var(--green);background:var(--green-soft);box-shadow:0 0 0 var(--green);animation:pop .3s}
+.tile.err{border-color:var(--red);background:var(--red-soft);box-shadow:0 3px 0 var(--red-d);animation:shake .4s}
+.tile.gone{opacity:0;pointer-events:none;transform:scale(.85)}
+.tile .tt{font-weight:800}
+@keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.06)}100%{transform:scale(1)}}
+.match-win{display:none;flex-direction:column;align-items:center;text-align:center;padding:40px 20px;animation:rise .4s ease both}
+.match-win.on{display:flex}
+
+/* confetti */
+.cf{position:fixed;width:10px;height:10px;border-radius:2px;pointer-events:none;z-index:9999;left:0;top:0;animation:cf var(--d,1.1s) ease-out forwards}
+@keyframes cf{0%{transform:translate(var(--x),var(--y)) rotate(0);opacity:1}100%{transform:translate(calc(var(--x) + var(--dx)),calc(var(--y) + 200px)) rotate(var(--r));opacity:0}}
+
+@media(max-width:480px){
+  .set-title{font-size:32px}.q-text{font-size:16px}.opt{font-size:14px}
+}
+
+/* ===== honest progress (home) ===== */
+.progress-strip{margin:0 0 24px;background:var(--raised);border:2px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow)}
+.progress-strip .pl{display:flex;justify-content:space-between;align-items:baseline;font-size:14px;font-weight:800;color:var(--ink);margin-bottom:10px}
+.progress-strip .pl .r{color:var(--green)}
+.progress-strip .pt{height:10px;border-radius:100px;background:var(--line);overflow:hidden}
+.progress-strip .pt i{display:block;height:100%;background:var(--green);width:0;transition:width .5s cubic-bezier(.22,1,.36,1)}
+.progress-strip .ps{font-size:12px;color:var(--muted);margin-top:9px;font-weight:500;line-height:1.5}
+
+/* ===== mode sections + card variants ===== */
+.mode-section{font-size:11.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:8px 2px 12px}
+.mode-card .badge{align-self:flex-start;margin-left:auto;font-size:10px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;padding:4px 9px;border-radius:100px;flex-shrink:0}
+.badge.best{background:var(--green-soft);color:var(--green-d)}
+.badge.reco{background:var(--card-2);color:var(--muted)}
+.mode-card.secondary{border-style:dashed;box-shadow:none;background:transparent}
+.mode-card.secondary:hover{background:var(--raised)}
+.mode-card.secondary .mode-ico{background:var(--card-2)}
+.mi-vid{background:#FDE7E3}
+.badge.ref{background:var(--amber-soft);color:#9a6a04}
+
+/* ===== Videos (resource list) ===== */
+#videos{display:none;width:100%;flex-direction:column;align-items:center}
+#videos.on{display:flex}
+.vid-intro{width:100%;max-width:660px;font-size:13px;color:var(--body);background:var(--card-2);border-radius:12px;padding:12px 15px;margin:6px 0 18px;line-height:1.5;font-weight:500}
+.vid-intro b{color:var(--ink)}
+.vid-group{width:100%;max-width:660px;margin-bottom:22px}
+.vid-group h4{font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin:0 0 11px 2px}
+.vid-row{display:flex;align-items:center;gap:14px;background:var(--raised);border:2px solid var(--line);border-radius:14px;padding:13px 16px;margin-bottom:9px;text-decoration:none;transition:transform .12s,box-shadow .14s,border-color .13s;box-shadow:var(--shadow)}
+.vid-row:hover{transform:translateY(-2px);box-shadow:var(--shadow-md);border-color:var(--indigo)}
+.vid-play{width:38px;height:38px;border-radius:10px;background:#FF0000;color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.vid-tx{min-width:0}
+.vid-tx h5{font-size:14.5px;font-weight:800;color:var(--ink);margin:0 0 2px}
+.vid-tx p{font-size:12.5px;color:var(--muted);font-weight:500;margin:0;line-height:1.4}
+.vid-ext{margin-left:auto;color:var(--faint);font-size:15px;flex-shrink:0;font-weight:700}
+.vid-row:hover .vid-ext{color:var(--indigo)}
+
+/* ===== produce-then-reveal gate (Learn / Exam) ===== */
+.produce{margin-top:4px}
+.produce-hint{font-size:12.5px;color:var(--indigo-d);background:var(--indigo-soft);border-radius:10px;padding:9px 13px;margin-bottom:12px;font-weight:600;line-height:1.45}
+.produce textarea{width:100%;min-height:64px;background:var(--raised);border:2px solid var(--line-2);border-radius:13px;padding:13px 15px;font-family:inherit;font-size:15px;color:var(--ink);resize:vertical;line-height:1.5}
+.produce textarea:focus{outline:none;border-color:var(--indigo)}
+.produce textarea::placeholder{color:var(--faint)}
+.conf-row{display:flex;gap:8px;margin:12px 0}
+.conf{flex:1;background:var(--raised);border:2px solid var(--line-2);border-radius:11px;padding:11px 8px;font-size:13px;font-weight:700;color:var(--body);cursor:pointer;transition:all .12s;box-shadow:0 2px 0 var(--line-2)}
+.conf:hover{border-color:var(--indigo);color:var(--indigo)}
+.conf.on{background:var(--indigo);border-color:var(--indigo);color:#fff;box-shadow:0 2px 0 var(--indigo-d)}
+.conf .k{opacity:.55;font-size:11px;margin-left:4px}
+.your-answer{margin-top:12px;padding:11px 14px;background:var(--card-2);border-radius:11px;font-size:13.5px;color:var(--body);line-height:1.5}
+.your-answer b{color:var(--ink)}
+
+/* ===== Recall mode ===== */
+#recall{display:none;width:100%;flex-direction:column;align-items:center}
+#recall.on{display:flex}
+.recall-count{font-size:13px;font-weight:700;color:var(--muted);margin:6px 0 14px}
+.recall-card{width:100%;max-width:640px;background:var(--raised);border:2px solid var(--line);border-radius:20px;box-shadow:var(--shadow);padding:26px 28px;margin-bottom:12px}
+.recall-prompt-l{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--indigo);margin-bottom:10px}
+.recall-term{font-size:24px;font-weight:800;color:var(--ink);line-height:1.25;margin-bottom:20px}
+.recall-card textarea{width:100%;min-height:82px;background:var(--card);border:2px solid var(--line-2);border-radius:13px;padding:13px 15px;font-family:inherit;font-size:15.5px;color:var(--ink);resize:vertical;line-height:1.5}
+.recall-card textarea:focus{outline:none;border-color:var(--indigo)}
+.recall-card textarea:disabled{background:var(--card-2);color:var(--body)}
+.recall-reveal{margin-top:16px;border-top:2px solid var(--line);padding-top:16px;display:none}
+.recall-model-l{font-size:12px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--green);margin-bottom:7px}
+.recall-model{font-size:16px;color:var(--ink);line-height:1.55;font-weight:600}
+.recall-model .hit{background:var(--green-soft);color:var(--green-d);border-radius:4px;padding:0 3px}
+.grade-row{display:flex;gap:9px;margin-top:16px}
+.grade{flex:1;padding:13px 8px;border-radius:12px;font-size:14px;font-weight:800;font-family:inherit;cursor:pointer;border:2px solid;transition:transform .07s}
+.grade:active{transform:translateY(2px)}
+.grade.miss{background:var(--red-soft);border-color:var(--red);color:var(--red-d)}
+.grade.close{background:var(--amber-soft);border-color:var(--amber);color:#9a6a04}
+.grade.got{background:var(--green-soft);border-color:var(--green);color:var(--green-d)}
+</style>
+</head>
+<body>
+<div id="top-bar"><span></span></div>
+
+<!-- ================= HOME ================= -->
+<div id="home" class="wrap on">
+  <div class="set-eyebrow">STUDY SET</div>
+  <h1 class="set-title">Unit&nbsp;1 Prep</h1>
+  <div class="set-meta"><span><b>CHEM 1211</b></span><span><b id="m-q">51</b> questions</span><span><b id="m-t">24</b> key terms</span></div>
+  <div class="progress-strip">
+    <div class="pl"><span>Recalled from cold</span><span class="r" id="rc-n">0 / 75</span></div>
+    <div class="pt"><i id="rc-bar"></i></div>
+    <div class="ps">Only answers you produce from memory count here. Flipping and matching don't move this number, because recognizing an answer isn't the same as remembering it.</div>
+  </div>
+  <div class="chips" id="chips"></div>
+  <div class="mode-section">Study — produce it from memory</div>
+  <div class="mode-grid">
+    <button class="mode-card" onclick="enter('recall')">
+      <span class="mode-ico mi-flash">✍️</span>
+      <span class="mode-tx"><h3>Recall</h3><p>See a term, type the definition from a blank, then grade yourself. The hardest mode, and the best for memory.</p></span>
+      <span class="badge best">Best</span>
+    </button>
+    <button class="mode-card" onclick="enter('learn')">
+      <span class="mode-ico mi-learn">🧠</span>
+      <span class="mode-tx"><h3>Learn</h3><p>Commit an answer before the options appear, then get worked feedback. Repeats each question until you produce it twice.</p></span>
+    </button>
+    <button class="mode-card" onclick="enter('exam')">
+      <span class="mode-ico mi-match">📝</span>
+      <span class="mode-tx"><h3>Mixed Exam</h3><p>All 51, chapters interleaved, one scored pass. Practice under real-test conditions.</p></span>
+    </button>
+    <button class="mode-card" onclick="enter('videos')">
+      <span class="mode-ico mi-vid">🎬</span>
+      <span class="mode-tx"><h3>Videos</h3><p>Every course video, verified and grouped by topic. Watch to unblock a concept, then go produce it.</p></span>
+      <span class="badge ref">Reference</span>
+    </button>
+  </div>
+  <div class="mode-section">Warm up — recognition only, doesn't build recall</div>
+  <div class="mode-grid">
+    <button class="mode-card secondary" onclick="enter('flash')">
+      <span class="mode-ico">🗂️</span>
+      <span class="mode-tx"><h3>Preview</h3><p>Flip through to see the material. Fine for a first look; recognizing isn't recalling.</p></span>
+      <span class="badge reco">Preview</span>
+    </button>
+    <button class="mode-card secondary" onclick="enter('match')">
+      <span class="mode-ico">⚡</span>
+      <span class="mode-tx"><h3>Match</h3><p>Quick timed term game. A fun warm-up; it doesn't count toward mastery.</p></span>
+      <span class="badge reco">Warm-up</span>
+    </button>
+  </div>
+  <div class="terms-head" id="terms-head">Key terms in this set</div>
+  <div id="term-list"></div>
+</div>
+
+<!-- ================= FLASHCARDS ================= -->
+<div id="flash" class="wrap">
+  <div class="mode-bar">
+    <button class="icon-btn" onclick="goHome()">← Set</button>
+    <span class="mt">Preview</span>
+    <span class="rt">
+      <button class="icon-btn" id="fc-shuffle" onclick="fcShuffle()">🔀 Shuffle</button>
+    </span>
+  </div>
+  <div class="fc-count" id="fc-count">1 / 51</div>
+  <div class="flashcard" id="flashcard" onclick="fcFlip()">
+    <div class="fc-inner">
+      <div class="fc-face fc-front">
+        <span class="fc-kicker" id="fc-kick-f"></span>
+        <button class="fc-star" id="fc-star" onclick="event.stopPropagation();fcStar()">★</button>
+        <div class="fc-diagram" id="fc-diagram"></div>
+        <div class="fc-q" id="fc-q"></div>
+        <div class="fc-hint">tap to flip</div>
+      </div>
+      <div class="fc-face fc-back">
+        <span class="fc-kicker">Answer</span>
+        <div class="fc-a-label">Correct answer</div>
+        <div class="fc-a" id="fc-a"></div>
+        <div class="fc-exp" id="fc-exp"></div>
+      </div>
+    </div>
+  </div>
+  <div class="fc-nav">
+    <button class="round-btn" id="fc-prev" onclick="fcNav(-1)">‹</button>
+    <span class="lbl" id="fc-progress">tap card to flip</span>
+    <button class="round-btn" id="fc-next" onclick="fcNav(1)">›</button>
+  </div>
+</div>
+
+<!-- ================= LEARN ================= -->
+<div id="learn" class="wrap">
+  <div id="learn-play" style="width:100%;display:flex;flex-direction:column;align-items:center">
+    <div class="mode-bar">
+      <button class="icon-btn" onclick="goHome()">← Set</button>
+      <span class="mt">Learn</span>
+      <span class="pill" id="learn-round">Round 1</span>
+    </div>
+    <div class="mastery">
+      <div class="mastery-track"><i class="mt-learn" id="bar-learn"></i><i class="mt-master" id="bar-master"></i></div>
+      <div class="mastery-legend"><span class="ml-r"><span id="c-remain">0</span> remaining</span>
+        <span class="ml-a"><span id="c-learn">0</span> still learning</span>
+        <span class="ml-m"><span id="c-master">0</span> mastered</span></div>
+    </div>
+    <div class="q-card" id="learn-card">
+      <div class="q-kicker" id="learn-kick"></div>
+      <div class="diagram" id="learn-diagram" style="display:none"></div>
+      <div class="q-text" id="learn-q"></div>
+      <div class="produce" id="learn-produce">
+        <div class="produce-hint">Answer from memory first, even a rough guess. Producing the answer is where the learning happens.</div>
+        <textarea id="learn-input" placeholder="Type your answer or the key idea…"></textarea>
+        <div class="conf-row">
+          <button class="conf" data-c="guess" onclick="setConf('guess')">Guessing<span class="k">1</span></button>
+          <button class="conf" data-c="think" onclick="setConf('think')">Think so<span class="k">2</span></button>
+          <button class="conf" data-c="sure" onclick="setConf('sure')">Certain<span class="k">3</span></button>
+        </div>
+        <button class="btn btn-primary" style="width:100%" onclick="revealOptions()">Show options →</button>
+      </div>
+      <div class="opts" id="learn-opts" style="display:none"></div>
+    </div>
+    <div class="fb" id="learn-fb"><div class="fb-l" id="learn-fb-l"></div><div class="fb-t" id="learn-fb-t"></div></div>
+    <button class="btn btn-primary next-btn" id="learn-next" onclick="learnNext()">Continue</button>
+  </div>
+  <div class="interstitial" id="learn-inter"></div>
+</div>
+
+<!-- ================= MATCH ================= -->
+<div id="match" class="wrap">
+  <div id="match-play" style="width:100%;display:flex;flex-direction:column;align-items:center">
+    <div class="mode-bar">
+      <button class="icon-btn" onclick="goHome()">← Set</button>
+      <span class="mt">Match</span>
+      <span class="rt"><span class="pill time" id="match-timer">0.0s</span>
+        <button class="icon-btn" onclick="matchStart()">↺ Restart</button></span>
+    </div>
+    <div class="match-grid" id="match-grid"></div>
+  </div>
+  <div class="match-win" id="match-win"></div>
+</div>
+
+<!-- ================= RECALL (typed produce-from-memory) ================= -->
+<div id="recall" class="wrap">
+  <div id="recall-play" style="width:100%;display:flex;flex-direction:column;align-items:center">
+    <div class="mode-bar">
+      <button class="icon-btn" onclick="goHome()">← Set</button>
+      <span class="mt">Recall</span>
+      <button class="icon-btn" onclick="recallFlip()">⇄ <span id="rc-dir">Term → definition</span></button>
+    </div>
+    <div class="recall-count" id="rc-count">1 / 34</div>
+    <div class="recall-card">
+      <div class="recall-prompt-l" id="rc-prompt-l">Define this term</div>
+      <div class="recall-term" id="rc-term"></div>
+      <textarea id="rc-input" placeholder="Type it from memory, then reveal…"></textarea>
+      <button class="btn btn-primary" style="width:100%;margin-top:14px" id="rc-reveal-btn" onclick="recallReveal()">Reveal answer</button>
+      <div class="recall-reveal" id="rc-reveal">
+        <div class="recall-model-l">Model answer</div>
+        <div class="recall-model" id="rc-model"></div>
+        <div class="your-answer" id="rc-yours" style="margin-top:12px"></div>
+        <div class="grade-row">
+          <button class="grade miss" onclick="recallGrade('miss')">Missed</button>
+          <button class="grade close" onclick="recallGrade('close')">Close</button>
+          <button class="grade got" onclick="recallGrade('got')">Got it</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="interstitial" id="recall-inter"></div>
+</div>
+
+<!-- ================= VIDEOS (resource library) ================= -->
+<div id="videos" class="wrap">
+  <div class="mode-bar">
+    <button class="icon-btn" onclick="goHome()">← Set</button>
+    <span class="mt">Videos</span>
+    <span style="width:52px"></span>
+  </div>
+  <div class="vid-intro">Every video I found and verified for this course, grouped by topic. Watch one to unblock a concept you're stuck on, then go <b>produce</b> it in Recall or Learn — watching alone builds recognition, not recall.</div>
+  <div id="vid-list"></div>
+</div>
+
+<script>
+// ===== Diagram generators — LIGHT theme (dark ink on white) — CHEM 1211 Unit 1 =====
+const DG = (() => {
+  // Factor-label "railroad track": given x (factor)(factor) = result.
+  // given = {n:'text'};  factors = [{n:'top', d:'bottom'}, ...]
+  function dimtrack(given, factors, result){
+    const ink='#2E3856', mut='#7E88A3', acc='#4255FF', ln='#CBD2E0';
+    const frac=(n,d)=>`<span style="display:inline-flex;flex-direction:column;text-align:center;line-height:1.25"><span style="padding:0 8px 2px">${n}</span><span style="padding:2px 8px 0;border-top:1.6px solid ${ink}">${d}</span></span>`;
+    const box=(inner)=>`<span style="display:inline-flex;align-items:center;padding:5px 4px;border:1px solid ${ln};border-radius:8px;background:#fff">${inner}</span>`;
+    let s=`<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:7px;font-family:ui-monospace,'JetBrains Mono',monospace;font-size:13px;color:${ink};background:#FBFCFF;border:1px solid #E7EAF2;border-radius:12px;padding:14px 12px;margin:2px 0 4px">`;
+    s+=`<span style="font-weight:700">${given.n}</span>`;
+    factors.forEach(f=>{ s+=`<span style="color:${mut}">&times;</span>`+box(frac(f.n,f.d)); });
+    s+=`<span style="color:${mut}">=</span><span style="font-weight:700;color:${acc}">${result}</span>`;
+    return s+`</div>`;
+  }
+  return { dimtrack };
+})();
+const DT = DG.dimtrack;
+const Q = [
+// ===== Scientific Notation =====
+{chId:'sci',ch:'Scientific Notation',q:"In scientific notation, the coefficient (the number written in front of the x10) must be...",o:['a whole number','between 1 and 10','between 0 and 1','greater than 10','any power of 10'],a:1,lec:'Lecture 1: scientific notation',e:"Scientific notation is <strong>a number between 1 and 10, times 10 raised to an integer</strong>. So 3250 becomes 3.250 x 10<sup>3</sup>, not 32.5 x 10<sup>2</sup>."},
+{chId:'sci',ch:'Scientific Notation',q:"Write 61,500 in scientific notation.",o:['61.5 x 10<sup>3</sup>','6.15 x 10<sup>3</sup>','6.15 x 10<sup>4</sup>','0.615 x 10<sup>5</sup>','6.15 x 10<sup>-4</sup>'],a:2,lec:'Lecture 1: scientific notation',e:"<div class='math-block'>61,500 -> move the decimal 4 places left -> 6.15<br>moved left = positive exponent</div>= <strong>6.15 x 10<sup>4</sup></strong>. Mnemonic: <strong>+ = x10</strong>."},
+{chId:'sci',ch:'Scientific Notation',q:"Write 0.0000568 in scientific notation.",o:['5.68 x 10<sup>-5</sup>','5.68 x 10<sup>5</sup>','56.8 x 10<sup>-6</sup>','5.68 x 10<sup>-4</sup>','5.68 x 10<sup>-6</sup>'],a:0,lec:'Lecture 1: scientific notation',e:"<div class='math-block'>0.0000568 -> move the decimal 5 places right -> 5.68<br>moved right = negative exponent</div>= <strong>5.68 x 10<sup>-5</sup></strong>. A value less than 1 always has a <strong>negative</strong> exponent."},
+{chId:'sci',ch:'Scientific Notation',q:"Write 1.09 x 10<sup>3</sup> in standard (decimal) form.",o:['10,900','109','1,090','0.00109','1.090'],a:2,lec:'Lecture 1: scientific notation',e:"<div class='math-block'>1.09 x 10<sup>3</sup> = 1.09 x 1000 = 1,090</div>Positive exponent -> value greater than 1."},
+{chId:'sci',ch:'Scientific Notation',q:"Write 8.94 x 10<sup>-4</sup> in standard (decimal) form.",o:['0.000894','0.00894','8,940','0.0000894','0.0894'],a:0,lec:'Lecture 1: scientific notation',e:"<div class='math-block'>8.94 x 10<sup>-4</sup> = 8.94 / 10,000 = 0.000894</div>Negative exponent -> value less than 1."},
+{chId:'sci',ch:'Scientific Notation',q:"A number in scientific notation has a <strong>negative</strong> exponent. What does that tell you about its value?",o:['it is greater than 1','it is a negative number','it is less than 1','it is a whole number','it is between 1 and 10'],a:2,lec:'Lecture 1: scientific notation',e:"Prof. Meyers' boxed rule: <strong>positive exponent gives a value &gt; 1; negative exponent gives a value &lt; 1</strong>. The sign of the exponent, not of the coefficient, tells you the size."},
+{chId:'sci',ch:'Scientific Notation',q:"Which value is larger: 6.2 x 10<sup>-3</sup> or 7.6 x 10<sup>-2</sup>?",o:['6.2 x 10<sup>-3</sup>','7.6 x 10<sup>-2</sup>','they are equal','it cannot be determined'],a:1,lec:'Lecture 1: scientific notation',e:"<div class='math-block'>6.2 x 10<sup>-3</sup> = 0.0062<br>7.6 x 10<sup>-2</sup> = 0.076</div>Compare the <strong>exponent first</strong>: 10<sup>-2</sup> &gt; 10<sup>-3</sup>, so <strong>7.6 x 10<sup>-2</sup></strong> is larger."},
+{chId:'sci',ch:'Scientific Notation',q:"Which value is larger: 4.3 x 10<sup>4</sup> or 3.5 x 10<sup>5</sup>?",o:['3.5 x 10<sup>5</sup>','4.3 x 10<sup>4</sup>','they are equal','it cannot be determined'],a:0,lec:'Lecture 1: scientific notation',e:"<div class='math-block'>4.3 x 10<sup>4</sup> = 43,000<br>3.5 x 10<sup>5</sup> = 350,000</div>The larger exponent wins: <strong>3.5 x 10<sup>5</sup></strong>."},
+// ===== Significant Figures =====
+{chId:'sf',ch:'Significant Figures',q:"How many significant figures are in <strong>0.04030</strong>?",o:['3','4','5','2'],a:1,lec:'Lecture 1: significant figures',e:"<div class='math-block'>0.04030<br>leading 0.0 -> not significant (rule 3)<br>4, 0 (captive), 3 -> significant<br>trailing 0 after the decimal -> significant (rule 4)</div>= <strong>4 sig figs</strong>."},
+{chId:'sf',ch:'Significant Figures',q:"How many significant figures are in <strong>32,015</strong>?",o:['4','6','5','3'],a:2,lec:'Lecture 1: significant figures',e:"All nonzero digits count, and the <strong>captive zero</strong> (between nonzeros) counts too, so <strong>5 sig figs</strong>."},
+{chId:'sf',ch:'Significant Figures',q:"How many significant figures are in <strong>0.032015</strong>?",o:['5','6','4','7'],a:0,lec:'Lecture 1: significant figures',e:"<div class='math-block'>0.032015<br>leading 0.0 -> not significant<br>3, 2, 0 (captive), 1, 5 -> significant</div>= <strong>5 sig figs</strong>. Leading zeros never count."},
+{chId:'sf',ch:'Significant Figures',q:"How many significant figures are in <strong>0.03201500</strong>?",o:['5','6','7','8'],a:2,lec:'Lecture 1: significant figures',e:"<div class='math-block'>0.03201500<br>leading 0.0 -> not significant<br>3,2,0,1,5 -> significant<br>two trailing zeros AFTER the decimal -> significant (rule 4)</div>= <strong>7 sig figs</strong>."},
+{chId:'sf',ch:'Significant Figures',q:"Round <strong>2.73894</strong> to 3 significant figures.",o:['2.73','2.74','2.739','2.7'],a:1,lec:'Lecture 1: significant figures',e:"<div class='math-block'>2.73894 -> keep 3 sig figs: 2.73|894<br>the next digit is 8, so round up</div>= <strong>2.74</strong>. Prof. Meyers rounds <strong>half up</strong>."},
+{chId:'sf',ch:'Significant Figures',q:"The measurement <strong>14,000</strong> is written with no decimal point. How many significant figures does it have?",o:['exactly 2','exactly 5','ambiguous (2 to 5)','exactly 3'],a:2,lec:'Lecture 1: significant figures',e:"Trailing zeros with <strong>no decimal point are ambiguous</strong>: 14,000 could be 2, 3, 4, or 5 sig figs (rule 5). That is exactly why scientific notation matters."},
+{chId:'sf',ch:'Significant Figures',q:"Why would a chemist write <strong>1.40 x 10<sup>4</sup></strong> instead of 14,000?",o:['to make the number look bigger','to show the number of significant figures unambiguously','because scientific notation is required for all answers','it means a different value'],a:1,lec:'Lecture 1: significant figures',e:"Scientific notation <strong>fixes the ambiguity</strong>: 1.40 x 10<sup>4</sup> clearly shows <strong>3 sig figs</strong>, while 14,000 does not. The coefficient carries the sig figs."},
+{chId:'sf',ch:'Significant Figures',q:"Calculate to the correct number of significant figures: <strong>100. / 9.8</strong>",o:['10.204','10.2','10.','10'],a:2,lec:'Lecture 1: sig figs in calculations',e:"<div class='math-block'>100. (3 SF) / 9.8 (2 SF) = 10.204...<br>mult/div -> keep the FEWEST sig figs = 2</div>= <strong>10.</strong> (the decimal point shows 2 sig figs, not 1)."},
+{chId:'sf',ch:'Significant Figures',q:"Calculate to the correct number of significant figures: <strong>5.55 x 2525</strong>",o:['14,013.75','14,000','1.4 x 10<sup>4</sup>','1.40 x 10<sup>4</sup>'],a:3,lec:'Lecture 1: sig figs in calculations',e:"<div class='math-block'>5.55 (3 SF) x 2525 (4 SF) = 14,013.75<br>keep the fewest sig figs = 3</div>= <strong>1.40 x 10<sup>4</sup></strong>. Written as 14,000 the sig figs are ambiguous, so use scientific notation."},
+{chId:'sf',ch:'Significant Figures',q:"Calculate to the correct number of significant figures: <strong>152.39 - 74.4</strong>",o:['77.99','78.0','78','77.9'],a:1,lec:'Lecture 1: sig figs in calculations',e:"<div class='math-block'>152.39 (2 decimals) - 74.4 (1 decimal) = 77.99<br>add/sub -> keep the FEWEST DECIMALS = 1</div>= <strong>78.0</strong>. Add and subtract count decimals, not sig figs."},
+{chId:'sf',ch:'Significant Figures',q:"Calculate to the correct number of significant figures: <strong>12.8 - 4.62</strong>",o:['8.18','8.2','8','8.1'],a:1,lec:'Lecture 1: sig figs in calculations',e:"<div class='math-block'>12.8 (1 decimal) - 4.62 (2 decimals) = 8.18<br>keep the fewest decimals = 1</div>= <strong>8.2</strong>."},
+// ===== Metric Prefixes =====
+{chId:'prefix',ch:'Metric Prefixes',q:"The prefix <strong>milli- (m)</strong> represents which power of ten?",o:['10<sup>-2</sup>','10<sup>-3</sup>','10<sup>-6</sup>','10<sup>3</sup>'],a:1,lec:'Lecture 1: metric prefixes',e:"milli = <strong>10<sup>-3</sup></strong> (one thousandth). So 1 mm = 1 x 10<sup>-3</sup> m."},
+{chId:'prefix',ch:'Metric Prefixes',q:"The prefix <strong>kilo- (k)</strong> represents which power of ten?",o:['10<sup>3</sup>','10<sup>6</sup>','10<sup>-3</sup>','10<sup>2</sup>'],a:0,lec:'Lecture 1: metric prefixes',e:"kilo = <strong>10<sup>3</sup></strong> (one thousand). So 1 km = 1000 m."},
+{chId:'prefix',ch:'Metric Prefixes',q:"The prefix <strong>micro- (&micro;)</strong> represents which power of ten?",o:['10<sup>-3</sup>','10<sup>-6</sup>','10<sup>-9</sup>','10<sup>-2</sup>'],a:1,lec:'Lecture 1: metric prefixes',e:"micro (&micro;) = <strong>10<sup>-6</sup></strong> (one millionth). So 1 &micro;g = 1 x 10<sup>-6</sup> g."},
+{chId:'prefix',ch:'Metric Prefixes',q:"Convert <strong>3250 m</strong> to kilometers.",o:['0.325 km','32.5 km','3.25 km','325 km'],a:2,lec:'Lecture 1: metric prefixes',e:"<div class='math-block'>1 km = 1000 m<br>3250 m / 1000 = 3.25</div>= <strong>3.25 km</strong>."},
+{chId:'prefix',ch:'Metric Prefixes',q:"Convert <strong>7.15 mL</strong> to liters.",o:['715 L','7.15 x 10<sup>3</sup> L','7.15 x 10<sup>-3</sup> L','0.715 L'],a:2,lec:'Lecture 1: metric prefixes',e:"<div class='math-block'>1 mL = 10<sup>-3</sup> L<br>7.15 mL = 7.15 x 10<sup>-3</sup> L = 0.00715 L</div>"},
+{chId:'prefix',ch:'Metric Prefixes',q:"A mass is <strong>0.000000092 g</strong>. Written with a prefix, this equals...",o:['9.2 &micro;g','92 mg','92 ng','9.2 ng'],a:2,lec:'Lecture 1: metric prefixes',e:"<div class='math-block'>0.000000092 g = 9.2 x 10<sup>-8</sup> g = 92 x 10<sup>-9</sup> g<br>nano (n) = 10<sup>-9</sup></div>= <strong>92 ng</strong>."},
+{chId:'prefix',ch:'Metric Prefixes',q:"Convert <strong>80.64 m</strong> to centimeters.",o:['0.8064 cm','806.4 cm','8064 cm','80,640 cm'],a:2,lec:'Lecture 1: metric prefixes',e:"<div class='math-block'>1 m = 100 cm<br>80.64 m x 100 = 8064 cm</div>"},
+{chId:'prefix',ch:'Metric Prefixes',q:"Convert <strong>61.08 kg</strong> to grams.",o:['610.8 g','6108 g','61,080 g','610,800 g'],a:2,lec:'Lecture 1: metric prefixes',e:"<div class='math-block'>1 kg = 1000 g<br>61.08 kg x 1000 = 61,080 g</div>"},
+// ===== Units & Measurement =====
+{chId:'units',ch:'Units & Measurement',q:"A properly written measurement always consists of...",o:['just a number','a number and a unit','just a unit','a number and its sign'],a:1,lec:'Lecture 2: units and measurement',e:"Every measurement is a <strong>number and a unit</strong>: write <strong>5 m</strong>, not 5m. The number is the magnitude; the unit is the dimension."},
+{chId:'units',ch:'Units & Measurement',q:"Which is the SI <strong>base</strong> unit for mass?",o:['the gram','the kilogram','the pound','the newton'],a:1,lec:'Lecture 2: units and measurement',e:"The SI base unit of mass is the <strong>kilogram (kg)</strong>. Mass (kg) is different from weight (pounds)."},
+{chId:'units',ch:'Units & Measurement',q:"Which of these is a <strong>derived</strong> unit rather than a basic unit?",o:['length','temperature','density','mass'],a:2,lec:'Lecture 2: units and measurement',e:"Density (kg/m<sup>3</sup>) is <strong>derived</strong> from mass and volume. On Prof. Meyers' slide the derived units are volume, velocity, density, and energy; the base quantities are length, mass, weight, time, and temperature."},
+{chId:'units',ch:'Units & Measurement',q:"Density is defined by which formula?",o:['&rho; = m x v','&rho; = m / v','&rho; = v / m','&rho; = m + v'],a:1,lec:'Lecture 2: density',e:"<strong>&rho; = m/v</strong> (density = mass / volume). &rho; is the Greek letter rho. Common units: g/mL or kg/m<sup>3</sup>."},
+{chId:'units',ch:'Units & Measurement',q:"1 mL is equal to...",o:['1 L','1 m<sup>3</sup>','1 cm<sup>3</sup>','10 cm<sup>3</sup>'],a:2,lec:'Lecture 2: units and measurement',e:"<strong>1 mL = 1 cm<sup>3</sup> = 1 cc</strong>. These three volumes are interchangeable."},
+{chId:'units',ch:'Units & Measurement',q:"<strong>Accuracy</strong> describes...",o:['how close repeated measurements are to each other','how close a measurement is to the accepted value','the number of significant figures','how large the number is'],a:1,lec:'Lecture 1: significant figures',e:"<strong>Accuracy</strong> = closeness to the <strong>accepted (true) value</strong>. Do not confuse it with precision."},
+{chId:'units',ch:'Units & Measurement',q:"<strong>Precision</strong> describes...",o:['how close a measurement is to the accepted value','how close repeated measurements are to each other','the size of the unit','the accuracy of the thermometer'],a:1,lec:'Lecture 1: significant figures',e:"<strong>Precision</strong> = how close <strong>repeated measurements</strong> are to each other. You can be precise (consistent) yet inaccurate (off from the true value)."},
+{chId:'units',ch:'Units & Measurement',q:"The SI base unit of <strong>temperature</strong> is...",o:['the degree Celsius','the Kelvin (K)','the degree Fahrenheit','the joule (J)'],a:1,lec:'Lecture 2: units and measurement',e:"The SI base unit of temperature is the <strong>Kelvin (K)</strong>. Convert with <strong>K = &deg;C + 273.15</strong>."},
+// ===== Dimensional Analysis =====
+{chId:'da',ch:'Dimensional Analysis',q:"In the factor-label method, to <strong>cancel</strong> a unit you place it...",o:['in the numerator of the next factor','in the denominator of the next factor','at the very end','on both sides of the equation'],a:1,lec:'Lecture 2: dimensional analysis',e:"Put the unit you want to cancel on the <strong>bottom</strong> of the next conversion factor, so it cancels the same unit on top of the previous piece. The unit you want ends up on top."},
+{chId:'da',ch:'Dimensional Analysis',q:"A conversion factor such as (100 cm / 1 m) always equals what number?",o:['100','0','1','10'],a:2,lec:'Lecture 2: dimensional analysis',e:"Because 100 cm and 1 m are the <strong>same length</strong>, the ratio equals <strong>1</strong>. Multiplying by it changes the units, not the value."},
+{chId:'da',ch:'Dimensional Analysis',q:"How many quarters are in <strong>$3.00</strong>? (4 quarters = $1)",o:['7','12','16','3'],a:1,d:DT({n:'$3.00'},[{n:'4 quarters',d:'$1'}],'12 quarters'),lec:'Lecture 2: dimensional analysis',e:"<div class='math-block'>$3.00 x (4 quarters / $1) = 12 quarters</div>The $ cancels; quarters survive."},
+{chId:'da',ch:'Dimensional Analysis',q:"How many seconds are in <strong>2.0 minutes</strong>? (60 s = 1 min)",o:['30','120','7200','60'],a:1,lec:'Lecture 2: dimensional analysis',e:"<div class='math-block'>2.0 min x (60 s / 1 min) = 120 s</div>min cancels top and bottom, leaving seconds."},
+{chId:'da',ch:'Dimensional Analysis',q:"Convert <strong>1.5 miles</strong> to inches (5280 ft = 1 mi, 12 in = 1 ft). Give the answer to the correct sig figs.",o:['95,040 in','9.5 x 10<sup>3</sup> in','9.5 x 10<sup>4</sup> in','9.50 x 10<sup>4</sup> in'],a:2,d:DT({n:'1.5 mi'},[{n:'5280 ft',d:'1 mi'},{n:'12 in',d:'1 ft'}],'9.5 x 10<sup>4</sup> in'),lec:'Lecture 2: dimensional analysis',e:"<div class='math-block'>1.5 mi x (5280 ft / 1 mi) x (12 in / 1 ft) = 95,040 in</div>The measured value 1.5 mi has <strong>2 sig figs</strong>, so round to <strong>9.5 x 10<sup>4</sup> in</strong>."},
+{chId:'da',ch:'Dimensional Analysis',q:"Convert <strong>8.2 gallons</strong> to milliliters (3.7854 L = 1 gal, 1000 mL = 1 L). Correct sig figs?",o:['31,040 mL','3.1 x 10<sup>3</sup> mL','3.10 x 10<sup>4</sup> mL','3.1 x 10<sup>4</sup> mL'],a:3,d:DT({n:'8.2 gal'},[{n:'3.7854 L',d:'1 gal'},{n:'1000 mL',d:'1 L'}],'3.1 x 10<sup>4</sup> mL'),lec:'Lecture 2: dimensional analysis',e:"<div class='math-block'>8.2 gal x (3.7854 L / 1 gal) x (1000 mL / 1 L) = 31,040 mL</div>The measured 8.2 gal has <strong>2 sig figs</strong>, so <strong>3.1 x 10<sup>4</sup> mL</strong>."},
+{chId:'da',ch:'Dimensional Analysis',q:"Convert <strong>1500. cm</strong> to meters (100 cm = 1 m). Correct sig figs?",o:['1500 m','150.0 m','15.00 m','0.1500 m'],a:2,lec:'Lecture 2: dimensional analysis',e:"<div class='math-block'>1500. cm x (1 m / 100 cm) = 15.00 m</div>1500. has a decimal point, so <strong>4 sig figs</strong>; the answer keeps 4: <strong>15.00 m</strong>."},
+{chId:'da',ch:'Dimensional Analysis',q:"Which conversion factor correctly relates inches and centimeters?",o:['2.54 in = 1 cm','2.54 cm = 1 in','1 cm = 1 in','25.4 cm = 1 in'],a:1,lec:'Lecture 2: dimensional analysis',e:"From Prof. Meyers' memorize list: <strong>2.54 cm = 1 in</strong> (an inch is bigger than a centimeter, so there are 2.54 cm in one inch)."},
+// ===== Advanced Dimensional Analysis =====
+{chId:'adv',ch:'Advanced Dimensional Analysis',q:"To convert <strong>cm<sup>2</sup> to m<sup>2</sup></strong>, which conversion factor is correct?",o:['1 m / 100 cm','(100 cm / 1 m)<sup>2</sup>','(1 m / 100 cm)<sup>2</sup>','(1 m / 100 cm)<sup>3</sup>'],a:2,lec:'Lecture 3: squared-unit conversions',e:"<strong>Square the whole factor</strong>: (1 m / 100 cm)<sup>2</sup> = 1<sup>2</sup> m<sup>2</sup> / 100<sup>2</sup> cm<sup>2</sup>. m<sup>2</sup> ends up on top; cm<sup>2</sup> cancels."},
+{chId:'adv',ch:'Advanced Dimensional Analysis',q:"When you square a conversion factor, you must square...",o:['only the unit','only the number','both the number and the unit','only the denominator'],a:2,lec:'Lecture 3: squared-unit conversions',e:"Square <strong>everything</strong> inside: (1 m / 100 cm)<sup>2</sup> = <strong>1<sup>2</sup> m<sup>2</sup> / 100<sup>2</sup> cm<sup>2</sup></strong>. Forgetting to square the number (100<sup>2</sup> = 10,000) is the most common mistake."},
+{chId:'adv',ch:'Advanced Dimensional Analysis',q:"Convert <strong>1500. cm<sup>2</sup></strong> to m<sup>2</sup> (1 m = 100 cm).",o:['150.0 m<sup>2</sup>','0.1500 m<sup>2</sup>','15.00 m<sup>2</sup>','0.001500 m<sup>2</sup>'],a:1,lec:'Lecture 3: squared-unit conversions',e:"<div class='math-block'>1500. cm<sup>2</sup> x (1<sup>2</sup> m<sup>2</sup> / 100<sup>2</sup> cm<sup>2</sup>)<br>= 1500. x (1 / 10,000) m<sup>2</sup><br>= 0.1500 m<sup>2</sup> (4 sig figs)</div>"},
+{chId:'adv',ch:'Advanced Dimensional Analysis',q:"Convert <strong>0.42 cm<sup>2</sup></strong> to in<sup>2</sup> (2.54 cm = 1 in).",o:['0.17 in<sup>2</sup>','2.7 in<sup>2</sup>','0.065 in<sup>2</sup>','0.065 cm<sup>2</sup>'],a:2,lec:'Lecture 3: squared-unit conversions',e:"<div class='math-block'>0.42 cm<sup>2</sup> x (1<sup>2</sup> in<sup>2</sup> / 2.54<sup>2</sup> cm<sup>2</sup>)<br>= 0.42 / 6.4516 in<sup>2</sup><br>= 0.065 in<sup>2</sup> (2 sig figs)</div>"},
+{chId:'adv',ch:'Advanced Dimensional Analysis',q:"A trip is <strong>405 miles</strong>. The car gets 24 mi/gal and gas is $3.50/gal. What is the gas cost, to the correct sig figs?",o:['$59.06','$1418','$59','$60'],a:2,d:DT({n:'405 mi'},[{n:'1 gal',d:'24 mi'},{n:'$3.50',d:'1 gal'}],'$59'),lec:'Lecture 2: dimensional analysis',e:"<div class='math-block'>405 mi x (1 gal / 24 mi) x ($3.50 / 1 gal) = $59.0625</div>The least-precise measured value is 24 mi/gal (<strong>2 sig figs</strong>), so <strong>$59</strong>. Flip 24 mi/gal so miles cancel."},
+{chId:'adv',ch:'Advanced Dimensional Analysis',q:"You buy <strong>2.50 bushels</strong> of apples: 125 apples per bushel, each apple 25.00 cents. Total cost in dollars (correct sig figs)?",o:['$781','$78.13','$78.1','$7.81'],a:2,d:DT({n:'2.50 bu'},[{n:'125 apples',d:'1 bu'},{n:'25.00&cent;',d:'1 apple'},{n:'$1',d:'100&cent;'}],'$78.1'),lec:'Lecture 2: dimensional analysis',e:"<div class='math-block'>2.50 bu x (125 apples/bu) x (25.00&cent;/apple) x ($1/100&cent;)<br>= $78.125</div>The measured 2.50 bushels sets <strong>3 sig figs</strong>, so <strong>$78.1</strong>."},
+{chId:'adv',ch:'Advanced Dimensional Analysis',q:"In Prof. Meyers' dosage problems, to convert micrograms (&micro;g) to milligrams (mg) he routes the conversion <strong>through</strong>...",o:['kilograms','grams','liters','nanograms'],a:1,lec:'Lecture 2: dimensional analysis',e:"He goes <strong>&micro;g -> g -> mg</strong>, using 1 g = 1,000,000 &micro;g and 1 g = 1000 mg, rather than a direct &micro;g-to-mg factor. Grams is the anchor unit."},
+{chId:'adv',ch:'Advanced Dimensional Analysis',q:"Convert <strong>2.0 m<sup>3</sup></strong> to cm<sup>3</sup> (100 cm = 1 m). (Extending his squared method to cubes.)",o:['200 cm<sup>3</sup>','2.0 x 10<sup>4</sup> cm<sup>3</sup>','2.0 x 10<sup>6</sup> cm<sup>3</sup>','2.0 x 10<sup>2</sup> cm<sup>3</sup>'],a:2,lec:'Lecture 3: squared-unit conversions',e:"<div class='math-block'>2.0 m<sup>3</sup> x (100 cm / 1 m)<sup>3</sup><br>= 2.0 x 100<sup>3</sup> cm<sup>3</sup><br>= 2.0 x 1,000,000 = 2.0 x 10<sup>6</sup> cm<sup>3</sup></div>Cube the <strong>whole</strong> factor, just like squaring. (2 sig figs.)"},
+];
+
+const KHAN = {
+  'Lecture 1: scientific notation': ['Dme-G4rc6NI','Scientific Notation: Introduction &mdash; Tyler DeWitt'],
+  'Lecture 1: significant figures': ['PNH7_nDE6SQ','Significant Figures Made Easy &mdash; Tyler DeWitt'],
+  'Lecture 1: sig figs in calculations': ['BmeImtwhfj8','Sig Figs in Calculations &mdash; The Organic Chemistry Tutor'],
+  'Lecture 1: metric prefixes': ['0KiBYgx-30U','The Metric System &mdash; The Organic Chemistry Tutor'],
+  'Lecture 2: units and measurement': ['hQpQ0hxVNTg','Unit Conversion & Sig Figs &mdash; Crash Course Chemistry #2'],
+  'Lecture 2: density': ['LiXut4P0drg','What Is Density? &mdash; The Organic Chemistry Tutor'],
+  'Lecture 2: dimensional analysis': ['eK8gXP3pImU','Converting Units With Conversion Factors &mdash; The Organic Chemistry Tutor'],
+  'Lecture 3: squared-unit conversions': ['aFAk8JA4-d8','Unit Conversions with Area and Volume &mdash; Tyler DeWitt']
+};
+
+// ===== Match glossary: concise term ↔ definition pairs per chapter =====
+const GLOSSARY = [
+  {ch:'sci',t:"Scientific notation",d:"A number between 1 and 10 times 10 raised to an integer"},
+  {ch:'sci',t:"Coefficient",d:"The number in front of the x10 in scientific notation (must be 1 to 10)"},
+  {ch:'sf',t:"Significant figures",d:"The digits in a measurement that carry real, known precision"},
+  {ch:'sf',t:"Exact number",d:"A counted or defined value with infinite sig figs"},
+  {ch:'sf',t:"Leading zeros",d:"Zeros before the first nonzero digit; never significant"},
+  {ch:'sf',t:"Captive zeros",d:"Zeros between nonzero digits; always significant"},
+  {ch:'sf',t:"Trailing zeros",d:"Zeros at the end; significant only if there is a decimal point"},
+  {ch:'sf',t:"Rounding (half up)",d:"If the next digit is 5 or more, round the last kept digit up"},
+  {ch:'prefix',t:"kilo (k)",d:"10 to the 3rd, one thousand"},
+  {ch:'prefix',t:"centi (c)",d:"10 to the -2, one hundredth"},
+  {ch:'prefix',t:"milli (m)",d:"10 to the -3, one thousandth"},
+  {ch:'prefix',t:"micro (&micro;)",d:"10 to the -6, one millionth"},
+  {ch:'prefix',t:"nano (n)",d:"10 to the -9, one billionth"},
+  {ch:'units',t:"Base (basic) unit",d:"A fundamental SI unit: length, mass, time, temperature"},
+  {ch:'units',t:"Derived unit",d:"A unit built from base units: volume, velocity, density, energy"},
+  {ch:'units',t:"Density",d:"Mass divided by volume, the formula rho = m/v"},
+  {ch:'units',t:"Accuracy",d:"How close a measurement is to the accepted value"},
+  {ch:'units',t:"Precision",d:"How close repeated measurements are to each other"},
+  {ch:'units',t:"Kelvin (K)",d:"The SI base unit of temperature; K = C + 273.15"},
+  {ch:'da',t:"Conversion factor",d:"A ratio of two equal quantities; it equals 1"},
+  {ch:'da',t:"Dimensional analysis",d:"Converting units by multiplying by conversion factors"},
+  {ch:'da',t:"Factor-label method",d:"Another name for dimensional analysis; cancel units to guide the setup"},
+  {ch:'adv',t:"Squared-unit conversion",d:"Square the whole factor, number and unit, e.g. (1 m/100 cm) squared"},
+  {ch:'adv',t:"Pathway",d:"Meyers' unit-only road map of a multi-step conversion, one arrow per factor"}
+];
+const CHAPTERS = [
+  {id:'sci', short:'Sci Notation'}, {id:'sf', short:'Sig Figs'}, {id:'prefix', short:'Prefixes'},
+  {id:'units', short:'Units'}, {id:'da', short:'Dim. Analysis'}, {id:'adv', short:'Advanced DA'}
+];
+const SHORT = {sci:'Sci Notation', sf:'Sig Figs', prefix:'Prefixes', units:'Units', da:'Dim. Analysis', adv:'Advanced DA'};
+const TOTAL_RECALLABLE = Q.length + GLOSSARY.length; // 51 + 24 = 75
+
+// ===== review pointers =====
+const L=['A','B','C','D','E'];
+function khanFor(q){ return q.khan || KHAN[q.lec] || null; }
+function pointerRows(q){
+  const rows=[];
+  if(q.lec) rows.push(`<span class="row">📘 Review: ${q.lec}.</span>`);
+  const k=khanFor(q);
+  if(k) rows.push(`<span class="row"><a href="https://youtu.be/${k[0]}" target="_blank" rel="noopener">▶ ${k[1]}</a></span>`);
+  if(q.vid) rows.push(`<span class="row"><a href="${q.vid.u}" target="_blank" rel="noopener">▶ Prof. Meyers — ${q.vid.t}</a></span>`);
+  return rows.length ? `<div class="lec">${rows.join('')}</div>` : '';
+}
+
+// ===== utilities =====
+function shuffleArr(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function hash(s){ let h=0; for(let i=0;i<s.length;i++){ h=(Math.imul(h,31)+s.charCodeAt(i))|0; } return (h>>>0).toString(36); }
+function escapeHtml(s){ return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+const STOP=new Set(['the','a','an','of','to','is','it','in','on','and','or','its','with','that','so','as','are','by','for','than','from','not','be','no','at','into','only','how','which','when','their','they','this','more','less','higher','lower','over','time']);
+function keywords(s){ return [...new Set(s.toLowerCase().replace(/[^a-z0-9\s]/g,' ').split(/\s+/).filter(w=>w.length>2&&!STOP.has(w)))]; }
+function highlightHits(model, ans){
+  const have=new Set(keywords(ans));
+  return escapeHtml(model).replace(/[A-Za-z][A-Za-z0-9-]+/g, w =>
+    have.has(w.toLowerCase()) ? `<span class="hit">${w}</span>` : w);
+}
+const PIN_RE=/none of the above|not enough info|nothing needs to happen/i;
+function buildPerm(q){
+  const n=q.o.length, idx=[...Array(n).keys()];
+  if(q.nosh) return idx;
+  const pinned=idx.filter(i=>PIN_RE.test(q.o[i]));
+  const free=shuffleArr(idx.filter(i=>!pinned.includes(i)));
+  return [...free,...pinned];
+}
+function filtered(){ return Q.map((q,gi)=>({q,gi})).filter(x=>FCH==='all'||x.q.chId===FCH); }
+// interleave so no two consecutive items share a chapter
+function interleave(a){
+  if(a.length<3) return shuffleArr(a);
+  shuffleArr(a);
+  const groups={}; a.forEach(x=>{ (groups[x.q.chId]=groups[x.q.chId]||[]).push(x); });
+  const out=[]; let last=null;
+  // optimal greedy: each step take from the chapter with the most items left that isn't `last`
+  for(let n=0;n<a.length;n++){
+    const keys=shuffleArr(Object.keys(groups).filter(k=>groups[k].length));
+    let best=null,bc=-1;
+    for(const k of keys){ if(k===last) continue; if(groups[k].length>bc){ bc=groups[k].length; best=k; } }
+    if(best===null) best=keys[0];            // only `last` chapter remains (unavoidable adjacency)
+    out.push(groups[best].pop()); last=best;
+    if(!groups[best].length) delete groups[best];
+  }
+  return out;
+}
+
+// ===== audio + haptics + confetti =====
+let actx=null; const getCtx=()=>{ if(!actx) actx=new (window.AudioContext||window.webkitAudioContext)(); return actx; };
+function tone(f,type,v,s,d){ try{ const c=getCtx(),o=c.createOscillator(),g=c.createGain(); o.connect(g);g.connect(c.destination);
+  o.type=type;o.frequency.value=f; g.gain.setValueAtTime(0,c.currentTime+s); g.gain.linearRampToValueAtTime(v,c.currentTime+s+.015);
+  g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+s+d); o.start(c.currentTime+s); o.stop(c.currentTime+s+d+.01);}catch(e){} }
+const playCorrect=()=>{tone(523,'sine',.13,0,.4);tone(659,'sine',.11,.07,.38);tone(784,'sine',.1,.14,.36);};
+const playWrong=()=>{tone(200,'sawtooth',.11,0,.15);tone(160,'sawtooth',.09,.12,.2);};
+const playClick=()=>{tone(880,'sine',.045,0,.06);};
+const playFinish=()=>{[523,659,784,1047].forEach((f,i)=>tone(f,'sine',.15,i*.13,.5));};
+const vibe=p=>{try{navigator.vibrate&&navigator.vibrate(p);}catch(e){}};
+const CFC=['#4255FF','#2FA36B','#F0A81E','#E23D5B','#7C5CFC','#42B8B0'];
+function burst(x,y,n=18){ for(let i=0;i<n;i++){ const el=document.createElement('div'); el.className='cf';
+  const a=(Math.PI*2/n)*i, r=55+Math.random()*80;
+  el.style.cssText=`--x:${x-5}px;--y:${y-5}px;--dx:${Math.sin(a)*r+(Math.random()-.5)*40}px;--d:${.7+Math.random()*.7}s;--r:${Math.random()>.5?400:-400}deg;background:${CFC[i%CFC.length]};border-radius:${Math.random()>.5?'50%':'2px'}`;
+  document.body.appendChild(el); setTimeout(()=>el.remove(),1600); } }
+function burstAt(el){ if(!el) return; const r=el.getBoundingClientRect(); burst(r.left+r.width/2, r.top+r.height/2); }
+
+// ===== persistence (light, robust: keyed by content hash) =====
+function lsGet(k,def){ try{ const v=localStorage.getItem(k); return v==null?def:JSON.parse(v); }catch(e){ return def; } }
+function lsSet(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+let stars = new Set(lsGet('chem1211u1_stars',[]));
+function saveStars(){ lsSet('chem1211u1_stars',[...stars]); }
+// recalled-from-cold: only items produced from memory (Learn master OR Recall "Got it")
+let recalled = new Set(lsGet('chem1211u1_recalled_v1',[]));
+function saveRecalled(){ lsSet('chem1211u1_recalled_v1',[...recalled]); }
+function qId(q){ return 'q'+hash(q.q+'|'+q.o.join('~')+'|'+(q.d||'')); }
+function gId(g){ return 'g'+hash(g.t); }
+
+// ===== state =====
+let FCH='all', MODE='home';
+const screens=['home','flash','learn','match','recall','videos'];
+function show(id){ screens.forEach(s=>document.getElementById(s).classList.toggle('on', s===id)); MODE=id; }
+function setBar(pct){ const b=document.getElementById('top-bar'); b.style.display=pct>=0?'block':'none'; b.firstElementChild.style.width=Math.max(0,Math.min(100,pct))+'%'; }
+
+// ===== HOME =====
+function renderProgress(){
+  const n=recalled.size;
+  document.getElementById('rc-n').textContent=`${n} / ${TOTAL_RECALLABLE}`;
+  document.getElementById('rc-bar').style.width=(n/TOTAL_RECALLABLE*100)+'%';
+}
+function renderHome(){
+  const counts={all:Q.length}; CHAPTERS.forEach(c=>counts[c.id]=Q.filter(q=>q.chId===c.id).length);
+  const chips=[{id:'all',short:'All'}].concat(CHAPTERS.map(c=>({id:c.id,short:c.short})));
+  document.getElementById('chips').innerHTML = chips.map(c=>
+    `<button class="chip ${FCH===c.id?'active':''}" onclick="setFilter('${c.id}')">${c.short}<span class="cc">${counts[c.id]}</span></button>`).join('');
+  const gl=GLOSSARY.filter(g=>FCH==='all'||g.ch===FCH);
+  document.getElementById('m-q').textContent = (FCH==='all'?Q.length:counts[FCH]);
+  document.getElementById('m-t').textContent = gl.length;
+  document.getElementById('term-list').innerHTML = gl.map(g=>
+    `<div class="term-row"><div class="t">${g.t}</div><div class="d">${g.d}</div></div>`).join('');
+  renderProgress();
+}
+function setFilter(id){ FCH=id; playClick(); renderHome(); }
+function enter(mode){ playClick();
+  if(mode==='recall') recallInit();
+  else if(mode==='flash') fcInit();
+  else if(mode==='learn') learnInit(false);
+  else if(mode==='exam') learnInit(true);
+  else if(mode==='match'){ show('match'); matchStart(); }
+  else if(mode==='videos') videosInit();
+}
+function goHome(){ playClick(); clearInterval(mTimer); setBar(-1); show('home'); renderHome(); window.scrollTo(0,0); }
+
+// ===== FLASHCARDS (Preview — recognition, non-mastery) =====
+let fc=[], fi=0, fFlip=false;
+function fcInit(){ fc=filtered(); fi=0; fFlip=false; setBar(-1); show('flash'); fcRender(); window.scrollTo(0,0); }
+function fcRender(){
+  const {q,gi}=fc[fi];
+  document.getElementById('fc-kick-f').textContent = SHORT[q.chId];
+  const d=document.getElementById('fc-diagram');
+  if(q.d){ d.innerHTML=q.d; d.style.display='block'; } else { d.style.display='none'; d.innerHTML=''; }
+  document.getElementById('flashcard').classList.toggle('has-diagram', !!q.d);
+  document.getElementById('fc-q').innerHTML = q.q;
+  document.getElementById('fc-a').innerHTML = q.o[q.a];
+  document.getElementById('fc-exp').innerHTML = q.e + pointerRows(q);
+  document.getElementById('fc-star').classList.toggle('on', stars.has(gi));
+  document.getElementById('fc-count').textContent = `${fi+1} / ${fc.length}`;
+  document.getElementById('fc-progress').textContent = `${fi+1} of ${fc.length}`;
+  document.getElementById('fc-prev').disabled = fi===0;
+  document.getElementById('fc-next').disabled = fi===fc.length-1;
+  fFlip=false; document.getElementById('flashcard').classList.remove('flipped');
+}
+function fcFlip(){ fFlip=!fFlip; document.getElementById('flashcard').classList.toggle('flipped',fFlip); playClick(); }
+function fcNav(dir){ const n=fi+dir; if(n<0||n>=fc.length) return; fi=n; fcRender(); playClick(); vibe([15]); }
+function fcStar(){ const gi=fc[fi].gi; if(stars.has(gi)) stars.delete(gi); else { stars.add(gi); vibe([25]);} saveStars(); document.getElementById('fc-star').classList.toggle('on',stars.has(gi)); }
+function fcShuffle(){ shuffleArr(fc); fi=0; fcRender(); playClick(); }
+
+// ===== LEARN + MIXED EXAM (produce-then-reveal, effortful retirement, interleaved) =====
+let LN=[], lnQ=[], lnPos=0, lnRound=0, lnStage='produce', lnConf=null, lnProduced=false, lnDone=false, examMode=false, examScore=0, lnStageAt=0;
+const ROUND=7;
+function learnInit(exam){
+  examMode=!!exam;
+  LN = filtered().map(x=>({q:x.q, id:qId(x.q), status:'new', c:0, pc:0, cm:false}));
+  lnRound=0; examScore=0; show('learn');
+  document.getElementById('learn-inter').classList.remove('on');
+  document.getElementById('learn-play').style.display='flex';
+  if(examMode){ lnQ=interleave(LN.slice()); lnQ.forEach(x=>x.perm=buildPerm(x.q)); lnPos=0; startStage(); }
+  else buildRound();
+  window.scrollTo(0,0);
+}
+function notMastered(){ return LN.filter(x=>x.status!=='master'); }
+function tally(){ return {master:LN.filter(x=>x.status==='master').length, learn:LN.filter(x=>x.status==='learning').length, remain:LN.filter(x=>x.status==='new').length}; }
+function updateMastery(){
+  const c=tally(), tot=LN.length;
+  document.getElementById('bar-learn').style.width=(c.learn/tot*100)+'%';
+  document.getElementById('bar-master').style.width=(c.master/tot*100)+'%';
+  document.getElementById('c-remain').textContent=c.remain;
+  document.getElementById('c-learn').textContent=c.learn;
+  document.getElementById('c-master').textContent=c.master;
+  setBar(examMode ? (lnPos+(lnDone?1:0))/lnQ.length*100 : c.master/tot*100);
+}
+function buildRound(){
+  const pool=notMastered();
+  if(!pool.length){ learnFinish(); return; }
+  lnRound++;
+  const cmiss=shuffleArr(pool.filter(x=>x.cm));
+  const learn=shuffleArr(pool.filter(x=>x.status==='learning'&&!x.cm));
+  const fresh=shuffleArr(pool.filter(x=>x.status==='new'));
+  const cmFront=cmiss.slice(0,ROUND);
+  const rest=interleave([...learn,...fresh]).slice(0,Math.max(0,ROUND-cmFront.length));
+  lnQ=[...cmFront,...rest];
+  lnQ.forEach(x=>x.perm=buildPerm(x.q));
+  lnPos=0;
+  document.getElementById('learn-inter').classList.remove('on');
+  document.getElementById('learn-play').style.display='flex';
+  startStage();
+}
+function startStage(){ lnStage='produce'; lnConf=null; lnProduced=false; lnDone=false; lnStageAt=performance.now(); renderLearn(); }
+function renderLearn(){
+  const it=lnQ[lnPos], q=it.q;
+  updateMastery();
+  document.getElementById('learn-round').textContent = examMode ? 'Exam' : 'Round '+lnRound;
+  document.getElementById('learn-kick').textContent = `${SHORT[q.chId]}    Question ${lnPos+1} of ${lnQ.length}`;
+  const d=document.getElementById('learn-diagram');
+  if(q.d){ d.innerHTML=q.d; d.style.display='block'; } else { d.style.display='none'; d.innerHTML=''; }
+  document.getElementById('learn-q').innerHTML=q.q;
+  // produce stage
+  document.getElementById('learn-produce').style.display='block';
+  document.getElementById('learn-input').value='';
+  document.querySelectorAll('#learn-produce .conf').forEach(c=>c.classList.remove('on'));
+  const grid=document.getElementById('learn-opts'); grid.style.display='none'; grid.innerHTML='';
+  const fb=document.getElementById('learn-fb'); fb.style.display='none'; fb.className='fb';
+  document.getElementById('learn-next').style.display='none';
+  const card=document.getElementById('learn-card'); card.style.animation='none'; void card.offsetWidth; card.style.animation='rise .3s ease both';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function setConf(c){ lnConf=c; document.querySelectorAll('#learn-produce .conf').forEach(b=>b.classList.toggle('on',b.dataset.c===c)); }
+function revealOptions(){
+  if(lnStage!=='produce') return;
+  const it=lnQ[lnPos], q=it.q;
+  lnProduced = document.getElementById('learn-input').value.trim().length>=2;
+  if(!lnConf) lnConf='guess';
+  lnStage='recognize';
+  document.getElementById('learn-produce').style.display='none';
+  const grid=document.getElementById('learn-opts'); grid.style.display='flex';
+  it.perm.forEach((oi,pos)=>{ const b=document.createElement('button'); b.className='opt'; b.dataset.orig=oi;
+    b.innerHTML=`<span class="opt-l">${L[pos]}</span><span>${q.o[oi]}</span>`; b.onclick=()=>learnPick(oi); grid.appendChild(b); });
+  playClick(); window.scrollTo({top:document.getElementById('learn-opts').offsetTop-80,behavior:'smooth'});
+}
+function optByOrig(o){ return [...document.querySelectorAll('#learn-opts .opt')].find(b=>+b.dataset.orig===o); }
+function learnPick(origIdx){
+  if(lnStage!=='recognize'||lnDone) return; lnDone=true; playClick();
+  const it=lnQ[lnPos], q=it.q, ok=origIdx===q.a;
+  [...document.querySelectorAll('#learn-opts .opt')].forEach(b=>b.disabled=true);
+  let becameMaster=false;
+  if(ok){
+    optByOrig(origIdx).classList.add('correct');
+    it.c++; if(lnProduced) it.pc++; it.cm=false;
+    if(it.c>=2 && it.pc>=1 && it.status!=='master'){ it.status='master'; becameMaster=true; recalled.add(it.id); saveRecalled(); burstAt(optByOrig(origIdx)); }
+    else if(it.status!=='master') it.status='learning';
+    playCorrect(); vibe([40]);
+    if(examMode) examScore++;
+  } else {
+    optByOrig(origIdx).classList.add('wrong'); optByOrig(q.a).classList.add('reveal');
+    if(it.status!=='master') it.status='learning';
+    if(lnConf==='sure') it.cm=true;
+    playWrong(); vibe([120,40,120]);
+  }
+  updateMastery(); renderProgress();
+  const fb=document.getElementById('learn-fb'); fb.style.display='block'; fb.className='fb '+(ok?'ok':'no');
+  document.getElementById('learn-fb-l').textContent = ok
+    ? (becameMaster?'✓  Correct, and recalled from cold':'✓  Correct. Produce it once more to lock it in')
+    : (lnConf==='sure'?'✗  You were Certain, and wrong. This one comes back first':'✗  Not quite, it stays in the deck');
+  const wrote = lnProduced ? `<div class="your-answer">You answered: <b>${escapeHtml(document.getElementById('learn-input').value.trim())}</b></div>` : '';
+  document.getElementById('learn-fb-t').innerHTML = q.e + wrote + pointerRows(q);
+  const nb=document.getElementById('learn-next'); nb.style.display='block';
+  nb.textContent = lnPos<lnQ.length-1 ? 'Continue' : (examMode ? 'See exam score' : (notMastered().length?'Finish round':'See results'));
+}
+function learnNext(){ playClick(); vibe([15]); lnPos++;
+  if(lnPos>=lnQ.length){ examMode ? examDone() : roundDone(); }
+  else startStage();
+}
+function roundDone(){
+  const c=tally();
+  if(c.master===LN.length){ learnFinish(); return; }
+  document.getElementById('learn-play').style.display='none';
+  const inter=document.getElementById('learn-inter');
+  inter.innerHTML=`<div class="big-emoji">↻</div>
+    <div class="inter-title">Round ${lnRound} done</div>
+    <div class="inter-sub">Every item you didn't produce twice comes back. That repetition is the point.</div>
+    <div class="stat-row">
+      <div class="stat g"><div class="n">${c.master}</div><div class="l">Recalled</div></div>
+      <div class="stat a"><div class="n">${c.learn}</div><div class="l">Still learning</div></div>
+      <div class="stat i"><div class="n">${c.remain}</div><div class="l">Not seen</div></div></div>
+    <div class="inter-actions"><button class="btn btn-ghost" onclick="goHome()">Set page</button>
+      <button class="btn btn-primary" onclick="buildRound()">Next round →</button></div>`;
+  inter.classList.add('on'); playClick(); window.scrollTo(0,0);
+}
+function learnFinish(){
+  document.getElementById('learn-play').style.display='none';
+  const inter=document.getElementById('learn-inter');
+  inter.innerHTML=`<div class="big-emoji">🎯</div>
+    <div class="inter-title">All ${LN.length} recalled from cold</div>
+    <div class="inter-sub">You produced every answer from memory at least twice. That is the kind of studying that transfers to the exam.</div>
+    <div class="inter-actions"><button class="btn btn-ghost" onclick="goHome()">Set page</button>
+      <button class="btn btn-primary" onclick="learnInit(false)">Study again →</button></div>`;
+  inter.classList.add('on'); playFinish(); setBar(100);
+  for(let i=0;i<4;i++) setTimeout(()=>burst(innerWidth*(.2+Math.random()*.6), innerHeight*(.15+Math.random()*.3),14), i*160);
+  window.scrollTo(0,0);
+}
+function examDone(){
+  document.getElementById('learn-play').style.display='none';
+  const pct=Math.round(examScore/lnQ.length*100);
+  const cm=LN.filter(x=>x.cm).length;
+  let msg = pct>=90?'Exam-strong. Do a Recall pass on anything below to lock it.' : pct>=75?'Solid. Clean up the misses in Learn.' : 'Keep going — run Learn on the weak chapters.';
+  const inter=document.getElementById('learn-inter');
+  inter.innerHTML=`<div class="big-emoji">📝</div>
+    <div class="inter-title">${examScore} / ${lnQ.length} &nbsp;(${pct}%)</div>
+    <div class="inter-sub">${msg}${cm?`<br><b>${cm}</b> you were confident on but missed — start there.`:''}</div>
+    <div class="inter-actions"><button class="btn btn-ghost" onclick="goHome()">Set page</button>
+      <button class="btn btn-primary" onclick="learnInit(true)">Retake →</button></div>`;
+  inter.classList.add('on'); playFinish(); if(pct>=70) for(let i=0;i<4;i++) setTimeout(()=>burst(innerWidth*(.2+Math.random()*.6),innerHeight*.2,14),i*150);
+  window.scrollTo(0,0);
+}
+
+// ===== RECALL (typed produce-from-memory over the glossary) =====
+let rc=[], ri=0, rcDir='td', rcGot=0;
+function recallInit(){ rc=shuffleArr(GLOSSARY.filter(g=>FCH==='all'||g.ch===FCH).slice()); ri=0; rcGot=0; setBar(-1); show('recall');
+  document.getElementById('recall-inter').classList.remove('on'); document.getElementById('recall-play').style.display='flex';
+  recallRender(); window.scrollTo(0,0);
+}
+function recallRender(){
+  const g=rc[ri];
+  document.getElementById('rc-count').textContent=`${ri+1} / ${rc.length}`;
+  document.getElementById('rc-dir').textContent = rcDir==='td'?'Term → definition':'Definition → term';
+  document.getElementById('rc-prompt-l').textContent = rcDir==='td'?'Define this term':'Name this term';
+  document.getElementById('rc-term').textContent = rcDir==='td'? g.t : g.d;
+  const inp=document.getElementById('rc-input'); inp.value=''; inp.disabled=false;
+  document.getElementById('rc-reveal-btn').style.display='block';
+  document.getElementById('rc-reveal').style.display='none';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function recallReveal(){
+  const inp=document.getElementById('rc-input');
+  if(inp.value.trim().length<1){ inp.focus(); return; }
+  const g=rc[ri], model = rcDir==='td'? g.d : g.t;
+  document.getElementById('rc-model').innerHTML = highlightHits(model, inp.value);
+  document.getElementById('rc-yours').innerHTML = `You wrote: <b>${escapeHtml(inp.value.trim())}</b>`;
+  document.getElementById('rc-reveal').style.display='block';
+  document.getElementById('rc-reveal-btn').style.display='none';
+  inp.disabled=true; playClick();
+  window.scrollTo({top:document.getElementById('rc-reveal').offsetTop-60,behavior:'smooth'});
+}
+function recallGrade(grade){
+  const g=rc[ri], id=gId(g);
+  if(grade==='got'){ recalled.add(id); rcGot++; playCorrect(); vibe([30]); }
+  else { recalled.delete(id); if(grade==='miss'){ playWrong(); vibe([90]); } }
+  saveRecalled(); renderProgress();
+  ri++; if(ri>=rc.length) recallDone(); else recallRender();
+}
+function recallFlip(){ rcDir = rcDir==='td'?'dt':'td'; playClick(); recallRender(); }
+function recallDone(){
+  document.getElementById('recall-play').style.display='none';
+  const inter=document.getElementById('recall-inter');
+  inter.innerHTML=`<div class="big-emoji">✍️</div>
+    <div class="inter-title">${rcGot} / ${rc.length} recalled</div>
+    <div class="inter-sub">Only the ones you produced from a blank count. Come back and the misses will feel easier.</div>
+    <div class="inter-actions"><button class="btn btn-ghost" onclick="goHome()">Set page</button>
+      <button class="btn btn-primary" onclick="recallInit()">Go again →</button></div>`;
+  inter.classList.add('on'); playFinish();
+  for(let i=0;i<3;i++) setTimeout(()=>burst(innerWidth*(.3+Math.random()*.4),innerHeight*.2,12),i*150);
+  window.scrollTo(0,0);
+}
+
+// ===== MATCH (Warm-up — recognition game, never touches mastery) =====
+let mPairs=[], mTiles=[], mSel=null, mMatched=0, mTime=0, mTimer=null, mStarted=false, mBusy=false;
+function matchStart(){
+  clearInterval(mTimer); mTimer=null; mStarted=false; mTime=0; mSel=null; mMatched=0; mBusy=false; setBar(-1);
+  document.getElementById('match-timer').textContent='0.0s';
+  document.getElementById('match-win').classList.remove('on');
+  document.getElementById('match-play').style.display='flex';
+  const pool=shuffleArr(GLOSSARY.filter(g=>FCH==='all'||g.ch===FCH).slice());
+  mPairs=pool.slice(0,6);
+  mTiles=[]; mPairs.forEach((p,i)=>{ mTiles.push({pid:i,type:'t',text:p.t}); mTiles.push({pid:i,type:'d',text:p.d}); });
+  shuffleArr(mTiles);
+  document.getElementById('match-grid').innerHTML = mTiles.map((t,idx)=>
+    `<button class="tile" data-i="${idx}" onclick="matchTap(${idx})"><span class="${t.type==='t'?'tt':''}">${t.text}</span></button>`).join('');
+  window.scrollTo(0,0);
+}
+function tileEl(i){ return document.querySelector(`#match-grid .tile[data-i="${i}"]`); }
+function matchTap(idx){
+  if(mBusy) return; const el=tileEl(idx); if(!el||el.classList.contains('gone')) return;
+  if(!mStarted){ mStarted=true; mTimer=setInterval(()=>{ mTime+=0.1; document.getElementById('match-timer').textContent=mTime.toFixed(1)+'s'; },100); }
+  if(mSel===null){ mSel=idx; el.classList.add('sel'); playClick(); return; }
+  if(mSel===idx){ el.classList.remove('sel'); mSel=null; return; }
+  const a=mTiles[mSel], b=mTiles[idx], first=tileEl(mSel);
+  if(a.pid===b.pid && a.type!==b.type){
+    el.classList.add('ok'); first.classList.remove('sel'); first.classList.add('ok'); playCorrect(); vibe([30]);
+    const s1=mSel,s2=idx; mSel=null; mMatched++;
+    setTimeout(()=>{ tileEl(s1).classList.add('gone'); tileEl(s2).classList.add('gone'); },260);
+    if(mMatched===mPairs.length) setTimeout(matchWin,320);
+  } else {
+    el.classList.add('sel','err'); first.classList.add('err'); playWrong(); vibe([90,40,90]); mBusy=true;
+    const s1=mSel,s2=idx; mSel=null;
+    setTimeout(()=>{ [s1,s2].forEach(i=>{ const t=tileEl(i); if(t) t.classList.remove('sel','err'); }); mBusy=false; },460);
+  }
+}
+function matchWin(){
+  clearInterval(mTimer); playFinish();
+  const t=mTime, best=lsGet('chem1211u1_matchbest',null), isBest=best==null||t<best;
+  if(isBest) lsSet('chem1211u1_matchbest',+t.toFixed(1));
+  document.getElementById('match-play').style.display='none';
+  const win=document.getElementById('match-win');
+  win.innerHTML=`<div class="big-emoji">⚡</div>
+    <div class="inter-title">${t.toFixed(1)}s</div>
+    <div class="inter-sub">${isBest?'New best time!':'Best so far: '+(best==null?'—':best+'s')}<br>Warm-up done. Now go produce them in <b>Recall</b> — that's what sticks.</div>
+    <div class="inter-actions"><button class="btn btn-ghost" onclick="matchStart()">Play again</button>
+      <button class="btn btn-primary" onclick="enter('recall')">Recall →</button></div>`;
+  win.classList.add('on');
+  for(let i=0;i<3;i++) setTimeout(()=>burst(innerWidth*(.3+Math.random()*.4),innerHeight*.2,12),i*150);
+  window.scrollTo(0,0);
+}
+
+// ===== VIDEOS (verified course-video library; every id oEmbed-checked) =====
+const VIDEOS=[
+  {ch:'Lecture 1: Numbers', items:[
+    ['Dme-G4rc6NI','Scientific Notation: Introduction','Tyler DeWitt'],
+    ['PNH7_nDE6SQ','Significant Figures Made Easy','Tyler DeWitt'],
+    ['BmeImtwhfj8','Significant Figures in Calculations','The Organic Chemistry Tutor'],
+    ['0KiBYgx-30U','The Metric System (prefixes)','The Organic Chemistry Tutor']
+  ]},
+  {ch:'Lecture 2: Measurements & Dimensional Analysis', items:[
+    ['hQpQ0hxVNTg','Unit Conversion & Sig Figs (Crash Course #2)','CrashCourse'],
+    ['LiXut4P0drg','What Is Density?','The Organic Chemistry Tutor'],
+    ['eK8gXP3pImU','Converting Units With Conversion Factors','The Organic Chemistry Tutor']
+  ]},
+  {ch:'Lecture 3: Advanced Dimensional Analysis', items:[
+    ['aFAk8JA4-d8','Unit Conversions with Area and Volume','Tyler DeWitt']
+  ]}
+];
+function videosInit(){ setBar(-1); show('videos');
+  document.getElementById('vid-list').innerHTML = VIDEOS.map(g=>
+    `<div class="vid-group"><h4>${g.ch}</h4>`+
+    g.items.map(v=>`<a class="vid-row" href="https://youtu.be/${v[0]}" target="_blank" rel="noopener">`+
+      `<span class="vid-play">▶</span>`+
+      `<span class="vid-tx"><h5>${v[1]}</h5><p>${v[2]}</p></span>`+
+      `<span class="vid-ext">↗</span></a>`).join('')+
+    `</div>`).join('');
+  window.scrollTo(0,0);
+}
+
+// ===== keyboard =====
+document.addEventListener('keydown',e=>{
+  if(MODE==='flash'){
+    if(e.key===' '||e.key==='Enter'){ e.preventDefault(); fcFlip(); }
+    else if(e.key==='ArrowLeft'){ e.preventDefault(); fcNav(-1); }
+    else if(e.key==='ArrowRight'){ e.preventDefault(); fcNav(1); }
+    else if(e.key.toLowerCase()==='s'){ fcStar(); }
+  } else if(MODE==='learn'){
+    if(document.getElementById('learn-play').style.display==='none') return;
+    if(lnStage==='produce'){
+      const t=document.activeElement && document.activeElement.id==='learn-input';
+      if(e.key==='Enter'&&(e.ctrlKey||e.metaKey||!t)&&!e.repeat&&performance.now()-lnStageAt>350){ e.preventDefault(); revealOptions(); }
+      else if(!t && /^[123]$/.test(e.key)){ setConf({'1':'guess','2':'think','3':'sure'}[e.key]); }
+    } else if(lnStage==='recognize'){
+      if(/^[1-9]$/.test(e.key)){ const pos=+e.key-1; const it=lnQ[lnPos]; if(it&&pos<it.perm.length&&!lnDone) learnPick(it.perm[pos]); }
+      else if((e.key==='Enter')&&lnDone){ e.preventDefault(); learnNext(); }
+    }
+  } else if(MODE==='recall'){
+    if(document.getElementById('recall-play').style.display==='none') return;
+    const t=document.activeElement && document.activeElement.id==='rc-input';
+    if(e.key==='Enter'&&(e.ctrlKey||e.metaKey)){ e.preventDefault(); recallReveal(); }
+    else if(document.getElementById('rc-reveal').style.display!=='none' && /^[123]$/.test(e.key)){ recallGrade({'1':'miss','2':'close','3':'got'}[e.key]); }
+  }
+});
+
+// ===== init =====
+renderHome();
+
+</script>
+</body>
+</html>
