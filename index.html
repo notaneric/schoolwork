@@ -660,7 +660,7 @@ function seed() {
       {"id":"sci2900-final","title":"SCI 2900 Final Exam","courseId":"sci2900","type":"exam","dueDate":"2026-12-07T08:00:00-05:00","priority":"high","status":"todo","weight":null,"notes":"Final exam block 8:00 to 10:00 AM, Mon Dec 7 (CSU exam matrix, keyed to an MW 9:00 class). Room is usually your class room, Lakeview 110. Confirm with the instructor."},
       {"id":"chem1211-final","title":"CHEM 1211 Final Exam","courseId":"chem1211","type":"exam","dueDate":"2026-12-07T10:15:00-05:00","priority":"high","status":"todo","weight":null,"notes":"Final exam block 10:15 AM to 12:15 PM, Mon Dec 7 (CSU exam matrix, keyed to an MWF 10:00 class). Room is usually your class room, Lakeview 210. Confirm with the instructor."}
     ],
-    "meta": {"semester":"Fall 2026","university":"Clayton State University","lastSync":"2026-08-04T00:00:00.000Z","d2l_url":"https://clayton.view.usg.edu"}
+    "meta": {"semester":"Fall 2026","university":"Clayton State University","lastSync":"2026-08-09T00:00:00.000Z","d2l_url":"https://clayton.view.usg.edu"}
   };
 }
 
@@ -1193,6 +1193,7 @@ function renderInstructors() {
       title: 'Instructor, Chemistry',
       tags: ['IN PERSON', 'MWF 10:00 AM', 'LAKEVIEW 210'],
       alerts: [
+        { kw: 'LECTURES', desc: '3 posted so far — Unit 1: significant figures, measurement, and dimensional analysis (see Resources)' },
         { kw: 'FINAL', desc: 'Mon Dec 7, 10:15 AM to 12:15 PM (CSU exam matrix)' },
         { kw: 'NO LAB', desc: 'CHEM 1211L is already satisfied; there is no lab section this term' },
         { kw: 'SYLLABUS', desc: 'Not yet released. Grading, attendance, and exam policies get added once it posts' },
@@ -1200,7 +1201,7 @@ function renderInstructors() {
       policies: [
         { key: 'Format', val: 'In-person lecture, 3 credits. Lab (1211L) already satisfied; no lab section this term.' },
         { key: 'Prereqs', val: 'HS Chemistry (or CHEM 1151/1151L); college-algebra math as prereq or coreq.' },
-        { key: 'Status', val: 'Awaiting the Fall 2026 syllabus for course-specific policies.' },
+        { key: 'Status', val: 'Course materials have started posting (Unit 1 lectures up). Still awaiting the full syllabus for grading and exam policies.' },
       ]
     },
     {
@@ -1263,7 +1264,19 @@ function renderResources() {
     mp4:  { label: 'VID', bg: 'rgba(16,185,129,0.18)', color: '#10B981' },
   };
 
-  const COURSE_FILES = [];
+  const COURSE_FILES = [
+    {
+      courseId: 'chem1211',
+      base: 'B:/School Stuff/CSU Stuff/Fall Semester 2026/CHEM 1211',
+      groups: [
+        { label: 'Unit 1 — Measurement & Dimensional Analysis', open: true, files: [
+          { name: 'Lecture 1 — Numbers (significant figures)',            file: 'Lecture 1 - Numbers.mp4',                              type: 'mp4' },
+          { name: 'Lecture 2 — Measurement & intro to dimensional analysis', file: 'Lecture 2 - Measurements and dimensional analysis.mp4', type: 'mp4' },
+          { name: 'Lecture 3 — Advanced dimensional analysis',            file: 'Lecture 3 - Advanced dimensional analysis.mp4',        type: 'mp4' },
+        ]},
+      ]
+    },
+  ];
 
   if (!COURSE_FILES.length) {
     return emptyState('No course materials yet',
@@ -1295,6 +1308,10 @@ function renderResources() {
   }).join('');
 
   return `<div style="max-width:1100px">
+    <div style="display:flex;align-items:center;gap:9px;margin-bottom:12px;padding:9px 13px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);font-size:11.5px;color:var(--muted);line-height:1.45">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--accent-2)" stroke-width="2" style="flex-shrink:0"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12.5"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <span>Lecture videos stream inline when you open the <strong style="color:var(--text)">local copy</strong> of this dashboard. On the hosted page they're a reference index — watch them in <strong style="color:var(--text)">D2L</strong>.</span>
+    </div>
     <div class="res-tabs">${tabs}</div>
     <div class="res-layout">
       <div class="res-trees-col">${panels}</div>
@@ -1310,9 +1327,8 @@ function renderResources() {
 }
 
 function setResTab(courseId) {
-  ['art2302','biol3900','econ1101'].forEach(id => {
-    const el = document.getElementById('res-tree-' + id);
-    if (el) el.style.display = id === courseId ? '' : 'none';
+  document.querySelectorAll('.res-tree').forEach(el => {
+    el.style.display = el.id === 'res-tree-' + courseId ? '' : 'none';
   });
   document.querySelectorAll('.res-tab').forEach(t => {
     const active = t.dataset.course === courseId;
