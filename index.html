@@ -649,6 +649,15 @@ function load() {
   catch { return seed(); }
 }
 
+// CHEM 1211 Chapter 1 homework, announced in the first in-person lecture (Mon Aug 10).
+// Declared once so seed() (new device) and migrate() (existing device) stay identical.
+const CHEM1211_CH1 = [
+  {"id":"chem1211-knewton-access","title":"Set up Knewton Alta account + access code","courseId":"chem1211","type":"other","dueDate":"2026-08-14T17:00:00-04:00","priority":"high","status":"todo","weight":null,"notes":"Blocks every Chapter 1 assignment, so do it first. Path: log into D2L with your CSU credentials, open the course, Content tab, Knewton Homework folder, Chapter 1 Assignments folder, then Section assignment 1.1 and follow the prompts. Register with your CSU email address. Access code comes from the Loch Shop (ask at the register if the shelf is empty) or the purchase link in D2L. There is a free two-week trial, but starting it now means it expires right around the Aug 24 deadline, so buying the code up front is the safer move. Due date set to Friday because the bookstore is closed on the weekend."},
+  {"id":"chem1211-knewton-1-1-4","title":"Knewton: Section assignments 1.1 – 1.4","courseId":"chem1211","type":"assignment","dueDate":"2026-08-17T23:59:00-04:00","priority":"high","status":"todo","weight":null,"notes":"First batch of Chapter 1 adaptive homework on Knewton Alta. Section assignments as a category are 15% of the course grade. You can still earn up to 100% for four days past the due date, so the true wall is Fri Aug 21 — but going late here stacks it on top of the rest of Chapter 1, which is due Aug 24. Meyers said Knewton lists every due date inside the platform, so confirm there."},
+  {"id":"chem1211-knewton-1-5-7","title":"Knewton: rest of Chapter 1 sections (3 of 7)","courseId":"chem1211","type":"assignment","dueDate":"2026-08-24T23:59:00-04:00","priority":"medium","status":"todo","weight":null,"notes":"Chapter 1 has 7 section assignments total; 1.1 to 1.4 are due Aug 17, so these are the remaining three. Same 15% category and same four-day full-credit grace. Exact section numbers are listed on Knewton — check there and rename this item if they differ."},
+  {"id":"chem1211-ps1","title":"Problem Set 1 (Chapter 1)","courseId":"chem1211","type":"assignment","dueDate":"2026-08-24T23:59:00-04:00","priority":"high","status":"todo","weight":null,"notes":"Chapter 1 problem set on Knewton. Two attempts, the higher score is the one recorded, and that grade is permanent — there is no late credit on problem sets, unlike the section assignments. Problem sets are 20% of the course grade, the heaviest category known so far. Finish the section assignments first; they are the practice for this."},
+];
+
 function seed() {
   return {
     "courses": [
@@ -657,6 +666,7 @@ function seed() {
     ],
     "topics": [],
     "assignments": [
+      ...CHEM1211_CH1,
       {"id":"sci2900-final","title":"SCI 2900 Final Exam","courseId":"sci2900","type":"exam","dueDate":"2026-12-07T08:00:00-05:00","priority":"high","status":"todo","weight":null,"notes":"Final exam block 8:00 to 10:00 AM, Mon Dec 7 (CSU exam matrix, keyed to an MW 9:00 class). Room is usually your class room, Lakeview 110. Confirm with the instructor."},
       {"id":"chem1211-final","title":"CHEM 1211 Final Exam","courseId":"chem1211","type":"exam","dueDate":"2026-12-07T10:15:00-05:00","priority":"high","status":"todo","weight":null,"notes":"Final exam block 10:15 AM to 12:15 PM, Mon Dec 7 (CSU exam matrix, keyed to an MWF 10:00 class). Room is usually your class room, Lakeview 210. Confirm with the instructor."}
     ],
@@ -669,6 +679,28 @@ function save(data) {
 }
 
 let db = load();
+
+// ─── One-time migrations ──────────────────────────────────────────────────────
+// localStorage beats seed() once a device has state, so new gradable items only
+// reach an existing device through a guarded merge. Each block sets its own flag,
+// skips any id already present, and never overwrites an item Eric has edited.
+function migrate() {
+  if (!db.meta) db.meta = {};
+  let dirty = false;
+
+  // 2026-08-11 — first in-person CHEM 1211 lecture: Knewton Alta Chapter 1 homework.
+  if (!db.meta.chem1211_knewton_ch1_v1) {
+    CHEM1211_CH1.forEach(item => {
+      if (!db.assignments.some(a => a.id === item.id)) db.assignments.push(JSON.parse(JSON.stringify(item)));
+    });
+    db.meta.chem1211_knewton_ch1_v1 = true;
+    dirty = true;
+  }
+
+  if (dirty) { db.meta.lastSync = new Date().toISOString(); save(db); }
+}
+migrate();
+
 let editingId = null;
 let currentView = 'dashboard';
 let listTab = 'upcoming';
@@ -980,7 +1012,7 @@ function renderDashboard() {
     const diff = due ? due - now : null;
     const cdClass = diff !== null ? (diff < 86400000 ? 'urgent' : diff < 3 * 86400000 ? 'warn' : '') : '';
     const cdText = due ? formatCountdown(due) : 'NO DATE';
-    const dueStr = due ? due.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) + ' · ' + due.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) : 'No due date set';
+    const dueStr = due ? due.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) + ' at ' + due.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) : 'No due date set';
     const focusOverdue = diff !== null && diff < 0;
     return `<div class="focus-card ${cdClass === 'urgent' ? 'urgent' : ''}">
       <button class="focus-check" onclick="event.stopPropagation();toggleDone('${focus.id}')" title="Mark complete">
@@ -1060,7 +1092,7 @@ function renderDashboard() {
       ${upcomingAll.length ? upcomingAll.map(a => assignmentRow(a)).join('') : emptyState('No upcoming assignments', 'Add your first assignment or import a syllabus.')}
     </div>
     ${missed.length > 0 ? `
-    <div class="section-header"><span class="section-title" style="color:var(--danger)">Missed · No Make-Up</span></div>
+    <div class="section-header"><span class="section-title" style="color:var(--danger)">Missed — No Make-Up</span></div>
     <div class="assignment-list">${missed.map(a => assignmentRow(a)).join('')}</div>` : ''}`;
 }
 
@@ -1191,17 +1223,25 @@ function renderInstructors() {
       courseId: 'chem1211',
       name: 'John Meyers',
       title: 'Instructor, Chemistry',
-      tags: ['IN PERSON', 'MWF 10:00 AM', 'LAKEVIEW 210'],
+      tags: ['IN PERSON', 'MWF 10:00 AM', 'LAKEVIEW 210', 'OFFICE LDSC 235D'],
       alerts: [
-        { kw: 'LECTURES', desc: '3 posted so far — Unit 1: significant figures, measurement, and dimensional analysis (see Resources)' },
+        { kw: 'HOMEWORK', desc: 'Knewton Alta, reached through D2L → Content → Knewton Homework. Needs a paid access code (Loch Shop or the D2L link) or the free two-week trial' },
+        { kw: 'DUE AUG 17', desc: 'Section assignments 1.1 to 1.4, 11:59 PM' },
+        { kw: 'DUE AUG 24', desc: 'The rest of Chapter 1\'s sections plus Problem Set 1, 11:59 PM' },
+        { kw: 'GRADING', desc: 'Known so far: section assignments 15%, problem sets 20%. The other 65% is unannounced until the syllabus posts' },
+        { kw: 'TEXTBOOK', desc: 'OpenStax Chemistry: Atoms First, 2nd ed. Free online — use the link in D2L, do not buy it' },
+        { kw: 'LECTURES', desc: '3 recorded Unit 1 videos plus the Aug 10 class slides (see Resources)' },
         { kw: 'FINAL', desc: 'Mon Dec 7, 10:15 AM to 12:15 PM (CSU exam matrix)' },
         { kw: 'NO LAB', desc: 'CHEM 1211L is already satisfied; there is no lab section this term' },
-        { kw: 'SYLLABUS', desc: 'Not yet released. Grading, attendance, and exam policies get added once it posts' },
+        { kw: 'SYLLABUS', desc: 'Still not released. Attendance and exam policies get added once it posts' },
       ],
       policies: [
         { key: 'Format', val: 'In-person lecture, 3 credits. Lab (1211L) already satisfied; no lab section this term.' },
+        { key: 'Homework', val: 'Two kinds. Section assignments are adaptive practice — full credit still available up to 4 days late. Problem sets check the whole chapter — two attempts, highest score recorded, permanent, and no late credit. Chapter 1 has 7 sections and 1 problem set.' },
+        { key: 'Attendance', val: 'A sign-in sheet went around on day one, so attendance is being taken. Weight unknown until the syllabus posts.' },
+        { key: 'Advising', val: 'Meyers recommends seeing your pre-health faculty advisor at least once a semester. Biology faculty are in LDSC 135, chemistry and physics in LDSC 235.' },
         { key: 'Prereqs', val: 'HS Chemistry (or CHEM 1151/1151L); college-algebra math as prereq or coreq.' },
-        { key: 'Status', val: 'Course materials have started posting (Unit 1 lectures up). Still awaiting the full syllabus for grading and exam policies.' },
+        { key: 'Status', val: 'Class met Mon Aug 10. Unit 1 lectures, the Aug 10 slides, and Chapter 1 homework are live. Full syllabus still outstanding.' },
       ]
     },
     {
@@ -1210,14 +1250,15 @@ function renderInstructors() {
       title: 'Instructor, School of Sciences',
       tags: ['IN PERSON', 'MW 9:00 AM', 'SCIENTIFIC LITERACY'],
       alerts: [
-        { kw: 'FINAL', desc: 'Mon Dec 7, 8:00 to 10:00 AM (CSU exam matrix)' },
+        { kw: 'NOTHING UP', desc: 'Class met Mon Aug 10 but no D2L material has posted yet — no syllabus, no assignments, no readings (checked Aug 11)' },
+        { kw: 'ASK', desc: 'If nothing appears by the Aug 17 class, email McFarlane and ask where course materials will live' },
         { kw: 'FORMAT', desc: 'Reading and evaluating primary literature plus scientific writing (catalog)' },
-        { kw: 'SYLLABUS', desc: 'Not yet released. Assignment structure and grading get added once it posts' },
+        { kw: 'FINAL', desc: 'Mon Dec 7, 8:00 to 10:00 AM (CSU exam matrix)' },
       ],
       policies: [
         { key: 'Course', val: 'Scientific-literacy and research-methods course, 2 credits. Not a lab.' },
         { key: 'Role', val: 'Prerequisite for the BIOL 4500 / CHEM 4500 capstone seminar.' },
-        { key: 'Status', val: 'Awaiting the Fall 2026 syllabus for course-specific policies.' },
+        { key: 'Status', val: 'First class met Mon Aug 10. D2L is still empty as of Aug 11 — everything below stays a catalog description until the syllabus posts.' },
       ]
     }
   ];
@@ -1269,6 +1310,9 @@ function renderResources() {
       courseId: 'chem1211',
       base: 'B:/School Stuff/CSU Stuff/Fall Semester 2026/CHEM 1211',
       groups: [
+        { label: 'Class Slides', open: true, files: [
+          { name: 'Aug 10 — Welcome, textbook & Knewton homework setup',    file: '1 Chem 1211 Lecture Slides - Aug 10.pdf',              type: 'pdf' },
+        ]},
         { label: 'Unit 1 — Measurement & Dimensional Analysis', open: true, files: [
           { name: 'Lecture 1 — Numbers (significant figures)',            file: 'Lecture 1 - Numbers.mp4',                              type: 'mp4' },
           { name: 'Lecture 2 — Measurement & intro to dimensional analysis', file: 'Lecture 2 - Measurements and dimensional analysis.mp4', type: 'mp4' },
@@ -1310,7 +1354,7 @@ function renderResources() {
   return `<div style="max-width:1100px">
     <div style="display:flex;align-items:center;gap:9px;margin-bottom:12px;padding:9px 13px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);font-size:11.5px;color:var(--muted);line-height:1.45">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--accent-2)" stroke-width="2" style="flex-shrink:0"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12.5"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-      <span>Lecture videos stream inline when you open the <strong style="color:var(--text)">local copy</strong> of this dashboard. On the hosted page they're a reference index — watch them in <strong style="color:var(--text)">D2L</strong>.</span>
+      <span>Slides and lecture videos open inline when you launch the <strong style="color:var(--text)">local copy</strong> of this dashboard. On the hosted page this list is a reference index only — open the files in <strong style="color:var(--text)">D2L</strong>.</span>
     </div>
     <a href="chem1211-unit1-study.html" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:13px;margin-bottom:14px;padding:14px 16px;background:linear-gradient(135deg, rgba(99,102,241,0.15), rgba(99,102,241,0.03));border:1px solid var(--accent);border-radius:var(--r-md);text-decoration:none;color:var(--text)">
       <span style="font-size:22px;flex-shrink:0;line-height:1">🧪</span>
@@ -1327,7 +1371,7 @@ function renderResources() {
         <div class="res-viewer-placeholder">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
           <span style="font-size:13px">Select a file to open it here</span>
-          <span style="font-size:11px;color:var(--muted)">PDFs load with browser find-in-page (Ctrl+F) · Videos play inline · Other files open in default app</span>
+          <span style="font-size:11px;color:var(--muted)">PDFs load with browser find-in-page (Ctrl+F). Videos play inline. Everything else opens in your default app.</span>
         </div>
       </div>
     </div>
