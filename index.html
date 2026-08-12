@@ -653,10 +653,39 @@ function load() {
 // Declared once so seed() (new device) and migrate() (existing device) stay identical.
 const CHEM1211_CH1 = [
   {"id":"chem1211-knewton-access","title":"Set up Knewton Alta account + access code","courseId":"chem1211","type":"other","dueDate":"2026-08-14T17:00:00-04:00","priority":"high","status":"todo","weight":null,"notes":"Blocks every Chapter 1 assignment, so do it first. Path: log into D2L with your CSU credentials, open the course, Content tab, Knewton Homework folder, Chapter 1 Assignments folder, then Section assignment 1.1 and follow the prompts. Register with your CSU email address. Access code comes from the Loch Shop (ask at the register if the shelf is empty) or the purchase link in D2L. There is a free two-week trial, but starting it now means it expires right around the Aug 24 deadline, so buying the code up front is the safer move. Due date set to Friday because the bookstore is closed on the weekend."},
-  {"id":"chem1211-knewton-1-1-4","title":"Knewton: Section assignments 1.1 – 1.4","courseId":"chem1211","type":"assignment","dueDate":"2026-08-17T23:59:00-04:00","priority":"high","status":"todo","weight":null,"notes":"First batch of Chapter 1 adaptive homework on Knewton Alta. Section assignments as a category are 15% of the course grade. You can still earn up to 100% for four days past the due date, so the true wall is Fri Aug 21 — but going late here stacks it on top of the rest of Chapter 1, which is due Aug 24. Meyers said Knewton lists every due date inside the platform, so confirm there."},
-  {"id":"chem1211-knewton-1-5-7","title":"Knewton: rest of Chapter 1 sections (3 of 7)","courseId":"chem1211","type":"assignment","dueDate":"2026-08-24T23:59:00-04:00","priority":"medium","status":"todo","weight":null,"notes":"Chapter 1 has 7 section assignments total; 1.1 to 1.4 are due Aug 17, so these are the remaining three. Same 15% category and same four-day full-credit grace. Exact section numbers are listed on Knewton — check there and rename this item if they differ."},
-  {"id":"chem1211-ps1","title":"Problem Set 1 (Chapter 1)","courseId":"chem1211","type":"assignment","dueDate":"2026-08-24T23:59:00-04:00","priority":"high","status":"todo","weight":null,"notes":"Chapter 1 problem set on Knewton. Two attempts, the higher score is the one recorded, and that grade is permanent — there is no late credit on problem sets, unlike the section assignments. Problem sets are 20% of the course grade, the heaviest category known so far. Finish the section assignments first; they are the practice for this."},
+  {"id":"chem1211-knewton-1-1-4","title":"Knewton: Section assignments 1.1 – 1.4","courseId":"chem1211","type":"assignment","dueDate":"2026-08-17T23:59:00-04:00","priority":"high","status":"todo","weight":null,"notes":"First batch of Chapter 1 adaptive homework on Knewton Alta. Section assignments and quizzes together are 15% of the course grade. The late rule is stricter than it sounds: you may reattempt up to four days past the due date, but that late attempt has to score a full 100% to replace what you earned on time. Anything less and your on-time score stands. Treat Aug 17 as the real deadline. Knewton itself lists every due date."},
+  {"id":"chem1211-knewton-1-5-7","title":"Knewton: rest of Chapter 1 sections (3 of 7)","courseId":"chem1211","type":"assignment","dueDate":"2026-08-24T23:59:00-04:00","priority":"medium","status":"todo","weight":null,"notes":"Chapter 1 has 7 section assignments total; 1.1 to 1.4 are due Aug 17, so these are the remaining three. Same 15% category, same all-or-nothing four-day reattempt rule. Exact section numbers are listed on Knewton — check there and rename this item if they differ. Note that lecture moves on to Chapter 2 on Aug 19, so this batch is due while you are already a chapter ahead."},
+  {"id":"chem1211-ps1","title":"Problem Set 1 (Chapter 1)","courseId":"chem1211","type":"assignment","dueDate":"2026-08-24T23:59:00-04:00","priority":"high","status":"todo","weight":null,"notes":"Chapter 1 problem set on Knewton. Two attempts, the higher score is recorded, and there is no late window at all — problem sets must be in by the due date. Problem sets are 20% of the course grade, and quiz and bonus points land in this same category. Finish the section assignments first; they are the practice for this. If you need more time, this is the kind of item your one three-day extension covers, but you have to email Meyers before the deadline and you only get one all semester."},
 ];
+
+// Everything below comes from the Simple Syllabus PDF (uploaded Aug 11).
+// Three 50-minute in-semester exams, all at the normal class hour in LDSC 210.
+const EXAM_NOTE = "50 minutes, at the normal class time in LDSC 210. Closed book and closed notes. Bring a #2 pencil, a Scantron form (one per exam, they are not provided), and a scientific calculator — the calculator cannot hold stored formulas or text. Phones and smart watches go face down on the desk in the instructor's sight; a phone that makes a sound during the exam costs you 3% of the exam grade. Meyers posts a study guide for each one. There are no make-ups: the first exam you miss with documented excused absence gets your final-exam score substituted in (so the final counts twice), and every miss after that is a zero. Re-grade requests are due within a week, and a re-grade re-opens the whole exam, so your score can go down.";
+const CHEM1211_EXAMS = [
+  {"id":"chem1211-exam1","title":"CHEM 1211 Exam 1","courseId":"chem1211","type":"exam","dueDate":"2026-09-09T10:00:00-04:00","priority":"high","status":"todo","weight":null,"notes":"Covers Chapters 1 to 3 (through the Sep 4 lecture; Chapter 3 continues after the exam). " + EXAM_NOTE},
+  {"id":"chem1211-exam2","title":"CHEM 1211 Exam 2","courseId":"chem1211","type":"exam","dueDate":"2026-10-14T10:00:00-04:00","priority":"high","status":"todo","weight":null,"notes":"Covers the rest of Chapter 3, Chapter 4 (bonding and molecular geometry), and Chapter 10 (liquids and solids). Falls right after the Oct 5 semester midpoint. " + EXAM_NOTE},
+  {"id":"chem1211-exam3","title":"CHEM 1211 Exam 3","courseId":"chem1211","type":"exam","dueDate":"2026-11-18T10:00:00-05:00","priority":"high","status":"todo","weight":null,"notes":"Covers Chapter 6 (composition of substances and solutions), Chapter 7 (stoichiometry — the longest block of the term at seven lectures), and the start of Chapter 11. " + EXAM_NOTE},
+];
+
+// Tentative lecture schedule. Rendered on the calendar as "Ch N begins" markers.
+const CHEM1211_TOPICS = [
+  {"id":"chem1211-ch1","courseId":"chem1211","number":1,"label":"Ch 1","title":"Chapter 1: Essential Ideas","startsDate":"2026-08-12"},
+  {"id":"chem1211-ch2","courseId":"chem1211","number":2,"label":"Ch 2","title":"Chapter 2: Atoms, Molecules, and Ions","startsDate":"2026-08-19"},
+  {"id":"chem1211-ch3","courseId":"chem1211","number":3,"label":"Ch 3","title":"Chapter 3: Electronic Structure and Periodic Properties (resumes Sep 11 after Exam 1)","startsDate":"2026-08-31"},
+  {"id":"chem1211-ch4","courseId":"chem1211","number":4,"label":"Ch 4","title":"Chapter 4: Chemical Bonding and Molecular Geometry","startsDate":"2026-09-21"},
+  {"id":"chem1211-ch10","courseId":"chem1211","number":10,"label":"Ch 10","title":"Chapter 10: Liquids and Solids","startsDate":"2026-10-05"},
+  {"id":"chem1211-ch6","courseId":"chem1211","number":6,"label":"Ch 6","title":"Chapter 6: Composition of Substances and Solutions","startsDate":"2026-10-16"},
+  {"id":"chem1211-ch7","courseId":"chem1211","number":7,"label":"Ch 7","title":"Chapter 7: Stoichiometry of Chemical Reactions","startsDate":"2026-10-26"},
+  {"id":"chem1211-ch11","courseId":"chem1211","number":11,"label":"Ch 11","title":"Chapter 11: Solutions and Colloids (runs through the last class, Nov 30)","startsDate":"2026-11-11"},
+];
+
+// Notes written by the pre-syllabus migration. The syllabus corrected the late-work
+// rule, so v2 rewrites these — but only where the stored text is still untouched.
+const CH1_NOTES_V1 = {
+  "chem1211-knewton-1-1-4": "First batch of Chapter 1 adaptive homework on Knewton Alta. Section assignments as a category are 15% of the course grade. You can still earn up to 100% for four days past the due date, so the true wall is Fri Aug 21 — but going late here stacks it on top of the rest of Chapter 1, which is due Aug 24. Meyers said Knewton lists every due date inside the platform, so confirm there.",
+  "chem1211-knewton-1-5-7": "Chapter 1 has 7 section assignments total; 1.1 to 1.4 are due Aug 17, so these are the remaining three. Same 15% category and same four-day full-credit grace. Exact section numbers are listed on Knewton — check there and rename this item if they differ.",
+  "chem1211-ps1": "Chapter 1 problem set on Knewton. Two attempts, the higher score is the one recorded, and that grade is permanent — there is no late credit on problem sets, unlike the section assignments. Problem sets are 20% of the course grade, the heaviest category known so far. Finish the section assignments first; they are the practice for this.",
+};
 
 function seed() {
   return {
@@ -664,9 +693,10 @@ function seed() {
       {"id":"chem1211","code":"CHEM 1211","name":"Principles of Chemistry I","color":"#0EA5E9","instructor":"John Meyers","schedule":"MWF 10:00-10:50 AM","room":"Lakeview Discovery & Science, Rm 210 / CRN 82422","desc":"First course of a two-semester sequence for science majors: composition of matter, stoichiometry, periodic relations, and nomenclature (3 credits). The CHEM 1211L lab is already satisfied, so there is no lab section this term. Dept. of Chemistry & Physics, School of Sciences."},
       {"id":"sci2900","code":"SCI 2900","name":"Scientific Inquiry","color":"#34D399","instructor":"Renee McFarlane","schedule":"MW 9:00-9:50 AM","room":"Lakeview Discovery & Science, Rm 110 / CRN 83909","desc":"Read, analyze, and evaluate primary scientific literature; use it to design biological and chemical investigations; write scientific papers; and map a science major to career goals (2 credits, not a lab). Prerequisite for the BIOL/CHEM 4500 capstone. School of Sciences."}
     ],
-    "topics": [],
+    "topics": [...CHEM1211_TOPICS],
     "assignments": [
       ...CHEM1211_CH1,
+      ...CHEM1211_EXAMS,
       {"id":"sci2900-final","title":"SCI 2900 Final Exam","courseId":"sci2900","type":"exam","dueDate":"2026-12-07T08:00:00-05:00","priority":"high","status":"todo","weight":null,"notes":"Final exam block 8:00 to 10:00 AM, Mon Dec 7 (CSU exam matrix, keyed to an MW 9:00 class). Room is usually your class room, Lakeview 110. Confirm with the instructor."},
       {"id":"chem1211-final","title":"CHEM 1211 Final Exam","courseId":"chem1211","type":"exam","dueDate":"2026-12-07T10:15:00-05:00","priority":"high","status":"todo","weight":null,"notes":"Final exam block 10:15 AM to 12:15 PM, Mon Dec 7 (CSU exam matrix, keyed to an MWF 10:00 class). Room is usually your class room, Lakeview 210. Confirm with the instructor."}
     ],
@@ -694,6 +724,28 @@ function migrate() {
       if (!db.assignments.some(a => a.id === item.id)) db.assignments.push(JSON.parse(JSON.stringify(item)));
     });
     db.meta.chem1211_knewton_ch1_v1 = true;
+    dirty = true;
+  }
+
+  // 2026-08-11 — CHEM 1211 syllabus posted: three in-semester exams and the
+  // tentative chapter schedule. Also corrects the Chapter 1 late-work notes,
+  // which the pre-syllabus block got wrong (a late reattempt needs a full 100%
+  // to count, it is not partial credit). Notes are only rewritten where the
+  // stored text still matches v1 verbatim, so an edited note is left alone.
+  if (!db.meta.chem1211_syllabus_v2) {
+    CHEM1211_EXAMS.forEach(item => {
+      if (!db.assignments.some(a => a.id === item.id)) db.assignments.push(JSON.parse(JSON.stringify(item)));
+    });
+    if (!db.topics) db.topics = [];
+    CHEM1211_TOPICS.forEach(t => {
+      if (!db.topics.some(x => x.id === t.id)) db.topics.push(JSON.parse(JSON.stringify(t)));
+    });
+    Object.entries(CH1_NOTES_V1).forEach(([id, oldNote]) => {
+      const stored = db.assignments.find(a => a.id === id);
+      const fresh = CHEM1211_CH1.find(a => a.id === id);
+      if (stored && fresh && stored.notes === oldNote) stored.notes = fresh.notes;
+    });
+    db.meta.chem1211_syllabus_v2 = true;
     dirty = true;
   }
 
@@ -1164,7 +1216,7 @@ function renderCalendar() {
       ${dayTopics.map(t => {
         const course = db.courses.find(c => c.id === t.courseId);
         const color = course ? course.color : '#6366F1';
-        const label = t.number !== null ? `T${t.number}` : 'Exam';
+        const label = t.label || (t.number != null ? `T${t.number}` : 'Exam');
         return `<div class="cal-item" style="background:${color}18;color:${color};font-size:10px;font-weight:700;letter-spacing:0.04em;border:1px solid ${color}35" title="Begins: ${t.title}">${label} begins</div>`;
       }).join('')}
       ${dayAssignments.map(a => {
@@ -1225,23 +1277,28 @@ function renderInstructors() {
       title: 'Instructor, Chemistry',
       tags: ['IN PERSON', 'MWF 10:00 AM', 'LAKEVIEW 210', 'OFFICE LDSC 235D'],
       alerts: [
-        { kw: 'HOMEWORK', desc: 'Knewton Alta, reached through D2L → Content → Knewton Homework. Needs a paid access code (Loch Shop or the D2L link) or the free two-week trial' },
-        { kw: 'DUE AUG 17', desc: 'Section assignments 1.1 to 1.4, 11:59 PM' },
+        { kw: 'EXAMS = 65%', desc: 'The three 50-minute exams are 45% and the final is 20%. Homework is only 35% of the grade, so exam days are where this course is won' },
+        { kw: 'EXAM DATES', desc: 'Wed Sep 9, Wed Oct 14, Wed Nov 18 — all at the 10:00 AM class hour in LDSC 210. Final Mon Dec 7, 10:15 AM' },
+        { kw: 'SCANTRON', desc: 'Bring your own Scantron form and a #2 pencil to every exam. One form per exam, not provided' },
+        { kw: 'LATE RULE', desc: 'A section assignment reattempted within 4 days must score a full 100% to replace your on-time score. It is not partial late credit' },
+        { kw: 'ONE EXTENSION', desc: 'You get exactly one three-day extension all semester, on one homework group, and only by emailing Meyers before the deadline' },
+        { kw: 'FREE POINTS', desc: 'Bonus points land in the problem-set category — including for asking a course question in person that he has to go research' },
+        { kw: 'AI POLICY', desc: 'Generative AI is banned unless an assignment specifically permits it. Everything submitted runs through TurnItIn' },
+        { kw: 'DUE AUG 17', desc: 'Knewton section assignments 1.1 to 1.4, 11:59 PM' },
         { kw: 'DUE AUG 24', desc: 'The rest of Chapter 1\'s sections plus Problem Set 1, 11:59 PM' },
-        { kw: 'GRADING', desc: 'Known so far: section assignments 15%, problem sets 20%. The other 65% is unannounced until the syllabus posts' },
-        { kw: 'TEXTBOOK', desc: 'OpenStax Chemistry: Atoms First, 2nd ed. Free online — use the link in D2L, do not buy it' },
-        { kw: 'LECTURES', desc: '3 recorded Unit 1 videos plus the Aug 10 class slides (see Resources)' },
-        { kw: 'FINAL', desc: 'Mon Dec 7, 10:15 AM to 12:15 PM (CSU exam matrix)' },
-        { kw: 'NO LAB', desc: 'CHEM 1211L is already satisfied; there is no lab section this term' },
-        { kw: 'SYLLABUS', desc: 'Still not released. Attendance and exam policies get added once it posts' },
+        { kw: 'NO PHONES', desc: 'Not to be seen or heard in class. In an exam, a phone that makes any sound costs 3% of that exam grade' },
       ],
       policies: [
-        { key: 'Format', val: 'In-person lecture, 3 credits. Lab (1211L) already satisfied; no lab section this term.' },
-        { key: 'Homework', val: 'Two kinds. Section assignments are adaptive practice — full credit still available up to 4 days late. Problem sets check the whole chapter — two attempts, highest score recorded, permanent, and no late credit. Chapter 1 has 7 sections and 1 problem set.' },
-        { key: 'Attendance', val: 'A sign-in sheet went around on day one, so attendance is being taken. Weight unknown until the syllabus posts.' },
+        { key: 'Grading', val: 'Section assignments and quizzes 15%, problem sets 20%, three in-semester exams 45%, comprehensive final 20%. Straight scale, no curve: A 90, B 80, C 70, D 60.' },
+        { key: 'Coverage', val: 'Chapters 1 to 4, 6, 7, 10, and 11 of OpenStax Atoms First 2e. The chapter start dates are marked on the Calendar. Chapter 7 (stoichiometry) is the longest block at seven lectures.' },
+        { key: 'Homework', val: 'Knewton Alta, always entered through D2L. Several section assignments plus roughly one problem set per chapter. Section assignments allow a 4-day reattempt but only a perfect 100% replaces your score. Problem sets get two attempts, highest recorded, and no late window.' },
+        { key: 'Quizzes', val: 'May appear at any time to gauge exam readiness, with no make-ups. Careful: the syllabus contradicts itself on where quiz points go — the weights table files them under section assignments (15%), the policy text says problem sets (20%). Worth one email to Meyers.' },
+        { key: 'Missed exam', val: 'No make-ups. The first miss with documented excused absence gets your final-exam score substituted, so the final counts twice. Every later miss, or any unexcused one, is a zero.' },
+        { key: 'Office hours', val: 'MW 11:00 to 1:00, Thu 11:15 to 12:30 and 2:15 to 3:00, in LDSC 235D. Open door otherwise, or by appointment. Email JohnMeyers@clayton.edu with the course number in the subject line — he replies in 24 to 48 hours on weekdays.' },
+        { key: 'Materials', val: 'Textbook is free online through the D2L link (OpenStax, ISBN 9781947172630) — do not buy it. You do need: Knewton Alta access, Scantron forms, a #2 pencil, a scientific calculator, and a handwritten notebook, which he specifically recommends.' },
+        { key: 'Help', val: 'Center for Academic Success in Edgewater Hall 257, plus free Tutor.com through the D2L navbar under More, University Resources.' },
         { key: 'Advising', val: 'Meyers recommends seeing your pre-health faculty advisor at least once a semester. Biology faculty are in LDSC 135, chemistry and physics in LDSC 235.' },
-        { key: 'Prereqs', val: 'HS Chemistry (or CHEM 1151/1151L); college-algebra math as prereq or coreq.' },
-        { key: 'Status', val: 'Class met Mon Aug 10. Unit 1 lectures, the Aug 10 slides, and Chapter 1 homework are live. Full syllabus still outstanding.' },
+        { key: 'Status', val: 'Syllabus posted Aug 11 and fully reflected here. Exams and the chapter schedule are on the Calendar. Note the syllabus is marked tentative — he reserves the right to shift dates.' },
       ]
     },
     {
@@ -1310,6 +1367,9 @@ function renderResources() {
       courseId: 'chem1211',
       base: 'B:/School Stuff/CSU Stuff/Fall Semester 2026/CHEM 1211',
       groups: [
+        { label: 'Syllabus', open: true, files: [
+          { name: 'Syllabus — CHEM 1211-01, Fall 2026 (Meyers)',            file: 'Simple Syllabus - Principles of Chemistry I Section 01 Fall Semester 2026 CO.pdf', type: 'pdf' },
+        ]},
         { label: 'Class Slides', open: true, files: [
           { name: 'Aug 10 — Welcome, textbook & Knewton homework setup',    file: '1 Chem 1211 Lecture Slides - Aug 10.pdf',              type: 'pdf' },
         ]},
