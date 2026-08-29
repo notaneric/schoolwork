@@ -679,6 +679,31 @@ const KNEWTON_V3 = {
 // existing one. Declared after KNEWTON_V3 so it is not in its temporal dead zone.
 CHEM1211_CH1.forEach(a => { const u = KNEWTON_V3[a.id]; if (u) { a.title = u.title; a.notes = u.notes; } });
 
+// Snapshot of the note text a v3-migrated device is holding. The v4 block below
+// compares against this to tell an untouched note from one Eric rewrote himself.
+const CH1_NOTES_V3 = Object.fromEntries(CHEM1211_CH1.map(a => [a.id, a.notes]));
+
+// 2026-08-28 — Meyers pushed the Chapter 1 Part 2 batch from Mon Aug 24 to Fri
+// Aug 28 (announced in the Aug 21 lecture, repeated Aug 24, 26 and 28).
+const CH1_DUE_V4_OLD = '2026-08-24T23:59:00-04:00';
+const CH1_DUE_V4_NEW = '2026-08-28T23:59:00-04:00';
+const CH1_EXT_V4 = {
+  'chem1211-knewton-1-5-7': "The remaining three of Chapter 1's seven Knewton sections — textbook §1.4 Measurements, §1.5 Measurement Uncertainty, Accuracy and Precision, and §1.6 Mathematical Treatment of Measurement Results: sig figs, unit prefixes, density, and dimensional analysis. DEADLINE MOVED — Meyers pushed this batch from Mon Aug 24 to Fri Aug 28 at 11:59 PM, announced in the Aug 21 lecture and repeated on Aug 24, 26 and 28. Same 15% category and the same all-or-nothing four-day reattempt rule: a late attempt has to score a full 100% to replace your on-time score. This is the material his three recorded lectures cover, Handouts 2 through 4 drill it, and the worked answer keys are now posted in Resources.",
+  'chem1211-ps1': "Chapter 1 problem set on Knewton. DEADLINE MOVED — pushed from Mon Aug 24 to Fri Aug 28 at 11:59 PM along with the rest of the Chapter 1 batch. Two attempts, the higher score is recorded, and there is no late window at all: problem sets must be in by the due date. Problem sets are 20% of the course grade, and quiz and bonus points land in this same category. Finish the section assignments first — they are the practice for this. Your one three-day extension all semester would cover an item like this, but only if you email Meyers before the deadline.",
+};
+CHEM1211_CH1.forEach(a => {
+  if (CH1_EXT_V4[a.id]) { a.dueDate = CH1_DUE_V4_NEW; a.notes = CH1_EXT_V4[a.id]; }
+});
+
+// Chapter 2 homework + the two items Meyers assigned in the Aug 28 lecture.
+// Source: "8 Chem 1211 Lecture Slides - Aug 28.pdf" and the bonus-activity handout.
+const CHEM1211_CH2 = [
+  {"id":"chem1211-knewton-2-1-5","title":"Knewton 2.1 – 2.5: atoms, isotopes and ions","courseId":"chem1211","type":"assignment","dueDate":"2026-09-08T23:59:00-04:00","priority":"high","status":"todo","weight":null,"notes":"Chapter 2 opened on Knewton after the Aug 28 lecture: five section assignments (2.1 to 2.5) plus Problem Set 2, all due Tue Sep 8 at 11:59 PM. Meyers said the first section assignment can be started right after that lecture. Same 15% category and the same all-or-nothing four-day reattempt rule — except here the four days run past Exam 1, which is the very next morning, so Sep 8 is the real wall. Content is atomic structure, isotopes, ions and average atomic mass."},
+  {"id":"chem1211-ps2","title":"Problem Set 2 (Chapter 2)","courseId":"chem1211","type":"assignment","dueDate":"2026-09-08T23:59:00-04:00","priority":"high","status":"todo","weight":null,"notes":"Chapter 2 problem set on Knewton, due Tue Sep 8 at 11:59 PM. Two attempts, highest recorded, permanent, and no late window — problem sets never get one. It lands the night before Exam 1 on Wed Sep 9, so it doubles as the last structured review before the exam. 20% category. Do the five section assignments first."},
+  {"id":"chem1211-da-bonus","title":"Dimensional Analysis Bonus Activity (free points)","courseId":"chem1211","type":"assignment","dueDate":null,"priority":"medium","status":"todo","weight":null,"notes":"Optional bonus posted Aug 28. Bonus points land in the problem-set category (20%). Write ONE original word problem that needs 4 to 6 conversion factors to solve, type all of the work in Word's Equation Editor (Insert > Equation — the tutorial video is in Resources), show the full unrounded calculator answer, then the answer rounded to the correct sig figs with units. Submit a Word document, not a PDF, to the dropbox in the Dimensional Analysis Bonus Activity folder on D2L. Keep your name out of the document and the filename — D2L attaches it. No late submissions. The problem has to be original: not copied from a handout or any other source, and AI is explicitly banned on this one. DUE DATE UNKNOWN — the handout only says 'the due date shown under the dropbox,' which is inside D2L. Open the dropbox and set the date on this card yourself."},
+  {"id":"chem1211-elements-1-36","title":"Memorize elements 1 – 36 (names + symbols)","courseId":"chem1211","type":"other","dueDate":"2026-09-09T10:00:00-04:00","priority":"medium","status":"todo","weight":null,"notes":"Assigned outright in the Aug 28 lecture: memorize the names and symbols of elements 1 through 36. He said you do NOT need their atomic numbers or their positions on the table — names and symbols only. No deadline was given; this card is dated to Exam 1 (Wed Sep 9) because that is the first place it can be tested, so the date is an inference, not his. From the same slide, also know the biological uses he listed: C, H, O and N in organic molecules; Ca and P in bones and teeth (P also in DNA); Fe in hemoglobin; Na and K as electrolytes in bodily fluids; Pt in anticancer drugs (cisplatin)."},
+];
+
 // Everything below comes from the Simple Syllabus PDF (uploaded Aug 11).
 // Three 50-minute in-semester exams, all at the normal class hour in LDSC 210.
 const EXAM_NOTE = "50 minutes, at the normal class time in LDSC 210. Closed book and closed notes. Bring a #2 pencil, a Scantron form (one per exam, they are not provided), and a scientific calculator — the calculator cannot hold stored formulas or text. Phones and smart watches go face down on the desk in the instructor's sight; a phone that makes a sound during the exam costs you 3% of the exam grade. Meyers posts a study guide for each one. There are no make-ups: the first exam you miss with documented excused absence gets your final-exam score substituted in (so the final counts twice), and every miss after that is a zero. Re-grade requests are due within a week, and a re-grade re-opens the whole exam, so your score can go down.";
@@ -691,7 +716,7 @@ const CHEM1211_EXAMS = [
 // Tentative lecture schedule. Rendered on the calendar as "Ch N begins" markers.
 const CHEM1211_TOPICS = [
   {"id":"chem1211-ch1","courseId":"chem1211","number":1,"label":"Ch 1","title":"Chapter 1: Essential Ideas","startsDate":"2026-08-12"},
-  {"id":"chem1211-ch2","courseId":"chem1211","number":2,"label":"Ch 2","title":"Chapter 2: Atoms, Molecules, and Ions","startsDate":"2026-08-19"},
+  {"id":"chem1211-ch2","courseId":"chem1211","number":2,"label":"Ch 2","title":"Chapter 2: Atoms, Molecules, and Ions","startsDate":"2026-08-28"},
   {"id":"chem1211-ch3","courseId":"chem1211","number":3,"label":"Ch 3","title":"Chapter 3: Electronic Structure and Periodic Properties (resumes Sep 11 after Exam 1)","startsDate":"2026-08-31"},
   {"id":"chem1211-ch4","courseId":"chem1211","number":4,"label":"Ch 4","title":"Chapter 4: Chemical Bonding and Molecular Geometry","startsDate":"2026-09-21"},
   {"id":"chem1211-ch10","courseId":"chem1211","number":10,"label":"Ch 10","title":"Chapter 10: Liquids and Solids","startsDate":"2026-10-05"},
@@ -717,6 +742,7 @@ function seed() {
     "topics": [...CHEM1211_TOPICS],
     "assignments": [
       ...CHEM1211_CH1,
+      ...CHEM1211_CH2,
       ...CHEM1211_EXAMS,
       {"id":"sci2900-final","title":"SCI 2900 Final Exam","courseId":"sci2900","type":"exam","dueDate":"2026-12-07T08:00:00-05:00","priority":"high","status":"todo","weight":null,"notes":"Final exam block 8:00 to 10:00 AM, Mon Dec 7 (CSU exam matrix, keyed to an MW 9:00 class). Room is usually your class room, Lakeview 110. Confirm with the instructor."},
       {"id":"chem1211-final","title":"CHEM 1211 Final Exam","courseId":"chem1211","type":"exam","dueDate":"2026-12-07T10:15:00-05:00","priority":"high","status":"todo","weight":null,"notes":"Final exam block 10:15 AM to 12:15 PM, Mon Dec 7 (CSU exam matrix, keyed to an MWF 10:00 class). Room is usually your class room, Lakeview 210. Confirm with the instructor."}
@@ -781,6 +807,27 @@ function migrate() {
       if (a && a.title === u.was) { a.title = u.title; a.notes = u.notes; }
     });
     db.meta.chem1211_knewton_titles_v3 = true;
+    dirty = true;
+  }
+
+  // 2026-08-28 — new D2L package (course TOC of Aug 28, 7:29 PM). Chapter 2
+  // homework opened, the Chapter 1 Part 2 deadline slid Aug 24 -> Aug 28, and the
+  // Aug 28 lecture added a memorization task plus an optional bonus assignment.
+  if (!db.meta.chem1211_ch2_v4) {
+    CHEM1211_CH2.forEach(item => {
+      if (!db.assignments.some(a => a.id === item.id)) db.assignments.push(JSON.parse(JSON.stringify(item)));
+    });
+    Object.keys(CH1_EXT_V4).forEach(id => {
+      const stored = db.assignments.find(a => a.id === id);
+      const fresh = CHEM1211_CH1.find(a => a.id === id);
+      if (!stored || !fresh) return;
+      // Only move a date Eric has not already changed himself.
+      if (stored.dueDate === CH1_DUE_V4_OLD) stored.dueDate = fresh.dueDate;
+      if (stored.notes === CH1_NOTES_V3[id]) stored.notes = fresh.notes;
+    });
+    const ch2 = (db.topics || []).find(t => t.id === 'chem1211-ch2');
+    if (ch2 && ch2.startsDate === '2026-08-19') ch2.startsDate = '2026-08-28';
+    db.meta.chem1211_ch2_v4 = true;
     dirty = true;
   }
 
@@ -1319,8 +1366,10 @@ function renderInstructors() {
         { kw: 'ONE EXTENSION', desc: 'You get exactly one three-day extension all semester, on one homework group, and only by emailing Meyers before the deadline' },
         { kw: 'FREE POINTS', desc: 'Bonus points land in the problem-set category — including for asking a course question in person that he has to go research' },
         { kw: 'AI POLICY', desc: 'Generative AI is banned unless an assignment specifically permits it. Everything submitted runs through TurnItIn' },
-        { kw: 'DUE AUG 17', desc: 'Knewton section assignments 1.1 to 1.4, 11:59 PM' },
-        { kw: 'DUE AUG 24', desc: 'The rest of Chapter 1\'s sections plus Problem Set 1, 11:59 PM' },
+        { kw: 'DUE AUG 28', desc: 'Moved off Aug 24 — Knewton 1.5 to 1.7 plus Problem Set 1, 11:59 PM Friday' },
+        { kw: 'DUE SEP 8', desc: 'Chapter 2: five section assignments (2.1 to 2.5) plus Problem Set 2, 11:59 PM — the night before Exam 1' },
+        { kw: 'MEMORIZE 1-36', desc: 'Names and symbols of elements 1 to 36, assigned Aug 28. Atomic numbers and table positions not required' },
+        { kw: 'BONUS OPEN', desc: 'Write one original 4-to-6-factor problem in Word Equation Editor for free points. Word file only, no name in it, no AI — the due date lives in the D2L dropbox' },
         { kw: 'NO PHONES', desc: 'Not to be seen or heard in class. In an exam, a phone that makes any sound costs 3% of that exam grade' },
       ],
       policies: [
@@ -1333,7 +1382,8 @@ function renderInstructors() {
         { key: 'Materials', val: 'Textbook is free online through the D2L link (OpenStax, ISBN 9781947172630) — do not buy it. You do need: Knewton Alta access, Scantron forms, a #2 pencil, a scientific calculator, and a handwritten notebook, which he specifically recommends.' },
         { key: 'Help', val: 'Center for Academic Success in Edgewater Hall 257, plus free Tutor.com through the D2L navbar under More, University Resources.' },
         { key: 'Advising', val: 'Meyers recommends seeing your pre-health faculty advisor at least once a semester. Biology faculty are in LDSC 135, chemistry and physics in LDSC 235.' },
-        { key: 'Status', val: 'Syllabus posted Aug 11 and fully reflected here. Exams and the chapter schedule are on the Calendar. Note the syllabus is marked tentative — he reserves the right to shift dates.' },
+        { key: 'Status', val: 'Current through the Aug 28 D2L package: Handouts 1 to 5 with answer keys for 2 to 4, all eight slide decks, the bonus activity, and Chapter 2 homework are all in. He has already used his tentative-schedule clause once — the Chapter 1 Part 2 batch slid from Aug 24 to Aug 28 — so treat every posted date as provisional until Knewton confirms it.' },
+        { key: 'Pace warning', val: 'Chapter 2 only started Aug 28, nine days behind the syllabus plan of Aug 19, and Chapter 3 was slated for Aug 31. Exam 1 on Sep 9 is still written up as covering Chapters 1 to 3. Either the exam scope shrinks or Chapter 3 gets compressed into roughly four lectures — worth asking him directly, and that is exactly the kind of question he awards bonus points for.' },
       ]
     },
     {
@@ -1342,15 +1392,15 @@ function renderInstructors() {
       title: 'Instructor, School of Sciences',
       tags: ['IN PERSON', 'MW 9:00 AM', 'SCIENTIFIC LITERACY'],
       alerts: [
-        { kw: 'NOTHING UP', desc: 'Class met Mon Aug 10 but no D2L material has posted yet — no syllabus, no assignments, no readings (checked Aug 11)' },
-        { kw: 'ASK', desc: 'If nothing appears by the Aug 17 class, email McFarlane and ask where course materials will live' },
+        { kw: 'NOTHING UP', desc: 'D2L was empty at the last check on Aug 11 — no syllabus, no assignments, no readings. Not re-checked since' },
+        { kw: 'ASK NOW', desc: 'The Aug 17 checkpoint came and went with no follow-up. Three weeks into the term with no syllabus, email McFarlane and ask where materials will live' },
         { kw: 'FORMAT', desc: 'Reading and evaluating primary literature plus scientific writing (catalog)' },
         { kw: 'FINAL', desc: 'Mon Dec 7, 8:00 to 10:00 AM (CSU exam matrix)' },
       ],
       policies: [
         { key: 'Course', val: 'Scientific-literacy and research-methods course, 2 credits. Not a lab.' },
         { key: 'Role', val: 'Prerequisite for the BIOL 4500 / CHEM 4500 capstone seminar.' },
-        { key: 'Status', val: 'First class met Mon Aug 10. D2L is still empty as of Aug 11 — everything below stays a catalog description until the syllabus posts.' },
+        { key: 'Status', val: 'First class met Mon Aug 10. D2L was still empty at the last check on Aug 11 and has not been re-checked since — everything below stays a catalog description until the syllabus posts. This is the biggest unknown of the semester: a 2-credit course with no visible requirements.' },
       ]
     }
   ];
@@ -1400,7 +1450,7 @@ function renderResources() {
   const COURSE_FILES = [
     {
       courseId: 'chem1211',
-      base: 'B:/School Stuff/CSU Stuff/Fall Semester 2026/CHEM 1211',
+      base: 'B:/School/CSU/Fall Semester 2026/CHEM 1211',
       groups: [
         { label: 'Syllabus', open: true, files: [
           { name: 'Syllabus — CHEM 1211-01, Fall 2026 (Meyers)',            file: 'Simple Syllabus - Principles of Chemistry I Section 01 Fall Semester 2026 CO.pdf', type: 'pdf' },
@@ -1410,8 +1460,29 @@ function renderResources() {
           { name: 'Ch 1 §1.1–1.3 — clean copy, no highlights',        file: 'CHEM 1211 - Ch1 Sections 1.1-1.3 (Aug 12 lecture prep).pdf', type: 'pdf' },
           { name: 'Full textbook (1201 pp, slow to open — prefer excerpts)', file: 'chemistry-atoms-first-2e_-_WEB.pdf',                     type: 'pdf' },
         ]},
+        { label: 'Handouts — bring 1 to 4 to every class', open: true, files: [
+          { name: '1 — Periodic table, formula sheet, element list',            file: '1 Handout_Periodic Table-Formulas-Element List.pdf',        type: 'pdf' },
+          { name: '2 — Numbers: sig figs & scientific notation',               file: '2 Handout_Numbers.pdf',                                     type: 'pdf' },
+          { name: '2 KEY — Numbers, fully worked',                             file: '2 KEY Handout_Numbers.pdf',                                 type: 'pdf' },
+          { name: '3 — Measurements & dimensional analysis',                   file: '3 Handout_Measurements and Dimensional Analysis.pdf',       type: 'pdf' },
+          { name: '3 KEY — worked in his Know/Want format',                    file: '3 KEY Handout_Measurements and Dimensional Analysis.pdf',   type: 'pdf' },
+          { name: '4 — Dimensional analysis',                                  file: '4 Handout_Dimensional Analysis.pdf',                        type: 'pdf' },
+          { name: '4 KEY — Dimensional analysis, fully worked',                file: '4 KEY Handout_Dimensional Analysis.pdf',                    type: 'pdf' },
+          { name: '5 — Atomic structure, isotopes & ions (Chapter 2)',         file: '5 Handout_Atomic Structure-Isotopes-Ions.pdf',              type: 'pdf' },
+        ]},
+        { label: 'Dimensional Analysis Bonus Activity', open: true, files: [
+          { name: 'Assignment description & rules (Word only, no name, no AI)', file: 'Dimensional Analysis Bonus Activity Description1211.pdf',   type: 'pdf' },
+          { name: 'Tutorial — Equation Editor in Word',                        file: 'Intro to Equation Editor in Word.mp4',                      type: 'mp4' },
+        ]},
         { label: 'Class Slides', open: true, files: [
           { name: 'Aug 10 — Welcome, textbook & Knewton homework setup',    file: '1 Chem 1211 Lecture Slides - Aug 10.pdf',              type: 'pdf' },
+          { name: 'Aug 12 — Homework announcement, how to pass, matter',    file: '2 Chem 1211 Lecture Slides - Aug 12.pdf',              type: 'pdf' },
+          { name: 'Aug 14 — States of matter, physical vs chemical change', file: '3 Chem 1211 Lecture Slides - Aug 14.pdf',              type: 'pdf' },
+          { name: 'Aug 19 — Molecules, elements & the scientific method',   file: '4 Chem 1211 Lecture Slides - Aug 19.pdf',              type: 'pdf' },
+          { name: 'Aug 21 — Sig figs in calculations, prefix multipliers',  file: '5 Chem 1211 Lecture Slides - Aug 21.pdf',              type: 'pdf' },
+          { name: 'Aug 24 — The dimensional-analysis method, step by step', file: '6 Chem 1211 Lecture Slides - Aug 24.pdf',              type: 'pdf' },
+          { name: 'Aug 26 — Multi-step conversions, dosage word problems',  file: '7 Chem 1211 Lecture Slides - Aug 26.pdf',              type: 'pdf' },
+          { name: 'Aug 28 — Chapter 2 opens: atomic structure & isotopes',  file: '8 Chem 1211 Lecture Slides - Aug 28.pdf',              type: 'pdf' },
         ]},
         { label: 'Unit 1 — Measurement & Dimensional Analysis', open: true, files: [
           { name: 'Lecture 1 — Numbers (significant figures)',            file: 'Lecture 1 - Numbers.mp4',                              type: 'mp4' },
