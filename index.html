@@ -704,6 +704,31 @@ const CHEM1211_CH2 = [
   {"id":"chem1211-elements-1-36","title":"Memorize elements 1 – 36 (names + symbols)","courseId":"chem1211","type":"other","dueDate":"2026-09-09T10:00:00-04:00","priority":"medium","status":"todo","weight":null,"notes":"Assigned outright in the Aug 28 lecture: memorize the names and symbols of elements 1 through 36. He said you do NOT need their atomic numbers or their positions on the table — names and symbols only. No deadline was given; this card is dated to Exam 1 (Wed Sep 9) because that is the first place it can be tested, so the date is an inference, not his. From the same slide, also know the biological uses he listed: C, H, O and N in organic molecules; Ca and P in bones and teeth (P also in DNA); Fe in hemoglobin; Na and K as electrolytes in bodily fluids; Pt in anticancer drugs (cisplatin)."},
 ];
 
+// SCI 2900 - the Fall 2026 Course Schedule handout, released in the Sept 1 D2L package.
+// Rendered on the calendar as "<label> begins" markers on the class day that opens each block.
+const SCI2900_TOPICS = [
+  {"id":"sci2900-lit","courseId":"sci2900","label":"Literature","title":"Scientific Literature: what counts as primary literature, and what peer review is","startsDate":"2026-08-24"},
+  {"id":"sci2900-j1","courseId":"sci2900","label":"Journal 1","title":"First Scientific Journal: discussion (Aug 26), then interpreting data, paraphrasing and plagiarism (Aug 31)","startsDate":"2026-08-26"},
+  {"id":"sci2900-degree","courseId":"sci2900","label":"Degree planning","title":"Clayton State science degree requirements, then pre-professional and graduate school paths","startsDate":"2026-09-09"},
+  {"id":"sci2900-ethics","courseId":"sci2900","label":"Ethics","title":"Scientific Ethics (Sept 23), after mentoring and advising on Sept 21","startsDate":"2026-09-23"},
+  {"id":"sci2900-j2","courseId":"sci2900","label":"Journal 2","title":"Second Scientific Journal: discussion (Sept 28), then limitations (Sept 30)","startsDate":"2026-09-28"},
+  {"id":"sci2900-careers","courseId":"sci2900","label":"Career prep","title":"Graduate exams, summer internships, networking, thank-you notes and interviewing","startsDate":"2026-10-05"},
+  {"id":"sci2900-retract","courseId":"sci2900","label":"Retractions","title":"Retracted Papers: how published work gets withdrawn and why","startsDate":"2026-10-19"},
+  {"id":"sci2900-j3","courseId":"sci2900","label":"Journal 3","title":"Final Scientific Journal: future directions","startsDate":"2026-10-21"},
+  {"id":"sci2900-pres","courseId":"sci2900","label":"Presentations","title":"Oral Presentations, both class days (Nov 2 and Nov 4). Prep starts Oct 28.","startsDate":"2026-11-02"},
+  {"id":"sci2900-profdev","courseId":"sci2900","label":"Professional dev","title":"Plan B, professional development, LinkedIn, then resume versus CV","startsDate":"2026-11-11"},
+];
+
+// SCI 2900 items. NO SYLLABUS HAS BEEN RELEASED, so none of these carry a weight and none of
+// them is a confirmed submission deadline: every date below is the class meeting that covers
+// the work, taken from the Course Schedule handout. Correct them the moment a syllabus posts.
+const SCI2900_ITEMS = [
+  {"id":"sci2900-syllabus-ask","title":"Ask McFarlane for the SCI 2900 syllabus","courseId":"sci2900","type":"other","dueDate":"2026-09-02T09:00:00-04:00","priority":"high","status":"todo","weight":null,"notes":"Four weeks into a 2-credit course and D2L still has no syllabus. The Sept 1 package holds a course schedule, four lecture decks and two journal articles, and nothing else: no grading breakdown, no assignment list, no late policy, no AI policy. That last one matters, because CHEM 1211 bans generative AI outright and you cannot assume SCI 2900 does the same either way. Ask in person before or after the Sept 2 class, and ask for three things specifically: how the grade is broken down, what form the Scientific Journal work is submitted in, and what the AI policy is."},
+  {"id":"sci2900-journal2","title":"Second Scientific Journal: discussion + limitations","courseId":"sci2900","type":"assignment","dueDate":"2026-09-28T09:00:00-04:00","priority":"high","status":"todo","weight":null,"notes":"Class discussion Mon Sept 28, then a session on limitations Wed Sept 30. Two papers are posted and three journal blocks exist on the schedule, so one paper is still to come. Read the assigned paper twice before the Monday: once for the question and the design, once for the numbers. For the Wednesday, come with limitations the authors did NOT state, because the ones they did state are in the discussion section and everyone will have them. The paper-breakdown videos in Resources end on limitations and on six questions each. DATE IS THE CLASS MEETING, not a confirmed submission deadline."},
+  {"id":"sci2900-journal3","title":"Final Scientific Journal: future directions","courseId":"sci2900","type":"assignment","dueDate":"2026-10-21T09:00:00-04:00","priority":"medium","status":"todo","weight":null,"notes":"Third and final journal block, Wed Oct 21, themed on future directions: what the next experiment would have to do differently. It follows the Oct 19 class on retracted papers, so the pairing is deliberate. Note there is no separate discussion day for this one on the schedule, which suggests the written product carries more of the weight here. The third paper has not been posted yet. DATE IS THE CLASS MEETING, not a confirmed submission deadline."},
+  {"id":"sci2900-oral-presentation","title":"Oral Presentation","courseId":"sci2900","type":"assignment","dueDate":"2026-11-02T09:00:00-05:00","priority":"high","status":"todo","weight":null,"notes":"Oral presentations run across both class days, Mon Nov 2 and Wed Nov 4, with a preparation class on Oct 28. Which day you present on is not set yet. This is almost certainly the largest single graded item in the course: it gets two full class days and it is the natural capstone of a course whose whole point is reading and presenting literature. Topic and format unknown until the syllabus or an announcement lands. DATE IS THE FIRST PRESENTATION DAY, not a confirmed slot."},
+];
+
 // Everything below comes from the Simple Syllabus PDF (uploaded Aug 11).
 // Three 50-minute in-semester exams, all at the normal class hour in LDSC 210.
 const EXAM_NOTE = "50 minutes, at the normal class time in LDSC 210. Closed book and closed notes. Bring a #2 pencil, a Scantron form (one per exam, they are not provided), and a scientific calculator — the calculator cannot hold stored formulas or text. Phones and smart watches go face down on the desk in the instructor's sight; a phone that makes a sound during the exam costs you 3% of the exam grade. Meyers posts a study guide for each one. There are no make-ups: the first exam you miss with documented excused absence gets your final-exam score substituted in (so the final counts twice), and every miss after that is a zero. Re-grade requests are due within a week, and a re-grade re-opens the whole exam, so your score can go down.";
@@ -739,11 +764,12 @@ function seed() {
       {"id":"chem1211","code":"CHEM 1211","name":"Principles of Chemistry I","color":"#0EA5E9","instructor":"John Meyers","schedule":"MWF 10:00-10:50 AM","room":"Lakeview Discovery & Science, Rm 210 / CRN 82422","desc":"First course of a two-semester sequence for science majors: composition of matter, stoichiometry, periodic relations, and nomenclature (3 credits). The CHEM 1211L lab is already satisfied, so there is no lab section this term. Dept. of Chemistry & Physics, School of Sciences."},
       {"id":"sci2900","code":"SCI 2900","name":"Scientific Inquiry","color":"#34D399","instructor":"Renee McFarlane","schedule":"MW 9:00-9:50 AM","room":"Lakeview Discovery & Science, Rm 110 / CRN 83909","desc":"Read, analyze, and evaluate primary scientific literature; use it to design biological and chemical investigations; write scientific papers; and map a science major to career goals (2 credits, not a lab). Prerequisite for the BIOL/CHEM 4500 capstone. School of Sciences."}
     ],
-    "topics": [...CHEM1211_TOPICS],
+    "topics": [...CHEM1211_TOPICS, ...SCI2900_TOPICS],
     "assignments": [
       ...CHEM1211_CH1,
       ...CHEM1211_CH2,
       ...CHEM1211_EXAMS,
+      ...SCI2900_ITEMS,
       {"id":"sci2900-final","title":"SCI 2900 Final Exam","courseId":"sci2900","type":"exam","dueDate":"2026-12-07T08:00:00-05:00","priority":"high","status":"todo","weight":null,"notes":"Final exam block 8:00 to 10:00 AM, Mon Dec 7 (CSU exam matrix, keyed to an MW 9:00 class). Room is usually your class room, Lakeview 110. Confirm with the instructor."},
       {"id":"chem1211-final","title":"CHEM 1211 Final Exam","courseId":"chem1211","type":"exam","dueDate":"2026-12-07T10:15:00-05:00","priority":"high","status":"todo","weight":null,"notes":"Final exam block 10:15 AM to 12:15 PM, Mon Dec 7 (CSU exam matrix, keyed to an MWF 10:00 class). Room is usually your class room, Lakeview 210. Confirm with the instructor."}
     ],
@@ -828,6 +854,22 @@ function migrate() {
     const ch2 = (db.topics || []).find(t => t.id === 'chem1211-ch2');
     if (ch2 && ch2.startsDate === '2026-08-19') ch2.startsDate = '2026-08-28';
     db.meta.chem1211_ch2_v4 = true;
+    dirty = true;
+  }
+
+  // 2026-09-01 - first real SCI 2900 D2L package (course TOC of Sept 1, 8:41 PM): the Fall 2026
+  // course schedule, four lecture decks and the first two assigned journal articles. Adds the
+  // semester's topic markers plus four items. Still no syllabus, so nothing here carries a weight
+  // and every date is the class meeting that covers the work, not a confirmed deadline.
+  if (!db.meta.sci2900_toc_v5) {
+    if (!db.topics) db.topics = [];
+    SCI2900_TOPICS.forEach(t => {
+      if (!db.topics.some(x => x.id === t.id)) db.topics.push(JSON.parse(JSON.stringify(t)));
+    });
+    SCI2900_ITEMS.forEach(item => {
+      if (!db.assignments.some(a => a.id === item.id)) db.assignments.push(JSON.parse(JSON.stringify(item)));
+    });
+    db.meta.sci2900_toc_v5 = true;
     dirty = true;
   }
 
@@ -1390,17 +1432,23 @@ function renderInstructors() {
       courseId: 'sci2900',
       name: 'Renee McFarlane',
       title: 'Instructor, School of Sciences',
-      tags: ['IN PERSON', 'MW 9:00 AM', 'SCIENTIFIC LITERACY'],
+      tags: ['IN PERSON', 'MW 9:00 AM', 'LAKEVIEW 110', 'SCIENTIFIC LITERACY'],
       alerts: [
-        { kw: 'NOTHING UP', desc: 'D2L was empty at the last check on Aug 11 — no syllabus, no assignments, no readings. Not re-checked since' },
-        { kw: 'ASK NOW', desc: 'The Aug 17 checkpoint came and went with no follow-up. Three weeks into the term with no syllabus, email McFarlane and ask where materials will live' },
-        { kw: 'FORMAT', desc: 'Reading and evaluating primary literature plus scientific writing (catalog)' },
-        { kw: 'FINAL', desc: 'Mon Dec 7, 8:00 to 10:00 AM (CSU exam matrix)' },
+        { kw: 'STILL NO SYLLABUS', desc: 'Four weeks in. The Sept 1 package has a schedule, four decks and two papers, but no grading breakdown, no assignment list, no late policy and no AI policy' },
+        { kw: 'AI POLICY UNKNOWN', desc: 'CHEM 1211 bans generative AI outright. SCI 2900 has stated nothing either way, so do not assume in either direction. Ask' },
+        { kw: 'THREE JOURNALS', desc: 'Aug 26 to 31, Sept 28 to 30, and Oct 21. Two papers are posted; the third has not appeared yet' },
+        { kw: 'JOURNAL 1 PASSED', desc: 'The Aug 26 discussion and the Aug 31 data/paraphrasing class have already been held. The papers only reached D2L on Sept 1' },
+        { kw: 'PRESENTATIONS', desc: 'Oral presentations take both class days, Nov 2 and Nov 4, with a prep class Oct 28. Likely the biggest graded item in the course' },
+        { kw: 'ONE AUTHOR IS HERE', desc: 'The piglet paper\'s first author, Clint Edmunds, is School of Sciences faculty at Clayton State. He can be asked about his own paper' },
+        { kw: 'FINAL', desc: 'Mon Dec 7, 8:00 to 10:00 AM, Lakeview 110 (CSU exam matrix). Nothing says whether it is written, oral or cumulative' },
       ],
       policies: [
-        { key: 'Course', val: 'Scientific-literacy and research-methods course, 2 credits. Not a lab.' },
-        { key: 'Role', val: 'Prerequisite for the BIOL 4500 / CHEM 4500 capstone seminar.' },
-        { key: 'Status', val: 'First class met Mon Aug 10. D2L was still empty at the last check on Aug 11 and has not been re-checked since — everything below stays a catalog description until the syllabus posts. This is the biggest unknown of the semester: a 2-credit course with no visible requirements.' },
+        { key: 'Course', val: 'Scientific-literacy and research-methods course, 2 credits. Not a lab. Prerequisite for the BIOL 4500 / CHEM 4500 capstone seminar.' },
+        { key: 'Shape of the term', val: 'Three arcs running together. Reading primary literature (three journal blocks, each with its own lens: interpreting data, then limitations, then future directions). Career mapping (degree requirements, graduate school, internships, interviewing, LinkedIn, CV). And one oral presentation across two class days in November.' },
+        { key: 'What is posted', val: 'Sept 1 D2L package: the Fall 2026 Course Schedule, four lecture decks (Misconceptions in Science, Careers in Science, Famous Scientists, Scientific Literature) and the first two journal articles. All of it is in Resources.' },
+        { key: 'The two papers', val: 'Edmunds et al. 2023, manganese and selenium in nursery piglets (Veterinary Sciences, 12 pp). Ohl et al. 2012, hospital privacy curtain contamination (Am J Infection Control, 3 pp). Which one is journal 1 and which is journal 2 is not stated anywhere in the package; the table of contents lists the piglet paper first, which is the only evidence either way. Boris built a narrated breakdown video for each, in Resources.' },
+        { key: 'Grading', val: 'UNKNOWN. No weights, no categories, no late policy. This is a 2-credit course, so it moves the GPA less than CHEM 1211, but an unknown grading scheme is still the biggest blind spot of the semester.' },
+        { key: 'Status', val: 'Current through the Sept 1 D2L package. The class schedule, the topic markers and four items are on the dashboard. Every SCI 2900 date on the calendar is the class meeting that covers the work, taken from the schedule handout, NOT a confirmed submission deadline. Fix them when the syllabus lands.' },
       ]
     }
   ];
@@ -1488,6 +1536,29 @@ function renderResources() {
           { name: 'Lecture 1 — Numbers (significant figures)',            file: 'Lecture 1 - Numbers.mp4',                              type: 'mp4' },
           { name: 'Lecture 2 — Measurement & intro to dimensional analysis', file: 'Lecture 2 - Measurements and dimensional analysis.mp4', type: 'mp4' },
           { name: 'Lecture 3 — Advanced dimensional analysis',            file: 'Lecture 3 - Advanced dimensional analysis.mp4',        type: 'mp4' },
+        ]},
+      ]
+    },
+    {
+      courseId: 'sci2900',
+      base: 'B:/School/CSU/Fall Semester 2026/SCI 2900',
+      groups: [
+        { label: 'Paper breakdowns \u2014 narrated video, one per paper', open: true, files: [
+          { name: 'Paper 1 \u2014 Manganese, selenium and the piglet gut (Edmunds 2023)', file: 'SCI 2900 - Paper 1 - Manganese, Selenium and the Piglet Gut (captioned).mp4', type: 'mp4' },
+          { name: 'Paper 2 \u2014 Hospital privacy curtains (Ohl 2012)',                   file: 'SCI 2900 - Paper 2 - Hospital Privacy Curtains (captioned).mp4',           type: 'mp4' },
+        ]},
+        { label: 'Assigned scientific literature', open: true, files: [
+          { name: 'Edmunds 2023 \u2014 Dietary manganese and selenium in nursery piglets', file: 'Dr. Clint Edmunds Paper.pdf',   type: 'pdf' },
+          { name: 'Ohl 2012 \u2014 Hospital privacy curtains are rapidly contaminated',    file: 'Hospital Privacy Curtains.pdf', type: 'pdf' },
+        ]},
+        { label: 'Course schedule', open: true, files: [
+          { name: 'Fall 2026 Course Schedule \u2014 all 17 weeks, every class topic', file: 'Fall 2026 Course Schedule.docx', type: 'doc' },
+        ]},
+        { label: 'Class slides', open: true, files: [
+          { name: 'Aug 12 \u2014 Misconceptions of a science degree (5 of them)',   file: 'Misconceptions in Science.pptx', type: 'pptx' },
+          { name: 'Aug 17 \u2014 Careers in science: health, public health, industry, forensics', file: 'Careers in Science.pptx', type: 'pptx' },
+          { name: 'Aug 19 \u2014 Famous scientists: Darwin, Linnaeus, Mendel, Pasteur, Woese, Corbett', file: 'Famous Scientists.pptx', type: 'pptx' },
+          { name: 'Aug 24 \u2014 Scientific literature and peer review',            file: 'Scientific Literature.pptx',    type: 'pptx' },
         ]},
       ]
     },
