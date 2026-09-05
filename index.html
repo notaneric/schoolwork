@@ -742,7 +742,7 @@ const CHEM1211_EXAMS = [
 const CHEM1211_TOPICS = [
   {"id":"chem1211-ch1","courseId":"chem1211","number":1,"label":"Ch 1","title":"Chapter 1: Essential Ideas","startsDate":"2026-08-12"},
   {"id":"chem1211-ch2","courseId":"chem1211","number":2,"label":"Ch 2","title":"Chapter 2: Atoms, Molecules, and Ions","startsDate":"2026-08-28"},
-  {"id":"chem1211-ch3","courseId":"chem1211","number":3,"label":"Ch 3","title":"Chapter 3: Electronic Structure and Periodic Properties (not started — the Aug 31, Sep 2 and Sep 4 lectures were all Chapter 2 and the mole, and Exam 1 excludes it, so Mon Sep 14 is the earliest opening. Inferred, not announced.)","startsDate":"2026-09-14"},
+  {"id":"chem1211-ch3","courseId":"chem1211","number":3,"label":"Ch 3","title":"Chapter 3: Electronic Structure and Periodic Properties (not started — the Aug 31, Sep 2 and Sep 4 lectures were all Chapter 2 and the mole. Wed Sep 9 is a normal class day but it is the last one before the exam and reads as review, so Mon Sep 14 is the working guess. Inferred, not announced — he has given no start date.)","startsDate":"2026-09-14"},
   {"id":"chem1211-ch6-1","courseId":"chem1211","number":6,"label":"Ch 6.1","title":"Chapter 6 § 6.1 only — the mole, molar mass and Avogadro's number, taught early on Sep 4 inside the Chapter 2 block. His Handout 6 calls it ‘Chapter 2 – Part 2’; the Exam 1 study guide calls it textbook § 6.1. It is on Exam 1. The rest of Chapter 6 still comes in October.","startsDate":"2026-09-04"},
   {"id":"chem1211-ch4","courseId":"chem1211","number":4,"label":"Ch 4","title":"Chapter 4: Chemical Bonding and Molecular Geometry","startsDate":"2026-09-21"},
   {"id":"chem1211-ch10","courseId":"chem1211","number":10,"label":"Ch 10","title":"Chapter 10: Liquids and Solids","startsDate":"2026-10-05"},
@@ -773,6 +773,7 @@ const CHEM1211_V6_OLD = {
   "chem1211-elements-1-36": {"dueDate":"2026-09-09T10:00:00-04:00","notes":"Assigned outright in the Aug 28 lecture: memorize the names and symbols of elements 1 through 36. He said you do NOT need their atomic numbers or their positions on the table — names and symbols only. No deadline was given; this card is dated to Exam 1 (Wed Sep 9) because that is the first place it can be tested, so the date is an inference, not his. From the same slide, also know the biological uses he listed: C, H, O and N in organic molecules; Ca and P in bones and teeth (P also in DNA); Fe in hemoglobin; Na and K as electrolytes in bodily fluids; Pt in anticancer drugs (cisplatin)."},
   "chem1211-exam1":         {"dueDate":"2026-09-09T10:00:00-04:00","notes":"Covers Chapters 1 to 3 (through the Sep 4 lecture; Chapter 3 continues after the exam). " + EXAM_NOTE},
 };
+const CH3_TITLE_V6_OLD = "Chapter 3: Electronic Structure and Periodic Properties (not started — the Aug 31, Sep 2 and Sep 4 lectures were all Chapter 2 and the mole, and Exam 1 excludes it, so Mon Sep 14 is the earliest opening. Inferred, not announced.)";
 const CH3_TITLE_V5_OLD = "Chapter 3: Electronic Structure and Periodic Properties (resumes Sep 11 after Exam 1)";
 
 function seed() {
@@ -918,6 +919,17 @@ function migrate() {
       if (ch3.title === CH3_TITLE_V5_OLD) ch3.title = ch3f.title;
     }
     db.meta.chem1211_exam1_v6 = true;
+    dirty = true;
+  }
+
+  // 2026-09-05 - repairs the Chapter 3 marker's note. v6 justified the Sep 14 date by saying
+  // Exam 1 excludes Chapter 3, but Wed Sep 9 is still a normal class day, so that reason was
+  // wrong. Same date, honest reason. Only rewrites the exact v6 string.
+  if (!db.meta.chem1211_ch3_note_v7) {
+    const ch3v7 = (db.topics || []).find(t => t.id === 'chem1211-ch3');
+    const fresh7 = CHEM1211_TOPICS.find(t => t.id === 'chem1211-ch3');
+    if (ch3v7 && fresh7 && ch3v7.title === CH3_TITLE_V6_OLD) ch3v7.title = fresh7.title;
+    db.meta.chem1211_ch3_note_v7 = true;
     dirty = true;
   }
 
