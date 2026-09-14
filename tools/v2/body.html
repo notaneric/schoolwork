@@ -1,0 +1,203 @@
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+  <symbol id="i-pen" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 13 9 5 9-5"/></symbol>
+  <symbol id="i-exam" viewBox="0 0 24 24"><path d="M9 4h6a1 1 0 0 1 1 1v1H8V5a1 1 0 0 1 1-1Z"/><path d="M16 5h2a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5v15l12-7.5Z"/></symbol>
+  <symbol id="i-cards" viewBox="0 0 24 24"><rect x="3" y="7" width="14" height="14" rx="2"/><path d="M7 7V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-2"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5"/><path d="m11 18-6-6 6-6"/></symbol>
+  <symbol id="i-chev-r" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+  <symbol id="i-chev-l" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+  <symbol id="i-shuffle" viewBox="0 0 24 24"><path d="M16 3h5v5"/><path d="M4 20 21 3"/><path d="M21 16v5h-5"/><path d="m15 15 6 6"/><path d="m4 4 5 5"/></symbol>
+  <symbol id="i-rotate" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 2.6-6.4"/><path d="M3 3v6h6"/></symbol>
+  <symbol id="i-swap" viewBox="0 0 24 24"><path d="M7 20V4"/><path d="m3 8 4-4 4 4"/><path d="M17 4v16"/><path d="m13 16 4 4 4-4"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></symbol>
+  <symbol id="i-ext" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 2.5 2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9Z"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+  <symbol id="i-pile" viewBox="0 0 24 24"><rect x="3" y="14" width="18" height="6" rx="1.5"/><path d="M5.5 10.5h13"/><path d="M8 7h8"/></symbol>
+  <symbol id="i-pile-check" viewBox="0 0 24 24"><rect x="3" y="14" width="18" height="6" rx="1.5"/><path d="M5.5 10.5h13"/><path d="m9 5.5 2 2 4-4"/></symbol>
+  <symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 21V4"/><path d="M5 4h12l-2 4 2 4H5"/></symbol>
+</defs></svg>
+<div id="top-bar"><span></span></div>
+
+<!-- ================= HOME ================= -->
+<div id="home" class="wrap on">
+  <div class="eyebrow">CHEM 1211</div>
+  <h1 class="set-title">Exam 1 Prep</h1>
+  <div class="set-meta"><b id="m-q">118</b> questions, <b id="m-t">94</b> key terms, <span id="m-ch">15 chapters</span></div>
+  <div class="hero"><span class="hero-n" id="rc-n">0</span><span class="hero-of" id="rc-of">of 212</span></div>
+  <p class="hero-p"><b>Recalled from cold.</b> Only answers you produce from memory count here, because recognizing an answer isn't the same as remembering it.</p>
+  <div class="chips-l">Chapter</div>
+  <div class="chips" id="chips"></div>
+  <div class="tabs" role="tablist">
+    <button class="tab on" id="tab-study" role="tab" aria-selected="true" onclick="setTab('study')">Study</button>
+    <button class="tab" id="tab-terms" role="tab" aria-selected="false" onclick="setTab('terms')">Key terms (<span id="m-t2">94</span>)</button>
+  </div>
+  <div id="panel-study">
+    <div class="section-l">Study: produce it from memory</div>
+    <div class="modes">
+      <button class="mode" onclick="enter('recall')">
+        <span class="mode-ic"><svg class="ic ic-24" aria-hidden="true"><use href="#i-pen"/></svg></span>
+        <span class="mode-tx"><span class="mode-h">Recall <span class="badge best">Best</span></span><span class="mode-p">See a term, type the definition from a blank, then grade yourself. The hardest mode, and the best for memory.</span></span>
+        <svg class="ic mode-go" aria-hidden="true"><use href="#i-chev-r"/></svg>
+      </button>
+      <button class="mode" onclick="enter('learn')">
+        <span class="mode-ic"><svg class="ic ic-24" aria-hidden="true"><use href="#i-layers"/></svg></span>
+        <span class="mode-tx"><span class="mode-h">Learn</span><span class="mode-p">Commit an answer before the options appear, then get worked feedback. Repeats each question until you produce it twice.</span></span>
+        <svg class="ic mode-go" aria-hidden="true"><use href="#i-chev-r"/></svg>
+      </button>
+    </div>
+    <div class="modes secondary">
+      <button class="mode" onclick="enter('exam')">
+        <span class="mode-ic"><svg class="ic" aria-hidden="true"><use href="#i-exam"/></svg></span>
+        <span class="mode-tx"><span class="mode-h">Mixed Exam</span><span class="mode-p">All <span id="m-q2">118</span> questions, chapters interleaved, one scored pass. Practice under real-test conditions.</span></span>
+        <svg class="ic mode-go" aria-hidden="true"><use href="#i-chev-r"/></svg>
+      </button>
+      <button class="mode" onclick="enter('videos')">
+        <span class="mode-ic"><svg class="ic" aria-hidden="true"><use href="#i-play"/></svg></span>
+        <span class="mode-tx"><span class="mode-h">Videos <span class="badge ref">Reference</span></span><span class="mode-p">Every course video, verified and grouped by topic. Watch to unblock a concept, then go produce it.</span></span>
+        <svg class="ic mode-go" aria-hidden="true"><use href="#i-chev-r"/></svg>
+      </button>
+    </div>
+    <div class="section-l">Warm up: recognition only, doesn't build recall</div>
+    <div class="warmups">
+      <button class="warm" onclick="enter('flash')"><svg class="ic" aria-hidden="true"><use href="#i-cards"/></svg><span><span class="warm-h">Preview</span><span class="warm-p">Flip through the material first</span></span></button>
+      <button class="warm" onclick="enter('match')"><svg class="ic" aria-hidden="true"><use href="#i-bolt"/></svg><span><span class="warm-h">Match</span><span class="warm-p">Timed term game, doesn't count</span></span></button>
+    </div>
+  </div>
+  <div id="panel-terms" hidden>
+    <div class="filter"><svg class="ic" aria-hidden="true"><use href="#i-search"/></svg><input id="term-filter" type="search" placeholder="Filter terms" aria-label="Filter key terms" oninput="renderTerms()" autocomplete="off"></div>
+    <div class="terms" id="term-list"></div>
+  </div>
+</div>
+
+<!-- ================= FLASHCARDS ================= -->
+<div id="flash" class="wrap">
+  <div class="mode-bar">
+    <button class="icon-btn" onclick="goHome()"><svg class="ic ic-16" aria-hidden="true"><use href="#i-back"/></svg>Set</button>
+    <span class="mt">Preview</span>
+    <span class="rt">
+      <button class="icon-btn" id="fc-shuffle" onclick="fcShuffle()"><svg class="ic ic-16" aria-hidden="true"><use href="#i-shuffle"/></svg>Shuffle</button>
+    </span>
+  </div>
+  <div class="fc-count" id="fc-count">1 of 118</div>
+  <div class="flashcard" id="flashcard" onclick="fcFlip()">
+    <div class="fc-inner">
+      <div class="fc-face fc-front">
+        <span class="fc-kicker" id="fc-kick-f"></span>
+        <button class="fc-star" id="fc-star" aria-label="Star this card" onclick="event.stopPropagation();fcStar()"><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg></button>
+        <div class="fc-diagram" id="fc-diagram"></div>
+        <div class="fc-q" id="fc-q"></div>
+        <div class="fc-hint">Tap to flip</div>
+      </div>
+      <div class="fc-face fc-back">
+        <span class="fc-kicker">Answer</span>
+        <div class="fc-a-label">Correct answer</div>
+        <div class="fc-a" id="fc-a"></div>
+        <div class="fc-exp" id="fc-exp"></div>
+      </div>
+    </div>
+  </div>
+  <div class="fc-nav">
+    <button class="round-btn" id="fc-prev" aria-label="Previous card" onclick="fcNav(-1)"><svg class="ic" aria-hidden="true"><use href="#i-chev-l"/></svg></button>
+    <span class="lbl" id="fc-progress">tap card to flip</span>
+    <button class="round-btn" id="fc-next" aria-label="Next card" onclick="fcNav(1)"><svg class="ic" aria-hidden="true"><use href="#i-chev-r"/></svg></button>
+  </div>
+</div>
+
+<!-- ================= LEARN + MIXED EXAM ================= -->
+<div id="learn" class="wrap">
+  <div id="learn-play" style="width:100%;display:flex;flex-direction:column;align-items:center">
+    <div class="mode-bar">
+      <button class="icon-btn" onclick="goHome()"><svg class="ic ic-16" aria-hidden="true"><use href="#i-back"/></svg>Set</button>
+      <span class="mt" id="learn-title">Learn</span>
+      <span class="pill" id="learn-round">Round 1</span>
+    </div>
+    <div class="piles">
+      <div class="piles-row">
+        <div class="pile remain"><svg class="ic" aria-hidden="true"><use href="#i-pile"/></svg><div><span class="pile-n" id="c-remain">0</span><span class="pile-l" id="l-remain">Remaining</span></div></div>
+        <div class="pile learn"><svg class="ic" aria-hidden="true"><use href="#i-pile"/></svg><div><span class="pile-n" id="c-learn">0</span><span class="pile-l" id="l-learn">Still learning</span></div></div>
+        <div class="pile master"><svg class="ic" aria-hidden="true"><use href="#i-pile-check"/></svg><div><span class="pile-n" id="c-master">0</span><span class="pile-l" id="l-master">Mastered</span></div></div>
+      </div>
+      <div class="strip" aria-hidden="true"><i class="s-master" id="bar-master"></i><i class="s-learn" id="bar-learn"></i><i class="s-remain" id="bar-remain"></i></div>
+    </div>
+    <div class="card" id="learn-card">
+      <div class="q-kicker"><span id="learn-kick"></span><span id="learn-pos"></span></div>
+      <div class="diagram" id="learn-diagram" style="display:none"></div>
+      <div class="q-text" id="learn-q"></div>
+      <div class="produce" id="learn-produce">
+        <p class="produce-hint">Answer from memory first, even a rough guess. Producing the answer is where the learning happens.</p>
+        <textarea class="ta" id="learn-input" placeholder="Type your answer or the key idea…" aria-label="Your answer from memory"></textarea>
+        <div class="conf-row">
+          <button class="conf" data-c="guess" onclick="setConf('guess')">Guessing<span class="k">1</span></button>
+          <button class="conf" data-c="think" onclick="setConf('think')">Think so<span class="k">2</span></button>
+          <button class="conf" data-c="sure" onclick="setConf('sure')">Certain<span class="k">3</span></button>
+        </div>
+        <button class="btn btn-primary btn-block" onclick="revealOptions()">Show options<svg class="ic ic-16" aria-hidden="true"><use href="#i-chev-r"/></svg></button>
+      </div>
+      <div class="opts" id="learn-opts" style="display:none"></div>
+      <div class="fb" id="learn-fb"><div class="fb-l" id="learn-fb-l"></div><div class="fb-t" id="learn-fb-t"></div></div>
+    </div>
+    <button class="btn btn-primary next-btn" id="learn-next" onclick="learnNext()">Continue</button>
+  </div>
+</div>
+
+<!-- ================= MATCH ================= -->
+<div id="match" class="wrap">
+  <div id="match-play" style="width:100%;display:flex;flex-direction:column;align-items:center">
+    <div class="mode-bar">
+      <button class="icon-btn" onclick="goHome()"><svg class="ic ic-16" aria-hidden="true"><use href="#i-back"/></svg>Set</button>
+      <span class="mt">Match</span>
+      <span class="rt"><span class="pill time" id="match-timer">0.0s</span>
+        <button class="icon-btn" onclick="matchStart()"><svg class="ic ic-16" aria-hidden="true"><use href="#i-rotate"/></svg>Restart</button></span>
+    </div>
+    <div class="match-grid" id="match-grid"></div>
+  </div>
+  <div class="match-win" id="match-win"></div>
+</div>
+
+<!-- ================= RECALL (typed produce-from-memory) ================= -->
+<div id="recall" class="wrap">
+  <div id="recall-play" style="width:100%;display:flex;flex-direction:column;align-items:center">
+    <div class="mode-bar">
+      <button class="icon-btn" onclick="goHome()"><svg class="ic ic-16" aria-hidden="true"><use href="#i-back"/></svg>Set</button>
+      <span class="mt">Recall</span>
+      <button class="icon-btn" onclick="recallFlip()"><svg class="ic ic-16" aria-hidden="true"><use href="#i-swap"/></svg><span id="rc-dir">Term to definition</span></button>
+    </div>
+    <div class="recall-head"><span id="rc-count">1 of 34</span><div class="strip" aria-hidden="true"><i class="s-master" id="rc-strip-got"></i><i class="s-learn" id="rc-strip-miss"></i></div></div>
+    <div class="card">
+      <div class="recall-l" id="rc-prompt-l">Define this term</div>
+      <div class="recall-term" id="rc-term"></div>
+      <textarea class="ta" id="rc-input" placeholder="Type it from memory, then reveal…" aria-label="Your answer from memory"></textarea>
+      <button class="btn btn-primary btn-block" style="margin-top:14px" id="rc-reveal-btn" onclick="recallReveal()">Reveal answer</button>
+      <div class="recall-reveal" id="rc-reveal">
+        <div class="recall-model-l">Model answer</div>
+        <div class="recall-model" id="rc-model"></div>
+        <div class="your-answer" id="rc-yours"></div>
+        <div class="grade-row">
+          <button class="grade miss" onclick="recallGrade('miss')">Missed</button>
+          <button class="grade close" onclick="recallGrade('close')">Close</button>
+          <button class="grade got" onclick="recallGrade('got')">Got it</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= VIDEOS (resource library) ================= -->
+<div id="videos" class="wrap">
+  <div class="mode-bar">
+    <button class="icon-btn" onclick="goHome()"><svg class="ic ic-16" aria-hidden="true"><use href="#i-back"/></svg>Set</button>
+    <span class="mt">Videos</span>
+    <span style="width:64px"></span>
+  </div>
+  <p class="vid-intro">Every video I found and verified for this course, grouped by topic. Watch one to unblock a concept you're stuck on, then go <b>produce</b> it in Recall or Learn. Watching alone builds recognition, not recall.</p>
+  <div id="vid-list"></div>
+</div>
+
+<!-- ================= SESSION CLOSE ================= -->
+<div id="close" class="wrap"></div>
