@@ -210,7 +210,7 @@
   .list-header { display: grid; grid-template-columns: 22px minmax(0,1fr) 94px 72px 118px 76px 48px; gap: 12px; padding: 4px 16px 10px; font-size: 10px; color: var(--faint); text-transform: uppercase; letter-spacing: 0.12em; font-weight: 600; }
 
   /* Calendar view */
-  .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background: var(--border); border-radius: 10px; overflow: hidden; border: 1px solid var(--border); }
+  .calendar-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 1px; background: var(--border); border-radius: 10px; overflow: hidden; border: 1px solid var(--border); }
   .cal-header { background: var(--surface); padding: 10px; text-align: center; font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
   .cal-day { background: var(--surface); padding: 8px; min-height: 90px; }
   .cal-day.other-month { background: var(--bg); }
@@ -742,9 +742,10 @@ const CHEM1211_EXAMS = [
 const CHEM1211_TOPICS = [
   {"id":"chem1211-ch1","courseId":"chem1211","number":1,"label":"Ch 1","title":"Chapter 1: Essential Ideas","startsDate":"2026-08-12"},
   {"id":"chem1211-ch2","courseId":"chem1211","number":2,"label":"Ch 2","title":"Chapter 2: Atoms, Molecules, and Ions","startsDate":"2026-08-28"},
-  {"id":"chem1211-ch3","courseId":"chem1211","number":3,"label":"Ch 3","title":"Chapter 3: Electronic Structure and Periodic Properties (not started — the Aug 31, Sep 2 and Sep 4 lectures were all Chapter 2 and the mole. Wed Sep 9 is a normal class day but it is the last one before the exam and reads as review, so Mon Sep 14 is the working guess. Inferred, not announced — he has given no start date.)","startsDate":"2026-09-14"},
+  {"id":"chem1211-ch3","courseId":"chem1211","number":3,"label":"Ch 3","title":"Chapter 3: Electronic Structure and Periodic Properties. Opened Mon Sep 14, confirmed by the ‘Start of Chapter 3’ slide in that day's deck. He split the chapter in two. Part 1 covers light, photons, the Bohr model and the Rydberg equation (Handout 7), with homework due Fri Sep 25.","startsDate":"2026-09-14"},
+  {"id":"chem1211-ch3-2","courseId":"chem1211","number":3,"label":"Ch 3 pt 2","title":"Chapter 3 Part 2: quantum numbers and the shapes of the s, p, d and f orbitals (Handout 8). Started in the Sep 21 lecture. No homework date has been announced for Part 2 yet.","startsDate":"2026-09-21"},
   {"id":"chem1211-ch6-1","courseId":"chem1211","number":6,"label":"Ch 6.1","title":"Chapter 6 § 6.1 only — the mole, molar mass and Avogadro's number, taught early on Sep 4 inside the Chapter 2 block. His Handout 6 calls it ‘Chapter 2 – Part 2’; the Exam 1 study guide calls it textbook § 6.1. It is on Exam 1. The rest of Chapter 6 still comes in October.","startsDate":"2026-09-04"},
-  {"id":"chem1211-ch4","courseId":"chem1211","number":4,"label":"Ch 4","title":"Chapter 4: Chemical Bonding and Molecular Geometry","startsDate":"2026-09-21"},
+  {"id":"chem1211-ch4","courseId":"chem1211","number":4,"label":"Ch 4","title":"Chapter 4: Chemical Bonding and Molecular Geometry. The syllabus had it opening Sep 21, but that lecture was still Chapter 3, which had only just reached Part 2. Fri Oct 2 is a working guess that allows about four lectures for Part 2. He has not announced a date.","startsDate":"2026-10-02"},
   {"id":"chem1211-ch10","courseId":"chem1211","number":10,"label":"Ch 10","title":"Chapter 10: Liquids and Solids","startsDate":"2026-10-05"},
   {"id":"chem1211-ch6","courseId":"chem1211","number":6,"label":"Ch 6","title":"Chapter 6: Composition of Substances and Solutions","startsDate":"2026-10-16"},
   {"id":"chem1211-ch7","courseId":"chem1211","number":7,"label":"Ch 7","title":"Chapter 7: Stoichiometry of Chemical Reactions","startsDate":"2026-10-26"},
@@ -776,6 +777,27 @@ const CHEM1211_V6_OLD = {
 const CH3_TITLE_V6_OLD = "Chapter 3: Electronic Structure and Periodic Properties (not started — the Aug 31, Sep 2 and Sep 4 lectures were all Chapter 2 and the mole, and Exam 1 excludes it, so Mon Sep 14 is the earliest opening. Inferred, not announced.)";
 const CH3_TITLE_V5_OLD = "Chapter 3: Electronic Structure and Periodic Properties (resumes Sep 11 after Exam 1)";
 
+// 2026-09-21 D2L package (course TOC of Sept 21, 4:48 PM): Handouts 7 and 8 and the Sep 9 to
+// Sep 21 decks. Chapter 3 opened Sep 14 and was split into two parts; Part 1 homework is due
+// Fri Sep 25. Exam 1 was graded and handed back Sep 14.
+const CHEM1211_CH3 = [
+  {"id":"chem1211-knewton-3-1-3","title":"Knewton 3.1 – 3.3: Chapter 3 Part 1 (light and the Bohr model)","courseId":"chem1211","type":"assignment","dueDate":"2026-09-25T23:59:00-04:00","priority":"high","status":"todo","weight":null,"notes":"Chapter 3 Part 1 is three section assignments (3.1 to 3.3) plus a problem set, all due Fri Sep 25 at 11:59 PM. Announced Sep 14 and repeated Sep 16, 18 and 21. After the Sep 21 lecture he said every Part 1 assignment can be completed. The material is from the Sep 14 to Sep 21 lectures: the electromagnetic spectrum, c = λν, photon energy E = hν, why we see color, emission spectra and flame tests, the Bohr model, and the Rydberg equation (a positive answer means energy emitted, a negative one means energy absorbed). Handout 7 is the practice set, and the decks give his answers: 699 nm (red), 4.97 × 10⁻¹⁹ J, 103 nm, and n = 4 for the solve-for-n problem, which he ran as an optional bonus question on Sep 21. Knewton's section numbers did not match the textbook's in Chapter 1, so check the titles on the platform. Same 15% category and the same all-or-nothing four-day reattempt rule."},
+  {"id":"chem1211-ps3-part1","title":"Problem Set (Chapter 3 Part 1)","courseId":"chem1211","type":"assignment","dueDate":"2026-09-25T23:59:00-04:00","priority":"high","status":"todo","weight":null,"notes":"Chapter 3 Part 1 problem set on Knewton, due Fri Sep 25 at 11:59 PM with the three section assignments. You get two attempts, the higher score is recorded and permanent, and problem sets have no late window. 20% category. Do the section assignments first. Chapter 3 is big enough that he split it in two, so expect a second problem set for Part 2 (quantum numbers and orbitals). No date has been given for that one yet."},
+  {"id":"chem1211-exam1-review","title":"Go over graded Exam 1 + check the D2L course grade","courseId":"chem1211","type":"other","dueDate":"2026-09-23T10:00:00-04:00","priority":"medium","status":"todo","weight":null,"notes":"Exam 1 was graded and handed back at the end of the Sep 14 class, with pickup again Sep 16 for anyone who missed it. His instructions: go through what you got wrong and ask of each one, ‘was this a simple mistake, or do I not know this?’ If you don't know it, note it and work it through with practice problems or in his office hours. The D2L gradebook now has a ‘Current course grade (Last updated on Sep 14)’ covering the Chapter 1 and 2 homework, Exam 1 and any bonus points so far. Re-grade requests are due within a week of the exam coming back and re-open the whole exam, so the score can go down. Counted from Sep 14 that week is already over. If you want something re-graded, ask him Wed Sep 23 which return date counts. CSU students also get free Tutor.com hours through the D2L link."},
+];
+const CH3_TITLE_V7_OLD = "Chapter 3: Electronic Structure and Periodic Properties (not started — the Aug 31, Sep 2 and Sep 4 lectures were all Chapter 2 and the mole. Wed Sep 9 is a normal class day but it is the last one before the exam and reads as review, so Mon Sep 14 is the working guess. Inferred, not announced — he has given no start date.)";
+const CH4_V7_OLD = {"startsDate":"2026-09-21","title":"Chapter 4: Chemical Bonding and Molecular Geometry"};
+
+// 2026-09-21 SCI 2900 package (course TOC of Sept 21, 4:47 PM). Adds the Curtain Paper
+// instructions (file dated Sept 2), The Path Forward worksheets (Sept 9) and the Alignment deck
+// and assignment (Sept 16). Still no syllabus and no due dates in any of the documents, so these
+// carry dueDate null. The dates live on the D2L dropboxes, which a content export does not carry.
+const SCI2900_ITEMS_V8 = [
+  {"id":"sci2900-curtain-paper","title":"Curtain Paper: Scientific Journal assignment (20 pts)","courseId":"sci2900","type":"assignment","dueDate":null,"priority":"high","status":"todo","weight":null,"notes":"Written assignment on the hospital privacy curtain paper (Ohl 2012). 20 points, four questions at five points each: a summary of 10 sentences at most, the data results, the significance, and whether recent studies have tried to reduce curtain contamination (a three-sentence summary of each study). The instructions file is dated Sept 2. The document gives no due date. It is on the D2L dropbox. Your finished answer is the ‘SCI 2900 - Curtain Paper’ Google Doc in Drive. If it is already in the dropbox, mark this submitted."},
+  {"id":"sci2900-path-forward","title":"The Path Forward worksheet (schools or jobs)","courseId":"sci2900","type":"assignment","dueDate":null,"priority":"medium","status":"todo","weight":null,"notes":"Posted with the Sept 9 class on Clayton State degree requirements, where Dr. Melvin, Director of the School of Sciences, was the guest speaker. It comes in two versions, so use the one that fits. Schools asks for five programs, each with its admission requirements and entrance exams. Jobs asks for five jobs, each with its requirements, skills and certifications. Both start with your major, area of interest and class year. The Alignment handout calls this research Part 1 and marks it COMPLETED, so it was probably collected or finished in class. Your Sept 9 school plan is in Drive. Mark this submitted if you turned it in. No point value is stated."},
+  {"id":"sci2900-alignment","title":"Alignment Part 2: gap analysis table (10 pts)","courseId":"sci2900","type":"assignment","dueDate":null,"priority":"high","status":"todo","weight":null,"notes":"‘Alignment and Graduate School Readiness Assignment’, 10 points, file dated Sept 16. Part 1, marked COMPLETED on the handout, was researching three graduate or professional programs: minimum GPA, prerequisite courses, required tests (GRE, MCAT, LSAT and so on) and experience requirements such as research hours, shadowing or internships. Part 2 is the work left: a table or spreadsheet that maps where you are against those requirements, in three columns. A is the requirement (a course or an experience), B is completed yes or no, and C is the term taken or planned, e.g. Fall 2026. The last slide of the Alignment deck asks what you will register for in Spring 2027, Summer 2027 and Fall 2027, so column C doubles as your registration plan. THE DUE DATE IS NOT IN THE DOCUMENT. Open the D2L dropbox and set the date on this card."},
+];
+
 function seed() {
   return {
     "courses": [
@@ -787,8 +809,10 @@ function seed() {
       ...CHEM1211_CH1,
       ...CHEM1211_CH2,
       ...CHEM1211_EXAM1_PREP,
+      ...CHEM1211_CH3,
       ...CHEM1211_EXAMS,
       ...SCI2900_ITEMS,
+      ...SCI2900_ITEMS_V8,
       {"id":"sci2900-final","title":"SCI 2900 Final Exam","courseId":"sci2900","type":"exam","dueDate":"2026-12-07T08:00:00-05:00","priority":"high","status":"todo","weight":null,"notes":"Final exam block 8:00 to 10:00 AM, Mon Dec 7 (CSU exam matrix, keyed to an MW 9:00 class). Room is usually your class room, Lakeview 110. Confirm with the instructor."},
       {"id":"chem1211-final","title":"CHEM 1211 Final Exam","courseId":"chem1211","type":"exam","dueDate":"2026-12-07T10:15:00-05:00","priority":"high","status":"todo","weight":null,"notes":"Final exam block 10:15 AM to 12:15 PM, Mon Dec 7 (CSU exam matrix, keyed to an MWF 10:00 class). Room is usually your class room, Lakeview 210. Confirm with the instructor."}
     ],
@@ -930,6 +954,31 @@ function migrate() {
     const fresh7 = CHEM1211_TOPICS.find(t => t.id === 'chem1211-ch3');
     if (ch3v7 && fresh7 && ch3v7.title === CH3_TITLE_V6_OLD) ch3v7.title = fresh7.title;
     db.meta.chem1211_ch3_note_v7 = true;
+    dirty = true;
+  }
+
+  // 2026-09-21 - D2L packages for both courses (TOCs of Sept 21, 4:47 and 4:48 PM). CHEM: Chapter 3
+  // Part 1 homework, the Exam 1 review card, the Ch 3 start confirmed, a Ch 3 Part 2 marker, and Ch 4
+  // moved off Sep 21 because that lecture was still Chapter 3. SCI: the three assignment documents.
+  // Topic text or dates are rewritten only where they still match the v7 values exactly.
+  if (!db.meta.fall2026_sept21_v8) {
+    [...CHEM1211_CH3, ...SCI2900_ITEMS_V8].forEach(item => {
+      if (!db.assignments.some(a => a.id === item.id)) db.assignments.push(JSON.parse(JSON.stringify(item)));
+    });
+    if (!db.topics) db.topics = [];
+    CHEM1211_TOPICS.forEach(t => {
+      if (!db.topics.some(x => x.id === t.id)) db.topics.push(JSON.parse(JSON.stringify(t)));
+    });
+    const ch3v8 = db.topics.find(t => t.id === 'chem1211-ch3');
+    const ch3f8 = CHEM1211_TOPICS.find(t => t.id === 'chem1211-ch3');
+    if (ch3v8 && ch3f8 && ch3v8.title === CH3_TITLE_V7_OLD) ch3v8.title = ch3f8.title;
+    const ch4v8 = db.topics.find(t => t.id === 'chem1211-ch4');
+    const ch4f8 = CHEM1211_TOPICS.find(t => t.id === 'chem1211-ch4');
+    if (ch4v8 && ch4f8) {
+      if (ch4v8.startsDate === CH4_V7_OLD.startsDate) ch4v8.startsDate = ch4f8.startsDate;
+      if (ch4v8.title === CH4_V7_OLD.title) ch4v8.title = ch4f8.title;
+    }
+    db.meta.fall2026_sept21_v8 = true;
     dirty = true;
   }
 
@@ -1462,9 +1511,11 @@ function renderInstructors() {
       tags: ['IN PERSON', 'MWF 10:00 AM', 'LAKEVIEW 210', 'OFFICE LDSC 235D'],
       alerts: [
         { kw: 'EXAMS = 65%', desc: 'The three 50-minute exams are 45% and the final is 20%. Homework is only 35% of the grade, so exam days are where this course is won' },
-        { kw: 'EXAM 1 MOVED', desc: 'Fri Sep 11, not Wed Sep 9 — Labor Day cancels the Mon Sep 7 class, so he shifted it. Same 10:00 to 10:50 hour, same room' },
-        { kw: 'EXAM 1 SCOPE', desc: 'Chapter 1 in full, Chapter 2 in full, and Chapter 6 section 6.1 only (the mole). NO Chapter 3 — it has not started. Handouts 1 to 6, all Ch 1 and Ch 2 section assignments, Problem Sets 1 and 2' },
-        { kw: 'EXAM 1 FORMAT', desc: 'Part A multiple choice on the Scantron, Part B short answer where you pick two of three (answer all three and only the first two are graded), Part C open-ended calculation with work shown, Part D optional bonus' },
+        { kw: 'DUE SEP 25', desc: 'Chapter 3 Part 1: Knewton 3.1 to 3.3 plus a problem set, Fri 11:59 PM. As of the Sep 21 lecture all of it can be completed. Handout 7 is the practice' },
+        { kw: 'EXAM 1 BACK', desc: 'Graded and handed back Sep 14. Sort each miss into a simple mistake or something you do not know, and work the second kind with him in office hours. Re-grades are due within a week of return' },
+        { kw: 'COURSE GRADE', desc: 'D2L gradebook now shows a Current course grade (last updated Sep 14) covering the Chapter 1 and 2 homework, Exam 1 and bonus points so far' },
+        { kw: 'CH 3 SPLIT', desc: 'Chapter 3 runs in two parts. Part 1 is light, photons, Bohr and Rydberg. Part 2 is quantum numbers and orbitals (Handout 8), which started Sep 21 and has no homework date yet' },
+        { kw: 'EXAM FORMAT', desc: 'Every in-semester exam has the same four parts: A multiple choice on the Scantron, B short answer where you pick two of three (answer all three and only the first two are graded), C open-ended calculation with work shown, D optional bonus' },
         { kw: 'PROVIDED', desc: 'Exam booklet, periodic table and formula sheet are given — all three are reprinted in the study guide. You still bring the Scantron, a #2 pencil and a calculator' },
         { kw: 'REMAINING EXAMS', desc: 'Wed Oct 14 and Wed Nov 18, both at the 10:00 AM class hour in LDSC 210. Final Mon Dec 7, 10:15 AM' },
         { kw: 'SCANTRON', desc: 'Bring your own Scantron form and a #2 pencil to every exam. One form per exam, not provided' },
@@ -1472,11 +1523,8 @@ function renderInstructors() {
         { kw: 'ONE EXTENSION', desc: 'You get exactly one three-day extension all semester, on one homework group, and only by emailing Meyers before the deadline' },
         { kw: 'FREE POINTS', desc: 'Bonus points land in the problem-set category — including for asking a course question in person that he has to go research' },
         { kw: 'AI POLICY', desc: 'Generative AI is banned unless an assignment specifically permits it. Everything submitted runs through TurnItIn' },
-        { kw: 'DUE AUG 28', desc: 'Moved off Aug 24 — Knewton 1.5 to 1.7 plus Problem Set 1, 11:59 PM Friday' },
-        { kw: 'DUE SEP 9', desc: 'Moved off Sep 8 — Chapter 2, five section assignments (2.1 to 2.5) plus Problem Set 2, 11:59 PM Wednesday. All five are unlocked' },
-        { kw: 'MEMORIZE 1-36', desc: 'Names and symbols of elements 1 to 36. The Exam 1 study guide confirms it is tested. Atomic numbers and table positions not required' },
-        { kw: 'BONUS OPEN', desc: 'Write one original 4-to-6-factor problem in Word Equation Editor for free points. Word file only, no name in it, no AI — the due date lives in the D2L dropbox' },
-        { kw: 'PRE-HEALTH', desc: 'AMSA meets Tue Sep 8 at 5 PM in LDSC 110. Meyers pushes seeing your pre-health advisor once a semester, and email Dr. Sheppard (CarolineSheppard@clayton.edu) for the Teams channel' },
+        { kw: 'BONUS OPEN', desc: 'Write one original 4-to-6-factor problem in Word Equation Editor for free points. Word file only, no name in it, no AI. The due date lives in the D2L dropbox' },
+        { kw: 'PRE-HEALTH', desc: 'Meyers pushes seeing your pre-health advisor once a semester. Email Dr. Sheppard (CarolineSheppard@clayton.edu) for the AMSA Teams channel' },
         { kw: 'NO PHONES', desc: 'Not to be seen or heard in class. In an exam, a phone that makes any sound costs 3% of that exam grade' },
       ],
       policies: [
@@ -1489,8 +1537,8 @@ function renderInstructors() {
         { key: 'Materials', val: 'Textbook is free online through the D2L link (OpenStax, ISBN 9781947172630) — do not buy it. You do need: Knewton Alta access, Scantron forms, a #2 pencil, a scientific calculator, and a handwritten notebook, which he specifically recommends.' },
         { key: 'Help', val: 'Center for Academic Success in Edgewater Hall 257, plus free Tutor.com through the D2L navbar under More, University Resources.' },
         { key: 'Advising', val: 'Meyers recommends seeing your pre-health faculty advisor at least once a semester. Biology faculty are in LDSC 135, chemistry and physics in LDSC 235.' },
-        { key: 'Status', val: 'Current through the Sept 5 D2L package: Handout 6 (the mole), the Aug 31, Sep 2 and Sep 4 decks, the Chapter 2 Review Worksheet with its key, and the Exam 1 study guide in both PDF and Word. He has now moved three posted dates — Chapter 1 Part 2 from Aug 24 to Aug 28, Chapter 2 homework from Sep 8 to Sep 9, and Exam 1 from Sep 9 to Sep 11 — so treat every date on this page as provisional until Knewton or a slide confirms it.' },
-        { key: 'Pace — resolved', val: 'The Aug 28 open question was whether Exam 1 would really cover Chapters 1 to 3 with Chapter 2 running nine days late. It will not: the study guide cuts Chapter 3 entirely and Exam 1 is Chapters 1 and 2 plus section 6.1. He also pulled section 6.1 forward out of October to fill the gap, so the mole is on this exam and the rest of Chapter 6 still comes in the fall. The cost is that Chapter 3 has not started at all and now has to fit between Sep 14 and Exam 2 on Oct 14 alongside Chapter 4 and Chapter 10 — the compression moved to Exam 2, it did not go away.' },
+        { key: 'Status', val: 'Current through the Sept 21 D2L package: Handout 7 (light, photons, Rydberg), Handout 8 (quantum numbers and orbitals), and the Sep 9, 14, 16, 18 and 21 decks. He has moved three posted dates this term (Chapter 1 Part 2 from Aug 24 to Aug 28, Chapter 2 homework from Sep 8 to Sep 9, Exam 1 from Sep 9 to Sep 11), so treat every date on this page as provisional until Knewton or a slide confirms it.' },
+        { key: 'Pace', val: 'Exam 1 fit its schedule only because he cut Chapter 3 from it. Chapter 3 then opened Sep 14 and is big enough that he split it in two. Part 2 began Sep 21, the day the syllabus had Chapter 4 starting. Exam 2 on Oct 14 still reads rest of Chapter 3, Chapter 4 and Chapter 10, with Chapter 10 slated for Oct 5. If Chapter 4 opens around Oct 2, Chapters 4 and 10 get about five lectures between them. Watch the Exam 2 study guide: last time the scope was cut to fit, and Chapter 10 is the likeliest part to move.' },
       ]
     },
     {
@@ -1499,10 +1547,11 @@ function renderInstructors() {
       title: 'Instructor, School of Sciences',
       tags: ['IN PERSON', 'MW 9:00 AM', 'LAKEVIEW 110', 'SCIENTIFIC LITERACY'],
       alerts: [
-        { kw: 'STILL NO SYLLABUS', desc: 'Four weeks in. The Sept 1 package has a schedule, four decks and two papers, but no grading breakdown, no assignment list, no late policy and no AI policy' },
+        { kw: 'STILL NO SYLLABUS', desc: 'Six weeks in, and the Sept 21 export has none: no grading breakdown, no late policy, no AI policy. The only point values anywhere are the Curtain Paper (20) and Alignment (10)' },
+        { kw: 'NO DUE DATES', desc: 'Curtain Paper, The Path Forward and Alignment give no due date in their documents. The dates are only on the D2L dropboxes, so check each one and set it on its card' },
+        { kw: 'ALIGNMENT PART 2', desc: 'Gap analysis table, 10 points: each requirement, done yes or no, and the term taken or planned. Part 1, the program research, is marked COMPLETED' },
         { kw: 'AI POLICY UNKNOWN', desc: 'CHEM 1211 bans generative AI outright. SCI 2900 has stated nothing either way, so do not assume in either direction. Ask' },
-        { kw: 'THREE JOURNALS', desc: 'Aug 26 to 31, Sept 28 to 30, and Oct 21. Two papers are posted; the third has not appeared yet' },
-        { kw: 'JOURNAL 1 PASSED', desc: 'The Aug 26 discussion and the Aug 31 data/paraphrasing class have already been held. The Sept 1 export is the first copy of the papers you hold; when they were actually posted is not knowable from it' },
+        { kw: 'THREE JOURNALS', desc: 'Aug 26 to 31, Sept 28 to 30, and Oct 21. Still only two papers posted as of Sept 21, one week before Journal 2 starts' },
         { kw: 'PRESENTATIONS', desc: 'Oral presentations take both class days, Nov 2 and Nov 4, with a prep class Oct 28. Likely the biggest graded item in the course' },
         { kw: 'ONE AUTHOR IS HERE', desc: 'The piglet paper\'s first author, Clint Edmunds, is School of Sciences faculty at Clayton State. He can be asked about his own paper' },
         { kw: 'FINAL', desc: 'Mon Dec 7, 8:00 to 10:00 AM, Lakeview 110 (CSU exam matrix). Nothing says whether it is written, oral or cumulative' },
@@ -1510,10 +1559,10 @@ function renderInstructors() {
       policies: [
         { key: 'Course', val: 'Scientific-literacy and research-methods course, 2 credits. Not a lab. Prerequisite for the BIOL 4500 / CHEM 4500 capstone seminar.' },
         { key: 'Shape of the term', val: 'Three arcs running together. Reading primary literature (three journal blocks, each with its own lens: interpreting data, then limitations, then future directions). Career mapping (degree requirements, graduate school, internships, interviewing, LinkedIn, CV). And one oral presentation across two class days in November.' },
-        { key: 'What is posted', val: 'Sept 1 D2L package: the Fall 2026 Course Schedule, four lecture decks (Misconceptions in Science, Careers in Science, Famous Scientists, Scientific Literature) and the first two journal articles. All of it is in Resources.' },
+        { key: 'What is posted', val: 'The Fall 2026 Course Schedule, five lecture decks (Misconceptions in Science, Careers in Science, Famous Scientists, Scientific Literature, Are You in Alignment?), the first two journal articles, and three assignment documents: Curtain Paper instructions, The Path Forward (schools and jobs versions) and the Alignment assignment. All of it is in Resources.' },
         { key: 'The two papers', val: 'Edmunds et al. 2023, manganese and selenium in nursery piglets (Veterinary Sciences, 12 pp). Ohl et al. 2012, hospital privacy curtain contamination (Am J Infection Control, 3 pp). Which one is journal 1 and which is journal 2 is not stated anywhere in the package; the table of contents lists the piglet paper first, which is the only evidence either way. Boris built a narrated breakdown video for each, in Resources.' },
-        { key: 'Grading', val: 'UNKNOWN. No weights, no categories, no late policy. This is a 2-credit course, so it moves the GPA less than CHEM 1211, but an unknown grading scheme is still the biggest blind spot of the semester.' },
-        { key: 'Status', val: 'Current through the Sept 1 D2L package. The class schedule, the topic markers and four items are on the dashboard. Every SCI 2900 date on the calendar is the class meeting that covers the work, taken from the schedule handout, NOT a confirmed submission deadline. Fix them when the syllabus lands.' },
+        { key: 'Grading', val: 'Still no breakdown. Two point values are known from the assignment documents: the Curtain Paper is 20 points (four questions at five each) and Alignment is 10. With no total, neither can be turned into a percentage. This is a 2-credit course, so it moves the GPA less than CHEM 1211, but the missing grading scheme is still the biggest blind spot of the semester.' },
+        { key: 'Status', val: 'Current through the Sept 21 D2L package. The Alignment deck (Sept 16) also covered the Sept 9 guest talk on degree requirements by Dr. Melvin, Director of the School of Sciences, and ends by asking which classes you will register for in Spring, Summer and Fall 2027. Every SCI 2900 date on the calendar is the class meeting that covers the work, NOT a confirmed submission deadline.' },
       ]
     }
   ];
@@ -1565,7 +1614,11 @@ function renderResources() {
       courseId: 'chem1211',
       base: 'B:/School/CSU/Fall Semester 2026/CHEM 1211',
       groups: [
-        { label: 'Exam 1 — Fri Sep 11, 10:00 AM', open: true, files: [
+        { label: 'Chapter 3 Part 1: homework due Fri Sep 25', open: true, files: [
+          { name: '7: Light, photons and the Rydberg equation (Part 1 practice)',  file: '7 Handout_Light-Photons-Rydberg eqn.pdf',                    type: 'pdf' },
+          { name: '8: Quantum numbers and atomic orbitals (Part 2, started Sep 21)', file: '8 Handout_Quantum Numbers-Atomic Orbitals - Part 1.pdf',   type: 'pdf' },
+        ]},
+        { label: 'Exam 1 (Sep 11): graded and returned', open: false, files: [
           { name: 'Study guide — scope, 17 focus topics, the exam\'s own cover page', file: 'Exam 1-Study Guide-PDF F26 - MWF.pdf',   type: 'pdf' },
           { name: 'Study guide — Word version (same content)',                        file: 'Exam 1-Study Guide-Word F26 - MWF.docx', type: 'doc' },
           { name: 'Chapter 2 Review Worksheet — he names it as a study step',          file: 'Chapter 2 Worksheet.pdf',                type: 'pdf' },
@@ -1589,6 +1642,8 @@ function renderResources() {
           { name: '4 KEY — Dimensional analysis, fully worked',                file: '4 KEY Handout_Dimensional Analysis.pdf',                    type: 'pdf' },
           { name: '5 — Atomic structure, isotopes & ions (Chapter 2)',         file: '5 Handout_Atomic Structure-Isotopes-Ions.pdf',              type: 'pdf' },
           { name: '6 — The mole, molar mass & Avogadro\'s number',              file: '6 Handout_Mole Concept-Molar Mass-Avogadros Number.pdf',    type: 'pdf' },
+          { name: '7: Light, photons and the Rydberg equation (Chapter 3)',     file: '7 Handout_Light-Photons-Rydberg eqn.pdf',                   type: 'pdf' },
+          { name: '8: Quantum numbers and atomic orbitals (Chapter 3)',         file: '8 Handout_Quantum Numbers-Atomic Orbitals - Part 1.pdf',    type: 'pdf' },
         ]},
         { label: 'Dimensional Analysis Bonus Activity', open: true, files: [
           { name: 'Assignment description & rules (Word only, no name, no AI)', file: 'Dimensional Analysis Bonus Activity Description1211.pdf',   type: 'pdf' },
@@ -1606,6 +1661,11 @@ function renderResources() {
           { name: 'Aug 31 — Isotopes, mass spectrometry, average atomic mass', file: '9 Chem 1211 Lecture Slides - Aug 31.pdf',              type: 'pdf' },
           { name: 'Sep 2 — Atoms vs ions, writing isotope symbols',           file: '10 Chem 1211 Lecture Slides - Sept 2.pdf',             type: 'pdf' },
           { name: 'Sep 4 — The mole, molar mass, particles ↔ mol ↔ g',        file: '11 Chem 1211 Lecture Slides - Sept 4.pdf',             type: 'pdf' },
+          { name: 'Sep 9: Last pre-exam class, mole problems and molar mass of Fe(NO3)3', file: '12 Chem 1211 Lecture Slides - Sept 9.pdf',  type: 'pdf' },
+          { name: 'Sep 14: Chapter 3 opens, emission spectra, Bohr, the EM spectrum', file: '13 Chem 1211 Lecture Slides - Sept 14.pdf',     type: 'pdf' },
+          { name: 'Sep 16: Waves, c = λν, photon energy, color, flame tests',  file: '14 Chem 1211 Lecture Slides - Sept 16.pdf',            type: 'pdf' },
+          { name: 'Sep 18: Rydberg, de Broglie, Schrödinger, Heisenberg',     file: '15 Chem 1211 Lecture Slides - Sept 18.pdf',            type: 'pdf' },
+          { name: 'Sep 21: Solving Rydberg for n, orbital shapes, quantum numbers', file: '16 Chem 1211 Lecture Slides - Sept 21.pdf',      type: 'pdf' },
         ]},
         { label: 'Unit 1 — Measurement & Dimensional Analysis', open: true, files: [
           { name: 'Lecture 1 — Numbers (significant figures)',            file: 'Lecture 1 - Numbers.mp4',                              type: 'mp4' },
@@ -1626,6 +1686,12 @@ function renderResources() {
           { name: 'Edmunds 2023 \u2014 Dietary manganese and selenium in nursery piglets', file: 'Dr. Clint Edmunds Paper.pdf',   type: 'pdf' },
           { name: 'Ohl 2012 \u2014 Hospital privacy curtains are rapidly contaminated',    file: 'Hospital Privacy Curtains.pdf', type: 'pdf' },
         ]},
+        { label: 'Assignments', open: true, files: [
+          { name: 'Alignment: Part 2 gap analysis, 10 points',                  file: 'Alignment.docx',                   type: 'doc' },
+          { name: 'The Path Forward: schools version (five programs)',          file: 'The Path Forward Schools.docx',    type: 'doc' },
+          { name: 'The Path Forward: jobs version (five jobs)',                 file: 'The Path Forward Jobs.docx',       type: 'doc' },
+          { name: 'Curtain Paper instructions: four questions, 20 points',      file: 'Curtain Paper.docx',               type: 'doc' },
+        ]},
         { label: 'Course schedule', open: true, files: [
           { name: 'Fall 2026 Course Schedule \u2014 all 17 weeks, every class topic', file: 'Fall 2026 Course Schedule.docx', type: 'doc' },
         ]},
@@ -1634,6 +1700,7 @@ function renderResources() {
           { name: 'Aug 17 \u2014 Careers in science: health, public health, industry, forensics', file: 'Careers in Science.pptx', type: 'pptx' },
           { name: 'Aug 19 \u2014 Famous scientists: Darwin, Linnaeus, Mendel, Pasteur, Woese, Corbett', file: 'Famous Scientists.pptx', type: 'pptx' },
           { name: 'Aug 24 \u2014 Scientific literature and peer review',            file: 'Scientific Literature.pptx',    type: 'pptx' },
+          { name: 'Sept 9 to 16: Are you in alignment? Degree requirements and the path forward', file: 'Alignment.pptx', type: 'pptx' },
         ]},
       ]
     },
