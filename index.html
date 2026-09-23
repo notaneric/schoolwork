@@ -160,6 +160,7 @@
   .stat-sub { font-size: 11px; color: var(--faint); margin-top: 8px; }
 
   /* Section header */
+    .undated-note { font-size: 12px; color: var(--muted); line-height: 1.55; margin: -6px 0 12px; max-width: 70ch; }
   .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 13px; }
   .section-title { display: inline-flex; align-items: center; gap: 9px; font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.13em; }
   .section-title::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; box-shadow: 0 0 8px currentColor; }
@@ -792,10 +793,11 @@ const CH4_V7_OLD = {"startsDate":"2026-09-21","title":"Chapter 4: Chemical Bondi
 // instructions (file dated Sept 2), The Path Forward worksheets (Sept 9) and the Alignment deck
 // and assignment (Sept 16). Still no syllabus and no due dates in any of the documents, so these
 // carry dueDate null. The dates live on the D2L dropboxes, which a content export does not carry.
+const ALIGNMENT_TITLE_V8_OLD = 'Alignment Part 2: gap analysis table (10 pts)';
 const SCI2900_ITEMS_V8 = [
   {"id":"sci2900-curtain-paper","title":"Curtain Paper: Scientific Journal assignment (20 pts)","courseId":"sci2900","type":"assignment","dueDate":null,"priority":"high","status":"todo","weight":null,"notes":"Written assignment on the hospital privacy curtain paper (Ohl 2012). 20 points, four questions at five points each: a summary of 10 sentences at most, the data results, the significance, and whether recent studies have tried to reduce curtain contamination (a three-sentence summary of each study). The instructions file is dated Sept 2. The document gives no due date. It is on the D2L dropbox. Your finished answer is the ‘SCI 2900 - Curtain Paper’ Google Doc in Drive. If it is already in the dropbox, mark this submitted."},
   {"id":"sci2900-path-forward","title":"The Path Forward worksheet (schools or jobs)","courseId":"sci2900","type":"assignment","dueDate":null,"priority":"medium","status":"todo","weight":null,"notes":"Posted with the Sept 9 class on Clayton State degree requirements, where Dr. Melvin, Director of the School of Sciences, was the guest speaker. It comes in two versions, so use the one that fits. Schools asks for five programs, each with its admission requirements and entrance exams. Jobs asks for five jobs, each with its requirements, skills and certifications. Both start with your major, area of interest and class year. The Alignment handout calls this research Part 1 and marks it COMPLETED, so it was probably collected or finished in class. Your Sept 9 school plan is in Drive. Mark this submitted if you turned it in. No point value is stated."},
-  {"id":"sci2900-alignment","title":"Alignment Part 2: gap analysis table (10 pts)","courseId":"sci2900","type":"assignment","dueDate":null,"priority":"high","status":"todo","weight":null,"notes":"‘Alignment and Graduate School Readiness Assignment’, 10 points, file dated Sept 16. Part 1, marked COMPLETED on the handout, was researching three graduate or professional programs: minimum GPA, prerequisite courses, required tests (GRE, MCAT, LSAT and so on) and experience requirements such as research hours, shadowing or internships. Part 2 is the work left: a table or spreadsheet that maps where you are against those requirements, in three columns. A is the requirement (a course or an experience), B is completed yes or no, and C is the term taken or planned, e.g. Fall 2026. The last slide of the Alignment deck asks what you will register for in Spring 2027, Summer 2027 and Fall 2027, so column C doubles as your registration plan. THE DUE DATE IS NOT IN THE DOCUMENT. Open the D2L dropbox and set the date on this card."},
+  {"id":"sci2900-alignment","title":"Alignment and Graduate School Readiness: Part 2 gap analysis (10 pts)","courseId":"sci2900","type":"assignment","dueDate":"2026-09-22T17:00:00-04:00","priority":"high","status":"todo","weight":null,"notes":"‘Alignment and Graduate School Readiness’, the assignment name on the D2L notice. 10 points, handout dated Sept 16. DUE Tue Sept 22 at 5:00 PM EDT — read off the D2L assignment-submission notice, which is the authority here, not a guess. THIS IS PAST DUE. Before anything else, open the dropbox and check whether it still accepts a submission and what the late penalty is; SCI 2900 has published no late policy anywhere, so you cannot assume either way. If it is closed, email McFarlane today rather than tomorrow. The work itself: Part 1, marked COMPLETED on the handout, was researching three graduate or professional programs — minimum GPA, prerequisite courses, required tests (GRE, MCAT, LSAT and so on) and experience requirements such as research hours, shadowing or internships. Part 2 is what is left: a table or spreadsheet mapping where you are against those requirements, in three columns. A is the requirement (a course or an experience), B is completed yes or no, and C is the term taken or planned, e.g. Fall 2026. The last slide of the Alignment deck asks what you will register for in Spring 2027, Summer 2027 and Fall 2027, so column C doubles as your registration plan."},
 ];
 
 function seed() {
@@ -979,6 +981,25 @@ function migrate() {
       if (ch4v8.title === CH4_V7_OLD.title) ch4v8.title = ch4f8.title;
     }
     db.meta.fall2026_sept21_v8 = true;
+    dirty = true;
+  }
+
+  // 2026-09-23 - the Alignment assignment's real deadline, read off the D2L assignment-submission
+  // notice Eric forwarded: 'Alignment and Graduate School Readiness' due Tue Sept 22 2026, 5:00 PM
+  // EDT. It shipped on Sept 21 with dueDate null because a D2L CONTENT export never carries dropbox
+  // deadlines, and a null-dated item is filtered out of the overdue panel, the due-soon window, the
+  // next-up card and the calendar - so it was invisible everywhere that shows time. It was already
+  // a day past due by the time anyone noticed. Only patched if the stored date is still null, so a
+  // date Eric set himself always wins.
+  if (!db.meta.sci2900_alignment_due_v9) {
+    const fresh9 = SCI2900_ITEMS_V8.find(x => x.id === 'sci2900-alignment');
+    let a9 = db.assignments.find(a => a.id === 'sci2900-alignment');
+    if (!a9 && fresh9) { db.assignments.push(JSON.parse(JSON.stringify(fresh9))); a9 = db.assignments.find(a => a.id === 'sci2900-alignment'); }
+    if (a9 && fresh9) {
+      if (a9.dueDate == null) { a9.dueDate = fresh9.dueDate; a9.notes = fresh9.notes; }
+      if (a9.title === ALIGNMENT_TITLE_V8_OLD) a9.title = fresh9.title;
+    }
+    db.meta.sci2900_alignment_due_v9 = true;
     dirty = true;
   }
 
@@ -1277,6 +1298,10 @@ function renderDashboard() {
     const d = new Date(a.dueDate);
     return d >= now && d <= new Date(now.getTime() + 7 * 86400000) && isActive(a);
   });
+  // An active item with no due date is invisible to every time-based surface above: overdue,
+  // due-soon, the next-up card and the calendar all filter on a.dueDate being set. That is how the
+  // Alignment assignment went past due unseen on Sept 22. These get their own panel instead.
+  const undated = db.assignments.filter(a => !a.dueDate && isActive(a));
   const done = db.assignments.filter(isComplete);
   const missed = db.assignments.filter(isMissed)
     .sort((a, b) => (new Date(b.dueDate || 0)) - (new Date(a.dueDate || 0)));
@@ -1372,6 +1397,10 @@ function renderDashboard() {
     ${overdue.length > 0 ? `
     <div class="section-header"><span class="section-title" style="color:var(--danger)">Overdue</span></div>
     <div class="assignment-list">${overdue.map(a => assignmentRow(a)).join('')}</div>` : ''}
+    ${undated.length > 0 ? `
+    <div class="section-header"><span class="section-title" style="color:var(--warn)">Deadline unknown — check the D2L dropbox</span></div>
+    <div class="undated-note">These are assigned and still open, but no due date is set, so they cannot appear under Overdue, Coming Up or on the calendar. Open each one's dropbox, read the date, and set it on the card.</div>
+    <div class="assignment-list">${undated.map(a => assignmentRow(a)).join('')}</div>` : ''}
     <div class="section-header"><span class="section-title">Coming Up</span></div>
     <div class="assignment-list">
       ${upcomingAll.length ? upcomingAll.map(a => assignmentRow(a)).join('') : emptyState('No upcoming assignments', 'Add your first assignment or import a syllabus.')}
@@ -1547,8 +1576,9 @@ function renderInstructors() {
       title: 'Instructor, School of Sciences',
       tags: ['IN PERSON', 'MW 9:00 AM', 'LAKEVIEW 110', 'SCIENTIFIC LITERACY'],
       alerts: [
-        { kw: 'STILL NO SYLLABUS', desc: 'Six weeks in, and the Sept 21 export has none: no grading breakdown, no late policy, no AI policy. The only point values anywhere are the Curtain Paper (20) and Alignment (10)' },
-        { kw: 'NO DUE DATES', desc: 'Curtain Paper, The Path Forward and Alignment give no due date in their documents. The dates are only on the D2L dropboxes, so check each one and set it on its card' },
+        { kw: 'STILL NO SYLLABUS', desc: 'Seven weeks in, and the Sept 23 export still has none: no grading breakdown, no late policy, no AI policy. The only point values anywhere are the Curtain Paper (20) and Alignment (10)' },
+        { kw: 'DATES ARE NOT IN THE FILES', desc: 'No assignment document in this course states a due date. They live only on the D2L dropbox and in the submission notice emails, neither of which a content export carries. Alignment was due Tue Sept 22 at 5:00 PM and that only surfaced from the notice email, a day late. Check the dropbox for the Curtain Paper and The Path Forward, and read the notice emails' },
+        { kw: 'ALIGNMENT PAST DUE', desc: 'Due Tue Sept 22, 5:00 PM EDT, per the D2L submission notice. Check whether the dropbox still accepts it and what the late penalty is, then email McFarlane if it is closed. No late policy is published anywhere in the course' },
         { kw: 'ALIGNMENT PART 2', desc: 'Gap analysis table, 10 points: each requirement, done yes or no, and the term taken or planned. Part 1, the program research, is marked COMPLETED' },
         { kw: 'AI POLICY UNKNOWN', desc: 'CHEM 1211 bans generative AI outright. SCI 2900 has stated nothing either way, so do not assume in either direction. Ask' },
         { kw: 'THREE JOURNALS', desc: 'Aug 26 to 31, Sept 28 to 30, and Oct 21. Still only two papers posted as of Sept 21, one week before Journal 2 starts' },
@@ -1562,7 +1592,7 @@ function renderInstructors() {
         { key: 'What is posted', val: 'The Fall 2026 Course Schedule, five lecture decks (Misconceptions in Science, Careers in Science, Famous Scientists, Scientific Literature, Are You in Alignment?), the first two journal articles, and three assignment documents: Curtain Paper instructions, The Path Forward (schools and jobs versions) and the Alignment assignment. All of it is in Resources.' },
         { key: 'The two papers', val: 'Edmunds et al. 2023, manganese and selenium in nursery piglets (Veterinary Sciences, 12 pp). Ohl et al. 2012, hospital privacy curtain contamination (Am J Infection Control, 3 pp). Which one is journal 1 and which is journal 2 is not stated anywhere in the package; the table of contents lists the piglet paper first, which is the only evidence either way. Boris built a narrated breakdown video for each, in Resources.' },
         { key: 'Grading', val: 'Still no breakdown. Two point values are known from the assignment documents: the Curtain Paper is 20 points (four questions at five each) and Alignment is 10. With no total, neither can be turned into a percentage. This is a 2-credit course, so it moves the GPA less than CHEM 1211, but the missing grading scheme is still the biggest blind spot of the semester.' },
-        { key: 'Status', val: 'Current through the Sept 21 D2L package. The Alignment deck (Sept 16) also covered the Sept 9 guest talk on degree requirements by Dr. Melvin, Director of the School of Sciences, and ends by asking which classes you will register for in Spring, Summer and Fall 2027. Every SCI 2900 date on the calendar is the class meeting that covers the work, NOT a confirmed submission deadline.' },
+        { key: 'Status', val: 'Current through the Sept 23 D2L export, which added no new documents — the newest instructor upload is still Sept 16. The Alignment deck (Sept 16) also covered the Sept 9 guest talk on degree requirements by Dr. Melvin, Director of the School of Sciences, and ends by asking which classes you will register for in Spring, Summer and Fall 2027. Alignment now carries a real deadline read off its D2L notice (Tue Sept 22, 5:00 PM). Every OTHER SCI 2900 date on the calendar is still the class meeting that covers the work, NOT a confirmed submission deadline.' },
       ]
     }
   ];
