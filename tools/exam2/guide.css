@@ -1,0 +1,43 @@
+
+/* ============ REVIEW GUIDE (Exam 2 addition): reading view, same tokens and type scale ============ */
+.guide{max-width:68ch}
+.guide .g-intro{font-size:var(--t14);color:var(--muted);margin:0 0 28px;line-height:1.55}
+.g-sec{padding:0 0 32px;margin:0 0 32px;border-bottom:1px solid var(--line)}
+.g-sec:last-child{border-bottom:0}
+.g-topics{font-size:var(--t13);font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
+.g-h{font-size:var(--t24);font-weight:700;color:var(--ink);letter-spacing:-.01em;line-height:1.2;margin:0 0 16px}
+.guide p{margin:0 0 14px;line-height:1.6}
+.guide ul{margin:0 0 16px 20px;padding:0}
+.guide li{margin:0 0 8px;line-height:1.55}
+.guide b{color:var(--ink);font-weight:600}
+.guide .math-block{margin:0 0 16px;line-height:1.75;overflow-x:auto}
+.g-memo{background:var(--accent-soft);border:1px solid var(--accent-tint);border-radius:var(--r-card);padding:14px 16px;margin:0 0 16px}
+.g-memo-h,.g-ex-h{font-size:var(--t13);font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin:0 0 6px}
+.g-memo-h{color:var(--accent)}
+.g-ex-h{color:var(--muted)}
+.g-memo p{margin:0}
+.g-ex{margin:0 0 16px}
+.g-ex .math-block{margin:0}
+.g-ex p{margin:8px 0 0}
+.g-trap{font-size:var(--t14);background:var(--warn-fill);color:var(--ink);border-radius:var(--r-btn);padding:10px 14px}
+.g-tbl{width:100%;border-collapse:collapse;font-size:var(--t14);margin:0 0 16px;line-height:1.45}
+.g-tbl th{text-align:left;font-weight:600;color:var(--ink);border-bottom:1px solid var(--line-strong);padding:8px 10px 8px 0;vertical-align:bottom}
+.g-tbl td{border-bottom:1px solid var(--line);padding:8px 10px 8px 0;vertical-align:top}
+.g-memo .g-tbl{margin:0}
+.g-memo .g-tbl td{border-bottom-color:var(--accent-tint)}
+.g-tbl-tight td{padding:5px 12px 5px 0}
+.g-go{margin-top:4px}
+
+/* orbital-box diagrams (questions and guide) */
+.ob{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;align-items:flex-end;padding:8px 4px;font-family:"Cascadia Code",ui-monospace,Consolas,monospace}
+.guide .ob{justify-content:flex-start;padding:4px 0 0}
+.ob-sub{display:inline-flex;flex-direction:column;align-items:center;gap:4px}
+.ob-boxes{display:inline-flex}
+.ob-box{width:42px;height:42px;border:1.5px solid var(--ink);display:inline-flex;align-items:center;justify-content:center;font-size:var(--t18);font-weight:600;color:var(--ink);background:var(--surface);letter-spacing:-1px}
+.ob-box+.ob-box{border-left:0}
+.ob-lab{font-size:var(--t13);color:var(--muted)}
+@media (max-width:480px){
+  .g-h{font-size:var(--t18)}
+  .g-tbl{font-size:var(--t13)}
+  .g-tbl th,.g-tbl td{padding-right:8px}
+}

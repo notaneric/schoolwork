@@ -733,9 +733,13 @@ const SCI2900_ITEMS = [
 // Everything below comes from the Simple Syllabus PDF (uploaded Aug 11).
 // Three 50-minute in-semester exams, all at the normal class hour in LDSC 210.
 const EXAM_NOTE = "50 minutes, at the normal class time in LDSC 210. Closed book and closed notes. Bring a #2 pencil, a Scantron form (one per exam, they are not provided), and a scientific calculator — the calculator cannot hold stored formulas or text. Phones and smart watches go face down on the desk in the instructor's sight; a phone that makes a sound during the exam costs you 3% of the exam grade. Meyers posts a study guide for each one. There are no make-ups: the first exam you miss with documented excused absence gets your final-exam score substituted in (so the final counts twice), and every miss after that is a zero. Re-grade requests are due within a week, and a re-grade re-opens the whole exam, so your score can go down.";
+// 2026-10-11 D2L export: the Exam 2 study guide (posted Oct 9) replaces the syllabus scope.
+// EXAM2_NOTES_V12_OLD is the v10 text; the v12 migration only replaces a stored note that still matches it.
+const EXAM2_NOTES_V12_OLD = "Covers the rest of Chapter 3, Chapter 4 (bonding and molecular geometry), and Chapter 10 (liquids and solids). Falls right after the Oct 5 semester midpoint. Treat that scope as the syllabus's, not his. On Sep 23 he said to expect exactly one more homework group before this exam, Chapter 4 Part 1, and Chapter 3 Part 2 homework does not close until Oct 5. The class days left after that are Oct 7, 9 and 12, which is enough for some of Chapter 4 and nothing for Chapter 10. He cut Exam 1's scope the same way once the study guide appeared, so read the Exam 2 study guide as the real scope and expect Chapter 10 to be the part that goes. ";
+const EXAM2_NOTES_V12 = "SCOPE IS SET: the study guide posted Fri Oct 9 covers ALL of Chapter 3 plus Chapter 4 sections 4.1 to 4.3 only. Chapter 10 is out, as this card expected, and so is the rest of Chapter 4. Relevant handouts are 7 to 12; relevant homework is Knewton 3.1 to 3.7 and 4.1 to 4.3 plus Problem Sets 3, 4 and 5. Both Chapter 3 videos are fair game. There are 21 focus topics, and these need pure memory because the formula sheet will not give them to you: the 7 regions of the EM spectrum in energy order, the names of the four quantum numbers and what each describes, the d4 and d9 exceptions (Cr and Cu shift one s electron to reach d5 and d10), the electronegativities N 3.0, Cl 3.0, O 3.5 and F 4.0, nine polyatomic ions with their charges (ammonium, hydronium, acetate, carbonate, chlorate, hydroxide, nitrate, phosphate, sulfate), and the prefixes for 1 to 10. The formula sheet does give c, h and the Rydberg constant in all three forms, c = λν, E = hν, E = hc/λ, the three Rydberg equations and Zeff = Z - S. It does not give de Broglie's λ = h/mv. His study order on the Oct 5, 7 and 9 slides: start with what you are least comfortable with, retry every in-class handout, do the Chapter 3 and Chapter 4 Part 1 Review Worksheets (keys posted), then redo the Knewton problem sets. The Exam 2 study set in Resources covers all 21 topics. ";
 const CHEM1211_EXAMS = [
   {"id":"chem1211-exam1","title":"CHEM 1211 Exam 1","courseId":"chem1211","type":"exam","dueDate":"2026-09-11T10:00:00-04:00","priority":"high","status":"todo","weight":null,"notes":"MOVED: Wed Sep 9 → Fri Sep 11, same 10:00 to 10:50 hour and same room, because Labor Day cancels the Mon Sep 7 class. Announced in the Aug 31, Sep 2 and Sep 4 decks. The scope shrank with it: the study guide covers Chapter 1 in full, Chapter 2 in full, and Chapter 6 section 6.1 only (the mole, molar mass, Avogadro's number). No Chapter 3 — it has not started. Relevant handouts are 1 through 6; relevant homework is every Chapter 1 and Chapter 2 section assignment plus Problem Sets 1 and 2. Provided: the exam booklet, a periodic table and a formula sheet, all three reprinted in the study guide, so nothing about them is a surprise. Four parts — A multiple choice on the Scantron; B short answer, pick two of three for 10 points, and if you answer all three only the first two are graded; C open-ended calculation where work, units and sig figs must be shown; D optional bonus. Meyers' own study order: start with what you are least comfortable with, finish the problems in the Measurements handout, redo every in-class handout, do the Chapter 2 Review Worksheet, then redo the Knewton problem sets. " + EXAM_NOTE},
-  {"id":"chem1211-exam2","title":"CHEM 1211 Exam 2","courseId":"chem1211","type":"exam","dueDate":"2026-10-14T10:00:00-04:00","priority":"high","status":"todo","weight":null,"notes":"Covers the rest of Chapter 3, Chapter 4 (bonding and molecular geometry), and Chapter 10 (liquids and solids). Falls right after the Oct 5 semester midpoint. Treat that scope as the syllabus's, not his. On Sep 23 he said to expect exactly one more homework group before this exam, Chapter 4 Part 1, and Chapter 3 Part 2 homework does not close until Oct 5. The class days left after that are Oct 7, 9 and 12, which is enough for some of Chapter 4 and nothing for Chapter 10. He cut Exam 1's scope the same way once the study guide appeared, so read the Exam 2 study guide as the real scope and expect Chapter 10 to be the part that goes. " + EXAM_NOTE},
+  {"id":"chem1211-exam2","title":"CHEM 1211 Exam 2","courseId":"chem1211","type":"exam","dueDate":"2026-10-14T10:00:00-04:00","priority":"high","status":"todo","weight":null,"notes":EXAM2_NOTES_V12 + EXAM_NOTE},
   {"id":"chem1211-exam3","title":"CHEM 1211 Exam 3","courseId":"chem1211","type":"exam","dueDate":"2026-11-18T10:00:00-05:00","priority":"high","status":"todo","weight":null,"notes":"Covers Chapter 6 (composition of substances and solutions), Chapter 7 (stoichiometry — the longest block of the term at seven lectures), and the start of Chapter 11. " + EXAM_NOTE},
 ];
 
@@ -746,8 +750,8 @@ const CHEM1211_TOPICS = [
   {"id":"chem1211-ch3","courseId":"chem1211","number":3,"label":"Ch 3","title":"Chapter 3: Electronic Structure and Periodic Properties. Opened Mon Sep 14, confirmed by the ‘Start of Chapter 3’ slide in that day's deck. He split the chapter in two. Part 1 covers light, photons, the Bohr model and the Rydberg equation (Handout 7), with homework due Fri Sep 25.","startsDate":"2026-09-14"},
   {"id":"chem1211-ch3-2","courseId":"chem1211","number":3,"label":"Ch 3 pt 2","title":"Chapter 3 Part 2: quantum numbers, orbital shapes and electron configurations (Handouts 8, 9 and 10). Started in the Sep 21 lecture. The homework is Knewton 3.4 to 3.7 plus a problem set, announced in the Sep 23 lecture and then moved on Sep 28 from Mon Oct 5 to Wed Oct 7 at 11:59 PM. His handouts number the lecture blocks on a separate count, so Handout 8 is headed Chapter 3 Part 2, Handout 9 Part 3 and Handout 10 Part 4. That numbering is not the homework split, which has only two parts. He was out of town from Wed Sep 30 through the weekend and cancelled class on Wed Sep 30 and Fri Oct 2, so the end of Chapter 3 — ion formation, electron configurations of ions, introductory magnetism, the layout of the periodic table, and periodic trends (Handout 11) — was delivered as two posted videos instead, to be watched by Mon Oct 5 at 10 am. Chapter 3 lecture content ends with them.","startsDate":"2026-09-21"},
   {"id":"chem1211-ch6-1","courseId":"chem1211","number":6,"label":"Ch 6.1","title":"Chapter 6 § 6.1 only — the mole, molar mass and Avogadro's number, taught early on Sep 4 inside the Chapter 2 block. His Handout 6 calls it ‘Chapter 2 – Part 2’; the Exam 1 study guide calls it textbook § 6.1. It is on Exam 1. The rest of Chapter 6 still comes in October.","startsDate":"2026-09-04"},
-  {"id":"chem1211-ch4","courseId":"chem1211","number":4,"label":"Ch 4","title":"Chapter 4: Chemical Bonding and Molecular Geometry. He has still never named a start date, and the old Fri Oct 2 placeholder is now disproven rather than merely unconfirmed: the Video Assignment handout cancelled class on both Wed Sep 30 and Fri Oct 2, so Mon Oct 5 is the next lecture. Chapter 3’s lecture content finishes on the two posted videos, Part 2 homework closes Wed Oct 7, and on Sep 23 he said one more homework group, Chapter 4 Part 1, lands before Exam 2 on Wed Oct 14. Mon Oct 5 is therefore the earliest meeting that can open Chapter 4, and it is our placeholder rather than his date — that lecture also opens with 5 to 10 minutes of Q&A on the videos.","startsDate":"2026-10-05"},
-  {"id":"chem1211-ch10","courseId":"chem1211","number":10,"label":"Ch 10","title":"Chapter 10: Liquids and Solids","startsDate":"2026-10-05"},
+  {"id":"chem1211-ch4","courseId":"chem1211","number":4,"label":"Ch 4","title":"Chapter 4: Chemical Bonding and Molecular Geometry. Opened Mon Oct 5, confirmed by the ‘Start of Chapter 4 Slides’ slide in that day's deck, right after the Q&A on the Chapter 3 videos. Part 1 is sections 4.1 to 4.3: ionic, covalent and metallic bonds, electronegativity and bond polarity, and naming ions and binary compounds (Handout 12). It is the only Chapter 4 material on Exam 2. Its homework, Knewton 4.1 to 4.3 plus Problem Set 5, is due Mon Oct 12 at 11:59 PM.","startsDate":"2026-10-05"},
+  {"id":"chem1211-ch10","courseId":"chem1211","number":10,"label":"Ch 10","title":"Chapter 10: Liquids and Solids. This Oct 5 date is the syllabus's and it is wrong: Oct 5 opened Chapter 4, and the Exam 2 study guide leaves Chapter 10 out entirely. No new start date has been announced, and the rest of Chapter 4 still comes first.","startsDate":"2026-10-05"},
   {"id":"chem1211-ch6","courseId":"chem1211","number":6,"label":"Ch 6","title":"Chapter 6: Composition of Substances and Solutions","startsDate":"2026-10-16"},
   {"id":"chem1211-ch7","courseId":"chem1211","number":7,"label":"Ch 7","title":"Chapter 7: Stoichiometry of Chemical Reactions","startsDate":"2026-10-26"},
   {"id":"chem1211-ch11","courseId":"chem1211","number":11,"label":"Ch 11","title":"Chapter 11: Solutions and Colloids (runs through the last class, Nov 30)","startsDate":"2026-11-11"},
@@ -832,6 +836,18 @@ const SCI2900_ITEMS_V11 = [
   {"id": "sci2900-lit-review", "title": "Primary Literature Review: the basis of your final presentation (25 pts)", "courseId": "sci2900", "type": "assignment", "dueDate": null, "priority": "high", "status": "todo", "weight": null, "notes": "25 points, posted Sept 30 as 'Presentation Requirements', and the largest number SCI 2900 has put on anything so far. It is also upstream of the oral presentation: the article you choose here becomes the entire basis of that talk, so picking it is the real decision. Choose one peer-reviewed PRIMARY research article — novel data collected and analyzed by the authors, not a review, an editorial or a book chapter — published 2020 or later, on any STEM topic. The journals he names as reputable are Science, Nature, JACS and Cell. He states that failing any of those source criteria costs points. The write-up wants bold headings and four sections: introduction and context, ending on the authors' research question or hypothesis; methods plus the one or two key results, translated out of the jargon; critical analysis covering both what was novel and the limitations or questions the authors left alone; and conclusion and significance in your own words. DUE DATE IS 'November 2026' AND NOTHING MORE — no day appears anywhere in the document. The course schedule puts Oral Presentations on Mon Nov 2 and Wed Nov 4 with a prep class on Oct 28, so the review is presumably due on or before Nov 2, but that is an inference off the schedule, not his date. Read it off the D2L dropbox."},
 ];
 
+// 2026-10-11 D2L export (CHEM course TOC of Oct 11, 3:18 PM). Adds the Exam 2 study guide, the Chapter 3
+// and Chapter 4 Part 1 Review Worksheets with keys, Handout 12 and the Oct 5, 7 and 9 decks. The Oct 7
+// announcement slide dates Chapter 4 Part 1 homework: Knewton 4.1 to 4.3 plus one problem set, Mon Oct 12.
+const CH4_TITLE_V12_OLD = "Chapter 4: Chemical Bonding and Molecular Geometry. He has still never named a start date, and the old Fri Oct 2 placeholder is now disproven rather than merely unconfirmed: the Video Assignment handout cancelled class on both Wed Sep 30 and Fri Oct 2, so Mon Oct 5 is the next lecture. Chapter 3’s lecture content finishes on the two posted videos, Part 2 homework closes Wed Oct 7, and on Sep 23 he said one more homework group, Chapter 4 Part 1, lands before Exam 2 on Wed Oct 14. Mon Oct 5 is therefore the earliest meeting that can open Chapter 4, and it is our placeholder rather than his date — that lecture also opens with 5 to 10 minutes of Q&A on the videos.";
+const CH10_TITLE_V12_OLD = "Chapter 10: Liquids and Solids";
+const CHEM1211_EXAM2 = [
+  {"id":"chem1211-knewton-4-1-3","title":"Knewton 4.1 – 4.3: Chapter 4 Part 1 (bonds, electronegativity, naming compounds)","courseId":"chem1211","type":"assignment","dueDate":"2026-10-12T23:59:00-04:00","priority":"high","status":"todo","weight":null,"notes":"Chapter 4 Part 1 is three section assignments (4.1 to 4.3) plus one problem set, all due Mon Oct 12 at 11:59 PM. First flagged on the Oct 5 slide (opens Wednesday, due next Monday), then dated on Oct 7 and Oct 9. After the Oct 9 lecture all of it can be completed. The material: ionic, covalent and metallic bonds; electronegativity, its trend and the four values to memorize (N 3.0, Cl 3.0, O 3.5, F 4.0); the bond-type continuum on electronegativity difference (0 to 0.4 nonpolar covalent, 0.4 to 2.0 polar covalent, above 2.0 ionic); naming cations, anions and polyatomic ions; and naming binary ionic and molecular compounds. Handout 12 is the in-class practice. It closes two days before Exam 2, and the four-day reattempt window (a reattempt only counts at 100%) runs past the exam, so treat Monday night as the real deadline. 15% category."},
+  {"id":"chem1211-ps5-ch4-part1","title":"Problem Set 5 (Chapter 4 Part 1)","courseId":"chem1211","type":"assignment","dueDate":"2026-10-12T23:59:00-04:00","priority":"high","status":"todo","weight":null,"notes":"Chapter 4 Part 1 problem set on Knewton, due Mon Oct 12 at 11:59 PM with sections 4.1 to 4.3. The Exam 2 study guide numbers it Problem Set 5, which makes Chapter 3 Part 1 Problem Set 3 and Chapter 3 Part 2 Problem Set 4. Two attempts, the higher one recorded and permanent, and no late window. 20% category. Do the three section assignments first, and use the first attempt as an Exam 2 dry run."},
+  {"id":"chem1211-ch3-worksheet","title":"Chapter 3 Review Worksheet (Exam 2 prep, key posted)","courseId":"chem1211","type":"other","dueDate":"2026-10-14T10:00:00-04:00","priority":"high","status":"todo","weight":null,"notes":"Not graded. Meyers names the chapter review worksheets as a study step for Exam 2, and the key went up Sun Oct 11. Thirteen problems across the whole chapter: frequency and photon energy from a 235 nm wavelength, the energy of two photons, the Rydberg equation solved for the final shell, the subshells in shells 1 to 4, an orbital diagram for shells 1 to 3, which quantum-number sets can exist, potassium and its ion, full configurations for F, Cr and Cr+, noble-gas configurations for Ge, Sn and Sn4+, which forms of vanadium are diamagnetic (only V5+), and a periodic-trends set. Work it cold, then check the key. Problems 4, 10c and 12 are the ones most likely to catch you: solving Rydberg for n, removing the 4s electron before the 3d, and pairing electrons in an ion."},
+  {"id":"chem1211-ch4-worksheet","title":"Chapter 4 Part 1 Review Worksheet (Exam 2 prep, key posted)","courseId":"chem1211","type":"other","dueDate":"2026-10-14T10:00:00-04:00","priority":"high","status":"todo","weight":null,"notes":"Not graded, key posted. Six problems: call nine compounds ionic or covalent and give the missing name or formula, rank Ca, F, Mg and S by electronegativity, pick the most polar and the strongest of four bonds, predict the charges of seven species, and work out the transition-metal charge in CrBr2, VCl3 and V2S5. The key's own lessons: lead in PbS2 is a metal, so it is lead(IV) sulfide; a transition metal always gets its Roman numeral; Na2SO4 and Ca(OH)2 have both ionic and covalent bonds; and a compound's charges always sum to zero."},
+];
+
 function seed() {
   return {
     "courses": [
@@ -846,6 +862,7 @@ function seed() {
       ...CHEM1211_CH3,
       ...CHEM1211_CH3_PART2,
       ...CHEM1211_CH3_VIDEO,
+      ...CHEM1211_EXAM2,
       ...CHEM1211_EXAMS,
       ...SCI2900_ITEMS,
       ...SCI2900_ITEMS_V8,
@@ -1108,6 +1125,30 @@ function migrate() {
       if (c4.startsDate === CH4_V11_OLD.startsDate) c4.startsDate = c4f.startsDate;
     }
     db.meta.fall2026_oct2_v11 = true;
+    dirty = true;
+  }
+
+  // 2026-10-11 CHEM export. Adds Chapter 4 Part 1 homework (due Mon Oct 12) and the two review
+  // worksheets, sets Exam 2's real scope from its study guide, confirms the Chapter 4 start and flags
+  // the Chapter 10 marker as a known-wrong syllabus date. Text moves only where the stored value still
+  // matches the v11 value, so anything Eric edited survives.
+  if (!db.meta.chem1211_exam2_v12) {
+    CHEM1211_EXAM2.forEach(item => {
+      if (!db.assignments.some(a => a.id === item.id)) db.assignments.push(JSON.parse(JSON.stringify(item)));
+    });
+    if (!db.topics) db.topics = [];
+    CHEM1211_TOPICS.forEach(t => {
+      if (!db.topics.some(x => x.id === t.id)) db.topics.push(JSON.parse(JSON.stringify(t)));
+    });
+    const e2 = db.assignments.find(a => a.id === 'chem1211-exam2');
+    if (e2 && e2.notes === EXAM2_NOTES_V12_OLD + EXAM_NOTE) e2.notes = EXAM2_NOTES_V12 + EXAM_NOTE;
+    const t4 = db.topics.find(t => t.id === 'chem1211-ch4');
+    const t4f = CHEM1211_TOPICS.find(t => t.id === 'chem1211-ch4');
+    if (t4 && t4f && t4.title === CH4_TITLE_V12_OLD) t4.title = t4f.title;
+    const t10 = db.topics.find(t => t.id === 'chem1211-ch10');
+    const t10f = CHEM1211_TOPICS.find(t => t.id === 'chem1211-ch10');
+    if (t10 && t10f && t10.title === CH10_TITLE_V12_OLD) t10.title = t10f.title;
+    db.meta.chem1211_exam2_v12 = true;
     dirty = true;
   }
 
@@ -1648,11 +1689,11 @@ function renderInstructors() {
       tags: ['IN PERSON', 'MWF 10:00 AM', 'LAKEVIEW 210', 'OFFICE LDSC 235D'],
       alerts: [
         { kw: 'EXAMS = 65%', desc: 'The three 50-minute exams are 45% and the final is 20%. Homework is only 35% of the grade, so exam days are where this course is won' },
-        { kw: 'DUE SEP 25', desc: 'Chapter 3 Part 1: Knewton 3.1 to 3.3 plus a problem set, Fri 11:59 PM. As of the Sep 21 lecture all of it can be completed. Handout 7 is the practice' },
-        { kw: 'DUE WED OCT 7', desc: 'Chapter 3 Part 2: Knewton 3.4 to 3.7 plus a problem set, 11:59 PM. He moved it off Mon Oct 5 on the Sept 28 deck, which says so on its first slide. Handouts 8, 9 and 10 are the practice, and problem sets have no late window at all' },
-        { kw: 'EXAM 1 BACK', desc: 'Graded and handed back Sep 14. Sort each miss into a simple mistake or something you do not know, and work the second kind with him in office hours. Re-grades are due within a week of return' },
+        { kw: 'EXAM 2 WED OCT 14', desc: 'All of Chapter 3 plus Chapter 4 sections 4.1 to 4.3, per the study guide posted Oct 9. Chapter 10 is out. Handouts 7 to 12, Problem Sets 3, 4 and 5, and both Chapter 3 videos are fair game. The Exam 2 study set in Resources covers all 21 focus topics' },
+        { kw: 'DUE MON OCT 12', desc: 'Chapter 4 Part 1: Knewton 4.1 to 4.3 plus Problem Set 5, 11:59 PM, two days before the exam. Since the Oct 9 lecture all of it can be completed. Handout 12 is the practice, and the problem set has no late window' },
+        { kw: 'MEMORIZE', desc: 'What the formula sheet will not give you: the 7 EM regions in energy order, electronegativity of N 3.0, Cl 3.0, O 3.5 and F 4.0, nine polyatomic ions with charges, the prefixes mono to deca, the Cr and Cu exceptions, and de Broglie\'s λ = h/mv' },
+        { kw: 'REVIEW KEYS', desc: 'The Chapter 3 and Chapter 4 Part 1 Review Worksheets are posted with keys. His study order: least comfortable topic first, every in-class handout again, both worksheets, then the Knewton problem sets' },
         { kw: 'COURSE GRADE', desc: 'D2L gradebook now shows a Current course grade (last updated Sep 14) covering the Chapter 1 and 2 homework, Exam 1 and bonus points so far' },
-        { kw: 'CH 3 SPLIT', desc: 'Chapter 3 runs in two homework parts. Part 1 is light, photons, Bohr and Rydberg, due Sep 25. Part 2 is quantum numbers, orbitals and electron configurations, due Oct 7 after a move off Oct 5 on Sep 28. His handouts count the lecture blocks separately, so Handout 8 is headed Part 2, Handout 9 Part 3 and Handout 10 Part 4. That numbering is not the homework split' },
         { kw: 'EXAM FORMAT', desc: 'Every in-semester exam has the same four parts: A multiple choice on the Scantron, B short answer where you pick two of three (answer all three and only the first two are graded), C open-ended calculation with work shown, D optional bonus' },
         { kw: 'PROVIDED', desc: 'Exam booklet, periodic table and formula sheet are given — all three are reprinted in the study guide. You still bring the Scantron, a #2 pencil and a calculator' },
         { kw: 'REMAINING EXAMS', desc: 'Wed Oct 14 and Wed Nov 18, both at the 10:00 AM class hour in LDSC 210. Final Mon Dec 7, 10:15 AM' },
@@ -1675,8 +1716,8 @@ function renderInstructors() {
         { key: 'Materials', val: 'Textbook is free online through the D2L link (OpenStax, ISBN 9781947172630) — do not buy it. You do need: Knewton Alta access, Scantron forms, a #2 pencil, a scientific calculator, and a handwritten notebook, which he specifically recommends.' },
         { key: 'Help', val: 'Center for Academic Success in Edgewater Hall 257, plus free Tutor.com through the D2L navbar under More, University Resources.' },
         { key: 'Advising', val: 'Meyers recommends seeing your pre-health faculty advisor at least once a semester. Biology faculty are in LDSC 135, chemistry and physics in LDSC 235.' },
-        { key: 'Status', val: 'Current through the Sept 24 D2L package: Handout 9 (quantum numbers, at-home problems), Handout 10 (orbital diagrams and electron configurations) and the Sep 23 deck, on top of Handouts 7 and 8 and the Sep 9 to Sep 21 decks. He has moved three posted dates this term (Chapter 1 Part 2 from Aug 24 to Aug 28, Chapter 2 homework from Sep 8 to Sep 9, Exam 1 from Sep 9 to Sep 11), so treat every date on this page as provisional until Knewton or a slide confirms it.' },
-        { key: 'Pace', val: 'Exam 1 fit its schedule only because he cut Chapter 3 from it. Chapter 3 then opened Sep 14 and was split in two: Part 1 homework closes Fri Sep 25, Part 2 Wed Oct 7 after he pushed it off Mon Oct 5. That breaks the syllabus outright. The syllabus had Chapter 4 opening Sep 21 and Chapter 10 opening Oct 5, and Oct 5 will instead open with Q&A on the Chapter 3 videos. On Sep 23 he said to expect one more homework group, Chapter 4 Part 1, before Exam 2 on Wed Oct 14. He then went out of town and cancelled Sep 30 and Oct 2, so the class days left before that exam are Oct 5, 7, 9 and 12 — four lectures for Chapter 4, one of them starting on video questions, and none at all left for Chapter 10. Exam 2 still reads rest of Chapter 3, Chapter 4 and Chapter 10. Watch the Exam 2 study guide: last time the scope was cut to fit, and Chapter 10 is the likeliest part to drop.' },
+        { key: 'Status', val: 'Current through the Oct 11 D2L export (3:18 PM): the Exam 2 study guide, the Chapter 3 and Chapter 4 Part 1 Review Worksheets with their keys, Handout 12 (naming compounds) and the Oct 5, 7 and 9 decks, on top of everything before. He has moved four posted dates this term (Chapter 1 Part 2 from Aug 24 to Aug 28, Chapter 2 homework from Sep 8 to Sep 9, Exam 1 from Sep 9 to Sep 11, Chapter 3 Part 2 from Oct 5 to Oct 7), so treat every date on this page as provisional until Knewton or a slide confirms it.' },
+        { key: 'Pace', val: 'Both exams so far were cut to fit the lectures actually given. Exam 1 lost Chapter 3. Exam 2 lost Chapter 10 and everything in Chapter 4 past section 4.3: Chapter 4 opened Mon Oct 5 after the video Q&A, and the study guide stops at its Part 1. So the Ch 10 marker on the calendar (Oct 5) is a known-wrong syllabus date, and the later chapter markers are the syllabus\'s too, which the course has run behind all term. Exam 3 (Wed Nov 18) still reads Chapters 6, 7 and the start of 11 on the syllabus. Expect its scope to move the same way, and read its study guide when it posts.' },
       ]
     },
     {
@@ -1753,7 +1794,18 @@ function renderResources() {
       courseId: 'chem1211',
       base: 'B:/School/CSU/Fall Semester 2026/CHEM 1211',
       groups: [
-        { label: 'Chapter 3 Video Assignment: watch both by Mon Oct 5, 10 am', open: true, files: [
+        { label: 'Exam 2: Wed Oct 14, all of Chapter 3 plus Chapter 4 sections 4.1 to 4.3', open: true, files: [
+          { name: 'Study guide: scope, 21 focus topics, the exam\'s cover page and formula sheet', file: 'Exam 2-Study Guide-PDF F26 MWF.pdf',  type: 'pdf' },
+          { name: 'Study guide: Word version (same content)',                                file: 'Exam 2-Study Guide-Word F26 MWF.docx', type: 'doc' },
+          { name: 'Chapter 3 Review Worksheet: 13 problems across the whole chapter',          file: 'Chapter 3 Worksheet.pdf',              type: 'pdf' },
+          { name: 'Chapter 3 Review Worksheet: answer key (posted Oct 11)',                    file: 'Chapter 3 Worksheet - KEY.pdf',        type: 'pdf' },
+          { name: 'Chapter 4 Part 1 Review Worksheet: bonds, polarity, charges, naming',       file: 'Chapter 4 - Part 1 Worksheet.pdf',     type: 'pdf' },
+          { name: 'Chapter 4 Part 1 Review Worksheet: answer key',                             file: 'Chapter 4 - Part 1 Worksheet - KEY.pdf', type: 'pdf' },
+        ]},
+        { label: 'Chapter 4 Part 1: homework due Mon Oct 12', open: true, files: [
+          { name: '12: Naming binary ionic and molecular compounds, with the polyatomic ion table', file: '12 Handout_Cmpd Nomenclature.pdf', type: 'pdf' },
+        ]},
+        { label: 'Chapter 3 Video Assignment (was due Oct 5): both videos are fair game on Exam 2', open: true, files: [
           { name: 'Assignment description — no class Sept 30 or Oct 2, and what he wants instead', file: 'Video Assignment Description.pdf', type: 'pdf' },
           { name: 'Video 1 (14 min) — ion formation, configurations of ions, magnetism. Skip to 9:45 if Sept 28 was solid', file: 'Video 1 - Understanding ion formation and magnetism.mp4', type: 'mp4' },
           { name: 'Video 2 (42 min) — periodic table and periodic trends. Watch all of it, Handout 11 in hand', file: 'Video 2 - The periodic table and periodic trends.mp4', type: 'mp4' },
@@ -1796,6 +1848,7 @@ function renderResources() {
           { name: '9: Quantum numbers and atomic orbitals, at-home set (Chapter 3)', file: '9 Handout_Quantum Numbers-Atomic Orbitals - Part 2.pdf',  type: 'pdf' },
           { name: '10: Orbital diagrams & electron configurations (Chapter 3)',  file: '10 Handout_Electron Configurations.pdf',                     type: 'pdf' },
           { name: '11: Periodic trends (Chapter 3, used at the end of Video 2)',  file: '11 Handout_Periodic Trends.pdf',                             type: 'pdf' },
+          { name: '12: Naming binary ionic and molecular compounds (Chapter 4)',  file: '12 Handout_Cmpd Nomenclature.pdf',                           type: 'pdf' },
         ]},
         { label: 'Dimensional Analysis Bonus Activity', open: true, files: [
           { name: 'Assignment description & rules (Word only, no name, no AI)', file: 'Dimensional Analysis Bonus Activity Description1211.pdf',   type: 'pdf' },
@@ -1821,6 +1874,9 @@ function renderResources() {
           { name: 'Sep 23: Quantum numbers reviewed, orbital filling order, electron configurations', file: '17 Chem 1211 Lecture Slides - Sept 23.pdf', type: 'pdf' },
           { name: 'Sep 25: Orbital filling order, valence electrons off the group number, the s, p, d and f blocks', file: '18 Chem 1211 Lecture Slides - Sept 25.pdf', type: 'pdf' },
           { name: 'Sep 28: Configuration practice (N, Ca, Mn, Ag) — and the slide moving the homework to Oct 7', file: '19 Chem 1211 Lecture Slides - Sept 28.pdf', type: 'pdf' },
+          { name: 'Oct 5: Video Q&A, periodic trends answers, Exam 2 info, Chapter 4 opens', file: '20 Chem 1211 Lecture Slides - Oct 5.pdf', type: 'pdf' },
+          { name: 'Oct 7: Chapter 4 Part 1 dated, bond types, electronegativity, the bond continuum', file: '21 Chem 1211 Lecture Slides - Oct 7.pdf', type: 'pdf' },
+          { name: 'Oct 9: Bond polarity, naming ions, oxyanions, binary ionic and molecular compounds', file: '22 Chem 1211 Lecture Slides - Oct 9.pdf', type: 'pdf' },
         ]},
         { label: 'Unit 1 — Measurement & Dimensional Analysis', open: true, files: [
           { name: 'Lecture 1 — Numbers (significant figures)',            file: 'Lecture 1 - Numbers.mp4',                              type: 'mp4' },
@@ -1900,11 +1956,19 @@ function renderResources() {
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--accent-2)" stroke-width="2" style="flex-shrink:0"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12.5"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
       <span>Slides and lecture videos open inline when you launch the <strong style="color:var(--text)">local copy</strong> of this dashboard. On the hosted page this list is a reference index only — open the files in <strong style="color:var(--text)">D2L</strong>.</span>
     </div>
+    <a href="chem1211-exam2-study.html" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:13px;margin-bottom:10px;padding:14px 16px;background:linear-gradient(135deg, rgba(99,102,241,0.15), rgba(99,102,241,0.03));border:1px solid var(--accent);border-radius:var(--r-md);text-decoration:none;color:var(--text)">
+      <span style="font-size:22px;flex-shrink:0;line-height:1">🧪</span>
+      <span style="flex:1;min-width:0">
+        <span style="display:block;font-weight:700;font-size:14px">CHEM 1211 Exam 2 Study Set</span>
+        <span style="display:block;font-size:12px;color:var(--muted);margin-top:2px">Wed Oct 14. All 21 study-guide topics: a written review guide, then practice questions and key terms</span>
+      </span>
+      <span style="flex-shrink:0;font-size:12px;font-weight:600;color:var(--accent-2);white-space:nowrap">Open ↗</span>
+    </a>
     <a href="chem1211-unit1-study.html" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:13px;margin-bottom:14px;padding:14px 16px;background:linear-gradient(135deg, rgba(99,102,241,0.15), rgba(99,102,241,0.03));border:1px solid var(--accent);border-radius:var(--r-md);text-decoration:none;color:var(--text)">
       <span style="font-size:22px;flex-shrink:0;line-height:1">🧪</span>
       <span style="flex:1;min-width:0">
-        <span style="display:block;font-weight:700;font-size:14px">CHEM 1211 Unit 1 Practice Set</span>
-        <span style="display:block;font-size:12px;color:var(--muted);margin-top:2px">All of Chapter 1 in Knewton order, 94 questions and 54 terms. The first four chapters are the Aug 17 batch</span>
+        <span style="display:block;font-weight:700;font-size:14px">CHEM 1211 Exam 1 Study Set</span>
+        <span style="display:block;font-size:12px;color:var(--muted);margin-top:2px">Chapters 1 and 2 plus 6.1, 118 questions and 94 terms. Final exam review</span>
       </span>
       <span style="flex-shrink:0;font-size:12px;font-weight:600;color:var(--accent-2);white-space:nowrap">Open ↗</span>
     </a>
