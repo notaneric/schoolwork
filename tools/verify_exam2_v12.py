@@ -52,7 +52,7 @@ def page_from_git(rev):
 class Loaded(object):
     def __init__(self, browser, url, state):
         # One isolated context per device. A shared context shares file:// localStorage, so a
-        # 'fresh' device would inherit the previous device's state (found by mutation, S205).
+        # 'fresh' device would inherit the previous device's state (found by mutation, S206).
         self.errs = []
         self.ctx = browser.new_context()
         self.page = self.ctx.new_page()

@@ -4,7 +4,7 @@ The v2 engine is reused unchanged except for the asserted substitutions below (t
 and a third home tab, the review guide). Every substitution must hit exactly once or the build fails.
 Output goes to tools/exam2/out/ ; deploy_exam2.py copies it to the three live locations.
 """
-import io, re, sys, json, pathlib, subprocess
+import io, os, re, sys, json, pathlib, subprocess
 
 sys.stdout.reconfigure(encoding="utf-8")
 HERE = pathlib.Path(__file__).resolve().parent
@@ -21,7 +21,8 @@ def sub(text, old, new, label):
 css = rd(V2 / "style.css") + rd(HERE / "guide.css")
 body = rd(V2 / "body.html")
 ea, eb, ec = rd(V2 / "engine-a.js"), rd(V2 / "engine-b.js"), rd(V2 / "engine-c.js")
-data = rd(HERE / "data-q.js") + "\n" + rd(HERE / "data-rest.js")
+# EXAM2_DATA_Q lets the failing-control test point the build at a mutated copy; the live file is never edited.
+data = rd(os.environ.get("EXAM2_DATA_Q") or (HERE / "data-q.js")) + "\n" + rd(HERE / "data-rest.js")
 
 # ---- counts come from the data itself, never typed ----
 tmp = HERE / "_data_eval.js"
@@ -32,12 +33,14 @@ io.open(tmp, "w", encoding="utf-8", newline="\n").write(ea + "\n" + data +
     "badG:GLOSSARY.filter(g=>!CHAPTERS.some(c=>c.id===g.ch)).length,"
     "noGuide:CHAPTERS.filter(c=>!GUIDE.some(g=>g.ch===c.id)).length,"
     "dupQ:Q.length-new Set(Q.map(q=>q.q+'|'+q.o.join('~'))).size,"
-    "dupOpt:Q.filter(q=>new Set(q.o).size!==q.o.length).length}));\n")
+    "dupOpt:Q.filter(q=>new Set(q.o).size!==q.o.length).length,"
+    # Options are shuffled at runtime, so 'the last option' points at a random choice (S206 review).
+    "posRef:Q.filter(q=>/\\b(first|second|third|fourth|fifth|last)\\s+option\\b|\\boption\\s+[1-5]\\b/i.test(q.e)).length}));\n")
 r = subprocess.run(["node", str(tmp)], capture_output=True, text=True)
 assert r.returncode == 0, "data does not evaluate:\n" + r.stderr
 C = json.loads(r.stdout.strip().splitlines()[-1])
 print("data:", C)
-for k in ("noKhan", "badA", "badCh", "badG", "noGuide", "dupQ", "dupOpt"):
+for k in ("noKhan", "badA", "badCh", "badG", "noGuide", "dupQ", "dupOpt", "posRef"):
     assert C[k] == 0, "data contract failed: %s = %d" % (k, C[k])
 NQ, NG, NC = C["q"], C["g"], C["c"]
 
