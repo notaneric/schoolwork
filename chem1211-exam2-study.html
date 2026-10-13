@@ -383,107 +383,285 @@ textarea.ta:disabled{background:var(--surface-2);color:var(--body)}
   .g-tbl th,.g-tbl td{padding-right:8px}
 }
 
-/* ============ STUDY PLAN (Exam 2): every screen shares one centered 640px measure ============ */
-.wrap{max-width:640px}
-.close-card{max-width:none}
-#home{padding-top:48px}
-#read,#terms{display:none;padding-bottom:16px}
-#read.on,#terms.on{display:block}
-.plan-wrap .mode-bar{position:relative;margin-bottom:20px}
-.plan-wrap .mode-bar .mt{position:absolute;left:50%;transform:translateX(-50%);white-space:nowrap}
-/* icon buttons carry 12px of padding; pull the outer ones out so their glyphs sit on the column edge */
-.mode-bar>.icon-btn:first-child{margin-left:-12px}
-.mode-bar>.icon-btn:last-child:not(:first-child),.mode-bar>.rt>.icon-btn:last-child{margin-right:-12px}
+/* ============ NOTION LOOK (Exam 2): palette, type, page anatomy, database views, page menus ============ */
+:root{
+  --canvas:#FEFEFD; --surface:#FEFEFD; --surface-2:#F7F7F5; --hover:#F1F1EF;
+  --ink:#2C2C2B; --body:#2C2C2B; --muted:#6B6A66;
+  --line:#E9E9E7; --line-strong:#DCDBD8;
+  --accent:#1F74C9; --accent-hover:#1A67B4; --accent-pressed:#165A9E; --accent-soft:#E5F2FC; --accent-tint:#D3E5EF; --accent-ink:#1A5C9A;
+  --success:#3B7556; --success-fill:#EDF3EC; --warn-fill:#FBF3DB; --danger:#C13F3A; --danger-fill:#FDEBEC;
+  --shadow:none; --shadow-raised:0 0 0 1px rgba(15,15,15,.05),0 3px 6px rgba(15,15,15,.1),0 9px 24px rgba(15,15,15,.2);
+  --card-shadow:0 0 0 1px rgba(15,15,15,.08),0 2px 4px rgba(15,15,15,.06);
+  --r-btn:6px; --r-card:8px; --r-sheet:10px;
+  --t40:40px; --measure:660px;
+  --sans:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI Variable Display","Segoe UI",Helvetica,Arial,sans-serif;
+  --serif:Lyon-Text,Georgia,ui-serif,serif;
+  --mono:iawriter-mono,"Cascadia Code",Nitti,Menlo,Consolas,monospace;
+  --m-pin:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 3.5h6M10 3.5v5.5l-3 3.5v1.5h10v-1.5l-3-3.5V3.5M12 14v6.5'/%3E%3C/svg%3E");
+  --m-pen:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 20h9M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z'/%3E%3C/svg%3E");
+  --m-alert:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M10.3 4.2 2.6 17.6A2 2 0 0 0 4.3 20.6h15.4a2 2 0 0 0 1.7-3L13.7 4.2a2 2 0 0 0-3.4 0ZM12 9.5v4.5M12 17.2v.1'/%3E%3C/svg%3E");
+}
+:root.small{--t16:14px;--t18:16px;--t40:32px}
+:root.full{--measure:960px}
+body{font-family:var(--sans)}
+.wrap{max-width:var(--measure)}
+[data-font=serif] .pg{font-family:var(--serif)}
+[data-font=mono] .pg{font-family:var(--mono)}
+[data-font] .pg :is(.vtab,.btn,.pill,.bar-n,.plan-done,input){font-family:var(--sans)}
 
-/* header */
-.ph{text-align:center;margin:0 0 40px}
-.ph .eyebrow{margin-bottom:10px}
-.ph .set-title{margin-bottom:14px}
-.ph-when{font-size:var(--t16);font-weight:600;color:var(--ink);line-height:1.45}
-.ph-bring{font-size:var(--t14);color:var(--muted);line-height:1.5;margin-top:4px}
+/* ---- top bar: breadcrumbs and the page menu; only on the plan, step pages and key terms ---- */
+#topbar{position:sticky;top:0;z-index:50;align-self:stretch;flex-shrink:0;margin:0 -20px;height:44px;display:flex;align-items:center;justify-content:space-between;gap:8px;
+  padding:0 12px;background:var(--canvas)}
+body[data-mode]:not([data-mode=home]):not([data-mode=read]):not([data-mode=terms]) #topbar{display:none}
+.tb-left{display:flex;align-items:center;gap:2px;min-width:0}
+.crumbs{display:flex;align-items:center;gap:2px;min-width:0;font-size:var(--t14);color:var(--ink)}
+.crumb{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 6px;border-radius:4px;white-space:nowrap;min-width:0;overflow:hidden;text-overflow:ellipsis}
+button.crumb:hover{background:var(--hover)}
+.crumb-sep{color:var(--muted);padding:0 2px}
+.crumb-t{overflow:hidden;text-overflow:ellipsis}
+.crumb-ic{display:inline-flex;color:var(--tc)}
+.tb-back,.tb-btn{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 8px;border-radius:4px;color:var(--muted);font-size:var(--t14);font-weight:500;flex-shrink:0}
+.tb-back:hover,.tb-btn:hover,.tb-btn[aria-expanded=true]{background:var(--hover);color:var(--ink)}
+.tb-back[hidden]{display:none}
 
-/* section heads */
-.plan-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:0 0 12px}
-.section-h{font-size:var(--t18);font-weight:700;color:var(--ink);letter-spacing:-.01em;line-height:1.3}
-.plan-done{font-size:var(--t14);font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums}
-.tools-h{margin:0 0 12px}
+/* ---- page anatomy: full-bleed cover, overlapping icon, 40px title, properties ---- */
+.page{display:none;align-self:stretch;margin:0 -20px}
+.page.on{display:block}
+#home{padding-top:0}
+.pg{margin:0 auto;padding:0 20px;max-width:calc(var(--measure) + 40px)}
+.cover{position:relative;height:clamp(140px,22vh,220px);overflow:hidden;background:var(--cb,#15141B)}
+.cover-art,.cover-art svg,.cv-th svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+[data-cover=spectrum]{background:#15141B}
+[data-cover=table]{background:#FAF9F7}
+[data-cover=grid]{background-color:#FBFAF6;background-image:linear-gradient(#DDE3EA 1px,transparent 1px),linear-gradient(90deg,#DDE3EA 1px,transparent 1px),
+  linear-gradient(#EEF1F4 1px,transparent 1px),linear-gradient(90deg,#EEF1F4 1px,transparent 1px);background-size:60px 60px,60px 60px,12px 12px,12px 12px}
+[data-cover=sand]{background:#FADEC9} [data-cover=sky]{background:#D3E5EF} [data-cover=sage]{background:#DBEDDB} [data-cover=lilac]{background:#E8DEEE}
+[data-cover=none]{background:var(--canvas);box-shadow:inset 0 0 0 1px var(--line)}
+.cv-th[data-cover=grid]{background-size:24px 24px,24px 24px,6px 6px,6px 6px}
+.no-cover .cover{display:none}
+.cover-in{position:absolute;left:0;right:0;bottom:12px;margin:0 auto;padding:0 20px;max-width:calc(var(--measure) + 40px);display:flex;justify-content:flex-end;pointer-events:none}
+.cover-btn{pointer-events:auto;display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 10px;border-radius:4px;font-size:var(--t13);font-weight:500;color:var(--ink);
+  background:rgba(254,254,253,.92);box-shadow:var(--card-shadow);opacity:0;transition:opacity .15s var(--ease)}
+.cover:hover .cover-btn,.cover-btn:focus-visible,.cover-btn[aria-expanded=true]{opacity:1}
+.cover-btn:hover{background:var(--canvas)}
+.cover-step{height:clamp(120px,22vh,190px)}
+.cover-step,.gcover{background-color:var(--cb);background-image:var(--pat),var(--pat);background-size:96px 96px;background-position:0 0,48px 48px}
+.pg-icon{width:78px;height:78px;border-radius:16px;background:var(--tb);color:var(--tc);display:flex;align-items:center;justify-content:center;position:relative;
+  margin:-42px 0 18px;box-shadow:0 0 0 4px var(--canvas),0 4px 12px rgba(15,15,15,.12)}
+.pg-icon .ic{width:44px;height:44px}
+button.pg-icon:hover{box-shadow:0 0 0 4px var(--canvas),0 0 0 5px var(--line-strong),0 4px 12px rgba(15,15,15,.12)}
+.no-cover .pg-icon,.pg-plain .pg-icon{margin-top:40px}
+.pg-title{font-size:var(--t40);font-weight:700;color:var(--ink);line-height:1.2;letter-spacing:-.015em;margin:0 0 14px;overflow-wrap:break-word}
+.props{margin:0 0 20px}
+.prop{display:flex;align-items:flex-start;gap:8px;min-height:34px;padding:6px 0;font-size:var(--t14);line-height:1.5}
+.prop-k{display:flex;align-items:center;gap:8px;width:140px;flex-shrink:0;color:var(--muted)}
+.prop-v{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;min-width:0;color:var(--ink)}
+#read .props{border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:26px}
+.callout{display:flex;gap:10px;align-items:flex-start;background:var(--cbg);border-radius:10px;padding:12px 14px;margin:0 0 32px;font-size:var(--t16);line-height:1.5;color:var(--ink)}
+.callout .ic{flex-shrink:0;width:24px;height:24px;color:var(--muted)}
+.c-gray{--cbg:#F0EFED}
 
-/* the plan: one list, one row per step, the current step opened up */
-.plan{list-style:none;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-card);box-shadow:var(--shadow);overflow:hidden;margin:0 0 40px}
+/* ---- shared database parts: icon tiles, status pills, progress bars ---- */
+.itile{width:32px;height:32px;border-radius:8px;background:var(--tb);color:var(--tc);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.itile .ic{width:20px;height:20px}
+.itile-sm{width:26px;height:26px;border-radius:6px}
+.itile-sm .ic{width:16px;height:16px}
+.itile-lg{width:56px;height:56px;border-radius:14px}
+.itile-lg .ic{width:32px;height:32px}
+.pill{display:inline-flex;align-items:center;gap:6px;height:20px;padding:0 6px;border-radius:4px;background:var(--pb);color:var(--pt);font-size:var(--t13);font-weight:500;white-space:nowrap;line-height:1}
+.pill-st{border-radius:10px;padding:0 8px 0 6px}
+.pill-st::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--pd)}
+.bar-w{display:inline-flex;align-items:center;gap:8px}
+.bar{width:64px;height:4px;border-radius:2px;background:var(--line);overflow:hidden;display:inline-block}
+.bar i{display:block;height:100%;background:var(--bc);border-radius:2px}
+.bar-n{font-size:var(--t13);color:var(--muted);font-variant-numeric:tabular-nums;min-width:3.2em}
+.db{margin:0 0 44px}
+.db-title{font-size:var(--t18);font-weight:700;color:var(--ink);margin:0 0 6px}
+.db-bar{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line);margin:0 0 12px}
+.views{display:flex;gap:4px;padding:0 0 8px}
+.vtab{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 10px;font-size:var(--t14);font-weight:500;color:var(--muted);border-radius:20px}
+.vtab:hover{background:var(--hover);color:var(--ink)}
+.vtab.on{color:var(--ink);background:var(--hover)}
+.db-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 6px}
+.db-head .db-title{margin:0}
+.plan-prog{display:inline-flex;align-items:center;gap:8px}
+.plan-prog .bar{width:72px}
+.plan-prog .bar i{background:var(--success);transition:width .25s var(--ease)}
+.plan-done{font-size:var(--t13);font-weight:500;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+.step-tag{display:block;font-size:var(--t13);font-weight:600;color:var(--accent-ink);margin-bottom:2px}
+
+.nextbar{display:flex;align-items:center;gap:14px;background:var(--accent-soft);border-radius:10px;padding:12px 14px;margin:0 0 12px}
+.nextbar .btn{flex-shrink:0;padding:0 16px;min-height:44px;font-size:var(--t14)}
+/* ---- Plan view ---- */
+.plan{list-style:none;border:1px solid var(--line);border-radius:var(--r-card);overflow:hidden}
 .step{border-top:1px solid var(--line)}
 .step:first-child{border-top:0}
-.step-row{display:flex;align-items:center;gap:16px;width:100%;min-height:64px;padding:14px 20px;text-align:left;transition:background .15s var(--ease)}
-button.step-row:hover{background:var(--surface-2)}
-.step-row:focus-visible,.tool:focus-visible{outline-offset:-3px}
-.step-n{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--line-strong);display:inline-flex;align-items:center;justify-content:center;
-  font-size:var(--t14);font-weight:700;color:var(--muted);flex-shrink:0;font-variant-numeric:tabular-nums}
+.step-row{display:flex;align-items:center;gap:14px;width:100%;min-height:64px;padding:12px 16px;text-align:left;transition:background .15s var(--ease)}
+button.step-row:hover{background:var(--hover)}
+.step-row:focus-visible,.tool:focus-visible,.bcard:focus-visible,.gcard:focus-visible{outline-offset:-3px}
 .step-tx{flex:1;min-width:0}
-.step-tag{display:block;font-size:var(--t13);font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin-bottom:2px}
 .step-t{display:block;font-size:var(--t16);font-weight:600;color:var(--ink);line-height:1.35}
-.step-s{display:block;font-size:var(--t14);color:var(--muted);line-height:1.4;margin-top:2px}
-.step-st,.step-tog{font-size:var(--t13);font-weight:700;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
-.step-st-in{display:none}
-.step-go{color:var(--muted)}
-button.step-row:hover .step-go,button.step-row:hover .step-tog{color:var(--accent)}
-.step.done .step-n{background:var(--success);border-color:var(--success);color:var(--surface)}
-.step.done .step-st{color:var(--success)}
+.step-s{display:block;font-size:var(--t13);color:var(--muted);line-height:1.4;margin-top:2px}
+.step-meta{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0}
+.step-meta-in{display:none}
+.step-tog{font-size:var(--t13);font-weight:600;color:var(--muted)}
+button.step-row:hover .step-tog{color:var(--accent)}
 .step.next{background:var(--accent-soft)}
 .step.next button.step-row:hover{background:transparent}
-.step.next .step-n{background:var(--accent);border-color:var(--accent);color:var(--surface)}
-.step.next .step-st{color:var(--accent)}
-.step-act{display:flex;gap:10px;padding:2px 20px 20px 68px}
+.step-act{display:flex;gap:10px;padding:0 16px 16px 62px}
 .step-act .btn{flex:1}
-.step-start{padding:0 18px;min-height:44px;font-size:var(--t14)}
+.step.final .step-row{min-height:64px}
+.step-start{padding:0 16px;min-height:44px;font-size:var(--t14)}
 
-/* more practice: same row anatomy, quieter surface */
+/* ---- Board view: status columns, steps in order inside each ---- */
+.board{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.bcol{border-radius:var(--r-card);padding:8px;display:flex;flex-direction:column;gap:8px;min-width:0;background:var(--colbg,var(--surface-2))}
+.bcol-h{display:flex;align-items:center;gap:8px;padding:2px 2px 0}
+.bcol-n{font-size:var(--t13);color:var(--muted);font-variant-numeric:tabular-nums}
+.bcol-empty{font-size:var(--t13);color:var(--muted);padding:10px 4px}
+.bcard{display:flex;flex-direction:column;align-items:flex-start;gap:6px;width:100%;text-align:left;background:var(--canvas);border-radius:6px;padding:10px 12px 12px;box-shadow:var(--card-shadow);transition:background .15s var(--ease)}
+.bcard:hover{background:#FBFBFA}
+.bcard.next{box-shadow:0 0 0 2px var(--accent)}
+.card-hd{display:flex;align-items:flex-start;gap:8px}
+.card-t{display:block;font-size:var(--t14);font-weight:600;color:var(--ink);line-height:1.35}
+.card-s{display:block;font-size:var(--t13);color:var(--muted);line-height:1.4}
+
+/* ---- Gallery view: a card per step with its own patterned cover ---- */
+.gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+:root.full .gallery{grid-template-columns:repeat(3,minmax(0,1fr))}
+.gcard{display:flex;flex-direction:column;text-align:left;border-radius:10px;overflow:hidden;background:var(--canvas);box-shadow:var(--card-shadow);transition:box-shadow .15s var(--ease)}
+button.gcard:hover{box-shadow:0 0 0 1px rgba(15,15,15,.12),0 4px 10px rgba(15,15,15,.1)}
+.gcard.next{box-shadow:0 0 0 2px var(--accent)}
+.gcover{height:146px;display:flex;align-items:center;justify-content:center;}
+.gbody{display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding:12px 14px 14px;flex:1}
+.gcard .card-t{font-size:var(--t16);font-weight:500}
+.gmeta{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;margin-top:6px}
+.gcard.final .btn{margin-top:8px;padding:0 16px;min-height:44px;font-size:var(--t14)}
+
+/* ---- More practice ---- */
 .tools{border:1px solid var(--line);border-radius:var(--r-card);overflow:hidden}
-.tool{display:flex;align-items:center;gap:16px;width:100%;min-height:60px;padding:12px 20px;text-align:left;border-top:1px solid var(--line);transition:background .15s var(--ease)}
+.tool{display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:10px 16px;text-align:left;border-top:1px solid var(--line);transition:background .15s var(--ease)}
 .tool:first-child{border-top:0}
-.tool:hover{background:var(--surface-2)}
-.tool:hover .step-go{color:var(--accent)}
-.tool-ic{width:32px;display:inline-flex;justify-content:center;color:var(--muted);flex-shrink:0}
+.tool:hover{background:var(--hover)}
 .tool-t{display:block;font-size:var(--t16);font-weight:600;color:var(--ink);line-height:1.35}
-.tool-s{display:block;font-size:var(--t14);color:var(--muted);line-height:1.4}
+.tool-s{display:block;font-size:var(--t13);color:var(--muted);line-height:1.4}
+.step-go{color:var(--muted)}
+.tool:hover .step-go{color:var(--accent)}
 
-/* read view: one guide section, then its practice, then the next step */
-#read .g-topics{margin-top:8px}
-.read-h{font-size:var(--t32);font-weight:700;color:var(--ink);letter-spacing:-.02em;line-height:1.15;margin:0 0 20px}
+/* ---- step page: guide callouts in Notion's colors ---- */
+.guide p{line-height:1.6}
+.guide .math-block{background:#F7F6F3;border-radius:6px;padding:14px 16px}
+.guide .g-memo,.guide .g-ex,.guide .g-trap{position:relative;border:0;border-radius:10px;padding:12px 14px 12px 48px;margin:0 0 18px}
+.guide .g-memo::before,.guide .g-ex::before,.guide .g-trap::before{content:"";position:absolute;left:14px;top:12px;width:24px;height:24px;
+  -webkit-mask:var(--mi) center/contain no-repeat;mask:var(--mi) center/contain no-repeat;background:var(--mc)}
+.guide .g-memo{background:#F9F3DC;--mi:var(--m-pin);--mc:#A87320}
+.guide .g-memo-h{color:#402C1B}
+.guide .g-ex{background:#F0EFED;--mi:var(--m-pen);--mc:#6F6E6A}
+.guide .g-ex-h{color:var(--ink)}
+.guide .g-ex .math-block{background:rgba(254,254,253,.75);margin-top:6px}
+.guide .g-trap{display:block;background:#FCE9E7;color:var(--ink);font-size:var(--t14);--mi:var(--m-alert);--mc:#C13F3A}
+.guide .g-tbl th,.guide .g-tbl td{border:1px solid var(--line);padding:7px 10px}
+.guide .g-tbl th{background:#F7F6F3;vertical-align:middle}
+.guide .g-memo .g-tbl td,.guide .g-memo .g-tbl th{border-color:#EADBB4;background:transparent}
 .read-do{display:flex;gap:10px;margin-top:32px;padding-top:24px;border-top:1px solid var(--line)}
 .read-do .btn{flex:1}
-.read-next{display:flex;align-items:center;gap:16px;width:100%;margin-top:12px;padding:16px 20px;text-align:left;background:var(--surface);
-  border:1px solid var(--line-strong);border-radius:var(--r-card);transition:border-color .15s var(--ease)}
-.read-next:hover{border-color:var(--accent)}
-.read-next:hover .ic{color:var(--accent)}
-.read-next .ic{color:var(--muted)}
-.rn-l{display:block;font-size:var(--t13);font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-.rn-t{display:block;font-size:var(--t16);font-weight:600;color:var(--ink);line-height:1.35;margin-top:2px}
+.read-next{display:flex;align-items:center;gap:12px;width:100%;margin-top:12px;padding:12px 14px;text-align:left;border-radius:var(--r-card);border:1px solid var(--line);transition:background .15s var(--ease)}
+.read-next:hover{background:var(--hover)}
+.read-next>.ic{color:var(--muted)}
+.rn-l{display:block;font-size:var(--t13);font-weight:600;color:var(--muted)}
+.rn-t{display:block;font-size:var(--t16);font-weight:600;color:var(--ink);line-height:1.35}
 
-/* key terms screen: text on the column edge like everything else */
+/* ---- key terms page ---- */
 #terms .term{padding-left:0;padding-right:0}
-/* videos: the list takes the column (long words like Paramagnetic/Diamagnetic were widening it) */
+
+/* ---- popovers: Notion's menu surface ---- */
+.pop{position:absolute;z-index:80;width:340px;max-width:calc(100vw - 16px);background:var(--canvas);border-radius:var(--r-card);box-shadow:var(--shadow-raised);padding:8px}
+.pop-h{font-size:var(--t13);font-weight:600;color:var(--muted);padding:6px 6px 8px}
+.cv-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:0 2px 2px}
+.cv-opt{display:flex;flex-direction:column;gap:4px;padding:4px;border-radius:6px;min-height:44px}
+.cv-opt:hover{background:var(--hover)}
+.cv-th{position:relative;display:block;height:44px;border-radius:4px;overflow:hidden}
+.cv-opt.on .cv-th{box-shadow:0 0 0 2px var(--accent)}
+.cv-l{font-size:var(--t13);color:var(--muted);line-height:1.25;text-align:center}
+.ic-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:4px;padding:0 2px 6px}
+.ic-opt{height:44px;border-radius:6px;color:var(--tc);display:flex;align-items:center;justify-content:center}
+.ic-opt:hover{background:var(--hover)}
+.ic-opt.on{background:var(--accent-soft)}
+.ic-opt .ic{width:24px;height:24px}
+.col-grid{display:grid;grid-template-columns:repeat(5,44px);gap:4px 8px;padding:0 4px 4px}
+.col-opt{height:44px;border-radius:6px;display:flex;align-items:center;justify-content:center}
+.col-opt:hover{background:var(--hover)}
+.col-opt::before{content:"";width:18px;height:18px;border-radius:50%;background:var(--sw)}
+.col-opt.on::before{box-shadow:0 0 0 2px var(--canvas),0 0 0 4px var(--sw)}
+.font-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding:0 2px 8px}
+.font-opt{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 4px;border-radius:6px}
+.font-opt:hover{background:var(--hover)}
+.font-ag{font-size:var(--t24);font-weight:500;color:var(--ink);line-height:1.2}
+.f-serif .font-ag{font-family:var(--serif)}
+.f-mono .font-ag{font-family:var(--mono)}
+.font-opt.on .font-ag{color:var(--accent)}
+.font-l{font-size:var(--t13);color:var(--muted)}
+.sw-row{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:44px;padding:0 8px;border-radius:6px;font-size:var(--t14);color:var(--ink);border-top:1px solid var(--line)}
+.sw-row:hover{background:var(--hover)}
+.sw{position:relative;width:30px;height:18px;border-radius:9px;background:var(--line-strong);transition:background .15s var(--ease);flex-shrink:0}
+.sw i{position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:var(--canvas);transition:transform .15s var(--ease)}
+.sw.on{background:var(--accent)}
+.sw.on i{transform:translateX(12px)}
+
+/* ---- practice screens: Notion's flat controls instead of pressed 3D buttons ---- */
+.btn-primary,.btn-primary:active{box-shadow:none}
+.btn-primary:active{transform:none;background:var(--accent-pressed)}
+.btn-ghost{box-shadow:none;border:1px solid var(--line-strong);background:var(--canvas)}
+.btn-ghost:hover{background:var(--hover);border-color:var(--line-strong);color:var(--ink)}
+.btn-ghost:active{transform:none;box-shadow:none}
+.opt,.conf,.conf.on,.round-btn,.tile,.tile.sel{box-shadow:none}
+.opt:active:not(:disabled){transform:none}
+.card{border:1px solid var(--line)}
+.close-card{max-width:none;box-shadow:var(--card-shadow)}
+.mode-bar>.icon-btn:first-child{margin-left:-12px}
+.mode-bar>.icon-btn:last-child:not(:first-child),.mode-bar>.rt>.icon-btn:last-child{margin-right:-12px}
 #vid-list{width:100%}
 .vid-tx h5{overflow-wrap:anywhere}
 .vid-intro{max-width:none}
-/* session close: the flag row has no count, so its label is pushed to the same x as the counted rows */
 .stat .n{min-width:44px}
 .stat.w .l{margin-left:60px}
 
+@media (hover:none){
+  .cover-btn{opacity:1;height:44px}
+  .tb-back,.tb-btn,.crumb{height:44px}
+  .vtab{height:44px}
+}
 @media (max-width:480px){
-  #home{padding-top:24px}
-  .ph{margin-bottom:28px}
-  .step-row,.tool{gap:12px;padding:14px 16px}
-  .step-st:not(.step-st-in){display:none}
-  .step-st-in{display:block;margin-top:4px}
-  .step-act{flex-direction:column;padding:2px 16px 16px}
-  .read-h{font-size:var(--t24)}
+  .cover{height:120px}
+  .pg-icon{width:64px;height:64px;border-radius:14px;margin-top:-32px}
+  .pg-icon .ic{width:36px;height:36px}
+  .no-cover .pg-icon,.pg-plain .pg-icon{margin-top:24px}
+  .pg-title{font-size:var(--t32)}
+  .prop-k{width:100px}
+  .step-row,.tool{gap:12px;padding:12px 14px}
+  .step-meta{display:none}
+  .step-meta-in{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;margin-top:6px}
+  .step-act{flex-direction:column;padding:0 14px 14px}
+  .board{grid-template-columns:repeat(3,82%);overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:4px}
+  .bcol{scroll-snap-align:start}
+  .gallery{grid-template-columns:1fr}
   .read-do{flex-direction:column}
   #close{padding-top:24px}
-  .close-actions{flex-direction:column-reverse} /* the primary action is last in markup; on a phone it goes first */
+  .close-actions{flex-direction:column-reverse}
   .pile{align-items:flex-start}
+  .crumb{max-width:46vw}
+  .cover-btn{min-height:44px}
+  .cover-art text{display:none}
+  :root.full .gallery{grid-template-columns:1fr}
+  .nextbar{flex-wrap:wrap}
+  .nextbar .btn{width:100%}
 }
 @media (max-width:360px){
-  .ph .set-title{font-size:var(--t24)}
-  .ph-when{font-size:var(--t14)}
+  .vtab .ic{display:none}
+  .cover{height:96px}
+  .pg-title{font-size:var(--t24)}
+  .prop{min-height:28px;padding:3px 0}
+  .prop-k{width:88px}
 }
 </style>
 </head>
@@ -510,41 +688,94 @@ button.step-row:hover .step-go,button.step-row:hover .step-tog{color:var(--accen
   <symbol id="i-pile" viewBox="0 0 24 24"><rect x="3" y="14" width="18" height="6" rx="1.5"/><path d="M5.5 10.5h13"/><path d="M8 7h8"/></symbol>
   <symbol id="i-pile-check" viewBox="0 0 24 24"><rect x="3" y="14" width="18" height="6" rx="1.5"/><path d="M5.5 10.5h13"/><path d="m9 5.5 2 2 4-4"/></symbol>
   <symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 21V4"/><path d="M5 4h12l-2 4 2 4H5"/></symbol>
+  <symbol id="i-ch-light" viewBox="0 0 24 24"><path d="M2 12c1.5-4 3-6 4.5-6S9.5 8 11 12s3 6 4.5 6 3-2 4.5-6"/><path d="M20 6.5 22 6"/><path d="M20 17.5 22 18"/></symbol>
+  <symbol id="i-ch-bohr" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="9"/><circle cx="18.4" cy="5.6" r="1.4"/></symbol>
+  <symbol id="i-ch-dual" viewBox="0 0 24 24"><path d="M2 12c1.2-3 2.4-4.5 3.6-4.5S8 9 9.2 12s2.4 4.5 3.6 4.5c.9 0 1.6-.8 2.2-2"/><circle cx="19" cy="11" r="2.6"/></symbol>
+  <symbol id="i-ch-orbital" viewBox="0 0 24 24"><path d="M12 12c-2.6-2.2-3.6-4.6-3.6-6.6a3.6 3.6 0 0 1 7.2 0c0 2-1 4.4-3.6 6.6Z"/><path d="M12 12c2.6 2.2 3.6 4.6 3.6 6.6a3.6 3.6 0 0 1-7.2 0c0-2 1-4.4 3.6-6.6Z"/><path d="M4 12h3.5"/><path d="M16.5 12H20"/></symbol>
+  <symbol id="i-ch-config" viewBox="0 0 24 24"><rect x="2.5" y="7" width="9.5" height="10" rx="1"/><rect x="12" y="7" width="9.5" height="10" rx="1"/><path d="M5.5 15V9"/><path d="m4 10.5 1.5-1.5 1.5 1.5"/><path d="M8.8 9v6"/><path d="m7.3 13.5 1.5 1.5 1.5-1.5"/><path d="M16.8 15V9"/><path d="m15.3 10.5 1.5-1.5 1.5 1.5"/></symbol>
+  <symbol id="i-ch-magnet" viewBox="0 0 24 24"><path d="M5 3.5v8.5a7 7 0 0 0 14 0V3.5h-4.5V12a2.5 2.5 0 0 1-5 0V3.5Z"/><path d="M5 8h4.5"/><path d="M14.5 8H19"/></symbol>
+  <symbol id="i-ch-table" viewBox="0 0 24 24"><path d="M2.5 4.5h3v3h3v3h7v-3h3v-3h3v12h-19Z"/><path d="M5.5 7.5v9"/><path d="M8.5 10.5v6"/><path d="M15.5 10.5v6"/><path d="M6.5 19.5h11"/></symbol>
+  <symbol id="i-ch-trend" viewBox="0 0 24 24"><path d="M3.5 3v17.5H21"/><path d="m7 16 4-4.5 3 2.5 5.5-6.5"/><path d="M15.5 7.5h4v4"/></symbol>
+  <symbol id="i-ch-bond" viewBox="0 0 24 24"><circle cx="5.5" cy="12" r="3.5"/><circle cx="18.5" cy="12" r="3.5"/><path d="M9 10.5h6"/><path d="M9 13.5h6"/></symbol>
+  <symbol id="i-ch-name" viewBox="0 0 24 24"><path d="M3 5.5a2 2 0 0 1 2-2h7.2a2 2 0 0 1 1.4.6l6.9 6.9a2 2 0 0 1 0 2.8l-6.6 6.6a2 2 0 0 1-2.8 0L4.2 13.5a2 2 0 0 1-.6-1.4Z"/><circle cx="8" cy="8.5" r="1.6"/></symbol>
+  <symbol id="i-ch-flask" viewBox="0 0 24 24"><path d="M9 3h6"/><path d="M10 3v6.2L4.6 18.4A1.8 1.8 0 0 0 6.2 21h11.6a1.8 1.8 0 0 0 1.6-2.6L14 9.2V3"/><path d="M7.2 15h9.6"/></symbol>
+  <symbol id="i-ch-atom" viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/><circle cx="12" cy="12" r="1.3"/></symbol>
+  <symbol id="i-ch-pin" viewBox="0 0 24 24"><path d="M9 3.5h6"/><path d="M10 3.5v5.5l-3 3.5v1.5h10v-1.5l-3-3.5V3.5"/><path d="M12 14v6.5"/></symbol>
+  <symbol id="i-ch-alert" viewBox="0 0 24 24"><path d="M10.3 4.2 2.6 17.6A2 2 0 0 0 4.3 20.6h15.4a2 2 0 0 0 1.7-3L13.7 4.2a2 2 0 0 0-3.4 0Z"/><path d="M12 9.5v4.5"/><path d="M12 17.2v.1"/></symbol>
+  <symbol id="i-ch-style" viewBox="0 0 24 24"><path d="m3 18 5.5-13h1L15 18"/><path d="M5.2 13h7.6"/><path d="M17 18v-4.4a2.6 2.6 0 0 1 5 0V18"/><path d="M17 15.8h5"/></symbol>
+  <symbol id="i-ch-list" viewBox="0 0 24 24"><path d="M8.5 6h12"/><path d="M8.5 12h12"/><path d="M8.5 18h12"/><path d="M3.5 6h1"/><path d="M3.5 12h1"/><path d="M3.5 18h1"/></symbol>
+  <symbol id="i-ch-board" viewBox="0 0 24 24"><rect x="3" y="4" width="5" height="16" rx="1"/><rect x="10" y="4" width="5" height="11" rx="1"/><rect x="17" y="4" width="4" height="7" rx="1"/></symbol>
+  <symbol id="i-ch-gallery" viewBox="0 0 24 24"><rect x="3" y="4" width="8" height="7" rx="1"/><rect x="13" y="4" width="8" height="7" rx="1"/><rect x="3" y="13" width="8" height="7" rx="1"/><rect x="13" y="13" width="8" height="7" rx="1"/></symbol>
+  <symbol id="i-ch-image" viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="15" rx="2"/><circle cx="9" cy="10" r="1.8"/><path d="m21 16-5-5-9 8.5"/></symbol>
+  <symbol id="i-ch-status" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17Z"/></symbol>
+  <symbol id="i-ch-hash" viewBox="0 0 24 24"><path d="M9.5 4 7.5 20"/><path d="M16.5 4l-2 16"/><path d="M4.5 9h15"/><path d="M3.5 15h15"/></symbol>
+  <symbol id="i-ch-cal" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17"/><path d="M8 3v4"/><path d="M16 3v4"/></symbol>
+  <symbol id="i-ch-room" viewBox="0 0 24 24"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11Z"/><circle cx="12" cy="10" r="2.3"/></symbol>
+  <symbol id="i-ch-bag" viewBox="0 0 24 24"><rect x="4" y="7.5" width="16" height="12.5" rx="2"/><path d="M9 7.5V6a3 3 0 0 1 6 0v1.5"/></symbol>
 </defs></svg>
 <div id="top-bar"><span></span></div>
 
+<!-- ================= TOP BAR (plan, step pages, key terms) ================= -->
+<div id="topbar">
+  <div class="tb-left">
+    <button class="tb-back" id="tb-back" onclick="goHome()" aria-label="Back to the plan" hidden><svg class="ic" aria-hidden="true"><use href="#i-back"/></svg></button>
+    <nav class="crumbs" id="crumbs" aria-label="Breadcrumb"></nav>
+  </div>
+  <button class="tb-btn" id="style-btn" aria-haspopup="dialog" aria-expanded="false" onclick="togglePop('style', this)"><svg class="ic ic-16" aria-hidden="true"><use href="#i-ch-style"/></svg>Style</button>
+</div>
+<div class="pop" id="pop-style" role="dialog" aria-label="Page style" hidden></div>
+<div class="pop" id="pop-cover" role="dialog" aria-label="Change cover" hidden></div>
+<div class="pop" id="pop-icon" role="dialog" aria-label="Change icon" hidden></div>
+
 <!-- ================= HOME (Exam 2 study plan) ================= -->
-<div id="home" class="wrap plan-wrap on">
-  <header class="ph">
-    <div class="eyebrow">CHEM 1211 Exam 2</div>
-    <h1 class="set-title">Chapter 3 and Chapter 4.1 to 4.3</h1>
-    <p class="ph-when">Wednesday, October 14, 10:00 AM, Lakeview Science Center 210</p>
-    <p class="ph-bring">Bring a Scantron, a #2 pencil and a calculator. The formula sheet and periodic table are provided.</p>
-  </header>
-  <div class="plan-head"><h2 class="section-h">Study plan</h2><span class="plan-done" id="plan-done"></span></div>
-  <ol class="plan" id="plan"></ol>
-  <h2 class="section-h tools-h">More practice</h2>
-  <div class="tools" id="tools"></div>
+<div id="home" class="page on">
+  <div class="cover" id="home-cover">
+    <div class="cover-art"></div>
+    <div class="cover-in wrap"><button class="cover-btn" aria-haspopup="dialog" aria-expanded="false" onclick="togglePop('cover', this)"><svg class="ic ic-16" aria-hidden="true"><use href="#i-ch-image"/></svg>Change cover</button></div>
+  </div>
+  <div class="wrap pg">
+    <button class="pg-icon" id="home-icon" aria-label="Change page icon" aria-haspopup="dialog" aria-expanded="false" onclick="togglePop('icon', this)"></button>
+    <h1 class="pg-title">Exam 2 study plan</h1>
+    <div class="props">
+      <div class="prop"><span class="prop-k"><svg class="ic ic-16" aria-hidden="true"><use href="#i-ch-cal"/></svg>Exam</span><span class="prop-v">Wednesday, October 14, 10:00 AM</span></div>
+      <div class="prop"><span class="prop-k"><svg class="ic ic-16" aria-hidden="true"><use href="#i-ch-room"/></svg>Room</span><span class="prop-v">Lakeview Science Center 210</span></div>
+      <div class="prop"><span class="prop-k"><svg class="ic ic-16" aria-hidden="true"><use href="#i-ch-list"/></svg>Covers</span><span class="prop-v"><span class="pill" style="--pb:#E3E2E0;--pt:#32302C">Chapter 3</span><span class="pill" style="--pb:#E3E2E0;--pt:#32302C">Chapter 4.1 to 4.3</span></span></div>
+      <div class="prop"><span class="prop-k"><svg class="ic ic-16" aria-hidden="true"><use href="#i-ch-bag"/></svg>Bring</span><span class="prop-v">Scantron, #2 pencil, calculator</span></div>
+    </div>
+
+    <section class="db" aria-labelledby="db-plan-h">
+      <div class="db-head"><h2 class="db-title" id="db-plan-h">Study plan</h2><span class="plan-prog"><span class="bar" aria-hidden="true"><i id="plan-bar"></i></span><span class="plan-done" id="plan-done"></span></span></div>
+      <div class="db-bar"><div class="views" id="views" role="tablist" aria-label="Plan views"></div></div>
+      <div id="db-view"></div>
+    </section>
+    <div class="callout c-gray"><svg class="ic" aria-hidden="true"><use href="#i-ch-pin"/></svg><p>The formula sheet and periodic table are handed out with the exam. Everything in a Memorize box is not.</p></div>
+    <section class="db" aria-labelledby="db-more-h">
+      <h2 class="db-title" id="db-more-h">More practice</h2>
+      <div class="tools" id="tools"></div>
+    </section>
+  </div>
 </div>
 
-<!-- ================= READ (one plan step at a time) ================= -->
-<div id="read" class="wrap plan-wrap">
-  <div class="mode-bar">
-    <button class="icon-btn" onclick="goHome()"><svg class="ic ic-16" aria-hidden="true"><use href="#i-back"/></svg>Plan</button>
-    <span class="mt" id="read-pos"></span>
+<!-- ================= READ (one step page) ================= -->
+<div id="read" class="page">
+  <div class="cover cover-step" id="read-cover"></div>
+  <div class="wrap pg">
+    <div class="pg-icon" id="read-icon" aria-hidden="true"></div>
+    <h1 class="pg-title read-h" id="read-title"></h1>
+    <div class="props" id="read-props"></div>
+    <article class="guide" id="read-body"></article>
   </div>
-  <article class="guide" id="read-body"></article>
 </div>
 
 <!-- ================= KEY TERMS ================= -->
-<div id="terms" class="wrap plan-wrap">
-  <div class="mode-bar">
-    <button class="icon-btn" onclick="goHome()"><svg class="ic ic-16" aria-hidden="true"><use href="#i-back"/></svg>Plan</button>
-    <span class="mt">Key terms</span>
-  </div>
-  <div id="panel-terms">
-    <div class="filter"><svg class="ic" aria-hidden="true"><use href="#i-search"/></svg><input id="term-filter" type="search" placeholder="Filter terms" aria-label="Filter key terms" oninput="renderTerms()" autocomplete="off"></div>
-    <div class="terms" id="term-list"></div>
+<div id="terms" class="page">
+  <div class="wrap pg pg-plain">
+    <div class="pg-icon" aria-hidden="true" style="--tb:#F4EEEE;--tc:#8A5A44"><svg class="ic" aria-hidden="true"><use href="#i-book"/></svg></div>
+    <h1 class="pg-title">Key terms</h1>
+    <div id="panel-terms">
+      <div class="filter"><svg class="ic" aria-hidden="true"><use href="#i-search"/></svg><input id="term-filter" type="search" placeholder="Filter terms" aria-label="Filter key terms" oninput="renderTerms()" autocomplete="off"></div>
+      <div class="terms" id="term-list"></div>
+    </div>
   </div>
 </div>
 
@@ -1284,7 +1515,7 @@ function gId(g){ return 'g'+hash(g.t); }
 // ===== state =====
 let FCH='all', MODE='home', HTAB='study';
 const screens=['home','read','terms','flash','learn','match','recall','videos','close'];
-function show(id){ screens.forEach(s=>document.getElementById(s).classList.toggle('on', s===id)); MODE=id; }
+function show(id){ screens.forEach(s=>document.getElementById(s).classList.toggle('on', s===id)); MODE=id; document.body.dataset.mode=id; }
 function setBar(pct){ const b=document.getElementById('top-bar'); b.style.display=pct>=0?'block':'none'; b.firstElementChild.style.width=Math.max(0,Math.min(100,pct))+'%'; }
 
 // ===== session tally (for the close card; never persisted, never gamified) =====
@@ -1356,16 +1587,45 @@ function sesClose(kind){
 }
 
 // ===== HOME =====
-// ===== HOME: the Exam 2 study plan, one step per chapter in study-guide topic order =====
+// ===== HOME: the Exam 2 study plan as a Notion-style page (cover, icon, properties, database views) =====
 // A step is done when every one of its questions is in `recalled` (Learn mastery writes it),
 // so the plan reads the same storage key the engine already keeps. Nothing here is typed.
 let readSet = new Set(lsGet('chem1211e2_read_v1',[]));
 let showDone = false; // finished steps ahead of the current one fold into a single row
 function saveRead(){ lsSet('chem1211e2_read_v1',[...readSet]); }
+
+// ---- look: Notion palette, per-step icon + color, and the reader's own choices ----
+// [icon/stroke color, block background, pill background, pill text]; icon colors are darkened from
+// Notion's text colors so every glyph keeps 3:1 on its own tint (Notion's yellow on yellow is 2.5:1)
+const NC = {gray:['#6F6E6A','#F0EFED','rgba(28,19,1,.11)','#494846'], brown:['#8A5A44','#F5EDE9','rgba(127,51,0,.157)','#584437'],
+  orange:['#C2620A','#FBEBDE','rgba(196,88,0,.204)','#6A4222'], yellow:['#A87320','#F9F3DC','rgba(209,156,0,.282)','#655121'],
+  green:['#3B7556','#E8F1EC','rgba(0,96,38,.157)','#2A533C'], blue:['#2F6F96','#E5F2FC','rgba(0,118,217,.204)','#264A72'],
+  purple:['#7E559E','#F3EBF9','rgba(92,0,163,.14)','#553B69'], pink:['#AD3F7A','#FAE9F1','rgba(183,0,78,.153)','#68354E'],
+  red:['#C13F3A','#FCE9E7','rgba(206,24,0,.165)','#6D3531']};
+const STEP_LOOK = {light:['ch-light','yellow'], bohr:['ch-bohr','orange'], qm:['ch-dual','purple'], qn:['ch-orbital','blue'],
+  econf:['ch-config','green'], ions:['ch-magnet','red'], ptable:['ch-table','brown'], trends:['ch-trend','pink'],
+  bonds:['ch-bond','purple'], names:['ch-name','green']};
+const ICONS = ['ch-atom','ch-flask','ch-light','ch-bohr','ch-dual','ch-orbital','ch-config','ch-magnet','ch-table','ch-trend','ch-bond','ch-name'];
+const COVERS = [['spectrum','Hydrogen spectrum'],['table','Periodic table'],['grid','Graph paper'],
+  ['sand','Sand'],['sky','Sky'],['sage','Sage'],['lilac','Lilac'],['none','No cover']];
+const LOOK_DEF = {cover:'spectrum', icon:'ch-atom', color:'blue', view:'plan', font:'default', small:false, full:false};
+let LOOK = Object.assign({}, LOOK_DEF, lsGet('chem1211e2_look_v1',{}));
+// anything that did not come from these lists falls back to the default, so storage can never inject markup
+if(!COVERS.some(c=>c[0]===LOOK.cover)) LOOK.cover=LOOK_DEF.cover;
+if(!ICONS.includes(LOOK.icon)) LOOK.icon=LOOK_DEF.icon;
+if(!NC[LOOK.color]) LOOK.color=LOOK_DEF.color;
+if(!['plan','board','gallery'].includes(LOOK.view)) LOOK.view=LOOK_DEF.view;
+if(!['default','serif','mono'].includes(LOOK.font)) LOOK.font=LOOK_DEF.font;
+function saveLook(){ lsSet('chem1211e2_look_v1',LOOK); }
+function lookFor(c){ return STEP_LOOK[c.id] || ['ch-flask','gray']; }
+function tile(icon,color,cls){ const k=NC[color]; return `<span class="itile ${cls||''}" style="--tb:${k[1]};--tc:${k[0]}">${ic(icon)}</span>`; }
+function pill(text,color,dot){ const k=NC[color]; return `<span class="pill${dot?' pill-st':''}" style="--pb:${k[2]};--pt:${k[3]};--pd:${dot||k[0]}">${text}</span>`; }
+
+// ---- plan state ----
 function plural(n,one,many){ return n+' '+(n===1?one:many); }
 function btn(cls,fn,label){ return `<button class="btn ${cls}" onclick="${fn}">${label}</button>`; }
 function guideFor(id){ return GUIDE.find(g=>g.ch===id); }
-function topicsLabel(g){ return g.topics.replace(/^Study guide t/,'T'); }
+function topicsLabel(g){ return g.topics.replace(/^Study guide t/,'t'); }
 function stepState(c){
   const qs=Q.filter(q=>q.chId===c.id), got=qs.filter(q=>recalled.has(qId(q))).length;
   return {n:qs.length, got, done:qs.length>0&&got===qs.length, read:readSet.has(c.id), terms:GLOSSARY.filter(g=>g.ch===c.id).length};
@@ -1377,10 +1637,15 @@ function planState(){
 }
 function renderProgress(){
   const el=document.getElementById('plan-done'); if(!el) return;
-  el.textContent=`${planState().done} of ${CHAPTERS.length} done`;
+  const d=planState().done; el.textContent=`${d} of ${CHAPTERS.length} done`;
+  const b=document.getElementById('plan-bar'); if(b) b.style.width=Math.round(d/CHAPTERS.length*100)+'%';
 }
+const STATUS=[['Not started','gray','#8E8B86'],['In progress','blue','#2783DE'],['Done','green','#46A171']];
+function statusOf(s){ return s.done?2:(s.got||s.read)?1:0; }
+function statusPill(s){ const [t,c,d]=STATUS[statusOf(s)]; return pill(t,c,d); }
+function bar(s,bare){ const pct=s.n?Math.round(s.got/s.n*100):0;
+  return `<span class="bar-w"><span class="bar" style="--bc:${NC[s.done?'green':'blue'][0]}"><i style="width:${pct}%"></i></span>${bare?'':`<span class="bar-n">${s.got}/${s.n}</span>`}</span>`; }
 function stepTag(p,s){ return p.fresh ? 'Start here' : (s && (s.got||s.read)) ? 'Continue here' : 'Up next'; }
-function stepStatus(s,cur){ return s.done ? 'Done' : s.got ? `${s.got} of ${s.n} recalled` : (s.read && !cur) ? 'Guide read' : ''; }
 // a fully recalled step practices everything again; a partial one resumes with what is left
 function practiceLabel(s){ const left=s.n-s.got;
   return (s.got && !s.done) ? (left===1 ? 'Practice the last question' : `Practice the last ${left}`) : `Practice ${plural(s.n,'question','questions')}`; }
@@ -1390,59 +1655,195 @@ function stepActions(i,c,s){
     ? btn('btn-primary',pr,pl) + btn('btn-ghost',rd,'Reread the guide')
     : btn('btn-primary',rd,'Read the guide') + btn('btn-ghost',pr,pl)) + `</div>`;
 }
+
+// ---- Plan view: the ordered list, current step opened up ----
 function stepRow(i,p){
-  const c=CHAPTERS[i], s=p.st[i], g=guideFor(c.id), cur=i===p.next, st=stepStatus(s,cur);
+  const c=CHAPTERS[i], s=p.st[i], g=guideFor(c.id), cur=i===p.next, [icn,col]=lookFor(c);
   return `<li class="step${s.done?' done':''}${cur?' next':''}"><button class="step-row" onclick="readStep(${i})">`+
-    `<span class="step-n">${s.done?ic('check','ic ic-16'):i+1}</span>`+
-    `<span class="step-tx">${cur?`<span class="step-tag">${stepTag(p,s)}</span>`:''}<span class="step-t">${g.title}</span>`+
-    `<span class="step-s">${topicsLabel(g)}, ${plural(s.n,'question','questions')}</span>${st?`<span class="step-st step-st-in">${st}</span>`:''}</span>`+
-    (st?`<span class="step-st">${st}</span>`:'')+ic('chev-r','ic step-go')+`</button>${cur?stepActions(i,c,s):''}</li>`;
+    tile(icn,col)+`<span class="step-tx">${cur?`<span class="step-tag">${stepTag(p,s)}</span>`:''}<span class="step-t">${g.title}</span>`+
+    `<span class="step-s">Step ${i+1}, ${topicsLabel(g)}, ${plural(s.n,'question','questions')}</span>`+
+    `<span class="step-meta-in">${statusPill(s)}${s.got?bar(s):''}</span></span>`+
+    `<span class="step-meta">${statusPill(s)}${bar(s)}</span>`+`</button>${cur?stepActions(i,c,s):''}</li>`;
+}
+function finalRow(p, fin){
+  return `<li class="step final${fin?' next':''}"><div class="step-row">${tile('exam','gray')}`+
+    `<span class="step-tx">${fin?`<span class="step-tag">${stepTag(p,null)}</span>`:''}<span class="step-t">Mixed exam</span>`+
+    `<span class="step-s">Step ${CHAPTERS.length+1}, all ${Q.length} questions, chapters shuffled together</span></span>`+
+    (fin?'':btn('btn-ghost step-start','startFinal()','Start'))+`</div>`+
+    (fin?`<div class="step-act">${btn('btn-primary','startFinal()','Start the mixed exam')}</div>`:'')+`</li>`;
+}
+function renderPlanList(p){
+  const lead=Math.min(p.next,CHAPTERS.length), rows=[];
+  // every step before the current one is done by construction, so two or more fold into one row
+  if(lead>=2) rows.push(`<li class="step done done-sum"><button class="step-row" onclick="toggleDone()" aria-expanded="${showDone}">`+
+    `<span class="itile" style="--tb:${NC.green[1]};--tc:${NC.green[0]}">${ic('check')}</span><span class="step-tx"><span class="step-t">Steps 1 to ${lead} done</span></span>`+
+    `<span class="step-tog">${showDone?'Hide':'Show'}</span></button></li>`);
+  for(let i=0;i<CHAPTERS.length;i++) if(i>=lead || lead<2 || showDone) rows.push(stepRow(i,p));
+  rows.push(finalRow(p, p.next===CHAPTERS.length));
+  return `<ol class="plan" id="plan">${rows.join('')}</ol>`;
+}
+// ---- Board view: the same steps grouped by status, still in order inside each column ----
+function renderBoard(p){
+  const cols=[[],[],[]];
+  CHAPTERS.forEach((c,i)=>{ const s=p.st[i], g=guideFor(c.id), [icn,col]=lookFor(c), cur=i===p.next;
+    cols[statusOf(s)].push(`<button class="bcard${cur?' next':''}" onclick="readStep(${i})">${cur?`<span class="step-tag">${stepTag(p,s)}</span>`:''}`+
+      `<span class="card-hd">${tile(icn,col,'itile-sm')}<span class="card-t">${g.title}</span></span>`+
+      `<span class="card-s">Step ${i+1}, ${plural(s.n,'question','questions')}</span>${bar(s)}</button>`); });
+  return `<div class="board">` + STATUS.map(([t,c,d],k)=>`<div class="bcol" style="--colbg:${NC[c][1]}"><div class="bcol-h">${pill(t,c,d)}<span class="bcol-n">${cols[k].length}</span></div>`+
+    (cols[k].join('') || `<div class="bcol-empty">No steps yet</div>`)+`</div>`).join('') + `</div>`;
+}
+// ---- Gallery view: one card per step with its own cover ----
+function renderGallery(p){
+  const cards=CHAPTERS.map((c,i)=>{ const s=p.st[i], g=guideFor(c.id), [icn,col]=lookFor(c), cur=i===p.next, k=NC[col];
+    return `<button class="gcard${cur?' next':''}" onclick="readStep(${i})"><span class="gcover" style="--cb:${k[1]};--pat:${patternURL(icn,k[0])}">${tile(icn,col,'itile-lg')}</span>`+
+      `<span class="gbody">${cur?`<span class="step-tag">${stepTag(p,s)}</span>`:''}<span class="card-t">${g.title}</span>`+
+      `<span class="card-s">Step ${i+1}, ${topicsLabel(g)}</span><span class="gmeta">${statusPill(s)}${bar(s)}</span></span></button>`; });
+  const fin=p.next===CHAPTERS.length, k=NC.gray;
+  cards.push(`<div class="gcard final${fin?' next':''}"><span class="gcover" style="--cb:${k[1]};--pat:${patternURL('exam',k[0])}">${tile('exam','gray','itile-lg')}</span>`+
+    `<span class="gbody">${fin?`<span class="step-tag">${stepTag(p,null)}</span>`:''}<span class="card-t">Mixed exam</span>`+
+    `<span class="card-s">Step ${CHAPTERS.length+1}, all ${Q.length} questions</span>${btn(fin?'btn-primary':'btn-ghost','startFinal()','Start the mixed exam')}</span></div>`);
+  return `<div class="gallery">${cards.join('')}</div>`;
+}
+function nextBar(p){
+  if(p.next>=CHAPTERS.length) return `<div class="nextbar">${tile('exam','gray')}<span class="step-tx"><span class="step-tag">${stepTag(p,null)}</span>`+
+    `<span class="step-t">Step ${CHAPTERS.length+1}: Mixed exam</span></span>${btn('btn-primary','startFinal()','Start the mixed exam')}</div>`;
+  const i=p.next, c=CHAPTERS[i], s=p.st[i], [icn,col]=lookFor(c);
+  const go=(s.read||s.got) ? btn('btn-primary',`practiceCh('${c.id}')`,practiceLabel(s)) : btn('btn-primary',`readStep(${i})`,'Read the guide');
+  return `<div class="nextbar">${tile(icn,col)}<span class="step-tx"><span class="step-tag">${stepTag(p,s)}</span>`+
+    `<span class="step-t">Step ${i+1}: ${guideFor(c.id).title}</span></span>${go}</div>`;
 }
 function renderHome(){
-  const p=planState(), lead=Math.min(p.next,CHAPTERS.length), rows=[];
-  // every step before the current one is done by construction, so two or more fold into one row
-  if(lead>=2){
-    rows.push(`<li class="step done done-sum"><button class="step-row" onclick="toggleDone()" aria-expanded="${showDone}">`+
-      `<span class="step-n">${ic('check','ic ic-16')}</span><span class="step-tx"><span class="step-t">Steps 1 to ${lead} done</span></span>`+
-      `<span class="step-tog">${showDone?'Hide':'Show'}</span></button></li>`);
-  }
-  for(let i=0;i<CHAPTERS.length;i++) if(i>=lead || lead<2 || showDone) rows.push(stepRow(i,p));
-  const fin=p.next===CHAPTERS.length;
-  rows.push(`<li class="step final${fin?' next':''}"><div class="step-row">`+
-    `<span class="step-n">${CHAPTERS.length+1}</span><span class="step-tx">${fin?`<span class="step-tag">${stepTag(p,null)}</span>`:''}`+
-    `<span class="step-t">Mixed exam</span><span class="step-s">All ${Q.length} questions, chapters shuffled together</span></span>`+
-    (fin?'':btn('btn-ghost step-start','startFinal()','Start'))+`</div>`+
-    (fin?`<div class="step-act">${btn('btn-primary','startFinal()','Start the mixed exam')}</div>`:'')+`</li>`);
-  document.getElementById('plan').innerHTML=rows.join('');
+  applyLook(); document.body.dataset.mode=MODE;
+  const p=planState();
+  document.getElementById('views').innerHTML=[['plan','Plan','ch-list'],['board','Board','ch-board'],['gallery','Gallery','ch-gallery']].map(([v,l,i])=>
+    `<button class="vtab${LOOK.view===v?' on':''}" role="tab" aria-selected="${LOOK.view===v}" onclick="setView('${v}')">${ic(i,'ic ic-16')}${l}</button>`).join('');
+  document.getElementById('db-view').innerHTML = LOOK.view==='board' ? nextBar(p)+renderBoard(p) : LOOK.view==='gallery' ? nextBar(p)+renderGallery(p) : renderPlanList(p);
+  const bd=document.querySelector('#db-view .board'), bc=bd && bd.querySelector('.bcard.next');
+  if(bc && bd.scrollWidth>bd.clientWidth) bd.scrollLeft += bc.closest('.bcol').getBoundingClientRect().left - bd.getBoundingClientRect().left; // phone: show the current card's column
   const nv=VIDEOS.reduce((a,g)=>a+g.items.length,0);
-  const tools=[['pen','Recall key terms',`${GLOSSARY.length} terms, typed from memory`,"openTool('recall')"],
-    ['book','Key terms list',`All ${GLOSSARY.length} definitions, searchable`,'openTerms()'],
-    ['cards','Preview cards',`Flip through all ${Q.length} questions`,"openTool('flash')"],
-    ['bolt','Match','Timed term matching',"openTool('match')"],
-    ['play','Videos',`${nv} videos, grouped by topic`,"openTool('videos')"]];
-  document.getElementById('tools').innerHTML=tools.map(([i,t,s,fn])=>
-    `<button class="tool" onclick="${fn}"><span class="tool-ic">${ic(i)}</span><span class="step-tx"><span class="tool-t">${t}</span>`+
+  const tools=[['pen','blue','Recall key terms',`${GLOSSARY.length} terms, typed from memory`,"openTool('recall')"],
+    ['book','brown','Key terms list',`All ${GLOSSARY.length} definitions, searchable`,'openTerms()'],
+    ['cards','orange','Preview cards',`Flip through all ${Q.length} questions`,"openTool('flash')"],
+    ['bolt','yellow','Match','Timed term matching',"openTool('match')"],
+    ['play','red','Videos',`${nv} videos, grouped by topic`,"openTool('videos')"]];
+  document.getElementById('tools').innerHTML=tools.map(([i,col,t,s,fn])=>
+    `<button class="tool" onclick="${fn}">${tile(i,col,'itile-sm')}<span class="step-tx"><span class="tool-t">${t}</span>`+
     `<span class="tool-s">${s}</span></span>${ic('chev-r','ic step-go')}</button>`).join('');
-  renderProgress();
+  renderProgress(); renderCrumbs('home');
 }
+function setView(v){ LOOK.view=v; saveLook(); playClick(); renderHome(); }
 function toggleDone(){ showDone=!showDone; playClick(); renderHome();
   const b=document.querySelector('#plan .done-sum .step-row'); if(b) b.focus(); } // the re-render dropped focus to <body>
+
+// ---- covers: generated art (no image files), plus Notion-style solid colors ----
+let svgN=0;
+function spectrumSVG(){ // hydrogen's four visible emission lines at their real wavelengths
+  const id='glow'+(++svgN), x=l=>(300+(l-400)/300*600).toFixed(1);
+  let s=`<svg viewBox="0 0 1200 280" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><filter id="${id}" x="-2" y="0" width="5" height="1"><feGaussianBlur stdDeviation="7"/></filter></defs>`+
+    `<rect width="1200" height="280" fill="#15141B"/>`;
+  [[410.2,'#7C4DFF'],[434.0,'#4457FF'],[486.1,'#2EC4F5'],[656.3,'#FF4433']].forEach(([l,c])=>{
+    s+=`<rect x="${x(l)-7}" y="0" width="14" height="164" fill="${c}" opacity=".5" filter="url(#${id})"/><rect x="${x(l)-1.5}" y="0" width="3" height="164" fill="${c}"/>`; });
+  for(let l=400;l<=700;l+=50) s+=`<path d="M${x(l)} 176v8" stroke="#6B6875" stroke-width="1.5"/><text x="${x(l)}" y="202" fill="#9A97A4" font-size="13" text-anchor="middle" font-family="Segoe UI,system-ui,sans-serif">${l} nm</text>`;
+  return s+`</svg>`;
+}
+const ELEM='H He Li Be B C N O F Ne Na Mg Al Si P S Cl Ar K Ca Sc Ti V Cr Mn Fe Co Ni Cu Zn Ga Ge As Se Br Kr Rb Sr Y Zr Nb Mo Tc Ru Rh Pd Ag Cd In Sn Sb Te I Xe Cs Ba La Ce Pr Nd Pm Sm Eu Gd Tb Dy Ho Er Tm Yb Lu Hf Ta W Re Os Ir Pt Au Hg Tl Pb Bi Po At Rn Fr Ra Ac Th Pa U Np Pu Am Cm Bk Cf Es Fm Md No Lr Rf Db Sg Bh Hs Mt Ds Rg Cn Nh Fl Mc Lv Ts Og'.split(' ');
+function elemPos(z){ // [column, row, block]; Lu and Lr sit in group 3 and La to Yb / Ac to No form the f rows, as on his handout
+  if(z===1) return [1,1,'s']; if(z===2) return [18,1,'n'];
+  for(const [z0,per] of [[3,2],[11,3]]) if(z>=z0&&z<z0+8){ const k=z-z0; return k<2?[k+1,per,'s']:[k+11,per,k===7?'n':'p']; }
+  for(const [z0,per] of [[19,4],[37,5]]) if(z>=z0&&z<z0+18){ const g=z-z0+1; return [g,per,g<=2?'s':g<=12?'d':g===18?'n':'p']; }
+  for(const [z0,per,fr] of [[55,6,8.5],[87,7,9.5]]) if(z>=z0&&z<z0+32){ const k=z-z0;
+    if(k<2) return [k+1,per,'s']; if(k<16) return [k+2,fr,'f']; if(k===16) return [3,per,'d']; const g=k-13; return [g,per,g<=12?'d':g===18?'n':'p']; }
+}
+function tableSVG(){
+  const B={s:'pink',d:'blue',p:'yellow',f:'green',n:'purple'}, P=27, T=24;
+  let s=`<svg viewBox="-12 -10 510 278" preserveAspectRatio="xMidYMid meet" aria-hidden="true">`;
+  ELEM.forEach((sym,i)=>{ const [c,r,b]=elemPos(i+1), k=NC[B[b]], x=(c-1)*P, y=(r-1)*P;
+    s+=`<rect x="${x}" y="${y}" width="${T}" height="${T}" rx="3" fill="${k[2]}"/><text x="${x+T/2}" y="${y+16}" fill="${k[3]}" font-size="10" font-weight="600" text-anchor="middle" font-family="Segoe UI,system-ui,sans-serif">${sym}</text>`; });
+  return s+`</svg>`;
+}
+function coverArt(name){ return name==='spectrum' ? spectrumSVG() : name==='table' ? tableSVG() : ''; }
+function patternURL(icon,color){ // the step's own icon, tiled faintly, for step covers and gallery cards
+  const sym=document.getElementById('i-'+icon); if(!sym) return 'none';
+  const svg=`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><g transform='translate(36 36)' fill='none' stroke='${color}' stroke-opacity='.24' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'>${sym.innerHTML.replace(/"/g,"'")}</g></svg>`;
+  return `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
+}
+function applyLook(){
+  const r=document.documentElement;
+  r.dataset.font=LOOK.font; r.classList.toggle('small',!!LOOK.small); r.classList.toggle('full',!!LOOK.full);
+  const cv=document.getElementById('home-cover');
+  if(cv.dataset.cover!==LOOK.cover){ cv.dataset.cover=LOOK.cover; cv.querySelector('.cover-art').innerHTML=coverArt(LOOK.cover); }
+  document.getElementById('home').classList.toggle('no-cover', LOOK.cover==='none');
+  const k=NC[LOOK.color], pi=document.getElementById('home-icon');
+  pi.style.setProperty('--tb',k[1]); pi.style.setProperty('--tc',k[0]); pi.innerHTML=ic(LOOK.icon);
+}
+
+// ---- popovers: Change cover, Change icon, Style (Notion's page menu) ----
+let POP=null;
+function closePops(){ document.querySelectorAll('.pop').forEach(p=>p.hidden=true); document.querySelectorAll('[aria-haspopup]').forEach(b=>b.setAttribute('aria-expanded','false')); POP=null; }
+function togglePop(name, anchor){
+  const was=POP===name; closePops(); if(was) return;
+  const el=document.getElementById('pop-'+name); renderPop(name); el.hidden=false; POP=name;
+  anchor.setAttribute('aria-expanded','true');
+  const a=anchor.getBoundingClientRect(), w=el.offsetWidth, vw=document.documentElement.clientWidth;
+  el.style.top=(a.bottom+window.scrollY+6)+'px';
+  el.style.left=Math.max(8, Math.min(name==='cover'||name==='style' ? a.right-w : a.left, vw-w-8))+'px';
+  const f=el.querySelector('button'); if(f) f.focus();
+}
+function renderPop(name){
+  const el=document.getElementById('pop-'+name);
+  if(name==='cover') el.innerHTML=`<div class="pop-h">Cover</div><div class="cv-grid">`+COVERS.map(([k,l])=>
+    `<button class="cv-opt${LOOK.cover===k?' on':''}" aria-pressed="${LOOK.cover===k}" onclick="setLook('cover','${k}')"><span class="cv-th" data-cover="${k}">${coverArt(k)}</span><span class="cv-l">${l}</span></button>`).join('')+`</div>`;
+  else if(name==='icon') el.innerHTML=`<div class="pop-h">Icon</div><div class="ic-grid">`+ICONS.map(n=>
+    `<button class="ic-opt${LOOK.icon===n?' on':''}" aria-pressed="${LOOK.icon===n}" aria-label="${n.slice(3)}" onclick="setLook('icon','${n}')" style="--tc:${NC[LOOK.color][0]}">${ic(n)}</button>`).join('')+
+    `</div><div class="pop-h">Color</div><div class="col-grid">`+Object.keys(NC).map(c=>
+    `<button class="col-opt${LOOK.color===c?' on':''}" aria-pressed="${LOOK.color===c}" aria-label="${c}" onclick="setLook('color','${c}')" style="--sw:${NC[c][0]}"></button>`).join('')+`</div>`;
+  else el.innerHTML=`<div class="pop-h">Style</div><div class="font-grid">`+[['default','Default'],['serif','Serif'],['mono','Mono']].map(([k,l])=>
+    `<button class="font-opt f-${k}${LOOK.font===k?' on':''}" aria-pressed="${LOOK.font===k}" onclick="setLook('font','${k}')"><span class="font-ag">Ag</span><span class="font-l">${l}</span></button>`).join('')+`</div>`+
+    [['small','Small text'],['full','Full width']].map(([k,l])=>`<button class="sw-row" role="switch" aria-checked="${!!LOOK[k]}" onclick="setLook('${k}',${!LOOK[k]})"><span>${l}</span><span class="sw${LOOK[k]?' on':''}"><i></i></span></button>`).join('');
+}
+function setLook(k,v){
+  LOOK[k]=v; saveLook(); playClick();
+  if(MODE==='home') renderHome(); else applyLook();
+  if(k==='cover'||k==='icon') closePops(); else if(POP){ renderPop(POP); const f=document.querySelector('#pop-'+POP+' .on, #pop-'+POP+' [aria-checked]'); if(f) f.focus(); }
+}
+document.addEventListener('mousedown', e=>{ if(POP && !e.target.closest('.pop') && !e.target.closest('[aria-haspopup]')) closePops(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape' && POP){ const b=document.querySelector('[aria-haspopup][aria-expanded="true"]'); closePops(); if(b) b.focus(); } });
+
+// ---- top bar breadcrumbs ----
+function renderCrumbs(kind,i){
+  const k=NC[LOOK.color], root=`<span class="crumb-ic" style="--tc:${k[0]}">${ic(LOOK.icon,'ic ic-16')}</span>Exam 2 study plan`;
+  let h = kind==='home' ? `<span class="crumb cur">${root}</span>` : `<button class="crumb" onclick="goHome()">${root}</button><span class="crumb-sep">/</span>`;
+  if(kind==='read'){ const c=CHAPTERS[i], [icn,col]=lookFor(c); h+=`<span class="crumb cur"><span class="crumb-ic" style="--tc:${NC[col][0]}">${ic(icn,'ic ic-16')}</span><span class="crumb-t">${guideFor(c.id).title}</span></span>`; }
+  if(kind==='terms') h+=`<span class="crumb cur">Key terms</span>`;
+  document.getElementById('crumbs').innerHTML=h;
+  document.getElementById('tb-back').hidden = kind==='home';
+}
+
+// ---- step page: its own cover and icon, Notion properties, the guide, then practice ----
+function prop(icon,label,value){ return `<div class="prop"><span class="prop-k">${ic(icon,'ic ic-16')}${label}</span><span class="prop-v">${value}</span></div>`; }
 function readStep(i){
-  const c=CHAPTERS[i], g=guideFor(c.id), s=stepState(c), last=i+1>=CHAPTERS.length;
-  FCH=c.id; playClick(); readSet.add(c.id); saveRead();
-  document.getElementById('read-pos').textContent=`Step ${i+1} of ${CHAPTERS.length}`;
-  const nx = last ? ['startFinal()', `Mixed exam, all ${Q.length} questions`] : [`readStep(${i+1})`, guideFor(CHAPTERS[i+1].id).title];
-  document.getElementById('read-body').innerHTML=`<div class="g-topics">${g.topics}</div><h1 class="read-h">${g.title}</h1>${g.html}`+
+  const c=CHAPTERS[i], g=guideFor(c.id), last=i+1>=CHAPTERS.length, [icn,col]=lookFor(c), k=NC[col];
+  FCH=c.id; playClick(); readSet.add(c.id); saveRead(); closePops();
+  const s=stepState(c);
+  const cv=document.getElementById('read-cover'); cv.style.setProperty('--cb',k[1]); cv.style.setProperty('--pat',patternURL(icn,k[0]));
+  const ri=document.getElementById('read-icon'); ri.style.setProperty('--tb',k[1]); ri.style.setProperty('--tc',k[0]); ri.innerHTML=ic(icn);
+  document.getElementById('read-title').textContent=g.title;
+  document.getElementById('read-props').innerHTML=
+    prop('ch-status','Status',statusPill(s)) + prop('ch-list','Topics',g.topics) +
+    prop('ch-hash','Questions',`${bar(s,true)}${s.got} of ${s.n} recalled`) + (s.terms?prop('book','Key terms',String(s.terms)):'') +
+    prop('ch-trend','Step',`<span id="read-pos">Step ${i+1} of ${CHAPTERS.length+1}</span>`);
+  const nx = last ? ['startFinal()', `Mixed exam, all ${Q.length} questions`, 'exam', 'gray'] : [`readStep(${i+1})`, guideFor(CHAPTERS[i+1].id).title, ...lookFor(CHAPTERS[i+1])];
+  document.getElementById('read-body').innerHTML=g.html+
     `<div class="read-do">${btn('btn-primary',`practiceCh('${c.id}')`,practiceLabel(s))}`+
     (s.terms?btn('btn-ghost',`recallCh('${c.id}')`,`Recall ${plural(s.terms,'key term','key terms')}`):'')+`</div>`+
-    `<button class="read-next" onclick="${nx[0]}"><span class="step-tx"><span class="rn-l">Next: step ${i+2}</span><span class="rn-t">${nx[1]}</span></span>${ic('chev-r')}</button>`;
-  show('read'); window.scrollTo(0,0);
+    `<button class="read-next" onclick="${nx[0]}">${tile(nx[2],nx[3],'itile-sm')}<span class="step-tx"><span class="rn-l">Next: step ${i+2}</span><span class="rn-t">${nx[1]}</span></span>${ic('chev-r')}</button>`;
+  renderCrumbs('read',i); show('read'); window.scrollTo(0,0);
 }
-function practiceCh(id){ FCH=id; enter('learn'); }
-function recallCh(id){ FCH=id; enter('recall'); }
-function startFinal(){ FCH='all'; enter('exam'); }
-function openTool(m){ FCH='all'; enter(m); }
-function openTerms(){ FCH='all'; playClick(); document.getElementById('term-filter').value=''; show('terms'); renderTerms(); window.scrollTo(0,0); }
+function practiceCh(id){ FCH=id; closePops(); enter('learn'); }
+function recallCh(id){ FCH=id; closePops(); enter('recall'); }
+function startFinal(){ FCH='all'; closePops(); enter('exam'); }
+function openTool(m){ FCH='all'; closePops(); enter(m); }
+function openTerms(){ FCH='all'; playClick(); closePops(); document.getElementById('term-filter').value=''; renderCrumbs('terms'); show('terms'); renderTerms(); window.scrollTo(0,0); }
 function renderTerms(){
   if(document.getElementById('panel-terms').hidden) return;
   const f=(document.getElementById('term-filter').value||'').trim().toLowerCase();

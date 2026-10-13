@@ -1,0 +1,63 @@
+<!-- ================= TOP BAR (plan, step pages, key terms) ================= -->
+<div id="topbar">
+  <div class="tb-left">
+    <button class="tb-back" id="tb-back" onclick="goHome()" aria-label="Back to the plan" hidden><svg class="ic" aria-hidden="true"><use href="#i-back"/></svg></button>
+    <nav class="crumbs" id="crumbs" aria-label="Breadcrumb"></nav>
+  </div>
+  <button class="tb-btn" id="style-btn" aria-haspopup="dialog" aria-expanded="false" onclick="togglePop('style', this)"><svg class="ic ic-16" aria-hidden="true"><use href="#i-ch-style"/></svg>Style</button>
+</div>
+<div class="pop" id="pop-style" role="dialog" aria-label="Page style" hidden></div>
+<div class="pop" id="pop-cover" role="dialog" aria-label="Change cover" hidden></div>
+<div class="pop" id="pop-icon" role="dialog" aria-label="Change icon" hidden></div>
+
+<!-- ================= HOME (Exam 2 study plan) ================= -->
+<div id="home" class="page on">
+  <div class="cover" id="home-cover">
+    <div class="cover-art"></div>
+    <div class="cover-in wrap"><button class="cover-btn" aria-haspopup="dialog" aria-expanded="false" onclick="togglePop('cover', this)"><svg class="ic ic-16" aria-hidden="true"><use href="#i-ch-image"/></svg>Change cover</button></div>
+  </div>
+  <div class="wrap pg">
+    <button class="pg-icon" id="home-icon" aria-label="Change page icon" aria-haspopup="dialog" aria-expanded="false" onclick="togglePop('icon', this)"></button>
+    <h1 class="pg-title">Exam 2 study plan</h1>
+    <div class="props">
+      <div class="prop"><span class="prop-k"><svg class="ic ic-16" aria-hidden="true"><use href="#i-ch-cal"/></svg>Exam</span><span class="prop-v">Wednesday, October 14, 10:00 AM</span></div>
+      <div class="prop"><span class="prop-k"><svg class="ic ic-16" aria-hidden="true"><use href="#i-ch-room"/></svg>Room</span><span class="prop-v">Lakeview Science Center 210</span></div>
+      <div class="prop"><span class="prop-k"><svg class="ic ic-16" aria-hidden="true"><use href="#i-ch-list"/></svg>Covers</span><span class="prop-v"><span class="pill" style="--pb:#E3E2E0;--pt:#32302C">Chapter 3</span><span class="pill" style="--pb:#E3E2E0;--pt:#32302C">Chapter 4.1 to 4.3</span></span></div>
+      <div class="prop"><span class="prop-k"><svg class="ic ic-16" aria-hidden="true"><use href="#i-ch-bag"/></svg>Bring</span><span class="prop-v">Scantron, #2 pencil, calculator</span></div>
+    </div>
+
+    <section class="db" aria-labelledby="db-plan-h">
+      <div class="db-head"><h2 class="db-title" id="db-plan-h">Study plan</h2><span class="plan-prog"><span class="bar" aria-hidden="true"><i id="plan-bar"></i></span><span class="plan-done" id="plan-done"></span></span></div>
+      <div class="db-bar"><div class="views" id="views" role="tablist" aria-label="Plan views"></div></div>
+      <div id="db-view"></div>
+    </section>
+    <div class="callout c-gray"><svg class="ic" aria-hidden="true"><use href="#i-ch-pin"/></svg><p>The formula sheet and periodic table are handed out with the exam. Everything in a Memorize box is not.</p></div>
+    <section class="db" aria-labelledby="db-more-h">
+      <h2 class="db-title" id="db-more-h">More practice</h2>
+      <div class="tools" id="tools"></div>
+    </section>
+  </div>
+</div>
+
+<!-- ================= READ (one step page) ================= -->
+<div id="read" class="page">
+  <div class="cover cover-step" id="read-cover"></div>
+  <div class="wrap pg">
+    <div class="pg-icon" id="read-icon" aria-hidden="true"></div>
+    <h1 class="pg-title read-h" id="read-title"></h1>
+    <div class="props" id="read-props"></div>
+    <article class="guide" id="read-body"></article>
+  </div>
+</div>
+
+<!-- ================= KEY TERMS ================= -->
+<div id="terms" class="page">
+  <div class="wrap pg pg-plain">
+    <div class="pg-icon" aria-hidden="true" style="--tb:#F4EEEE;--tc:#8A5A44"><svg class="ic" aria-hidden="true"><use href="#i-book"/></svg></div>
+    <h1 class="pg-title">Key terms</h1>
+    <div id="panel-terms">
+      <div class="filter"><svg class="ic" aria-hidden="true"><use href="#i-search"/></svg><input id="term-filter" type="search" placeholder="Filter terms" aria-label="Filter key terms" oninput="renderTerms()" autocomplete="off"></div>
+      <div class="terms" id="term-list"></div>
+    </div>
+  </div>
+</div>

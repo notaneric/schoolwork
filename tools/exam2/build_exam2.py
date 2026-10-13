@@ -19,10 +19,13 @@ def sub(text, old, new, label):
     assert n == 1, "%s: expected exactly 1 match, got %d" % (label, n)
     return text.replace(old, new)
 
-css = rd(V2 / "style.css") + rd(HERE / "guide.css") + rd(HERE / "plan.css")
+# The Notion-style page: cover, icon, properties, Plan/Board/Gallery views, page menu (S214). The plain
+# study-plan look it replaced is in git history at 3222be5.
+LOOK_CSS, LOOK_JS, LOOK_HOME = "notion.css", "notion.js", "notion-home.html"
+css = rd(V2 / "style.css") + rd(HERE / "guide.css") + rd(HERE / LOOK_CSS)
 body = rd(V2 / "body.html")
 # EXAM2_PLAN_JS lets the failing-control test swap in a mutated plan; the live file is never edited.
-plan_js = rd(os.environ.get("EXAM2_PLAN_JS") or (HERE / "plan.js"))
+plan_js = rd(os.environ.get("EXAM2_PLAN_JS") or (HERE / LOOK_JS))
 ea, eb, ec = rd(V2 / "engine-a.js"), rd(V2 / "engine-b.js"), rd(V2 / "engine-c.js")
 # EXAM2_DATA_Q lets the failing-control test point the build at a mutated copy; the live file is never edited.
 data = rd(os.environ.get("EXAM2_DATA_Q") or (HERE / "data-q.js")) + "\n" + rd(HERE / "data-rest.js")
@@ -58,7 +61,9 @@ head = ('<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="UTF-8">\n'
 # in home.html: a numbered step per chapter, a read view per step, and a key-terms screen.
 H0, H1 = "<!-- ================= HOME ================= -->", "<!-- ================= FLASHCARDS ================= -->"
 assert body.count(H0) == 1 and body.count(H1) == 1 and body.index(H0) < body.index(H1), "home block markers"
-body = body[:body.index(H0)] + rd(HERE / "home.html") + "\n" + body[body.index(H1):]
+body = body[:body.index(H0)] + rd(HERE / LOOK_HOME) + "\n" + body[body.index(H1):]
+# chemistry icons (one per step, plus page-menu glyphs) join the shared sprite
+body = sub(body, "</defs></svg>", rd(HERE / "icons.html") + "</defs></svg>", "icon sprite")
 body = sub(body, '<div class="fc-count" id="fc-count">1 of 118</div>', '<div class="fc-count" id="fc-count">1 of %d</div>' % NQ, "fc count")
 n = body.count('</svg>Set</button>')
 assert n == 5, "mode-bar back buttons: expected 5, got %d" % n
@@ -78,6 +83,8 @@ eb = sub(eb, "const screens=['home','flash','learn','match','recall','videos','c
          "const screens=['home','read','terms','flash','learn','match','recall','videos','close'];", "screens")
 # home always shows the whole plan, so the chapter filter a step set is cleared on the way back
 eb = sub(eb, "show('home'); renderHome();", "FCH='all'; show('home'); renderHome();", "goHome resets filter")
+# the Notion top bar shows only on page screens; each screen change tags <body> so CSS can tell
+eb = sub(eb, "MODE=id; }", "MODE=id; document.body.dataset.mode=id; }", "show tags body")
 n = eb.count("label:'Back to set'")
 assert n == 2, "close-card back labels: expected 2, got %d" % n
 eb = eb.replace("label:'Back to set'", "label:'Back to plan'")
@@ -119,7 +126,7 @@ sizes = set(re.findall(r"font-size:\s*(\d+(?:\.\d+)?)px", css))
 assert sizes <= {"48", "32", "24", "18", "16", "14", "13"}, "off-scale px sizes in CSS: %s" % sorted(sizes)
 assert "Exam 1" not in chrome.replace("Exam 1 Study Set", ""), "stale 'Exam 1' copy in the chrome"
 # one measure: the 640px plan column sets the line length, so no element caps itself in ch inside it
-assert not re.search(r"max-width:\s*\d+ch", rd(HERE / "guide.css") + rd(HERE / "plan.css")), "ch-capped measure inside the plan column"
+assert not re.search(r"max-width:\s*\d+ch", rd(HERE / "guide.css") + rd(HERE / LOOK_CSS)), "ch-capped measure inside the plan column"
 
 OUT.parent.mkdir(exist_ok=True)
 io.open(OUT, "w", encoding="utf-8", newline="\n").write(out)
