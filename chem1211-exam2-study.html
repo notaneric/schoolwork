@@ -340,7 +340,7 @@ textarea.ta:disabled{background:var(--surface-2);color:var(--body)}
 }
 
 /* ============ REVIEW GUIDE (Exam 2 addition): reading view, same tokens and type scale ============ */
-.guide{max-width:68ch}
+.guide{max-width:none}
 .guide .g-intro{font-size:var(--t14);color:var(--muted);margin:0 0 28px;line-height:1.55}
 .g-sec{padding:0 0 32px;margin:0 0 32px;border-bottom:1px solid var(--line)}
 .g-sec:last-child{border-bottom:0}
@@ -352,7 +352,8 @@ textarea.ta:disabled{background:var(--surface-2);color:var(--body)}
 .guide b{color:var(--ink);font-weight:600}
 .guide .math-block{margin:0 0 16px;line-height:1.75;overflow-x:auto}
 .g-memo{background:var(--accent-soft);border:1px solid var(--accent-tint);border-radius:var(--r-card);padding:14px 16px;margin:0 0 16px}
-.g-memo-h,.g-ex-h{font-size:var(--t13);font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin:0 0 6px}
+/* sentence case on purpose: uppercase turned d4/d9 into D4/D9 and NClOF into NCLOF */
+.g-memo-h,.g-ex-h{font-size:var(--t14);font-weight:700;margin:0 0 6px}
 .g-memo-h{color:var(--accent)}
 .g-ex-h{color:var(--muted)}
 .g-memo p{margin:0}
@@ -380,6 +381,109 @@ textarea.ta:disabled{background:var(--surface-2);color:var(--body)}
   .g-h{font-size:var(--t18)}
   .g-tbl{font-size:var(--t13)}
   .g-tbl th,.g-tbl td{padding-right:8px}
+}
+
+/* ============ STUDY PLAN (Exam 2): every screen shares one centered 640px measure ============ */
+.wrap{max-width:640px}
+.close-card{max-width:none}
+#home{padding-top:48px}
+#read,#terms{display:none;padding-bottom:16px}
+#read.on,#terms.on{display:block}
+.plan-wrap .mode-bar{position:relative;margin-bottom:20px}
+.plan-wrap .mode-bar .mt{position:absolute;left:50%;transform:translateX(-50%);white-space:nowrap}
+/* icon buttons carry 12px of padding; pull the outer ones out so their glyphs sit on the column edge */
+.mode-bar>.icon-btn:first-child{margin-left:-12px}
+.mode-bar>.icon-btn:last-child:not(:first-child),.mode-bar>.rt>.icon-btn:last-child{margin-right:-12px}
+
+/* header */
+.ph{text-align:center;margin:0 0 40px}
+.ph .eyebrow{margin-bottom:10px}
+.ph .set-title{margin-bottom:14px}
+.ph-when{font-size:var(--t16);font-weight:600;color:var(--ink);line-height:1.45}
+.ph-bring{font-size:var(--t14);color:var(--muted);line-height:1.5;margin-top:4px}
+
+/* section heads */
+.plan-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:0 0 12px}
+.section-h{font-size:var(--t18);font-weight:700;color:var(--ink);letter-spacing:-.01em;line-height:1.3}
+.plan-done{font-size:var(--t14);font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums}
+.tools-h{margin:0 0 12px}
+
+/* the plan: one list, one row per step, the current step opened up */
+.plan{list-style:none;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-card);box-shadow:var(--shadow);overflow:hidden;margin:0 0 40px}
+.step{border-top:1px solid var(--line)}
+.step:first-child{border-top:0}
+.step-row{display:flex;align-items:center;gap:16px;width:100%;min-height:64px;padding:14px 20px;text-align:left;transition:background .15s var(--ease)}
+button.step-row:hover{background:var(--surface-2)}
+.step-row:focus-visible,.tool:focus-visible{outline-offset:-3px}
+.step-n{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--line-strong);display:inline-flex;align-items:center;justify-content:center;
+  font-size:var(--t14);font-weight:700;color:var(--muted);flex-shrink:0;font-variant-numeric:tabular-nums}
+.step-tx{flex:1;min-width:0}
+.step-tag{display:block;font-size:var(--t13);font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin-bottom:2px}
+.step-t{display:block;font-size:var(--t16);font-weight:600;color:var(--ink);line-height:1.35}
+.step-s{display:block;font-size:var(--t14);color:var(--muted);line-height:1.4;margin-top:2px}
+.step-st,.step-tog{font-size:var(--t13);font-weight:700;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+.step-st-in{display:none}
+.step-go{color:var(--muted)}
+button.step-row:hover .step-go,button.step-row:hover .step-tog{color:var(--accent)}
+.step.done .step-n{background:var(--success);border-color:var(--success);color:var(--surface)}
+.step.done .step-st{color:var(--success)}
+.step.next{background:var(--accent-soft)}
+.step.next button.step-row:hover{background:transparent}
+.step.next .step-n{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+.step.next .step-st{color:var(--accent)}
+.step-act{display:flex;gap:10px;padding:2px 20px 20px 68px}
+.step-act .btn{flex:1}
+.step-start{padding:0 18px;min-height:44px;font-size:var(--t14)}
+
+/* more practice: same row anatomy, quieter surface */
+.tools{border:1px solid var(--line);border-radius:var(--r-card);overflow:hidden}
+.tool{display:flex;align-items:center;gap:16px;width:100%;min-height:60px;padding:12px 20px;text-align:left;border-top:1px solid var(--line);transition:background .15s var(--ease)}
+.tool:first-child{border-top:0}
+.tool:hover{background:var(--surface-2)}
+.tool:hover .step-go{color:var(--accent)}
+.tool-ic{width:32px;display:inline-flex;justify-content:center;color:var(--muted);flex-shrink:0}
+.tool-t{display:block;font-size:var(--t16);font-weight:600;color:var(--ink);line-height:1.35}
+.tool-s{display:block;font-size:var(--t14);color:var(--muted);line-height:1.4}
+
+/* read view: one guide section, then its practice, then the next step */
+#read .g-topics{margin-top:8px}
+.read-h{font-size:var(--t32);font-weight:700;color:var(--ink);letter-spacing:-.02em;line-height:1.15;margin:0 0 20px}
+.read-do{display:flex;gap:10px;margin-top:32px;padding-top:24px;border-top:1px solid var(--line)}
+.read-do .btn{flex:1}
+.read-next{display:flex;align-items:center;gap:16px;width:100%;margin-top:12px;padding:16px 20px;text-align:left;background:var(--surface);
+  border:1px solid var(--line-strong);border-radius:var(--r-card);transition:border-color .15s var(--ease)}
+.read-next:hover{border-color:var(--accent)}
+.read-next:hover .ic{color:var(--accent)}
+.read-next .ic{color:var(--muted)}
+.rn-l{display:block;font-size:var(--t13);font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.rn-t{display:block;font-size:var(--t16);font-weight:600;color:var(--ink);line-height:1.35;margin-top:2px}
+
+/* key terms screen: text on the column edge like everything else */
+#terms .term{padding-left:0;padding-right:0}
+/* videos: the list takes the column (long words like Paramagnetic/Diamagnetic were widening it) */
+#vid-list{width:100%}
+.vid-tx h5{overflow-wrap:anywhere}
+.vid-intro{max-width:none}
+/* session close: the flag row has no count, so its label is pushed to the same x as the counted rows */
+.stat .n{min-width:44px}
+.stat.w .l{margin-left:60px}
+
+@media (max-width:480px){
+  #home{padding-top:24px}
+  .ph{margin-bottom:28px}
+  .step-row,.tool{gap:12px;padding:14px 16px}
+  .step-st:not(.step-st-in){display:none}
+  .step-st-in{display:block;margin-top:4px}
+  .step-act{flex-direction:column;padding:2px 16px 16px}
+  .read-h{font-size:var(--t24)}
+  .read-do{flex-direction:column}
+  #close{padding-top:24px}
+  .close-actions{flex-direction:column-reverse} /* the primary action is last in markup; on a phone it goes first */
+  .pile{align-items:flex-start}
+}
+@media (max-width:360px){
+  .ph .set-title{font-size:var(--t24)}
+  .ph-when{font-size:var(--t14)}
 }
 </style>
 </head>
@@ -409,56 +513,36 @@ textarea.ta:disabled{background:var(--surface-2);color:var(--body)}
 </defs></svg>
 <div id="top-bar"><span></span></div>
 
-<!-- ================= HOME ================= -->
-<div id="home" class="wrap on">
-  <div class="eyebrow">CHEM 1211 Exam 2, Wed Oct 14</div>
-  <h1 class="set-title">Chapter 3 and Chapter 4.1 to 4.3</h1>
-  <div class="set-meta"><b id="m-q">193</b> questions, <b id="m-t">96</b> key terms, <span id="m-ch">10 chapters</span></div>
-  <div class="hero"><span class="hero-n" id="rc-n">0</span><span class="hero-of" id="rc-of">of 289</span></div>
-  <p class="hero-p"><b>Recalled from cold.</b> Only answers you produce from memory count here, because recognizing an answer isn't the same as remembering it.</p>
-  <div class="chips-l">Chapter</div>
-  <div class="chips" id="chips"></div>
-  <div class="tabs" role="tablist">
-    <button class="tab on" id="tab-study" role="tab" aria-selected="true" onclick="setTab('study')">Study</button>
-    <button class="tab" id="tab-guide" role="tab" aria-selected="false" onclick="setTab('guide')">Review guide</button>
-    <button class="tab" id="tab-terms" role="tab" aria-selected="false" onclick="setTab('terms')">Key terms (<span id="m-t2">96</span>)</button>
+<!-- ================= HOME (Exam 2 study plan) ================= -->
+<div id="home" class="wrap plan-wrap on">
+  <header class="ph">
+    <div class="eyebrow">CHEM 1211 Exam 2</div>
+    <h1 class="set-title">Chapter 3 and Chapter 4.1 to 4.3</h1>
+    <p class="ph-when">Wednesday, October 14, 10:00 AM, Lakeview Science Center 210</p>
+    <p class="ph-bring">Bring a Scantron, a #2 pencil and a calculator. The formula sheet and periodic table are provided.</p>
+  </header>
+  <div class="plan-head"><h2 class="section-h">Study plan</h2><span class="plan-done" id="plan-done"></span></div>
+  <ol class="plan" id="plan"></ol>
+  <h2 class="section-h tools-h">More practice</h2>
+  <div class="tools" id="tools"></div>
+</div>
+
+<!-- ================= READ (one plan step at a time) ================= -->
+<div id="read" class="wrap plan-wrap">
+  <div class="mode-bar">
+    <button class="icon-btn" onclick="goHome()"><svg class="ic ic-16" aria-hidden="true"><use href="#i-back"/></svg>Plan</button>
+    <span class="mt" id="read-pos"></span>
   </div>
-  <div id="panel-study">
-    <div class="section-l">Study: produce it from memory</div>
-    <div class="modes">
-      <button class="mode" onclick="enter('recall')">
-        <span class="mode-ic"><svg class="ic ic-24" aria-hidden="true"><use href="#i-pen"/></svg></span>
-        <span class="mode-tx"><span class="mode-h">Recall <span class="badge best">Best</span></span><span class="mode-p">See a term, type the definition from a blank, then grade yourself. The hardest mode, and the best for memory.</span></span>
-        <svg class="ic mode-go" aria-hidden="true"><use href="#i-chev-r"/></svg>
-      </button>
-      <button class="mode" onclick="enter('learn')">
-        <span class="mode-ic"><svg class="ic ic-24" aria-hidden="true"><use href="#i-layers"/></svg></span>
-        <span class="mode-tx"><span class="mode-h">Learn</span><span class="mode-p">Commit an answer before the options appear, then get worked feedback. Repeats each question until you produce it twice.</span></span>
-        <svg class="ic mode-go" aria-hidden="true"><use href="#i-chev-r"/></svg>
-      </button>
-    </div>
-    <div class="modes secondary">
-      <button class="mode" onclick="enter('exam')">
-        <span class="mode-ic"><svg class="ic" aria-hidden="true"><use href="#i-exam"/></svg></span>
-        <span class="mode-tx"><span class="mode-h">Mixed Exam</span><span class="mode-p">All <span id="m-q2">193</span> questions, chapters interleaved, one scored pass. Practice under real-test conditions.</span></span>
-        <svg class="ic mode-go" aria-hidden="true"><use href="#i-chev-r"/></svg>
-      </button>
-      <button class="mode" onclick="enter('videos')">
-        <span class="mode-ic"><svg class="ic" aria-hidden="true"><use href="#i-play"/></svg></span>
-        <span class="mode-tx"><span class="mode-h">Videos <span class="badge ref">Reference</span></span><span class="mode-p">Every course video, verified and grouped by topic. Watch to unblock a concept, then go produce it.</span></span>
-        <svg class="ic mode-go" aria-hidden="true"><use href="#i-chev-r"/></svg>
-      </button>
-    </div>
-    <div class="section-l">Warm up: recognition only, doesn't build recall</div>
-    <div class="warmups">
-      <button class="warm" onclick="enter('flash')"><svg class="ic" aria-hidden="true"><use href="#i-cards"/></svg><span><span class="warm-h">Preview</span><span class="warm-p">Flip through the material first</span></span></button>
-      <button class="warm" onclick="enter('match')"><svg class="ic" aria-hidden="true"><use href="#i-bolt"/></svg><span><span class="warm-h">Match</span><span class="warm-p">Timed term game, doesn't count</span></span></button>
-    </div>
+  <article class="guide" id="read-body"></article>
+</div>
+
+<!-- ================= KEY TERMS ================= -->
+<div id="terms" class="wrap plan-wrap">
+  <div class="mode-bar">
+    <button class="icon-btn" onclick="goHome()"><svg class="ic ic-16" aria-hidden="true"><use href="#i-back"/></svg>Plan</button>
+    <span class="mt">Key terms</span>
   </div>
-  <div id="panel-guide" hidden>
-    <div class="guide" id="guide"></div>
-  </div>
-  <div id="panel-terms" hidden>
+  <div id="panel-terms">
     <div class="filter"><svg class="ic" aria-hidden="true"><use href="#i-search"/></svg><input id="term-filter" type="search" placeholder="Filter terms" aria-label="Filter key terms" oninput="renderTerms()" autocomplete="off"></div>
     <div class="terms" id="term-list"></div>
   </div>
@@ -467,7 +551,7 @@ textarea.ta:disabled{background:var(--surface-2);color:var(--body)}
 <!-- ================= FLASHCARDS ================= -->
 <div id="flash" class="wrap">
   <div class="mode-bar">
-    <button class="icon-btn" onclick="goHome()"><svg class="ic ic-16" aria-hidden="true"><use href="#i-back"/></svg>Set</button>
+    <button class="icon-btn" onclick="goHome()"><svg class="ic ic-16" aria-hidden="true"><use href="#i-back"/></svg>Plan</button>
     <span class="mt">Preview</span>
     <span class="rt">
       <button class="icon-btn" id="fc-shuffle" onclick="fcShuffle()"><svg class="ic ic-16" aria-hidden="true"><use href="#i-shuffle"/></svg>Shuffle</button>
@@ -502,7 +586,7 @@ textarea.ta:disabled{background:var(--surface-2);color:var(--body)}
 <div id="learn" class="wrap">
   <div id="learn-play" style="width:100%;display:flex;flex-direction:column;align-items:center">
     <div class="mode-bar">
-      <button class="icon-btn" onclick="goHome()"><svg class="ic ic-16" aria-hidden="true"><use href="#i-back"/></svg>Set</button>
+      <button class="icon-btn" onclick="goHome()"><svg class="ic ic-16" aria-hidden="true"><use href="#i-back"/></svg>Plan</button>
       <span class="mt" id="learn-title">Learn</span>
       <span class="pill" id="learn-round">Round 1</span>
     </div>
@@ -519,7 +603,7 @@ textarea.ta:disabled{background:var(--surface-2);color:var(--body)}
       <div class="diagram" id="learn-diagram" style="display:none"></div>
       <div class="q-text" id="learn-q"></div>
       <div class="produce" id="learn-produce">
-        <p class="produce-hint">Answer from memory first, even a rough guess. Producing the answer is where the learning happens.</p>
+        
         <textarea class="ta" id="learn-input" placeholder="Type your answer or the key idea…" aria-label="Your answer from memory"></textarea>
         <div class="conf-row">
           <button class="conf" data-c="guess" onclick="setConf('guess')">Guessing<span class="k">1</span></button>
@@ -539,7 +623,7 @@ textarea.ta:disabled{background:var(--surface-2);color:var(--body)}
 <div id="match" class="wrap">
   <div id="match-play" style="width:100%;display:flex;flex-direction:column;align-items:center">
     <div class="mode-bar">
-      <button class="icon-btn" onclick="goHome()"><svg class="ic ic-16" aria-hidden="true"><use href="#i-back"/></svg>Set</button>
+      <button class="icon-btn" onclick="goHome()"><svg class="ic ic-16" aria-hidden="true"><use href="#i-back"/></svg>Plan</button>
       <span class="mt">Match</span>
       <span class="rt"><span class="pill time" id="match-timer">0.0s</span>
         <button class="icon-btn" onclick="matchStart()"><svg class="ic ic-16" aria-hidden="true"><use href="#i-rotate"/></svg>Restart</button></span>
@@ -553,7 +637,7 @@ textarea.ta:disabled{background:var(--surface-2);color:var(--body)}
 <div id="recall" class="wrap">
   <div id="recall-play" style="width:100%;display:flex;flex-direction:column;align-items:center">
     <div class="mode-bar">
-      <button class="icon-btn" onclick="goHome()"><svg class="ic ic-16" aria-hidden="true"><use href="#i-back"/></svg>Set</button>
+      <button class="icon-btn" onclick="goHome()"><svg class="ic ic-16" aria-hidden="true"><use href="#i-back"/></svg>Plan</button>
       <span class="mt">Recall</span>
       <button class="icon-btn" onclick="recallFlip()"><svg class="ic ic-16" aria-hidden="true"><use href="#i-swap"/></svg><span id="rc-dir">Term to definition</span></button>
     </div>
@@ -580,11 +664,11 @@ textarea.ta:disabled{background:var(--surface-2);color:var(--body)}
 <!-- ================= VIDEOS (resource library) ================= -->
 <div id="videos" class="wrap">
   <div class="mode-bar">
-    <button class="icon-btn" onclick="goHome()"><svg class="ic ic-16" aria-hidden="true"><use href="#i-back"/></svg>Set</button>
+    <button class="icon-btn" onclick="goHome()"><svg class="ic ic-16" aria-hidden="true"><use href="#i-back"/></svg>Plan</button>
     <span class="mt">Videos</span>
     <span style="width:64px"></span>
   </div>
-  <p class="vid-intro">Every video I found and verified for this course, grouped by topic. Watch one to unblock a concept you're stuck on, then go <b>produce</b> it in Recall or Learn. Watching alone builds recognition, not recall.</p>
+  <p class="vid-intro">When a topic won't click, watch one, then go practice it. Watching alone builds recognition, not recall.</p>
   <div id="vid-list"></div>
 </div>
 
@@ -1199,7 +1283,7 @@ function gId(g){ return 'g'+hash(g.t); }
 
 // ===== state =====
 let FCH='all', MODE='home', HTAB='study';
-const screens=['home','flash','learn','match','recall','videos','close'];
+const screens=['home','read','terms','flash','learn','match','recall','videos','close'];
 function show(id){ screens.forEach(s=>document.getElementById(s).classList.toggle('on', s===id)); MODE=id; }
 function setBar(pct){ const b=document.getElementById('top-bar'); b.style.display=pct>=0?'block':'none'; b.firstElementChild.style.width=Math.max(0,Math.min(100,pct))+'%'; }
 
@@ -1247,21 +1331,21 @@ function countUp(root){
 // "<- Set" after >= 5 answers, or a Learn/Recall round ending, shows the summary before home.
 function sesClose(kind){
   SES.closed=true;
-  const cold=SES.cold.size, learning=SES.seen.size-cold, back={label:'Back to set',fn:'goHome()',primary:true};
-  if(kind==='exit') renderClose({kicker:SES.mode==='exam'?'Mixed Exam, stopped early':(SES.mode==='recall'?'Recall, stopped early':'Learn, stopped early'),
+  const cold=SES.cold.size, learning=SES.seen.size-cold, back={label:'Back to plan',fn:'goHome()',primary:true};
+  if(kind==='exit') renderClose({kicker:SES.mode==='exam'?'Mixed exam, stopped early':(SES.mode==='recall'?'Recall, stopped early':'Learn, stopped early'),
     title:`Recalled ${cold} from cold`, sub:'Only answers you produced from memory count. The rest come back next time.',
     g:cold, gl:'recalled from cold', a:learning, al:'still learning', actions:[back]});
   else if(kind==='round') renderClose({kicker:'Learn', title:`Round ${lnRound} done`,
     sub:"Every item you didn't produce twice comes back. That repetition is the point.",
     g:cold, gl:'recalled from cold', a:learning, al:'still learning',
-    actions:[{label:'Back to set',fn:'goHome()'},{label:'Next round',fn:'nextRound()',primary:true}]});
+    actions:[{label:'Back to plan',fn:'goHome()'},{label:'Next round',fn:'nextRound()',primary:true}]});
   else if(kind==='finish') renderClose({kicker:'Learn complete', title:`All ${LN.length} recalled from cold`,
     sub:'You produced every answer from memory at least twice. That is the kind of studying that transfers to the exam.',
     g:cold, gl:'recalled from cold', a:learning, al:'still learning', actions:[back]});
   else if(kind==='exam'){
     const pct=Math.round(examScore/lnQ.length*100), cm=LN.filter(x=>x.cm).length;
     const msg = pct>=90?'Exam-strong. Do a Recall pass on anything below to lock it.' : pct>=75?'Solid. Clean up the misses in Learn.' : 'Keep going. Run Learn on the weak chapters.';
-    renderClose({kicker:'Mixed Exam', title:`${examScore} of ${lnQ.length} correct (${pct}%)`,
+    renderClose({kicker:'Mixed exam', title:`${examScore} of ${lnQ.length} correct (${pct}%)`,
       sub:msg+(cm?` <b>${cm}</b> you were confident on but missed. Start there.`:''),
       g:examScore, gl:'correct', a:lnQ.length-examScore, al:'missed', actions:[back]});
   }
@@ -1272,53 +1356,107 @@ function sesClose(kind){
 }
 
 // ===== HOME =====
+// ===== HOME: the Exam 2 study plan, one step per chapter in study-guide topic order =====
+// A step is done when every one of its questions is in `recalled` (Learn mastery writes it),
+// so the plan reads the same storage key the engine already keeps. Nothing here is typed.
+let readSet = new Set(lsGet('chem1211e2_read_v1',[]));
+let showDone = false; // finished steps ahead of the current one fold into a single row
+function saveRead(){ lsSet('chem1211e2_read_v1',[...readSet]); }
+function plural(n,one,many){ return n+' '+(n===1?one:many); }
+function btn(cls,fn,label){ return `<button class="btn ${cls}" onclick="${fn}">${label}</button>`; }
+function guideFor(id){ return GUIDE.find(g=>g.ch===id); }
+function topicsLabel(g){ return g.topics.replace(/^Study guide t/,'T'); }
+function stepState(c){
+  const qs=Q.filter(q=>q.chId===c.id), got=qs.filter(q=>recalled.has(qId(q))).length;
+  return {n:qs.length, got, done:qs.length>0&&got===qs.length, read:readSet.has(c.id), terms:GLOSSARY.filter(g=>g.ch===c.id).length};
+}
+function planState(){
+  const st=CHAPTERS.map(stepState);
+  let next=st.findIndex(s=>!s.done); if(next<0) next=CHAPTERS.length; // all ten done: the mixed exam is next
+  return {st, next, fresh:st.every(s=>!s.got&&!s.read), done:st.filter(s=>s.done).length};
+}
 function renderProgress(){
-  document.getElementById('rc-n').textContent=recalled.size;
-  document.getElementById('rc-of').textContent=`of ${TOTAL_RECALLABLE}`;
+  const el=document.getElementById('plan-done'); if(!el) return;
+  el.textContent=`${planState().done} of ${CHAPTERS.length} done`;
+}
+function stepTag(p,s){ return p.fresh ? 'Start here' : (s && (s.got||s.read)) ? 'Continue here' : 'Up next'; }
+function stepStatus(s,cur){ return s.done ? 'Done' : s.got ? `${s.got} of ${s.n} recalled` : (s.read && !cur) ? 'Guide read' : ''; }
+// a fully recalled step practices everything again; a partial one resumes with what is left
+function practiceLabel(s){ const left=s.n-s.got;
+  return (s.got && !s.done) ? (left===1 ? 'Practice the last question' : `Practice the last ${left}`) : `Practice ${plural(s.n,'question','questions')}`; }
+function stepActions(i,c,s){
+  const pr=`practiceCh('${c.id}')`, rd=`readStep(${i})`, pl=practiceLabel(s);
+  return `<div class="step-act">` + (s.read||s.got
+    ? btn('btn-primary',pr,pl) + btn('btn-ghost',rd,'Reread the guide')
+    : btn('btn-primary',rd,'Read the guide') + btn('btn-ghost',pr,pl)) + `</div>`;
+}
+function stepRow(i,p){
+  const c=CHAPTERS[i], s=p.st[i], g=guideFor(c.id), cur=i===p.next, st=stepStatus(s,cur);
+  return `<li class="step${s.done?' done':''}${cur?' next':''}"><button class="step-row" onclick="readStep(${i})">`+
+    `<span class="step-n">${s.done?ic('check','ic ic-16'):i+1}</span>`+
+    `<span class="step-tx">${cur?`<span class="step-tag">${stepTag(p,s)}</span>`:''}<span class="step-t">${g.title}</span>`+
+    `<span class="step-s">${topicsLabel(g)}, ${plural(s.n,'question','questions')}</span>${st?`<span class="step-st step-st-in">${st}</span>`:''}</span>`+
+    (st?`<span class="step-st">${st}</span>`:'')+ic('chev-r','ic step-go')+`</button>${cur?stepActions(i,c,s):''}</li>`;
 }
 function renderHome(){
-  const counts={all:Q.length}; CHAPTERS.forEach(c=>counts[c.id]=Q.filter(q=>q.chId===c.id).length);
-  const chips=[{id:'all',short:'All'}].concat(CHAPTERS.map(c=>({id:c.id,short:c.short})));
-  document.getElementById('chips').innerHTML = chips.map(c=>
-    `<button class="chip ${FCH===c.id?'active':''}" aria-pressed="${FCH===c.id}" onclick="setFilter('${c.id}')">${c.short}<span class="cc">${counts[c.id]}</span></button>`).join('');
-  const gl=GLOSSARY.filter(g=>FCH==='all'||g.ch===FCH);
-  const nq=(FCH==='all'?Q.length:counts[FCH]);
-  document.getElementById('m-q').textContent = nq;
-  document.getElementById('m-q2').textContent = nq;
-  document.getElementById('m-t').textContent = gl.length;
-  document.getElementById('m-t2').textContent = gl.length;
-  document.getElementById('m-ch').textContent = FCH==='all' ? `${CHAPTERS.length} chapters` : SHORT[FCH];
-  renderTerms();
-  renderGuide();
+  const p=planState(), lead=Math.min(p.next,CHAPTERS.length), rows=[];
+  // every step before the current one is done by construction, so two or more fold into one row
+  if(lead>=2){
+    rows.push(`<li class="step done done-sum"><button class="step-row" onclick="toggleDone()" aria-expanded="${showDone}">`+
+      `<span class="step-n">${ic('check','ic ic-16')}</span><span class="step-tx"><span class="step-t">Steps 1 to ${lead} done</span></span>`+
+      `<span class="step-tog">${showDone?'Hide':'Show'}</span></button></li>`);
+  }
+  for(let i=0;i<CHAPTERS.length;i++) if(i>=lead || lead<2 || showDone) rows.push(stepRow(i,p));
+  const fin=p.next===CHAPTERS.length;
+  rows.push(`<li class="step final${fin?' next':''}"><div class="step-row">`+
+    `<span class="step-n">${CHAPTERS.length+1}</span><span class="step-tx">${fin?`<span class="step-tag">${stepTag(p,null)}</span>`:''}`+
+    `<span class="step-t">Mixed exam</span><span class="step-s">All ${Q.length} questions, chapters shuffled together</span></span>`+
+    (fin?'':btn('btn-ghost step-start','startFinal()','Start'))+`</div>`+
+    (fin?`<div class="step-act">${btn('btn-primary','startFinal()','Start the mixed exam')}</div>`:'')+`</li>`);
+  document.getElementById('plan').innerHTML=rows.join('');
+  const nv=VIDEOS.reduce((a,g)=>a+g.items.length,0);
+  const tools=[['pen','Recall key terms',`${GLOSSARY.length} terms, typed from memory`,"openTool('recall')"],
+    ['book','Key terms list',`All ${GLOSSARY.length} definitions, searchable`,'openTerms()'],
+    ['cards','Preview cards',`Flip through all ${Q.length} questions`,"openTool('flash')"],
+    ['bolt','Match','Timed term matching',"openTool('match')"],
+    ['play','Videos',`${nv} videos, grouped by topic`,"openTool('videos')"]];
+  document.getElementById('tools').innerHTML=tools.map(([i,t,s,fn])=>
+    `<button class="tool" onclick="${fn}"><span class="tool-ic">${ic(i)}</span><span class="step-tx"><span class="tool-t">${t}</span>`+
+    `<span class="tool-s">${s}</span></span>${ic('chev-r','ic step-go')}</button>`).join('');
   renderProgress();
 }
+function toggleDone(){ showDone=!showDone; playClick(); renderHome();
+  const b=document.querySelector('#plan .done-sum .step-row'); if(b) b.focus(); } // the re-render dropped focus to <body>
+function readStep(i){
+  const c=CHAPTERS[i], g=guideFor(c.id), s=stepState(c), last=i+1>=CHAPTERS.length;
+  FCH=c.id; playClick(); readSet.add(c.id); saveRead();
+  document.getElementById('read-pos').textContent=`Step ${i+1} of ${CHAPTERS.length}`;
+  const nx = last ? ['startFinal()', `Mixed exam, all ${Q.length} questions`] : [`readStep(${i+1})`, guideFor(CHAPTERS[i+1].id).title];
+  document.getElementById('read-body').innerHTML=`<div class="g-topics">${g.topics}</div><h1 class="read-h">${g.title}</h1>${g.html}`+
+    `<div class="read-do">${btn('btn-primary',`practiceCh('${c.id}')`,practiceLabel(s))}`+
+    (s.terms?btn('btn-ghost',`recallCh('${c.id}')`,`Recall ${plural(s.terms,'key term','key terms')}`):'')+`</div>`+
+    `<button class="read-next" onclick="${nx[0]}"><span class="step-tx"><span class="rn-l">Next: step ${i+2}</span><span class="rn-t">${nx[1]}</span></span>${ic('chev-r')}</button>`;
+  show('read'); window.scrollTo(0,0);
+}
+function practiceCh(id){ FCH=id; enter('learn'); }
+function recallCh(id){ FCH=id; enter('recall'); }
+function startFinal(){ FCH='all'; enter('exam'); }
+function openTool(m){ FCH='all'; enter(m); }
+function openTerms(){ FCH='all'; playClick(); document.getElementById('term-filter').value=''; show('terms'); renderTerms(); window.scrollTo(0,0); }
 function renderTerms(){
   if(document.getElementById('panel-terms').hidden) return;
   const f=(document.getElementById('term-filter').value||'').trim().toLowerCase();
   const gl=GLOSSARY.filter(g=>(FCH==='all'||g.ch===FCH) && (!f || (g.t+' '+g.d).toLowerCase().includes(f)));
   document.getElementById('term-list').innerHTML = gl.length
     ? gl.map(g=>`<div class="term"><div class="t">${g.t}</div><div class="d">${g.d}</div></div>`).join('')
-    : `<div class="terms-empty">No terms match "${escapeHtml(f)}" in this chapter.</div>`;
+    : `<div class="terms-empty">No terms match "${escapeHtml(f)}".</div>`;
 }
 function setTab(t){ HTAB=t; playClick();
   document.getElementById('panel-study').hidden = t!=='study';
   document.getElementById('panel-terms').hidden = t!=='terms';
-  document.getElementById('panel-guide').hidden = t!=='guide';
-  ['study','guide','terms'].forEach(k=>{ const b=document.getElementById('tab-'+k); b.classList.toggle('on',k===t); b.setAttribute('aria-selected', k===t?'true':'false'); });
+  ['study','terms'].forEach(k=>{ const b=document.getElementById('tab-'+k); b.classList.toggle('on',k===t); b.setAttribute('aria-selected', k===t?'true':'false'); });
   if(t==='terms') renderTerms();
-  if(t==='guide') renderGuide();
 }
-function renderGuide(){
-  if(document.getElementById('panel-guide').hidden) return;
-  const secs=GUIDE.filter(g=>FCH==='all'||g.ch===FCH);
-  const intro = FCH==='all' ? `<p class="g-intro">Read a section, then practice it. The formula sheet and periodic table are handed out with the exam; everything in a Memorize box is not.</p>` : '';
-  document.getElementById('guide').innerHTML = intro + secs.map(g=>{
-    const n=Q.filter(q=>q.chId===g.ch).length;
-    return `<section class="g-sec" id="g-${g.ch}"><div class="g-topics">${g.topics}</div><h2 class="g-h">${g.title}</h2>${g.html}`+
-      `<button class="btn btn-ghost g-go" onclick="practiceCh('${g.ch}')">Practice ${SHORT[g.ch]}, ${n} questions</button></section>`;
-  }).join('');
-}
-function practiceCh(id){ FCH=id; enter('learn'); }
 function setFilter(id){ FCH=id; playClick(); renderHome(); }
 function enter(mode){ playClick();
   if(mode==='recall'){ sesStart('recall'); recallInit(); }
@@ -1330,7 +1468,7 @@ function enter(mode){ playClick();
 }
 function goHome(){
   if((MODE==='learn'||MODE==='recall') && SES.answers>=5 && !SES.closed){ sesClose('exit'); return; }
-  playClick(); clearInterval(mTimer); setBar(-1); show('home'); renderHome(); window.scrollTo(0,0);
+  playClick(); clearInterval(mTimer); setBar(-1); FCH='all'; show('home'); renderHome(); window.scrollTo(0,0);
 }
 
 // ===== FLASHCARDS (Preview — recognition, non-mastery) =====
@@ -1363,8 +1501,9 @@ const ROUND=7;
 function learnInit(exam){
   examMode=!!exam;
   LN = filtered().map(x=>({q:x.q, id:qId(x.q), status:'new', c:0, pc:0, cm:false}));
+  if(!exam){ const had=LN.filter(x=>recalled.has(x.id)); if(had.length<LN.length) had.forEach(x=>x.status='master'); }
   lnRound=0; examScore=0; show('learn');
-  document.getElementById('learn-title').textContent = examMode ? 'Mixed Exam' : 'Learn';
+  document.getElementById('learn-title').textContent = examMode ? 'Mixed exam' : 'Learn';
   setPileLabels();
   if(examMode){ lnQ=interleave(LN.slice()); lnQ.forEach(x=>x.perm=buildPerm(x.q)); lnPos=0; startStage(); }
   else buildRound();
@@ -1562,7 +1701,7 @@ function matchWin(){
     <div class="close-k">Match</div>
     <div class="close-t">${t.toFixed(1)}s</div>
     <p class="close-s">${isBest?'New best time.':'Best so far: '+(best==null?'none':best+'s')+'.'} Warm-up done. Now go produce them in <b>Recall</b>. That's what sticks.</p>
-    <div class="close-actions"><button class="btn btn-ghost" onclick="matchStart()">Play again</button>
+    <div class="close-actions"><button class="btn btn-ghost" onclick="goHome()">Back to plan</button><button class="btn btn-ghost" onclick="matchStart()">Play again</button>
       <button class="btn btn-primary" onclick="enter('recall')">Recall${ic('chev-r','ic ic-16')}</button></div></div>`;
   win.classList.add('on');
   window.scrollTo(0,0);

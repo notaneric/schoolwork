@@ -1,6 +1,6 @@
 
 /* ============ REVIEW GUIDE (Exam 2 addition): reading view, same tokens and type scale ============ */
-.guide{max-width:68ch}
+.guide{max-width:none}
 .guide .g-intro{font-size:var(--t14);color:var(--muted);margin:0 0 28px;line-height:1.55}
 .g-sec{padding:0 0 32px;margin:0 0 32px;border-bottom:1px solid var(--line)}
 .g-sec:last-child{border-bottom:0}
@@ -12,7 +12,8 @@
 .guide b{color:var(--ink);font-weight:600}
 .guide .math-block{margin:0 0 16px;line-height:1.75;overflow-x:auto}
 .g-memo{background:var(--accent-soft);border:1px solid var(--accent-tint);border-radius:var(--r-card);padding:14px 16px;margin:0 0 16px}
-.g-memo-h,.g-ex-h{font-size:var(--t13);font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin:0 0 6px}
+/* sentence case on purpose: uppercase turned d4/d9 into D4/D9 and NClOF into NCLOF */
+.g-memo-h,.g-ex-h{font-size:var(--t14);font-weight:700;margin:0 0 6px}
 .g-memo-h{color:var(--accent)}
 .g-ex-h{color:var(--muted)}
 .g-memo p{margin:0}

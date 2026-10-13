@@ -1,0 +1,103 @@
+
+/* ============ STUDY PLAN (Exam 2): every screen shares one centered 640px measure ============ */
+.wrap{max-width:640px}
+.close-card{max-width:none}
+#home{padding-top:48px}
+#read,#terms{display:none;padding-bottom:16px}
+#read.on,#terms.on{display:block}
+.plan-wrap .mode-bar{position:relative;margin-bottom:20px}
+.plan-wrap .mode-bar .mt{position:absolute;left:50%;transform:translateX(-50%);white-space:nowrap}
+/* icon buttons carry 12px of padding; pull the outer ones out so their glyphs sit on the column edge */
+.mode-bar>.icon-btn:first-child{margin-left:-12px}
+.mode-bar>.icon-btn:last-child:not(:first-child),.mode-bar>.rt>.icon-btn:last-child{margin-right:-12px}
+
+/* header */
+.ph{text-align:center;margin:0 0 40px}
+.ph .eyebrow{margin-bottom:10px}
+.ph .set-title{margin-bottom:14px}
+.ph-when{font-size:var(--t16);font-weight:600;color:var(--ink);line-height:1.45}
+.ph-bring{font-size:var(--t14);color:var(--muted);line-height:1.5;margin-top:4px}
+
+/* section heads */
+.plan-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:0 0 12px}
+.section-h{font-size:var(--t18);font-weight:700;color:var(--ink);letter-spacing:-.01em;line-height:1.3}
+.plan-done{font-size:var(--t14);font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums}
+.tools-h{margin:0 0 12px}
+
+/* the plan: one list, one row per step, the current step opened up */
+.plan{list-style:none;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-card);box-shadow:var(--shadow);overflow:hidden;margin:0 0 40px}
+.step{border-top:1px solid var(--line)}
+.step:first-child{border-top:0}
+.step-row{display:flex;align-items:center;gap:16px;width:100%;min-height:64px;padding:14px 20px;text-align:left;transition:background .15s var(--ease)}
+button.step-row:hover{background:var(--surface-2)}
+.step-row:focus-visible,.tool:focus-visible{outline-offset:-3px}
+.step-n{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--line-strong);display:inline-flex;align-items:center;justify-content:center;
+  font-size:var(--t14);font-weight:700;color:var(--muted);flex-shrink:0;font-variant-numeric:tabular-nums}
+.step-tx{flex:1;min-width:0}
+.step-tag{display:block;font-size:var(--t13);font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin-bottom:2px}
+.step-t{display:block;font-size:var(--t16);font-weight:600;color:var(--ink);line-height:1.35}
+.step-s{display:block;font-size:var(--t14);color:var(--muted);line-height:1.4;margin-top:2px}
+.step-st,.step-tog{font-size:var(--t13);font-weight:700;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+.step-st-in{display:none}
+.step-go{color:var(--muted)}
+button.step-row:hover .step-go,button.step-row:hover .step-tog{color:var(--accent)}
+.step.done .step-n{background:var(--success);border-color:var(--success);color:var(--surface)}
+.step.done .step-st{color:var(--success)}
+.step.next{background:var(--accent-soft)}
+.step.next button.step-row:hover{background:transparent}
+.step.next .step-n{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+.step.next .step-st{color:var(--accent)}
+.step-act{display:flex;gap:10px;padding:2px 20px 20px 68px}
+.step-act .btn{flex:1}
+.step-start{padding:0 18px;min-height:44px;font-size:var(--t14)}
+
+/* more practice: same row anatomy, quieter surface */
+.tools{border:1px solid var(--line);border-radius:var(--r-card);overflow:hidden}
+.tool{display:flex;align-items:center;gap:16px;width:100%;min-height:60px;padding:12px 20px;text-align:left;border-top:1px solid var(--line);transition:background .15s var(--ease)}
+.tool:first-child{border-top:0}
+.tool:hover{background:var(--surface-2)}
+.tool:hover .step-go{color:var(--accent)}
+.tool-ic{width:32px;display:inline-flex;justify-content:center;color:var(--muted);flex-shrink:0}
+.tool-t{display:block;font-size:var(--t16);font-weight:600;color:var(--ink);line-height:1.35}
+.tool-s{display:block;font-size:var(--t14);color:var(--muted);line-height:1.4}
+
+/* read view: one guide section, then its practice, then the next step */
+#read .g-topics{margin-top:8px}
+.read-h{font-size:var(--t32);font-weight:700;color:var(--ink);letter-spacing:-.02em;line-height:1.15;margin:0 0 20px}
+.read-do{display:flex;gap:10px;margin-top:32px;padding-top:24px;border-top:1px solid var(--line)}
+.read-do .btn{flex:1}
+.read-next{display:flex;align-items:center;gap:16px;width:100%;margin-top:12px;padding:16px 20px;text-align:left;background:var(--surface);
+  border:1px solid var(--line-strong);border-radius:var(--r-card);transition:border-color .15s var(--ease)}
+.read-next:hover{border-color:var(--accent)}
+.read-next:hover .ic{color:var(--accent)}
+.read-next .ic{color:var(--muted)}
+.rn-l{display:block;font-size:var(--t13);font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.rn-t{display:block;font-size:var(--t16);font-weight:600;color:var(--ink);line-height:1.35;margin-top:2px}
+
+/* key terms screen: text on the column edge like everything else */
+#terms .term{padding-left:0;padding-right:0}
+/* videos: the list takes the column (long words like Paramagnetic/Diamagnetic were widening it) */
+#vid-list{width:100%}
+.vid-tx h5{overflow-wrap:anywhere}
+.vid-intro{max-width:none}
+/* session close: the flag row has no count, so its label is pushed to the same x as the counted rows */
+.stat .n{min-width:44px}
+.stat.w .l{margin-left:60px}
+
+@media (max-width:480px){
+  #home{padding-top:24px}
+  .ph{margin-bottom:28px}
+  .step-row,.tool{gap:12px;padding:14px 16px}
+  .step-st:not(.step-st-in){display:none}
+  .step-st-in{display:block;margin-top:4px}
+  .step-act{flex-direction:column;padding:2px 16px 16px}
+  .read-h{font-size:var(--t24)}
+  .read-do{flex-direction:column}
+  #close{padding-top:24px}
+  .close-actions{flex-direction:column-reverse} /* the primary action is last in markup; on a phone it goes first */
+  .pile{align-items:flex-start}
+}
+@media (max-width:360px){
+  .ph .set-title{font-size:var(--t24)}
+  .ph-when{font-size:var(--t14)}
+}
