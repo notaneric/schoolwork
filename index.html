@@ -737,10 +737,14 @@ const EXAM_NOTE = "50 minutes, at the normal class time in LDSC 210. Closed book
 // EXAM2_NOTES_V12_OLD is the v10 text; the v12 migration only replaces a stored note that still matches it.
 const EXAM2_NOTES_V12_OLD = "Covers the rest of Chapter 3, Chapter 4 (bonding and molecular geometry), and Chapter 10 (liquids and solids). Falls right after the Oct 5 semester midpoint. Treat that scope as the syllabus's, not his. On Sep 23 he said to expect exactly one more homework group before this exam, Chapter 4 Part 1, and Chapter 3 Part 2 homework does not close until Oct 5. The class days left after that are Oct 7, 9 and 12, which is enough for some of Chapter 4 and nothing for Chapter 10. He cut Exam 1's scope the same way once the study guide appeared, so read the Exam 2 study guide as the real scope and expect Chapter 10 to be the part that goes. ";
 const EXAM2_NOTES_V12 = "SCOPE IS SET: the study guide posted Fri Oct 9 covers ALL of Chapter 3 plus Chapter 4 sections 4.1 to 4.3 only. Chapter 10 is out, as this card expected, and so is the rest of Chapter 4. Relevant handouts are 7 to 12; relevant homework is Knewton 3.1 to 3.7 and 4.1 to 4.3 plus Problem Sets 3, 4 and 5. Both Chapter 3 videos are fair game. There are 21 focus topics, and these need pure memory because the formula sheet will not give them to you: the 7 regions of the EM spectrum in energy order, the names of the four quantum numbers and what each describes, the d4 and d9 exceptions (Cr and Cu shift one s electron to reach d5 and d10), the electronegativities N 3.0, Cl 3.0, O 3.5 and F 4.0, nine polyatomic ions with their charges (ammonium, hydronium, acetate, carbonate, chlorate, hydroxide, nitrate, phosphate, sulfate), and the prefixes for 1 to 10. The formula sheet does give c, h and the Rydberg constant in all three forms, c = λν, E = hν, E = hc/λ, the three Rydberg equations and Zeff = Z - S. It does not give de Broglie's λ = h/mv. His study order on the Oct 5, 7 and 9 slides: start with what you are least comfortable with, retry every in-class handout, do the Chapter 3 and Chapter 4 Part 1 Review Worksheets (keys posted), then redo the Knewton problem sets. The Exam 2 study set in Resources covers all 21 topics. ";
+// 2026-10-21 D2L export: Exam 3's scope is still the syllabus's, and the course is behind it again.
+// The v13 migration only replaces a stored note that still matches EXAM3_NOTES_V13_OLD.
+const EXAM3_NOTES_V13_OLD = "Covers Chapter 6 (composition of substances and solutions), Chapter 7 (stoichiometry — the longest block of the term at seven lectures), and the start of Chapter 11. ";
+const EXAM3_NOTES_V13 = "The syllabus says Chapter 6 (composition of substances and solutions), Chapter 7 (stoichiometry, the longest block of the term at seven lectures) and the start of Chapter 11. Treat that as provisional. On Mon Oct 19 the class was still in Chapter 4, now on Part 2 (Lewis structures), so Chapter 6 has not opened, and Chapter 10 has never been taught. Both earlier exams were cut to fit the lectures actually given, and each time the study guide, posted the week before, set the real scope. ";
 const CHEM1211_EXAMS = [
   {"id":"chem1211-exam1","title":"CHEM 1211 Exam 1","courseId":"chem1211","type":"exam","dueDate":"2026-09-11T10:00:00-04:00","priority":"high","status":"todo","weight":null,"notes":"MOVED: Wed Sep 9 → Fri Sep 11, same 10:00 to 10:50 hour and same room, because Labor Day cancels the Mon Sep 7 class. Announced in the Aug 31, Sep 2 and Sep 4 decks. The scope shrank with it: the study guide covers Chapter 1 in full, Chapter 2 in full, and Chapter 6 section 6.1 only (the mole, molar mass, Avogadro's number). No Chapter 3 — it has not started. Relevant handouts are 1 through 6; relevant homework is every Chapter 1 and Chapter 2 section assignment plus Problem Sets 1 and 2. Provided: the exam booklet, a periodic table and a formula sheet, all three reprinted in the study guide, so nothing about them is a surprise. Four parts — A multiple choice on the Scantron; B short answer, pick two of three for 10 points, and if you answer all three only the first two are graded; C open-ended calculation where work, units and sig figs must be shown; D optional bonus. Meyers' own study order: start with what you are least comfortable with, finish the problems in the Measurements handout, redo every in-class handout, do the Chapter 2 Review Worksheet, then redo the Knewton problem sets. " + EXAM_NOTE},
   {"id":"chem1211-exam2","title":"CHEM 1211 Exam 2","courseId":"chem1211","type":"exam","dueDate":"2026-10-14T10:00:00-04:00","priority":"high","status":"todo","weight":null,"notes":EXAM2_NOTES_V12 + EXAM_NOTE},
-  {"id":"chem1211-exam3","title":"CHEM 1211 Exam 3","courseId":"chem1211","type":"exam","dueDate":"2026-11-18T10:00:00-05:00","priority":"high","status":"todo","weight":null,"notes":"Covers Chapter 6 (composition of substances and solutions), Chapter 7 (stoichiometry — the longest block of the term at seven lectures), and the start of Chapter 11. " + EXAM_NOTE},
+  {"id":"chem1211-exam3","title":"CHEM 1211 Exam 3","courseId":"chem1211","type":"exam","dueDate":"2026-11-18T10:00:00-05:00","priority":"high","status":"todo","weight":null,"notes":EXAM3_NOTES_V13 + EXAM_NOTE},
 ];
 
 // Tentative lecture schedule. Rendered on the calendar as "Ch N begins" markers.
@@ -752,7 +756,8 @@ const CHEM1211_TOPICS = [
   {"id":"chem1211-ch6-1","courseId":"chem1211","number":6,"label":"Ch 6.1","title":"Chapter 6 § 6.1 only — the mole, molar mass and Avogadro's number, taught early on Sep 4 inside the Chapter 2 block. His Handout 6 calls it ‘Chapter 2 – Part 2’; the Exam 1 study guide calls it textbook § 6.1. It is on Exam 1. The rest of Chapter 6 still comes in October.","startsDate":"2026-09-04"},
   {"id":"chem1211-ch4","courseId":"chem1211","number":4,"label":"Ch 4","title":"Chapter 4: Chemical Bonding and Molecular Geometry. Opened Mon Oct 5, confirmed by the ‘Start of Chapter 4 Slides’ slide in that day's deck, right after the Q&A on the Chapter 3 videos. Part 1 is sections 4.1 to 4.3: ionic, covalent and metallic bonds, electronegativity and bond polarity, and naming ions and binary compounds (Handout 12). It is the only Chapter 4 material on Exam 2. Its homework, Knewton 4.1 to 4.3 plus Problem Set 5, is due Mon Oct 12 at 11:59 PM.","startsDate":"2026-10-05"},
   {"id":"chem1211-ch10","courseId":"chem1211","number":10,"label":"Ch 10","title":"Chapter 10: Liquids and Solids. This Oct 5 date is the syllabus's and it is wrong: Oct 5 opened Chapter 4, and the Exam 2 study guide leaves Chapter 10 out entirely. No new start date has been announced, and the rest of Chapter 4 still comes first.","startsDate":"2026-10-05"},
-  {"id":"chem1211-ch6","courseId":"chem1211","number":6,"label":"Ch 6","title":"Chapter 6: Composition of Substances and Solutions","startsDate":"2026-10-16"},
+  {"id":"chem1211-ch4-2","courseId":"chem1211","number":4,"label":"Ch 4 pt 2","title":"Chapter 4 Part 2: Lewis structures. Opened Fri Oct 16, the day Handout 13 (headed Chapter 4 Part 2) was handed out, and continued Oct 19. Covered so far: his six rules (sum the valence electrons, adding one per negative charge and removing one per positive charge; pick the central atom, usually the less electronegative one and never H; place the terminal atoms; join each to the center with a single bond; complete the octets from the outside in, putting leftover electrons on the center and forming a multiple bond when short; then check formal charges and that every electron was used), the usual number of bonds (H 1, C 4, N 3, O 2, a halogen 1), the octet exceptions (odd-electron species such as NO, an incomplete octet on a group 3 central atom, an expanded octet on a central atom in row 3 or below), and average bond energies and lengths. Handout 13 ends on picking the best resonance form of chlorite, ClO2-. No homework date announced through the Oct 19 slides.","startsDate":"2026-10-16"},
+  {"id":"chem1211-ch6","courseId":"chem1211","number":6,"label":"Ch 6","title":"Chapter 6: Composition of Substances and Solutions. This Oct 16 date is the syllabus's and it is wrong: the Oct 16 and Oct 19 lectures were Chapter 4 Part 2, Lewis structures. No new start date has been announced.","startsDate":"2026-10-16"},
   {"id":"chem1211-ch7","courseId":"chem1211","number":7,"label":"Ch 7","title":"Chapter 7: Stoichiometry of Chemical Reactions","startsDate":"2026-10-26"},
   {"id":"chem1211-ch11","courseId":"chem1211","number":11,"label":"Ch 11","title":"Chapter 11: Solutions and Colloids (runs through the last class, Nov 30)","startsDate":"2026-11-11"},
 ];
@@ -848,6 +853,15 @@ const CHEM1211_EXAM2 = [
   {"id":"chem1211-ch4-worksheet","title":"Chapter 4 Part 1 Review Worksheet (Exam 2 prep, key posted)","courseId":"chem1211","type":"other","dueDate":"2026-10-14T10:00:00-04:00","priority":"high","status":"todo","weight":null,"notes":"Not graded, key posted. Six problems: call nine compounds ionic or covalent and give the missing name or formula, rank Ca, F, Mg and S by electronegativity, pick the most polar and the strongest of four bonds, predict the charges of seven species, and work out the transition-metal charge in CrBr2, VCl3 and V2S5. The key's own lessons: lead in PbS2 is a metal, so it is lead(IV) sulfide; a transition metal always gets its Roman numeral; Na2SO4 and Ca(OH)2 have both ionic and covalent bonds; and a compound's charges always sum to zero."},
 ];
 
+// 2026-10-21 D2L export (CHEM course TOC of Oct 21, 9:40 AM): Handout 13 and the Oct 12, 16 and 19
+// decks. Exam 2 came back graded on Oct 16, Chapter 4 Part 2 (Lewis structures) opened the same day,
+// and none of the three announcement slides dates any new homework.
+const CH6_TITLE_V13_OLD = "Chapter 6: Composition of Substances and Solutions";
+const CHEM1211_OCT21 = [
+  {"id":"chem1211-exam2-review","title":"Go over graded Exam 2 + check the D2L course grade","courseId":"chem1211","type":"other","dueDate":"2026-10-23T10:00:00-04:00","priority":"medium","status":"todo","weight":null,"notes":"Exam 2 was graded and handed back at the end of the Fri Oct 16 class, with pickup again after the Mon Oct 19 class. The D2L course grade was updated by Oct 19 and now covers all Knewton homework, Exams 1 and 2, and every bonus point so far. His Oct 16 slides give a method: unpack the exam, then sleep on it. For each right answer, ask whether you knew it or guessed, and if you guessed, rework it plus two similar problems. For each wrong answer, ask whether it was a slip or a gap, and for a gap, go back to your notes and work at least two more similar problems. On the Scantron, the number written on the form is how many you got right, and each pink tick, just past a question number, marks a wrong answer. Re-grade requests are due within a week of the exam coming back and re-open the whole exam, so the score can go down. This card is dated Fri Oct 23, one week after the Oct 16 return. That date is worked out from the syllabus rule, not announced by him."},
+  {"id":"chem1211-ch4-part2-hw","title":"Chapter 4 Part 2 homework on Knewton (not announced yet)","courseId":"chem1211","type":"assignment","dueDate":null,"priority":"medium","status":"todo","weight":null,"notes":"Chapter 4 Part 2, Lewis structures, opened Fri Oct 16 with Handout 13, and no homework for it appears on the Oct 12, 16 or 19 announcement slides. Every earlier chapter part has come with Knewton section assignments plus a problem set, so expect the same here. Open Knewton through D2L, see what is posted for Chapter 4, and put the real date on this card instead of waiting for a slide. Delete the card if there turns out to be no Part 2 homework."},
+];
+
 function seed() {
   return {
     "courses": [
@@ -863,6 +877,7 @@ function seed() {
       ...CHEM1211_CH3_PART2,
       ...CHEM1211_CH3_VIDEO,
       ...CHEM1211_EXAM2,
+      ...CHEM1211_OCT21,
       ...CHEM1211_EXAMS,
       ...SCI2900_ITEMS,
       ...SCI2900_ITEMS_V8,
@@ -874,11 +889,59 @@ function seed() {
   };
 }
 
-function save(data) {
+// Every field a save changes gets a timestamp in item._ts, which is what lets the sync Worker
+// merge two devices' copies field by field. Items a device only received (seed, migration adds,
+// another device's copy) stay unstamped, so they never outrank a real edit made elsewhere.
+const SYNC_COLLS = ['courses', 'topics', 'assignments'];
+// The fingerprint of the last save made by this code. An older copy of the page (pre-sync, or a
+// stale cached one) writes without stamping; boot() diffs against this and stamps what it changed.
+const FP_KEY = STORE_KEY + '_fp';
+// Stamp for fields written by migrate(). Higher than unstamped (0) so a migration's rewrite spreads
+// to devices that have not run it, far lower than any real edit's time so it never beats one.
+// Bump it with every new migration block, so a newer migration outranks an older one.
+const MIGRATION_STAMP = 13;
+
+function fingerprint(d) {
+  const m = {};
+  for (const c of SYNC_COLLS) for (const it of (d[c] || [])) {
+    const f = {};
+    for (const k in it) if (k !== '_ts') f[k] = JSON.stringify(it[k]);
+    m[c + ':' + it.id] = f;
+  }
+  return m;
+}
+
+function stampChanges(d, at) {
+  const now = at || Date.now() + Sync.skew;
+  const next = fingerprint(d);
+  for (const c of SYNC_COLLS) for (const it of (d[c] || [])) {
+    const prev = lastSaved && lastSaved[c + ':' + it.id];
+    const cur = next[c + ':' + it.id];
+    if (!prev) {
+      // Created here (by Eric, or by a migration at MIGRATION_STAMP). Items received from the seed
+      // or another device are already in lastSaved, so they stay unstamped.
+      if (lastSaved) { it._ts = it._ts || {}; for (const k in cur) it._ts[k] = now; }
+      continue;
+    }
+    for (const k of new Set([...Object.keys(prev), ...Object.keys(cur)])) {
+      if (prev[k] !== cur[k]) (it._ts = it._ts || {})[k] = now;
+    }
+  }
+  if (lastSaved) for (const key in lastSaved) {
+    if (!next[key]) (d._deleted = d._deleted || {})[key] = now;
+  }
+  lastSaved = next;
+}
+
+function save(data, at) {
+  stampChanges(data, at);
   localStorage.setItem(STORE_KEY, JSON.stringify(data));
+  try { localStorage.setItem(FP_KEY, JSON.stringify(lastSaved)); } catch {}
+  Sync.changed();
 }
 
 let db = load();
+let lastSaved = fingerprint(db);
 
 // ─── One-time migrations ──────────────────────────────────────────────────────
 // localStorage beats seed() once a device has state, so new gradable items only
@@ -1152,9 +1215,147 @@ function migrate() {
     dirty = true;
   }
 
-  if (dirty) { db.meta.lastSync = new Date().toISOString(); save(db); }
+  // 2026-10-21 CHEM export. Adds the Exam 2 review card, a placeholder for Chapter 4 Part 2 homework
+  // (no date announced yet) and the Chapter 4 Part 2 calendar marker; flags the Chapter 6 marker as a
+  // known-wrong syllabus date; marks Exam 3's syllabus scope provisional. Text moves only where the
+  // stored value still matches the v12 value, so anything Eric edited survives.
+  if (!db.meta.chem1211_oct21_v13) {
+    CHEM1211_OCT21.forEach(item => {
+      if (!db.assignments.some(a => a.id === item.id)) db.assignments.push(JSON.parse(JSON.stringify(item)));
+    });
+    if (!db.topics) db.topics = [];
+    CHEM1211_TOPICS.forEach(t => {
+      if (!db.topics.some(x => x.id === t.id)) db.topics.push(JSON.parse(JSON.stringify(t)));
+    });
+    const t6 = db.topics.find(t => t.id === 'chem1211-ch6');
+    const t6f = CHEM1211_TOPICS.find(t => t.id === 'chem1211-ch6');
+    if (t6 && t6f && t6.title === CH6_TITLE_V13_OLD) t6.title = t6f.title;
+    const e3 = db.assignments.find(a => a.id === 'chem1211-exam3');
+    if (e3 && e3.notes === EXAM3_NOTES_V13_OLD + EXAM_NOTE) e3.notes = EXAM3_NOTES_V13 + EXAM_NOTE;
+    db.meta.chem1211_oct21_v13 = true;
+    dirty = true;
+  }
+
+  if (dirty) { db.meta.lastSync = new Date().toISOString(); save(db, MIGRATION_STAMP); }
 }
-migrate();
+// migrate() runs from boot() at the bottom, after a linked device has pulled the other devices'
+// changes, so a migration never rewrites a field Eric already edited on another machine.
+
+// ─── Cross-device sync ────────────────────────────────────────────────────────
+// localStorage is per browser, so on its own a checkmark made on the laptop never reaches the
+// desktop. A linked device posts its whole state to the schoolwork-sync Worker after every save,
+// on focus and once a minute; the Worker merges every device's copy field by field and returns
+// the result, which replaces the local copy. A device is linked once, by opening its setup link
+// (#sync=<key>@<endpoint>). Until then nothing leaves the browser.
+const SYNC_CFG_KEY = 'boris_school_sync';
+let booted = false;
+
+const Sync = {
+  state: 'off',      // off | connecting | ok | offline | denied | error
+  code: null,
+  skew: 0,           // Worker clock minus this PC's clock, so both PCs stamp on one clock
+  at: null,
+  timer: null,
+  inflight: false,
+  again: false,
+  version: 0,
+
+  cfg() {
+    try { return JSON.parse(localStorage.getItem(SYNC_CFG_KEY)) || null; } catch { return null; }
+  },
+
+  captureLink() {
+    const m = location.hash.match(/^#sync=([A-Za-z0-9_-]{16,})@(.+)$/);
+    if (!m) return;
+    history.replaceState(null, '', location.pathname + location.search);
+    let url;
+    try { url = decodeURIComponent(m[2]); } catch { return; }
+    if (!/^(https:\/\/|http:\/\/(127\.0\.0\.1|localhost)(:\d+)?\/)/.test(url)) return;
+    const cur = this.cfg();
+    if (cur && (cur.key !== m[1] || cur.url !== url) && !confirm('Replace this device\'s sync link?')) return;
+    try { localStorage.setItem(SYNC_CFG_KEY, JSON.stringify({ key: m[1], url })); } catch {}
+  },
+
+  // Send this device's state, get the merged state back. Returns null when there is nothing
+  // to adopt: not linked, offline, key rejected, or a local edit landed while the request was
+  // out (then the merge is stale and the newer local state goes out again instead).
+  async exchange(timeoutMs) {
+    const cfg = this.cfg();
+    if (!cfg) { this.state = 'off'; return null; }
+    if (this.state === 'off') this.state = 'connecting';
+    const sent = this.version;
+    const ctl = new AbortController();
+    const t = setTimeout(() => ctl.abort(), timeoutMs);
+    try {
+      const t0 = Date.now();
+      const r = await fetch(`${cfg.url}?doc=${STORE_KEY}`, {
+        method: 'POST', signal: ctl.signal, cache: 'no-store',
+        headers: { 'Authorization': 'Bearer ' + cfg.key, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ state: db }),
+      });
+      if (r.status === 401) { this.state = 'denied'; return null; }
+      if (r.status >= 400 && r.status < 500) { this.state = 'error'; this.code = r.status; return null; }
+      if (!r.ok) throw new Error('sync ' + r.status);
+      const { state, now } = await r.json();
+      const t1 = Date.now();
+      if (typeof now === 'number' && t1 - t0 < 5000) this.skew = Math.round(now - (t0 + t1) / 2);
+      this.state = 'ok';
+      this.at = new Date();
+      if (this.version !== sent) { this.again = true; return null; }
+      return state;
+    } catch {
+      this.state = 'offline';
+      return null;
+    } finally {
+      clearTimeout(t);
+    }
+  },
+
+  adopt(state) {
+    if (!state || !Array.isArray(state.assignments) || !Array.isArray(state.courses)) return false;
+    if (state.topics !== undefined && !Array.isArray(state.topics)) return false;
+    if (!state.meta || typeof state.meta !== 'object') return false;
+    if (JSON.stringify(state) === JSON.stringify(db)) return false;
+    db = state;
+    lastSaved = fingerprint(db);
+    try {
+      localStorage.setItem(STORE_KEY, JSON.stringify(db));
+      localStorage.setItem(FP_KEY, JSON.stringify(lastSaved));
+    } catch {}
+    return true;
+  },
+
+  async run() {
+    if (this.inflight) { this.again = true; return; }
+    this.inflight = true;
+    const changed = this.adopt(await this.exchange(8000));
+    this.inflight = false;
+    if (booted) { if (changed) render(); else renderSyncStatus(); }
+    if (this.again) { this.again = false; this.schedule(300); }
+  },
+
+  schedule(ms = 800) {
+    if (!this.cfg()) return;
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => this.run(), ms);
+  },
+
+  changed() { this.version++; this.schedule(); },
+};
+
+function renderSyncStatus() {
+  const el = document.getElementById('last-synced');
+  if (!el) return;
+  const time = Sync.at ? Sync.at.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) : '';
+  const text = !Sync.cfg() ? 'Saved on this device only (not linked)'
+    : Sync.state === 'ok' ? `Synced across devices, ${time}`
+    : Sync.state === 'denied' ? 'Sync key rejected. Open the setup link again'
+    : Sync.state === 'error' ? `Sync refused this device's data (error ${Sync.code})`
+    : Sync.state === 'offline' ? 'Offline. Changes are saved here and sync later'
+    : 'Syncing…';
+  el.textContent = text;
+  el.dataset.sync = Sync.cfg() ? Sync.state : 'unlinked';
+}
 
 let editingId = null;
 let currentView = 'dashboard';
@@ -1425,9 +1626,7 @@ function render() {
 
 function renderSidebar() {
   document.getElementById('sidebar-semester').textContent = db.meta.semester || 'Current Semester';
-  document.getElementById('last-synced').textContent = db.meta.lastSync
-    ? 'Last sync: ' + new Date(db.meta.lastSync).toLocaleDateString()
-    : 'Last sync: never';
+  renderSyncStatus();
   const coursesEl = document.getElementById('sidebar-courses');
   coursesEl.innerHTML = db.courses.map(c => {
     const pending = db.assignments.filter(a => a.courseId === c.id && isActive(a)).length;
@@ -1689,14 +1888,14 @@ function renderInstructors() {
       tags: ['IN PERSON', 'MWF 10:00 AM', 'LAKEVIEW 210', 'OFFICE LDSC 235D'],
       alerts: [
         { kw: 'EXAMS = 65%', desc: 'The three 50-minute exams are 45% and the final is 20%. Homework is only 35% of the grade, so exam days are where this course is won' },
-        { kw: 'EXAM 2 WED OCT 14', desc: 'All of Chapter 3 plus Chapter 4 sections 4.1 to 4.3, per the study guide posted Oct 9. Chapter 10 is out. Handouts 7 to 12, Problem Sets 3, 4 and 5, and both Chapter 3 videos are fair game. The Exam 2 study set in Resources covers all 21 focus topics' },
-        { kw: 'DUE MON OCT 12', desc: 'Chapter 4 Part 1: Knewton 4.1 to 4.3 plus Problem Set 5, 11:59 PM, two days before the exam. Since the Oct 9 lecture all of it can be completed. Handout 12 is the practice, and the problem set has no late window' },
+        { kw: 'EXAM 2 IS BACK', desc: 'Graded and handed back Fri Oct 16, with pickup again after the Oct 19 class. Re-grade requests are due within a week of the return, so by about Fri Oct 23. His method: for each right answer, did you know it or guess; for each wrong one, was it a slip or a gap. Rework every guess and every gap plus two similar problems' },
+        { kw: 'CH 4 PART 2', desc: 'Lewis structures opened Fri Oct 16 with Handout 13: his six rules, the usual bond counts, formal charge, octet exceptions, bond energy and length. No homework date announced through the Oct 19 slides, so check Knewton' },
         { kw: 'MEMORIZE', desc: 'What the formula sheet will not give you: the 7 EM regions in energy order, electronegativity of N 3.0, Cl 3.0, O 3.5 and F 4.0, nine polyatomic ions with charges, the prefixes mono to deca, the Cr and Cu exceptions, and de Broglie\'s λ = h/mv' },
         { kw: 'REVIEW KEYS', desc: 'The Chapter 3 and Chapter 4 Part 1 Review Worksheets are posted with keys. His study order: least comfortable topic first, every in-class handout again, both worksheets, then the Knewton problem sets' },
-        { kw: 'COURSE GRADE', desc: 'D2L gradebook now shows a Current course grade (last updated Sep 14) covering the Chapter 1 and 2 homework, Exam 1 and bonus points so far' },
+        { kw: 'COURSE GRADE', desc: 'D2L course grade updated by the Oct 19 lecture: all Knewton homework, Exams 1 and 2, and every bonus point so far' },
         { kw: 'EXAM FORMAT', desc: 'Every in-semester exam has the same four parts: A multiple choice on the Scantron, B short answer where you pick two of three (answer all three and only the first two are graded), C open-ended calculation with work shown, D optional bonus' },
         { kw: 'PROVIDED', desc: 'Exam booklet, periodic table and formula sheet are given — all three are reprinted in the study guide. You still bring the Scantron, a #2 pencil and a calculator' },
-        { kw: 'REMAINING EXAMS', desc: 'Wed Oct 14 and Wed Nov 18, both at the 10:00 AM class hour in LDSC 210. Final Mon Dec 7, 10:15 AM' },
+        { kw: 'REMAINING EXAMS', desc: 'Exam 3 Wed Nov 18 at the 10:00 AM class hour in LDSC 210. Final Mon Dec 7, 10:15 AM' },
         { kw: 'SCANTRON', desc: 'Bring your own Scantron form and a #2 pencil to every exam. One form per exam, not provided' },
         { kw: 'LATE RULE', desc: 'A section assignment reattempted within 4 days must score a full 100% to replace your on-time score. It is not partial late credit' },
         { kw: 'ONE EXTENSION', desc: 'You get exactly one three-day extension all semester, on one homework group, and only by emailing Meyers before the deadline' },
@@ -1704,6 +1903,7 @@ function renderInstructors() {
         { kw: 'AI POLICY', desc: 'Generative AI is banned unless an assignment specifically permits it. Everything submitted runs through TurnItIn' },
         { kw: 'BONUS OPEN', desc: 'Write one original 4-to-6-factor problem in Word Equation Editor for free points. Word file only, no name in it, no AI. The due date lives in the D2L dropbox' },
         { kw: 'PRE-HEALTH', desc: 'Meyers pushes seeing your pre-health advisor once a semester. Email Dr. Sheppard (CarolineSheppard@clayton.edu) for the AMSA Teams channel' },
+        { kw: 'EVENTS', desc: 'From the Oct 19 slide, flyers on the announcements board: Morehouse School of Medicine on Wed Oct 28, and Augusta dental and medical colleges on Tue Nov 3' },
         { kw: 'NO PHONES', desc: 'Not to be seen or heard in class. In an exam, a phone that makes any sound costs 3% of that exam grade' },
       ],
       policies: [
@@ -1716,8 +1916,8 @@ function renderInstructors() {
         { key: 'Materials', val: 'Textbook is free online through the D2L link (OpenStax, ISBN 9781947172630) — do not buy it. You do need: Knewton Alta access, Scantron forms, a #2 pencil, a scientific calculator, and a handwritten notebook, which he specifically recommends.' },
         { key: 'Help', val: 'Center for Academic Success in Edgewater Hall 257, plus free Tutor.com through the D2L navbar under More, University Resources.' },
         { key: 'Advising', val: 'Meyers recommends seeing your pre-health faculty advisor at least once a semester. Biology faculty are in LDSC 135, chemistry and physics in LDSC 235.' },
-        { key: 'Status', val: 'Current through the Oct 11 D2L export (3:18 PM): the Exam 2 study guide, the Chapter 3 and Chapter 4 Part 1 Review Worksheets with their keys, Handout 12 (naming compounds) and the Oct 5, 7 and 9 decks, on top of everything before. He has moved four posted dates this term (Chapter 1 Part 2 from Aug 24 to Aug 28, Chapter 2 homework from Sep 8 to Sep 9, Exam 1 from Sep 9 to Sep 11, Chapter 3 Part 2 from Oct 5 to Oct 7), so treat every date on this page as provisional until Knewton or a slide confirms it.' },
-        { key: 'Pace', val: 'Both exams so far were cut to fit the lectures actually given. Exam 1 lost Chapter 3. Exam 2 lost Chapter 10 and everything in Chapter 4 past section 4.3: Chapter 4 opened Mon Oct 5 after the video Q&A, and the study guide stops at its Part 1. So the Ch 10 marker on the calendar (Oct 5) is a known-wrong syllabus date, and the later chapter markers are the syllabus\'s too, which the course has run behind all term. Exam 3 (Wed Nov 18) still reads Chapters 6, 7 and the start of 11 on the syllabus. Expect its scope to move the same way, and read its study guide when it posts.' },
+        { key: 'Status', val: 'Current through the Oct 21 D2L export (9:40 AM): Handout 13 (Lewis structures) and the Oct 12, 16 and 19 decks, on top of everything before. None of the three announcement slides dates new homework. He has moved four posted dates this term (Chapter 1 Part 2 from Aug 24 to Aug 28, Chapter 2 homework from Sep 8 to Sep 9, Exam 1 from Sep 9 to Sep 11, Chapter 3 Part 2 from Oct 5 to Oct 7), so treat every date on this page as provisional until Knewton or a slide confirms it.' },
+        { key: 'Pace', val: 'Both exams so far were cut to fit the lectures actually given. Exam 1 lost Chapter 3. Exam 2 lost Chapter 10 and everything in Chapter 4 past section 4.3. The course is behind the syllabus again: Chapter 4 Part 2 (Lewis structures) ran Oct 16 and Oct 19, the dates the syllabus gave to Chapter 6, and Chapter 10 has never been taught. So the Ch 6 and Ch 10 markers on the calendar are known-wrong syllabus dates, and Ch 7 (Oct 26) and Ch 11 (Nov 11) are the syllabus dates too. Exam 3 (Wed Nov 18) still reads Chapters 6, 7 and the start of 11 on the syllabus. Expect its scope to move the same way, and read its study guide when it posts.' },
       ]
     },
     {
@@ -1726,23 +1926,23 @@ function renderInstructors() {
       title: 'Instructor, School of Sciences',
       tags: ['IN PERSON', 'MW 9:00 AM', 'LAKEVIEW 110', 'SCIENTIFIC LITERACY'],
       alerts: [
-        { kw: 'STILL NO SYLLABUS', desc: 'Seven weeks in, and the Sept 23 export still has none: no grading breakdown, no late policy, no AI policy. The only point values anywhere are the Curtain Paper (20) and Alignment (10)' },
-        { kw: 'DATES ARE NOT IN THE FILES', desc: 'No assignment document in this course states a due date. They live only on the D2L dropbox and in the submission notice emails, neither of which a content export carries. Alignment was due Tue Sept 22 at 5:00 PM and that only surfaced from the notice email, a day late. Check the dropbox for the Curtain Paper and The Path Forward, and read the notice emails' },
-        { kw: 'ALIGNMENT PAST DUE', desc: 'Due Tue Sept 22, 5:00 PM EDT, per the D2L submission notice. Check whether the dropbox still accepts it and what the late penalty is, then email McFarlane if it is closed. No late policy is published anywhere in the course' },
-        { kw: 'ALIGNMENT PART 2', desc: 'Gap analysis table, 10 points: each requirement, done yes or no, and the term taken or planned. Part 1, the program research, is marked COMPLETED' },
+        { kw: 'STILL NO SYLLABUS', desc: 'Ten weeks in, and the Oct 21 export still has none: no grading breakdown, no late policy, no AI policy. Known point values: Curtain Paper 20, Alignment 10, Henrietta Lacks paper 20, Primary Literature Review 25' },
+        { kw: 'DATES ARE NOT IN THE FILES', desc: 'No assignment document in this course states a due date. They live only on the D2L dropbox and in the submission notice emails, neither of which a content export carries. Alignment was due Tue Sept 22 at 5:00 PM and that only surfaced from the notice email, a day late. Check the dropbox for the Henrietta Lacks paper and the Primary Literature Review now' },
+        { kw: 'HENRIETTA LACKS', desc: 'One page, 20 points, posted Sept 28 with the ethics class: background, ethical issues, impact on science, and APA references, five points each. The document says only "by assigned due date", so read the date off the D2L dropbox' },
+        { kw: 'LITERATURE REVIEW', desc: '25 points, posted Sept 30. One peer-reviewed primary research article, 2020 or later, any STEM topic. It becomes the whole basis of your oral presentation. Due "November 2026", with no day given' },
         { kw: 'AI POLICY UNKNOWN', desc: 'CHEM 1211 bans generative AI outright. SCI 2900 has stated nothing either way, so do not assume in either direction. Ask' },
-        { kw: 'THREE JOURNALS', desc: 'Aug 26 to 31, Sept 28 to 30, and Oct 21. Still only two papers posted as of Sept 21, one week before Journal 2 starts' },
-        { kw: 'PRESENTATIONS', desc: 'Oral presentations take both class days, Nov 2 and Nov 4, with a prep class Oct 28. Likely the biggest graded item in the course' },
+        { kw: 'THREE JOURNALS', desc: 'Aug 26 to 31, Sept 28 to 30, and Oct 21. Still only two papers posted as of the Oct 21 export, made the morning the third block was scheduled' },
+        { kw: 'PRESENTATIONS', desc: 'Oral presentations take both class days, Nov 2 and Nov 4, with a prep class Oct 28. The article from your Primary Literature Review is the entire basis of the talk' },
         { kw: 'ONE AUTHOR IS HERE', desc: 'The piglet paper\'s first author, Clint Edmunds, is School of Sciences faculty at Clayton State. He can be asked about his own paper' },
         { kw: 'FINAL', desc: 'Mon Dec 7, 8:00 to 10:00 AM, Lakeview 110 (CSU exam matrix). Nothing says whether it is written, oral or cumulative' },
       ],
       policies: [
         { key: 'Course', val: 'Scientific-literacy and research-methods course, 2 credits. Not a lab. Prerequisite for the BIOL 4500 / CHEM 4500 capstone seminar.' },
         { key: 'Shape of the term', val: 'Three arcs running together. Reading primary literature (three journal blocks, each with its own lens: interpreting data, then limitations, then future directions). Career mapping (degree requirements, graduate school, internships, interviewing, LinkedIn, CV). And one oral presentation across two class days in November.' },
-        { key: 'What is posted', val: 'The Fall 2026 Course Schedule, five lecture decks (Misconceptions in Science, Careers in Science, Famous Scientists, Scientific Literature, Are You in Alignment?), the first two journal articles, and three assignment documents: Curtain Paper instructions, The Path Forward (schools and jobs versions) and the Alignment assignment. All of it is in Resources.' },
+        { key: 'What is posted', val: 'The Fall 2026 Course Schedule, eight lecture decks (Misconceptions in Science, Careers in Science, Famous Scientists, Scientific Literature, the Curriculum Presentation by Dr. Melvin, Are You in Alignment?, Mentoring and Advising, Science Ethics), the first two journal articles, and five assignment documents: Curtain Paper, The Path Forward (schools and jobs versions), Alignment, Henrietta Lacks, and Presentation Requirements. All of it is in Resources.' },
         { key: 'The two papers', val: 'Edmunds et al. 2023, manganese and selenium in nursery piglets (Veterinary Sciences, 12 pp). Ohl et al. 2012, hospital privacy curtain contamination (Am J Infection Control, 3 pp). Which one is journal 1 and which is journal 2 is not stated anywhere in the package; the table of contents lists the piglet paper first, which is the only evidence either way. Boris built a narrated breakdown video for each, in Resources.' },
-        { key: 'Grading', val: 'Still no breakdown. Two point values are known from the assignment documents: the Curtain Paper is 20 points (four questions at five each) and Alignment is 10. With no total, neither can be turned into a percentage. This is a 2-credit course, so it moves the GPA less than CHEM 1211, but the missing grading scheme is still the biggest blind spot of the semester.' },
-        { key: 'Status', val: 'Current through the Sept 23 D2L export, which added no new documents — the newest instructor upload is still Sept 16. The Alignment deck (Sept 16) also covered the Sept 9 guest talk on degree requirements by Dr. Melvin, Director of the School of Sciences, and ends by asking which classes you will register for in Spring, Summer and Fall 2027. Alignment now carries a real deadline read off its D2L notice (Tue Sept 22, 5:00 PM). Every OTHER SCI 2900 date on the calendar is still the class meeting that covers the work, NOT a confirmed submission deadline.' },
+        { key: 'Grading', val: 'Still no breakdown. Four point values are known from the assignment documents: Curtain Paper 20 (four questions at five each), Alignment 10, the Henrietta Lacks paper 20 and the Primary Literature Review 25. With no total, none of them can be turned into a percentage. This is a 2-credit course, so it moves the GPA less than CHEM 1211, but the missing grading scheme is still the biggest blind spot of the semester.' },
+        { key: 'Status', val: 'Current through the Oct 21 D2L export (9:42 AM), which adds nothing over the Oct 2 export: the newest uploads are still the Sept 30 decks and Presentation Requirements. The five files the Oct 2 update had extracted only on the laptop (the Henrietta Lacks and Presentation Requirements handouts, and the Curriculum, Mentoring and Ethics decks) are now on the desktop too. Alignment was submitted Sept 24. Every other SCI 2900 date on the calendar is the class meeting that covers the work, not a confirmed submission deadline.' },
       ]
     }
   ];
@@ -1794,7 +1994,10 @@ function renderResources() {
       courseId: 'chem1211',
       base: 'B:/School/CSU/Fall Semester 2026/CHEM 1211',
       groups: [
-        { label: 'Exam 2: Wed Oct 14, all of Chapter 3 plus Chapter 4 sections 4.1 to 4.3', open: true, files: [
+        { label: 'Chapter 4 Part 2: Lewis structures (opened Fri Oct 16, no homework date yet)', open: true, files: [
+          { name: '13: Lewis structures, his six rules worked on NBr3, then H2, H2O, O2, CH2O and chlorite', file: '13 Handout_Lewis Structures.pdf', type: 'pdf' },
+        ]},
+        { label: 'Exam 2 (Oct 14): graded and returned Oct 16', open: false, files: [
           { name: 'Study guide: scope, 21 focus topics, the exam\'s cover page and formula sheet', file: 'Exam 2-Study Guide-PDF F26 MWF.pdf',  type: 'pdf' },
           { name: 'Study guide: Word version (same content)',                                file: 'Exam 2-Study Guide-Word F26 MWF.docx', type: 'doc' },
           { name: 'Chapter 3 Review Worksheet: 13 problems across the whole chapter',          file: 'Chapter 3 Worksheet.pdf',              type: 'pdf' },
@@ -1849,6 +2052,7 @@ function renderResources() {
           { name: '10: Orbital diagrams & electron configurations (Chapter 3)',  file: '10 Handout_Electron Configurations.pdf',                     type: 'pdf' },
           { name: '11: Periodic trends (Chapter 3, used at the end of Video 2)',  file: '11 Handout_Periodic Trends.pdf',                             type: 'pdf' },
           { name: '12: Naming binary ionic and molecular compounds (Chapter 4)',  file: '12 Handout_Cmpd Nomenclature.pdf',                           type: 'pdf' },
+          { name: '13: Lewis structures (Chapter 4 Part 2)',                      file: '13 Handout_Lewis Structures.pdf',                            type: 'pdf' },
         ]},
         { label: 'Dimensional Analysis Bonus Activity', open: true, files: [
           { name: 'Assignment description & rules (Word only, no name, no AI)', file: 'Dimensional Analysis Bonus Activity Description1211.pdf',   type: 'pdf' },
@@ -1877,6 +2081,9 @@ function renderResources() {
           { name: 'Oct 5: Video Q&A, periodic trends answers, Exam 2 info, Chapter 4 opens', file: '20 Chem 1211 Lecture Slides - Oct 5.pdf', type: 'pdf' },
           { name: 'Oct 7: Chapter 4 Part 1 dated, bond types, electronegativity, the bond continuum', file: '21 Chem 1211 Lecture Slides - Oct 7.pdf', type: 'pdf' },
           { name: 'Oct 9: Bond polarity, naming ions, oxyanions, binary ionic and molecular compounds', file: '22 Chem 1211 Lecture Slides - Oct 9.pdf', type: 'pdf' },
+          { name: 'Oct 12: Exam 2 logistics, polyatomic ions, naming practice with medical uses', file: '23 Chem 1211 Lecture Slides - Oct 12.pdf', type: 'pdf' },
+          { name: 'Oct 16: Exam 2 returned, how to unpack an exam, reading the Scantron, Lewis rules', file: '24 Chem 1211 Lecture Slides - Oct 16.pdf', type: 'pdf' },
+          { name: 'Oct 19: Lewis structures, bonding patterns, bond energy and length, octet exceptions', file: '25 Chem 1211 Lecture Slides - Oct 19.pdf', type: 'pdf' },
         ]},
         { label: 'Unit 1 — Measurement & Dimensional Analysis', open: true, files: [
           { name: 'Lecture 1 — Numbers (significant figures)',            file: 'Lecture 1 - Numbers.mp4',                              type: 'mp4' },
@@ -2104,6 +2311,7 @@ function calToday() {
 // ─── CRUD ─────────────────────────────────────────────────────────────────────
 function openAddModal() {
   editingId = null;
+  editBase = null;
   document.getElementById('modal-title').textContent = 'Add Assignment';
   document.getElementById('f-title').value = '';
   document.getElementById('f-type').value = 'assignment';
@@ -2128,16 +2336,22 @@ function openEditModal(id) {
   document.getElementById('f-status').value = a.status || 'todo';
   document.getElementById('f-weight').value = a.weight || '';
   document.getElementById('f-notes').value = a.notes || '';
-  document.getElementById('f-due').value = a.dueDate ? a.dueDate.slice(0, 16) : '';
+  document.getElementById('f-due').value = a.dueDate ? toLocalInput(a.dueDate) : '';
   populateCourseSelect('f-course', a.courseId);
+  editBase = readAssignmentForm();
   document.getElementById('assignment-modal').classList.add('open');
 }
 
-function saveAssignment() {
-  const title = document.getElementById('f-title').value.trim();
-  if (!title) { alert('Title required'); return; }
-  const data = {
-    title,
+// A datetime-local input wants local wall-clock time; slicing an ISO string gives UTC for any date
+// stored as ...Z, which used to shift the due date by the UTC offset on every save.
+function toLocalInput(iso) {
+  const d = new Date(iso);
+  return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+}
+
+function readAssignmentForm() {
+  return {
+    title: document.getElementById('f-title').value.trim(),
     courseId: document.getElementById('f-course').value || null,
     type: document.getElementById('f-type').value,
     dueDate: document.getElementById('f-due').value ? new Date(document.getElementById('f-due').value).toISOString() : null,
@@ -2146,9 +2360,21 @@ function saveAssignment() {
     weight: parseFloat(document.getElementById('f-weight').value) || null,
     notes: document.getElementById('f-notes').value.trim(),
   };
+}
+
+// The form as it was filled when the edit modal opened. Saving writes only the fields that differ
+// from it, so a checkmark or date that arrived from the other PC while the modal was open survives.
+let editBase = null;
+
+function saveAssignment() {
+  const data = readAssignmentForm();
+  if (!data.title) { alert('Title required'); return; }
   if (editingId) {
     const idx = db.assignments.findIndex(a => a.id === editingId);
-    db.assignments[idx] = { ...db.assignments[idx], ...data };
+    if (idx < 0) { alert('This assignment was deleted on another device.'); closeModal('assignment-modal'); render(); return; }
+    const changed = {};
+    for (const k in data) if (!editBase || JSON.stringify(data[k]) !== JSON.stringify(editBase[k])) changed[k] = data[k];
+    db.assignments[idx] = { ...db.assignments[idx], ...changed };
   } else {
     db.assignments.push({ id: uid(), ...data });
   }
@@ -2340,9 +2566,30 @@ document.addEventListener('keydown', e => {
   if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); openAddModal(); }
 });
 
-// Init
-render();
-renderThemeIcon();
+// Init. An unlinked device never awaits, so it migrates and renders synchronously as before.
+async function boot() {
+  Sync.captureLink();
+  try {
+    const fp = JSON.parse(localStorage.getItem(FP_KEY));
+    if (fp) {
+      lastSaved = fp;
+      stampChanges(db);
+      localStorage.setItem(STORE_KEY, JSON.stringify(db));
+      localStorage.setItem(FP_KEY, JSON.stringify(lastSaved));
+    }
+  } catch {}
+  if (Sync.cfg()) Sync.adopt(await Sync.exchange(3000));
+  migrate();
+  render();
+  renderThemeIcon();
+  booted = true;
+  if (!Sync.cfg()) return;
+  Sync.schedule(1000);
+  window.addEventListener('focus', () => Sync.schedule(100));
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) Sync.schedule(100); });
+  setInterval(() => { if (!document.hidden) Sync.schedule(0); }, 60000);
+}
+boot();
 </script>
 </body>
 </html>
