@@ -66,7 +66,7 @@
         <li><b>VSEPR:</b> electron groups around the central atom repel and spread out as far apart as possible. That separation predicts the shape.</li>
         <li><b>Electron-pair geometry</b> is where all the electron groups are (bonds and lone pairs). <b>Molecular geometry</b> is where the atoms are. They match only when the central atom has no lone pairs.</li>
         <li><b>Steric number (SN)</b> = atoms bonded to the central atom + lone pairs on it. A double or triple bond counts as <b>one</b> group.</li>
-        <li><b>Lone-pair effect:</b> a lone pair takes more space than a bonding pair, so it squeezes the bond angles below the ideal. The angle is guaranteed ideal only with <b>no lone pairs</b> on the central atom.</li>
+        <li><b>Lone-pair effect:</b> a lone pair takes more space than a bonding pair, so it usually squeezes the bond angles below the ideal. The angle is guaranteed ideal only with <b>no lone pairs</b> on the central atom. (Linear and square planar keep 180° and 90° because the lone pairs sit symmetrically.)</li>
         <li><b>SN 5 and 6 placement:</b> with SN 5, lone pairs and multiple bonds go in the equatorial positions first. With SN 6, a second lone pair goes opposite the first.</li>
       </ul>
     </div>
@@ -78,7 +78,7 @@
         <tbody id="vsepr"></tbody>
       </table>
       </div>
-      <p class="meta">BP = bonding groups on the central atom, LP = lone pairs on the central atom. Bold rows are the ones from class.</p>
+      <p class="meta">BP = bonding groups on the central atom, LP = lone pairs on the central atom. Bold rows have an example on the Oct 23 slides or in the Handout 14 problems.</p>
     </div>
     <div class="card">
       <h2>How to name a shape in four steps</h2>
@@ -86,7 +86,7 @@
         <li>Draw the Lewis structure and find the central atom.</li>
         <li>Count groups around it: each bonded atom is 1 (single, double or triple), each lone pair is 1. That total is the SN and gives the electron-pair geometry.</li>
         <li>Split it into BP and LP and read the molecular geometry off the table.</li>
-        <li>Angle: ideal if LP = 0, otherwise "less than" the ideal.</li>
+        <li>Angle: ideal if LP = 0. With lone pairs it is usually "less than" the ideal, except the symmetric shapes: linear stays 180° and square planar stays 90°. When unsure, copy the angle from the table.</li>
       </ul>
     </div>
   </section>
@@ -139,7 +139,7 @@ const CARDS = [
   ['Electron-pair geometry vs molecular geometry', 'Electron-pair geometry: where all the electron groups are, bonds and lone pairs. Molecular geometry: where the atoms are. They match only when the central atom has no lone pairs.'],
   ['Steric number (SN)', 'Atoms bonded to the central atom plus lone pairs on the central atom. A double or triple bond counts as one group.'],
   ['How many electron groups is a double bond?', 'One. His CO2 balloons: each C=O is one group, so carbon has 2 groups and CO2 is linear.'],
-  ['The lone-pair effect', 'A lone pair takes up more space than a bonding pair, so it squeezes the bond angles below the ideal value.'],
+  ['The lone-pair effect', 'A lone pair takes up more space than a bonding pair, so it usually squeezes the bond angles below the ideal value. Exceptions: linear (180°) and square planar (90°), where the lone pairs sit symmetrically.'],
   ['When is the bond angle guaranteed ideal?', 'Only when the central atom has no lone pairs.'],
   ['SN 2, 2 BP, 0 LP', 'Linear, 180°. Example: CO2.'],
   ['SN 3, 3 BP, 0 LP', 'Trigonal planar, 120°. Examples: BF3, CH2O.'],
@@ -164,11 +164,11 @@ const Q = [
   ['Molecular geometry describes where...', ['The atoms are', 'All the electron groups are', 'The lone pairs are', 'The valence electrons are'], 'Lone pairs shape the molecule but are not part of its name.'],
   ['How many electron groups surround carbon in CO2?', ['2', '4', '3', '6'], 'Each C=O double bond is one group. 2 groups, no lone pairs: linear, 180°.'],
   ['A steric number counts...', ['Atoms bonded to the central atom plus its lone pairs', 'All valence electrons in the molecule', 'Bonds, with a double bond counted twice', 'Only the lone pairs'], 'Multiple bonds count once, because they point in one direction.'],
-  ['SO2 has SN 3: 2 bonding groups and 1 lone pair. Its molecular geometry is', ['Bent, under 120°', 'Trigonal planar, 120°', 'Linear, 180°', 'Trigonal pyramidal'], 'The answer key from Oct 23: bent because SN = 3 with 2 BP and 1 LP.'],
-  ['PCl3 (SN 4, 3 BP, 1 LP) is', ['Trigonal pyramidal', 'Trigonal planar', 'Tetrahedral', 'T-shaped'], 'Oct 23 key: trigonal pyramidal because SN = 4 with 3 BP and 1 LP.'],
-  ['CH2O (formaldehyde) is', ['Trigonal planar', 'Tetrahedral', 'Bent', 'Trigonal pyramidal'], 'Carbon has 3 groups (two C-H and one C=O) and no lone pairs. Oct 23 key: trigonal planar.'],
+  ['SO2 has SN 3: 2 bonding groups and 1 lone pair. Its molecular geometry is', ['Bent, under 120°', 'Trigonal planar, 120°', 'Linear, 180°', 'Trigonal pyramidal'], 'His Oct 23 slide: bent because SN = 3 with 2 BP and 1 LP.'],
+  ['PCl3 (SN 4, 3 BP, 1 LP): its molecular geometry is', ['Trigonal pyramidal', 'Trigonal planar', 'Tetrahedral', 'T-shaped'], 'His Oct 23 slide: trigonal pyramidal because SN = 4 with 3 BP and 1 LP. Tetrahedral is its electron-pair geometry, not its shape.'],
+  ['The molecular geometry of CH2O (formaldehyde) is', ['Trigonal planar', 'Tetrahedral', 'Bent', 'Trigonal pyramidal'], 'Carbon has 3 groups (two C-H and one C=O) and no lone pairs. His Oct 23 slide: trigonal planar.'],
   ['Why is the H-O-H angle in water smaller than 109.5°?', ['Lone pairs take more space than bonding pairs and push the bonds together', 'The two hydrogens attract each other', 'Oxygen has an expanded octet', 'Water is linear'], 'The lone-pair effect. Oxygen has 2 lone pairs, so the angle drops below the tetrahedral 109.5°.'],
-  ['A bond angle is guaranteed to be the ideal value only when', ['The central atom has no lone pairs', 'Every bond is a double bond', 'The molecule is polar', 'The central atom is in row 3'], 'His slide, "The Lone Pair Effect", word for word in substance.'],
+  ['A bond angle is guaranteed to be the ideal value only when', ['The central atom has no lone pairs', 'Every bond is a double bond', 'The molecule is polar', 'The central atom is in row 3'], 'Straight from his "The Lone Pair Effect" slide.'],
   ['Order the bond angles: CH4, NH3, H2O', ['CH4 > NH3 > H2O', 'H2O > NH3 > CH4', 'All three are 109.5°', 'NH3 > CH4 > H2O'], 'All three have SN 4. Lone pairs go 0, 1, 2, and each one squeezes the angle more.'],
   ['BF3 and O3 both have SN 3. Why is BF3 trigonal planar and O3 bent?', ['The central O in O3 has a lone pair and B in BF3 has none', 'BF3 has double bonds', 'O3 has 4 electron groups', 'Boron is more electronegative'], 'Same electron-pair geometry, trigonal planar. The lone pair on O makes the atoms bent.'],
   ['O3: electron-pair geometry and molecular geometry are', ['Trigonal planar and bent', 'Bent and bent', 'Trigonal planar and trigonal planar', 'Tetrahedral and bent'], 'His BF3 vs O3 slide: both trigonal planar for electrons, but O3 is bent for atoms.'],
@@ -176,13 +176,13 @@ const Q = [
   ['H2O\'s electron-pair and molecular geometries are', ['Tetrahedral and bent', 'Bent and bent', 'Trigonal planar and bent', 'Linear and bent'], '4 groups (2 bonds, 2 lone pairs): tetrahedral for electrons, bent for atoms.'],
   ['A central atom with 4 bonding groups and no lone pairs has a bond angle of', ['109.5°', '120°', '90°', '180°'], 'Tetrahedral, like CH4.'],
   ['PCl5 has two kinds of positions. They are', ['Axial and equatorial', 'Cis and trans', 'Inner and outer', 'Polar and nonpolar'], 'His PCl5 slide: note the two possible positions, axial and equatorial.'],
-  ['The bond angles in PCl5 are', ['90° and 120°', '109.5° only', '180° only', '90° only'], '90° axial to equatorial, 120° between equatorial positions.'],
+  ['Handout 14 gives the bond angles in PCl5 as', ['90° (axial to equatorial) and 120° (equatorial to equatorial)', '109.5° only', '180° only', '90° only'], 'Those are the two angles in his table. The two axial atoms are also 180° apart, straight through the phosphorus.'],
   ['SF6 is', ['Octahedral, 90°', 'Trigonal bipyramidal', 'Square planar', 'Tetrahedral'], '6 groups, no lone pairs. All six F are equivalent.'],
   ['IF3: iodine has 3 bonds and 2 lone pairs (SN 5). Its molecular geometry is', ['T-shaped', 'Trigonal planar', 'Trigonal pyramidal', 'Seesaw'], 'SN 5 with 2 LP. The lone pairs take two equatorial spots, leaving a T.'],
   ['With SN 5, lone pairs go first into', ['The equatorial positions', 'The axial positions', 'Either one, it does not matter', 'The space between positions'], 'Handout 14 footnote 1: lone pairs and multiple bonds go equatorial before either axial position.'],
   ['With SN 6 and 2 lone pairs (like XeF4), the shape is square planar because', ['The second lone pair sits opposite the first', 'The lone pairs sit next to each other', 'Lone pairs take less room than bonds', 'The fluorines repel the lone pairs out of the molecule'], 'Handout 14 footnote 2. Opposite lone pairs leave the four atoms in a flat square.'],
-  ['An interior atom with 3 bonding groups and 0 lone pairs (like a C=O carbon) is', ['Trigonal planar', 'Trigonal pyramidal', 'Tetrahedral', 'Bent'], 'Handout 14 problem 3. Treat the atom you are pointed at as the central atom.'],
-  ['An interior O with 2 bonding groups and 2 lone pairs (like the O in an O-H group) is', ['Bent', 'Linear', 'Trigonal planar', 'Tetrahedral'], 'Same as water: SN 4, 2 BP, 2 LP.'],
+  ['An interior atom with 3 bonding groups and 0 lone pairs (like a C=O carbon) has a molecular geometry of', ['Trigonal planar', 'Trigonal pyramidal', 'Tetrahedral', 'Bent'], 'Handout 14 problem 3. Treat the atom you are pointed at as the central atom.'],
+  ['An interior O with 2 bonding groups and 2 lone pairs (like the O in an O-H group) has a molecular geometry of', ['Bent', 'Linear', 'Trigonal planar', 'Tetrahedral'], 'Same as water: SN 4, 2 BP, 2 LP.'],
 ];
 
 const $ = s => document.querySelector(s);
