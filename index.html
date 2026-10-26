@@ -741,10 +741,11 @@ const EXAM2_NOTES_V12 = "SCOPE IS SET: the study guide posted Fri Oct 9 covers A
 // The v13 migration only replaces a stored note that still matches EXAM3_NOTES_V13_OLD.
 const EXAM3_NOTES_V13_OLD = "Covers Chapter 6 (composition of substances and solutions), Chapter 7 (stoichiometry — the longest block of the term at seven lectures), and the start of Chapter 11. ";
 const EXAM3_NOTES_V13 = "The syllabus says Chapter 6 (composition of substances and solutions), Chapter 7 (stoichiometry, the longest block of the term at seven lectures) and the start of Chapter 11. Treat that as provisional. On Mon Oct 19 the class was still in Chapter 4, now on Part 2 (Lewis structures), so Chapter 6 has not opened, and Chapter 10 has never been taught. Both earlier exams were cut to fit the lectures actually given, and each time the study guide, posted the week before, set the real scope. ";
+const EXAM3_NOTES_V14 = "The syllabus says Chapter 6 (composition of substances and solutions), Chapter 7 (stoichiometry, the longest block of the term at seven lectures) and the start of Chapter 11. Treat that as provisional. Through Fri Oct 23 the class was still in Chapter 4 Part 2 (Lewis structures, then molecular geometry), with its homework due Nov 2, so Chapter 6 has not opened and Chapter 10 has never been taught. Exam 2 stopped at section 4.3, so expect the rest of Chapter 4 here. Both earlier exams were cut to fit the lectures actually given, and each time the study guide, posted the week before, set the real scope. From Oct 26 the 3-minute in-class quizzes test the previous lecture's main ideas, which is the same material, a few minutes at a time. ";
 const CHEM1211_EXAMS = [
   {"id":"chem1211-exam1","title":"CHEM 1211 Exam 1","courseId":"chem1211","type":"exam","dueDate":"2026-09-11T10:00:00-04:00","priority":"high","status":"todo","weight":null,"notes":"MOVED: Wed Sep 9 → Fri Sep 11, same 10:00 to 10:50 hour and same room, because Labor Day cancels the Mon Sep 7 class. Announced in the Aug 31, Sep 2 and Sep 4 decks. The scope shrank with it: the study guide covers Chapter 1 in full, Chapter 2 in full, and Chapter 6 section 6.1 only (the mole, molar mass, Avogadro's number). No Chapter 3 — it has not started. Relevant handouts are 1 through 6; relevant homework is every Chapter 1 and Chapter 2 section assignment plus Problem Sets 1 and 2. Provided: the exam booklet, a periodic table and a formula sheet, all three reprinted in the study guide, so nothing about them is a surprise. Four parts — A multiple choice on the Scantron; B short answer, pick two of three for 10 points, and if you answer all three only the first two are graded; C open-ended calculation where work, units and sig figs must be shown; D optional bonus. Meyers' own study order: start with what you are least comfortable with, finish the problems in the Measurements handout, redo every in-class handout, do the Chapter 2 Review Worksheet, then redo the Knewton problem sets. " + EXAM_NOTE},
   {"id":"chem1211-exam2","title":"CHEM 1211 Exam 2","courseId":"chem1211","type":"exam","dueDate":"2026-10-14T10:00:00-04:00","priority":"high","status":"todo","weight":null,"notes":EXAM2_NOTES_V12 + EXAM_NOTE},
-  {"id":"chem1211-exam3","title":"CHEM 1211 Exam 3","courseId":"chem1211","type":"exam","dueDate":"2026-11-18T10:00:00-05:00","priority":"high","status":"todo","weight":null,"notes":EXAM3_NOTES_V13 + EXAM_NOTE},
+  {"id":"chem1211-exam3","title":"CHEM 1211 Exam 3","courseId":"chem1211","type":"exam","dueDate":"2026-11-18T10:00:00-05:00","priority":"high","status":"todo","weight":null,"notes":EXAM3_NOTES_V14 + EXAM_NOTE},
 ];
 
 // Tentative lecture schedule. Rendered on the calendar as "Ch N begins" markers.
@@ -756,9 +757,10 @@ const CHEM1211_TOPICS = [
   {"id":"chem1211-ch6-1","courseId":"chem1211","number":6,"label":"Ch 6.1","title":"Chapter 6 § 6.1 only — the mole, molar mass and Avogadro's number, taught early on Sep 4 inside the Chapter 2 block. His Handout 6 calls it ‘Chapter 2 – Part 2’; the Exam 1 study guide calls it textbook § 6.1. It is on Exam 1. The rest of Chapter 6 still comes in October.","startsDate":"2026-09-04"},
   {"id":"chem1211-ch4","courseId":"chem1211","number":4,"label":"Ch 4","title":"Chapter 4: Chemical Bonding and Molecular Geometry. Opened Mon Oct 5, confirmed by the ‘Start of Chapter 4 Slides’ slide in that day's deck, right after the Q&A on the Chapter 3 videos. Part 1 is sections 4.1 to 4.3: ionic, covalent and metallic bonds, electronegativity and bond polarity, and naming ions and binary compounds (Handout 12). It is the only Chapter 4 material on Exam 2. Its homework, Knewton 4.1 to 4.3 plus Problem Set 5, is due Mon Oct 12 at 11:59 PM.","startsDate":"2026-10-05"},
   {"id":"chem1211-ch10","courseId":"chem1211","number":10,"label":"Ch 10","title":"Chapter 10: Liquids and Solids. This Oct 5 date is the syllabus's and it is wrong: Oct 5 opened Chapter 4, and the Exam 2 study guide leaves Chapter 10 out entirely. No new start date has been announced, and the rest of Chapter 4 still comes first.","startsDate":"2026-10-05"},
-  {"id":"chem1211-ch4-2","courseId":"chem1211","number":4,"label":"Ch 4 pt 2","title":"Chapter 4 Part 2: Lewis structures. Opened Fri Oct 16, the day Handout 13 (headed Chapter 4 Part 2) was handed out, and continued Oct 19. Covered so far: his six rules (sum the valence electrons, adding one per negative charge and removing one per positive charge; pick the central atom, usually the less electronegative one and never H; place the terminal atoms; join each to the center with a single bond; complete the octets from the outside in, putting leftover electrons on the center and forming a multiple bond when short; then check formal charges and that every electron was used), the usual number of bonds (H 1, C 4, N 3, O 2, a halogen 1), the octet exceptions (odd-electron species such as NO, an incomplete octet on a group 3 central atom, an expanded octet on a central atom in row 3 or below), and average bond energies and lengths. Handout 13 ends on picking the best resonance form of chlorite, ClO2-. No homework date announced through the Oct 19 slides.","startsDate":"2026-10-16"},
+  {"id":"chem1211-ch4-2","courseId":"chem1211","number":4,"label":"Ch 4 pt 2","title":"Chapter 4 Part 2: Lewis structures, then molecular geometry. Opened Fri Oct 16, the day Handout 13 (headed Chapter 4 Part 2) was handed out, and ran through Oct 23. Oct 16 and 19: his six rules (sum the valence electrons, adding one per negative charge and removing one per positive charge; pick the central atom, usually the less electronegative one and never H; place the terminal atoms; join each to the center with a single bond; complete the octets from the outside in, putting leftover electrons on the center and forming a multiple bond when short; then check formal charges and that every electron was used), the usual number of bonds (H 1, C 4, N 3, O 2, a halogen 1), the octet exceptions (odd-electron species such as NO, an incomplete octet on a group 3 central atom, an expanded octet on a central atom in row 3 or below), and average bond energies and lengths. Oct 21: picking the best resonance form of chlorite, ClO2-, resonance hybrids and bond order (ozone, 1.5), bond polarity from the electronegativity difference (memorize N, Cl, O and F), and how 3D shape changes taste and drug activity. Oct 23 (Handout 14, which he heads Chapter 4 Part 3): VSEPR, electron-pair geometry against molecular geometry, the lone-pair effect on bond angles, and the shapes for steric numbers 2 to 6. Homework: Knewton 4.4 to 4.9 plus a problem set, due Mon Nov 2 at 11:59 PM.","startsDate":"2026-10-16"},
   {"id":"chem1211-ch6","courseId":"chem1211","number":6,"label":"Ch 6","title":"Chapter 6: Composition of Substances and Solutions. This Oct 16 date is the syllabus's and it is wrong: the Oct 16 and Oct 19 lectures were Chapter 4 Part 2, Lewis structures. No new start date has been announced.","startsDate":"2026-10-16"},
-  {"id":"chem1211-ch7","courseId":"chem1211","number":7,"label":"Ch 7","title":"Chapter 7: Stoichiometry of Chemical Reactions","startsDate":"2026-10-26"},
+  {"id":"chem1211-ch7","courseId":"chem1211","number":7,"label":"Ch 7","title":"Chapter 7: Stoichiometry of Chemical Reactions. This Oct 26 date is the syllabus's and it is wrong: the Oct 23 slide says only four of the six Chapter 4 Part 2 section assignments can be done so far, so Chapter 4 has at least one more lecture, and Chapter 6, which comes before 7, has not opened. No new start date has been announced.","startsDate":"2026-10-26"},
+  {"id":"chem1211-quizzes","courseId":"chem1211","label":"Quizzes","title":"In-class quizzes start: one in the first 3 minutes (10:00 to 10:03 AM) of every class through Nov 30, on the previous lecture's main ideas. Bring a device that runs D2L.","startsDate":"2026-10-26"},
   {"id":"chem1211-ch11","courseId":"chem1211","number":11,"label":"Ch 11","title":"Chapter 11: Solutions and Colloids (runs through the last class, Nov 30)","startsDate":"2026-11-11"},
 ];
 
@@ -859,7 +861,20 @@ const CHEM1211_EXAM2 = [
 const CH6_TITLE_V13_OLD = "Chapter 6: Composition of Substances and Solutions";
 const CHEM1211_OCT21 = [
   {"id":"chem1211-exam2-review","title":"Go over graded Exam 2 + check the D2L course grade","courseId":"chem1211","type":"other","dueDate":"2026-10-23T10:00:00-04:00","priority":"medium","status":"todo","weight":null,"notes":"Exam 2 was graded and handed back at the end of the Fri Oct 16 class, with pickup again after the Mon Oct 19 class. The D2L course grade was updated by Oct 19 and now covers all Knewton homework, Exams 1 and 2, and every bonus point so far. His Oct 16 slides give a method: unpack the exam, then sleep on it. For each right answer, ask whether you knew it or guessed, and if you guessed, rework it plus two similar problems. For each wrong answer, ask whether it was a slip or a gap, and for a gap, go back to your notes and work at least two more similar problems. On the Scantron, the number written on the form is how many you got right, and each pink tick, just past a question number, marks a wrong answer. Re-grade requests are due within a week of the exam coming back and re-open the whole exam, so the score can go down. This card is dated Fri Oct 23, one week after the Oct 16 return. That date is worked out from the syllabus rule, not announced by him."},
-  {"id":"chem1211-ch4-part2-hw","title":"Chapter 4 Part 2 homework on Knewton (not announced yet)","courseId":"chem1211","type":"assignment","dueDate":null,"priority":"medium","status":"todo","weight":null,"notes":"Chapter 4 Part 2, Lewis structures, opened Fri Oct 16 with Handout 13, and no homework for it appears on the Oct 12, 16 or 19 announcement slides. Every earlier chapter part has come with Knewton section assignments plus a problem set, so expect the same here. Open Knewton through D2L, see what is posted for Chapter 4, and put the real date on this card instead of waiting for a slide. Delete the card if there turns out to be no Part 2 homework."},
+  {"id":"chem1211-ch4-part2-hw","title":"Knewton 4.4 – 4.9: Chapter 4 Part 2 (Lewis structures, resonance, molecular geometry)","courseId":"chem1211","type":"assignment","dueDate":"2026-11-02T23:59:00-05:00","priority":"high","status":"todo","weight":null,"notes":"Chapter 4 Part 2 is six section assignments (Knewton 4.4 to 4.9) plus one problem set, all due Mon Nov 2 at 11:59 PM, announced on the Oct 21 slide and repeated on Oct 23. After the Oct 21 lecture you could do the first three sections, after Oct 23 the first four; the last two need the next lecture or two. Section assignments are the 15% category, and a reattempt within 4 days replaces your score only at a perfect 100%. Nov 2 is also the first SCI 2900 presentation day."},
+];
+
+// 2026-10-26 D2L export (CHEM course TOC of Oct 26, 8:33 AM): the Oct 21 and Oct 23 decks, Handout 14
+// (molecular geometry) and the In-Class Quiz Information sheet. The Oct 21 announcement slide dates
+// Chapter 4 Part 2 homework, Mon Nov 2, and starts a 3-minute D2L quiz at every class from Mon Oct 26.
+// The v14 migration only replaces a stored field that still holds the v13 value below.
+const CH4P2_HW_V14_OLD = {"title":"Chapter 4 Part 2 homework on Knewton (not announced yet)","priority":"medium","notes":"Chapter 4 Part 2, Lewis structures, opened Fri Oct 16 with Handout 13, and no homework for it appears on the Oct 12, 16 or 19 announcement slides. Every earlier chapter part has come with Knewton section assignments plus a problem set, so expect the same here. Open Knewton through D2L, see what is posted for Chapter 4, and put the real date on this card instead of waiting for a slide. Delete the card if there turns out to be no Part 2 homework."};
+const CH4_2_TITLE_V14_OLD = "Chapter 4 Part 2: Lewis structures. Opened Fri Oct 16, the day Handout 13 (headed Chapter 4 Part 2) was handed out, and continued Oct 19. Covered so far: his six rules (sum the valence electrons, adding one per negative charge and removing one per positive charge; pick the central atom, usually the less electronegative one and never H; place the terminal atoms; join each to the center with a single bond; complete the octets from the outside in, putting leftover electrons on the center and forming a multiple bond when short; then check formal charges and that every electron was used), the usual number of bonds (H 1, C 4, N 3, O 2, a halogen 1), the octet exceptions (odd-electron species such as NO, an incomplete octet on a group 3 central atom, an expanded octet on a central atom in row 3 or below), and average bond energies and lengths. Handout 13 ends on picking the best resonance form of chlorite, ClO2-. No homework date announced through the Oct 19 slides.";
+const CH7_TITLE_V14_OLD = "Chapter 7: Stoichiometry of Chemical Reactions";
+const CHEM1211_OCT26 = [
+  {"id":"chem1211-practice-quiz","title":"Practice In-Class Quiz in D2L (device and password check)","courseId":"chem1211","type":"quiz","dueDate":"2026-10-26T10:00:00-04:00","priority":"high","status":"todo","weight":null,"notes":"In D2L, in the In-Class Quizzes folder. Ungraded, and it has no posted deadline: the date here is the first real quiz, 10:00 AM Mon Oct 26, because that is when it stops being useful. It checks that your device can run a D2L quiz, shows how to unlock a quiz with a password, and has example questions for the first quiz. The quiz itself is not in the D2L content export, so open it in D2L. Announced on the Oct 21 and Oct 23 slides and in the In-Class Quiz Information sheet (Resources)."},
+  {"id":"chem1211-inclass-quizzes","title":"In-class quizzes: first 3 minutes of every class (Oct 26 to Nov 30)","courseId":"chem1211","type":"quiz","dueDate":"2026-11-30T10:00:00-05:00","priority":"high","status":"todo","weight":null,"notes":"One D2L quiz from 10:00 to 10:03 AM at every lecture, starting Mon Oct 26 and running to the last class, Mon Nov 30. Each one covers a main idea, principle, definition or trend from the previous class, not fine detail, and Meyers says they are there to prepare you for the upcoming exams. Rules: you must be in the room; closed notes and closed book; the password is given at the start of class, and sharing it is misconduct for everyone involved; it auto-submits at the 3-minute mark, so arriving 2 minutes late leaves you 1 minute. Bring a device that runs a D2L quiz to every class. Grading: all quiz points combine into one problem set at the end of the term (the 20% category). An unexcused miss is a zero and there are no make-ups. An excused miss needs documentation sent to Meyers by the last day of classes, Nov 30, the date on this card, or it turns into a zero."},
+  {"id":"chem1211-ps-ch4-part2","title":"Problem Set (Chapter 4 Part 2)","courseId":"chem1211","type":"assignment","dueDate":"2026-11-02T23:59:00-05:00","priority":"high","status":"todo","weight":null,"notes":"Chapter 4 Part 2 problem set on Knewton, due Mon Nov 2 at 11:59 PM with sections 4.4 to 4.9. Two attempts, the higher one recorded and permanent, and no late window, because problem sets never get one. 20% category. Same night as the first SCI 2900 presentation day."},
 ];
 
 function seed() {
@@ -878,6 +893,7 @@ function seed() {
       ...CHEM1211_CH3_VIDEO,
       ...CHEM1211_EXAM2,
       ...CHEM1211_OCT21,
+      ...CHEM1211_OCT26,
       ...CHEM1211_EXAMS,
       ...SCI2900_ITEMS,
       ...SCI2900_ITEMS_V8,
@@ -899,7 +915,7 @@ const FP_KEY = STORE_KEY + '_fp';
 // Stamp for fields written by migrate(). Higher than unstamped (0) so a migration's rewrite spreads
 // to devices that have not run it, far lower than any real edit's time so it never beats one.
 // Bump it with every new migration block, so a newer migration outranks an older one.
-const MIGRATION_STAMP = 13;
+const MIGRATION_STAMP = 14;
 
 function fingerprint(d) {
   const m = {};
@@ -1233,6 +1249,36 @@ function migrate() {
     const e3 = db.assignments.find(a => a.id === 'chem1211-exam3');
     if (e3 && e3.notes === EXAM3_NOTES_V13_OLD + EXAM_NOTE) e3.notes = EXAM3_NOTES_V13 + EXAM_NOTE;
     db.meta.chem1211_oct21_v13 = true;
+    dirty = true;
+  }
+
+  // 2026-10-26 CHEM export. Dates the Chapter 4 Part 2 homework (Mon Nov 2) and adds its problem set,
+  // the Practice In-Class Quiz, the in-class quiz series and its calendar marker; brings the Ch 4 pt 2
+  // marker and the Exam 3 note up to the Oct 23 lecture; flags the Ch 7 marker as a known-wrong syllabus
+  // date. A field moves only while it still holds the v13 value, so anything Eric edited survives.
+  if (!db.meta.chem1211_oct26_v14) {
+    CHEM1211_OCT26.forEach(item => {
+      if (!db.assignments.some(a => a.id === item.id)) db.assignments.push(JSON.parse(JSON.stringify(item)));
+    });
+    if (!db.topics) db.topics = [];
+    CHEM1211_TOPICS.forEach(t => {
+      if (!db.topics.some(x => x.id === t.id)) db.topics.push(JSON.parse(JSON.stringify(t)));
+    });
+    const hw = db.assignments.find(a => a.id === 'chem1211-ch4-part2-hw');
+    const hwf = CHEM1211_OCT21.find(a => a.id === 'chem1211-ch4-part2-hw');
+    if (hw && hwf) {
+      if (hw.title === CH4P2_HW_V14_OLD.title) hw.title = hwf.title;
+      if (hw.dueDate === null) hw.dueDate = hwf.dueDate;
+      if (hw.priority === CH4P2_HW_V14_OLD.priority) hw.priority = hwf.priority;
+      if (hw.notes === CH4P2_HW_V14_OLD.notes) hw.notes = hwf.notes;
+    }
+    [['chem1211-ch4-2', CH4_2_TITLE_V14_OLD], ['chem1211-ch7', CH7_TITLE_V14_OLD]].forEach(([id, old]) => {
+      const t = db.topics.find(x => x.id === id), f = CHEM1211_TOPICS.find(x => x.id === id);
+      if (t && f && t.title === old) t.title = f.title;
+    });
+    const e3v14 = db.assignments.find(a => a.id === 'chem1211-exam3');
+    if (e3v14 && e3v14.notes === EXAM3_NOTES_V13 + EXAM_NOTE) e3v14.notes = EXAM3_NOTES_V14 + EXAM_NOTE;
+    db.meta.chem1211_oct26_v14 = true;
     dirty = true;
   }
 
@@ -1888,11 +1934,12 @@ function renderInstructors() {
       tags: ['IN PERSON', 'MWF 10:00 AM', 'LAKEVIEW 210', 'OFFICE LDSC 235D'],
       alerts: [
         { kw: 'EXAMS = 65%', desc: 'The three 50-minute exams are 45% and the final is 20%. Homework is only 35% of the grade, so exam days are where this course is won' },
+        { kw: 'DAILY QUIZ', desc: 'From Mon Oct 26, a D2L quiz from 10:00 to 10:03 AM at every class, on the main ideas of the previous lecture. Closed notes, the password is given in the room, and it auto-submits at 10:03, so be on time. Bring a device. All quiz points count as one problem set; no make-ups' },
         { kw: 'EXAM 2 IS BACK', desc: 'Graded and handed back Fri Oct 16, with pickup again after the Oct 19 class. Re-grade requests are due within a week of the return, so by about Fri Oct 23. His method: for each right answer, did you know it or guess; for each wrong one, was it a slip or a gap. Rework every guess and every gap plus two similar problems' },
-        { kw: 'CH 4 PART 2', desc: 'Lewis structures opened Fri Oct 16 with Handout 13: his six rules, the usual bond counts, formal charge, octet exceptions, bond energy and length. No homework date announced through the Oct 19 slides, so check Knewton' },
+        { kw: 'CH 4 PART 2', desc: 'Lewis structures Oct 16 to 21 (Handout 13): his six rules, bond counts, formal charge, octet exceptions, resonance, bond polarity. Then molecular geometry by VSEPR on Oct 23 (Handout 14). Homework: Knewton 4.4 to 4.9 plus a problem set, due Mon Nov 2 at 11:59 PM' },
         { kw: 'MEMORIZE', desc: 'What the formula sheet will not give you: the 7 EM regions in energy order, electronegativity of N 3.0, Cl 3.0, O 3.5 and F 4.0, nine polyatomic ions with charges, the prefixes mono to deca, the Cr and Cu exceptions, and de Broglie\'s λ = h/mv' },
         { kw: 'REVIEW KEYS', desc: 'The Chapter 3 and Chapter 4 Part 1 Review Worksheets are posted with keys. His study order: least comfortable topic first, every in-class handout again, both worksheets, then the Knewton problem sets' },
-        { kw: 'COURSE GRADE', desc: 'D2L course grade updated by the Oct 19 lecture: all Knewton homework, Exams 1 and 2, and every bonus point so far' },
+        { kw: 'COURSE GRADE', desc: 'D2L course grade updated again by the Oct 21 lecture: all Knewton homework, Exams 1 and 2, and every bonus point so far' },
         { kw: 'EXAM FORMAT', desc: 'Every in-semester exam has the same four parts: A multiple choice on the Scantron, B short answer where you pick two of three (answer all three and only the first two are graded), C open-ended calculation with work shown, D optional bonus' },
         { kw: 'PROVIDED', desc: 'Exam booklet, periodic table and formula sheet are given — all three are reprinted in the study guide. You still bring the Scantron, a #2 pencil and a calculator' },
         { kw: 'REMAINING EXAMS', desc: 'Exam 3 Wed Nov 18 at the 10:00 AM class hour in LDSC 210. Final Mon Dec 7, 10:15 AM' },
@@ -1910,14 +1957,14 @@ function renderInstructors() {
         { key: 'Grading', val: 'Section assignments and quizzes 15%, problem sets 20%, three in-semester exams 45%, comprehensive final 20%. Straight scale, no curve: A 90, B 80, C 70, D 60.' },
         { key: 'Coverage', val: 'Chapters 1 to 4, 6, 7, 10, and 11 of OpenStax Atoms First 2e. The chapter start dates are marked on the Calendar. Chapter 7 (stoichiometry) is the longest block at seven lectures.' },
         { key: 'Homework', val: 'Knewton Alta, always entered through D2L. Several section assignments plus roughly one problem set per chapter. Section assignments allow a 4-day reattempt but only a perfect 100% replaces your score. Problem sets get two attempts, highest recorded, and no late window.' },
-        { key: 'Quizzes', val: 'May appear at any time to gauge exam readiness, with no make-ups. Careful: the syllabus contradicts itself on where quiz points go — the weights table files them under section assignments (15%), the policy text says problem sets (20%). Worth one email to Meyers.' },
+        { key: 'Quizzes', val: 'A 3-minute D2L quiz opens every class from Mon Oct 26 to Nov 30 (the In-Class Quiz Information sheet is in Resources). That sheet settles the syllabus contradiction: quiz points combine into one problem set at the end of the term, so they count in the 20% problem-set category, not the 15% section-assignment one. No make-ups; an excused miss needs documentation by the last day of classes.' },
         { key: 'Missed exam', val: 'No make-ups. The first miss with documented excused absence gets your final-exam score substituted, so the final counts twice. Every later miss, or any unexcused one, is a zero.' },
         { key: 'Office hours', val: 'MW 11:00 to 1:00, Thu 11:15 to 12:30 and 2:15 to 3:00, in LDSC 235D. Open door otherwise, or by appointment. Email JohnMeyers@clayton.edu with the course number in the subject line — he replies in 24 to 48 hours on weekdays.' },
         { key: 'Materials', val: 'Textbook is free online through the D2L link (OpenStax, ISBN 9781947172630) — do not buy it. You do need: Knewton Alta access, Scantron forms, a #2 pencil, a scientific calculator, and a handwritten notebook, which he specifically recommends.' },
         { key: 'Help', val: 'Center for Academic Success in Edgewater Hall 257, plus free Tutor.com through the D2L navbar under More, University Resources.' },
         { key: 'Advising', val: 'Meyers recommends seeing your pre-health faculty advisor at least once a semester. Biology faculty are in LDSC 135, chemistry and physics in LDSC 235.' },
-        { key: 'Status', val: 'Current through the Oct 21 D2L export (9:40 AM): Handout 13 (Lewis structures) and the Oct 12, 16 and 19 decks, on top of everything before. None of the three announcement slides dates new homework. He has moved four posted dates this term (Chapter 1 Part 2 from Aug 24 to Aug 28, Chapter 2 homework from Sep 8 to Sep 9, Exam 1 from Sep 9 to Sep 11, Chapter 3 Part 2 from Oct 5 to Oct 7), so treat every date on this page as provisional until Knewton or a slide confirms it.' },
-        { key: 'Pace', val: 'Both exams so far were cut to fit the lectures actually given. Exam 1 lost Chapter 3. Exam 2 lost Chapter 10 and everything in Chapter 4 past section 4.3. The course is behind the syllabus again: Chapter 4 Part 2 (Lewis structures) ran Oct 16 and Oct 19, the dates the syllabus gave to Chapter 6, and Chapter 10 has never been taught. So the Ch 6 and Ch 10 markers on the calendar are known-wrong syllabus dates, and Ch 7 (Oct 26) and Ch 11 (Nov 11) are the syllabus dates too. Exam 3 (Wed Nov 18) still reads Chapters 6, 7 and the start of 11 on the syllabus. Expect its scope to move the same way, and read its study guide when it posts.' },
+        { key: 'Status', val: 'Current through the Oct 26 D2L export (8:33 AM): the Oct 21 and Oct 23 decks, Handout 14 (molecular geometry) and the In-Class Quiz Information sheet, on top of everything before. The Oct 21 slide dates the Chapter 4 Part 2 homework, Mon Nov 2, and starts the daily quizzes. He has moved four posted dates this term (Chapter 1 Part 2 from Aug 24 to Aug 28, Chapter 2 homework from Sep 8 to Sep 9, Exam 1 from Sep 9 to Sep 11, Chapter 3 Part 2 from Oct 5 to Oct 7), so treat every date on this page as provisional until Knewton or a slide confirms it.' },
+        { key: 'Pace', val: 'Both exams so far were cut to fit the lectures actually given. Exam 1 lost Chapter 3. Exam 2 lost Chapter 10 and everything in Chapter 4 past section 4.3. The course is behind the syllabus again: Chapter 4 Part 2 (Lewis structures, then molecular geometry) ran Oct 16 to Oct 23, the dates the syllabus gave to Chapter 6, and Chapter 10 has never been taught. So the Ch 6, Ch 7 and Ch 10 markers on the calendar are known-wrong syllabus dates, and Ch 11 (Nov 11) is the syllabus date too. Exam 3 (Wed Nov 18) still reads Chapters 6, 7 and the start of 11 on the syllabus. Expect its scope to move the same way, and read its study guide when it posts.' },
       ]
     },
     {
@@ -1942,7 +1989,7 @@ function renderInstructors() {
         { key: 'What is posted', val: 'The Fall 2026 Course Schedule, eight lecture decks (Misconceptions in Science, Careers in Science, Famous Scientists, Scientific Literature, the Curriculum Presentation by Dr. Melvin, Are You in Alignment?, Mentoring and Advising, Science Ethics), the first two journal articles, and five assignment documents: Curtain Paper, The Path Forward (schools and jobs versions), Alignment, Henrietta Lacks, and Presentation Requirements. All of it is in Resources.' },
         { key: 'The two papers', val: 'Edmunds et al. 2023, manganese and selenium in nursery piglets (Veterinary Sciences, 12 pp). Ohl et al. 2012, hospital privacy curtain contamination (Am J Infection Control, 3 pp). Which one is journal 1 and which is journal 2 is not stated anywhere in the package; the table of contents lists the piglet paper first, which is the only evidence either way. Boris built a narrated breakdown video for each, in Resources.' },
         { key: 'Grading', val: 'Still no breakdown. Four point values are known from the assignment documents: Curtain Paper 20 (four questions at five each), Alignment 10, the Henrietta Lacks paper 20 and the Primary Literature Review 25. With no total, none of them can be turned into a percentage. This is a 2-credit course, so it moves the GPA less than CHEM 1211, but the missing grading scheme is still the biggest blind spot of the semester.' },
-        { key: 'Status', val: 'Current through the Oct 21 D2L export (9:42 AM), which adds nothing over the Oct 2 export: the newest uploads are still the Sept 30 decks and Presentation Requirements. The five files the Oct 2 update had extracted only on the laptop (the Henrietta Lacks and Presentation Requirements handouts, and the Curriculum, Mentoring and Ethics decks) are now on the desktop too. Alignment was submitted Sept 24. Every other SCI 2900 date on the calendar is the class meeting that covers the work, not a confirmed submission deadline.' },
+        { key: 'Status', val: 'Current through the Oct 26 D2L export (8:36 AM), which like the Oct 21 one adds nothing over the Oct 2 export: the newest uploads are still the Sept 30 decks and Presentation Requirements. The five files the Oct 2 update had extracted only on the laptop (the Henrietta Lacks and Presentation Requirements handouts, and the Curriculum, Mentoring and Ethics decks) are now on the desktop too. Alignment was submitted Sept 24. Every other SCI 2900 date on the calendar is the class meeting that covers the work, not a confirmed submission deadline.' },
       ]
     }
   ];
@@ -1994,7 +2041,11 @@ function renderResources() {
       courseId: 'chem1211',
       base: 'B:/School/CSU/Fall Semester 2026/CHEM 1211',
       groups: [
-        { label: 'Chapter 4 Part 2: Lewis structures (opened Fri Oct 16, no homework date yet)', open: true, files: [
+        { label: 'In-class quizzes: every class from Mon Oct 26, 10:00 to 10:03 AM', open: true, files: [
+          { name: 'In-Class Quiz Information: rules, password, grading, absences', file: 'In-Class Quiz Information - MWF.pdf', type: 'pdf' },
+        ]},
+        { label: 'Chapter 4 Part 2: Lewis structures and molecular geometry (homework due Mon Nov 2)', open: true, files: [
+          { name: '14: Molecular geometry, the VSEPR shape table for steric numbers 2 to 6, then CH2O, SO2, PCl3 and IF3', file: '14 Handout_Molecular Geometry.pdf', type: 'pdf' },
           { name: '13: Lewis structures, his six rules worked on NBr3, then H2, H2O, O2, CH2O and chlorite', file: '13 Handout_Lewis Structures.pdf', type: 'pdf' },
         ]},
         { label: 'Exam 2 (Oct 14): graded and returned Oct 16', open: false, files: [
@@ -2053,6 +2104,7 @@ function renderResources() {
           { name: '11: Periodic trends (Chapter 3, used at the end of Video 2)',  file: '11 Handout_Periodic Trends.pdf',                             type: 'pdf' },
           { name: '12: Naming binary ionic and molecular compounds (Chapter 4)',  file: '12 Handout_Cmpd Nomenclature.pdf',                           type: 'pdf' },
           { name: '13: Lewis structures (Chapter 4 Part 2)',                      file: '13 Handout_Lewis Structures.pdf',                            type: 'pdf' },
+          { name: '14: Molecular geometry (Chapter 4, he heads it Part 3)',       file: '14 Handout_Molecular Geometry.pdf',                          type: 'pdf' },
         ]},
         { label: 'Dimensional Analysis Bonus Activity', open: true, files: [
           { name: 'Assignment description & rules (Word only, no name, no AI)', file: 'Dimensional Analysis Bonus Activity Description1211.pdf',   type: 'pdf' },
@@ -2084,6 +2136,8 @@ function renderResources() {
           { name: 'Oct 12: Exam 2 logistics, polyatomic ions, naming practice with medical uses', file: '23 Chem 1211 Lecture Slides - Oct 12.pdf', type: 'pdf' },
           { name: 'Oct 16: Exam 2 returned, how to unpack an exam, reading the Scantron, Lewis rules', file: '24 Chem 1211 Lecture Slides - Oct 16.pdf', type: 'pdf' },
           { name: 'Oct 19: Lewis structures, bonding patterns, bond energy and length, octet exceptions', file: '25 Chem 1211 Lecture Slides - Oct 19.pdf', type: 'pdf' },
+          { name: 'Oct 21: Homework dated Nov 2, quiz rules, resonance, bond polarity, shape and drug activity', file: '26 Chem 1211 Lecture Slides - Oct 21.pdf', type: 'pdf' },
+          { name: 'Oct 23: Quiz rules again, VSEPR, electron-pair vs molecular geometry, lone-pair effect', file: '27 Chem 1211 Lecture Slides - Oct 23.pdf', type: 'pdf' },
         ]},
         { label: 'Unit 1 — Measurement & Dimensional Analysis', open: true, files: [
           { name: 'Lecture 1 — Numbers (significant figures)',            file: 'Lecture 1 - Numbers.mp4',                              type: 'mp4' },
