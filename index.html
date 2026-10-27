@@ -187,6 +187,7 @@
   .assignment-title.strikethrough { text-decoration: line-through; color: var(--muted); }
   .course-tag { display: inline-flex; align-items: center; justify-content: center; gap: 5px; padding: 3px 9px; border-radius: 5px; font-size: 11px; font-weight: 700; font-family: var(--mono); letter-spacing: 0.02em; white-space: nowrap; }
   .type-badge { padding: 3px 9px; border-radius: 5px; font-size: 10.5px; font-weight: 600; background: var(--surface2); color: var(--muted); text-transform: capitalize; text-align: center; letter-spacing: 0.02em; }
+  .type-badge.in-person { background: rgba(99,102,241,0.14); color: var(--accent-2); white-space: nowrap; text-transform: none; }
   .due-date { display: inline-flex; align-items: center; gap: 6px; justify-self: start; font-size: 11.5px; font-weight: 600; font-family: var(--mono); color: var(--muted); background: var(--surface2); border: 1px solid var(--border); padding: 4px 9px; border-radius: 6px; white-space: nowrap; font-variant-numeric: tabular-nums; }
   .due-date::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--faint); flex-shrink: 0; }
   .due-date.overdue { color: #FCA5A5; background: rgba(239,68,68,0.13); border-color: rgba(239,68,68,0.32); }
@@ -424,6 +425,7 @@
     .assignment-row > .assignment-title { flex: 1 1 100%; order: 1; white-space: normal; }
     .assignment-row > .check-box { order: 0; }
     .assignment-row .type-badge { display: none; }
+    .assignment-row .type-badge.in-person { display: inline-block; }
     .prof-body { grid-template-columns: 1fr; }
     .prof-watch { border-right: none; border-bottom: 1px solid var(--border); }
     .res-layout { grid-template-columns: 1fr; height: auto; }
@@ -544,6 +546,7 @@
             <option value="assignment">Assignment</option>
             <option value="quiz">Quiz</option>
             <option value="exam">Exam</option>
+            <option value="presentation">Presentation</option>
             <option value="project">Project</option>
             <option value="lab">Lab</option>
             <option value="reading">Reading</option>
@@ -727,7 +730,7 @@ const SCI2900_ITEMS = [
   {"id":"sci2900-syllabus-ask","title":"Ask McFarlane for the SCI 2900 syllabus","courseId":"sci2900","type":"other","dueDate":"2026-09-02T09:00:00-04:00","priority":"high","status":"todo","weight":null,"notes":"Four weeks into a 2-credit course and D2L still has no syllabus. The Sept 1 package holds a course schedule, four lecture decks and two journal articles, and nothing else: no grading breakdown, no assignment list, no late policy, no AI policy. That last one matters, because CHEM 1211 bans generative AI outright and you cannot assume SCI 2900 does the same either way. Ask in person before or after the Sept 2 class, and ask for three things specifically: how the grade is broken down, what form the Scientific Journal work is submitted in, and what the AI policy is."},
   {"id":"sci2900-journal2","title":"Second Scientific Journal: discussion + limitations","courseId":"sci2900","type":"assignment","dueDate":"2026-09-28T09:00:00-04:00","priority":"high","status":"todo","weight":null,"notes":"Class discussion Mon Sept 28, then a session on limitations Wed Sept 30. Two papers are posted and three journal blocks exist on the schedule, so one paper is still to come. Read the assigned paper twice before the Monday: once for the question and the design, once for the numbers. For the Wednesday, come with limitations the authors did NOT state, because the ones they did state are in the discussion section and everyone will have them. The paper-breakdown videos in Resources end on limitations and on six questions each. DATE IS THE CLASS MEETING, not a confirmed submission deadline."},
   {"id":"sci2900-journal3","title":"Final Scientific Journal: future directions","courseId":"sci2900","type":"assignment","dueDate":"2026-10-21T09:00:00-04:00","priority":"medium","status":"todo","weight":null,"notes":"Third and final journal block, Wed Oct 21, themed on future directions: what the next experiment would have to do differently. It follows the Oct 19 class on retracted papers, so the pairing is deliberate. Note there is no separate discussion day for this one on the schedule, which suggests the written product carries more of the weight here. The third paper has not been posted yet. DATE IS THE CLASS MEETING, not a confirmed submission deadline."},
-  {"id":"sci2900-oral-presentation","title":"Oral Presentation","courseId":"sci2900","type":"assignment","dueDate":"2026-11-02T09:00:00-05:00","priority":"high","status":"todo","weight":null,"notes":"Oral presentations run across both class days, Mon Nov 2 and Wed Nov 4, with a preparation class on Oct 28. Which day you present on is not set yet. This is almost certainly the largest single graded item in the course: it gets two full class days and it is the natural capstone of a course whose whole point is reading and presenting literature. The topic is no longer open: the Sept 30 ‘Presentation Requirements’ handout says the peer-reviewed primary article you review for the 25-point Primary Literature Review ‘will form the entire basis of your final in-class presentation’. So the talk is that one article — its research question, methods, key results, your critique, and why it matters. Do the written review first and build the talk out of it. No point value, time limit or slide format has been given for the presentation itself. DATE IS THE FIRST PRESENTATION DAY, not a confirmed slot."},
+  {"id":"sci2900-oral-presentation","title":"Oral Presentation","courseId":"sci2900","type":"presentation","dueDate":"2026-11-02T09:00:00-05:00","priority":"high","status":"todo","weight":null,"notes":"Oral presentations run across both class days, Mon Nov 2 and Wed Nov 4, with a preparation class on Oct 28. Which day you present on is not set yet. This is almost certainly the largest single graded item in the course: it gets two full class days and it is the natural capstone of a course whose whole point is reading and presenting literature. The topic is no longer open: the Sept 30 ‘Presentation Requirements’ handout says the peer-reviewed primary article you review for the 25-point Primary Literature Review ‘will form the entire basis of your final in-class presentation’. So the talk is that one article — its research question, methods, key results, your critique, and why it matters. Do the written review first and build the talk out of it. No point value, time limit or slide format has been given for the presentation itself. DATE IS THE FIRST PRESENTATION DAY, not a confirmed slot."},
 ];
 
 // Everything below comes from the Simple Syllabus PDF (uploaded Aug 11).
@@ -877,6 +880,15 @@ const CHEM1211_OCT26 = [
   {"id":"chem1211-ps-ch4-part2","title":"Problem Set (Chapter 4 Part 2)","courseId":"chem1211","type":"assignment","dueDate":"2026-11-02T23:59:00-05:00","priority":"high","status":"todo","weight":null,"notes":"Chapter 4 Part 2 problem set on Knewton, due Mon Nov 2 at 11:59 PM with sections 4.4 to 4.9. Two attempts, the higher one recorded and permanent, and no late window, because problem sets never get one. 20% category. Same night as the first SCI 2900 presentation day."},
 ];
 
+// Cards with nothing to turn in on D2L (study steps, ungraded worksheets, account setup, going over a
+// graded exam, watch-only videos, class-discussion days). The v15 migration removes them everywhere.
+const NOT_SUBMITTED_V15 = [
+  'chem1211-knewton-access', 'chem1211-elements-1-36', 'chem1211-ch2-worksheet',
+  'chem1211-ch3-worksheet', 'chem1211-ch4-worksheet', 'chem1211-exam1-review',
+  'chem1211-exam2-review', 'chem1211-ch3-video-assignment', 'chem1211-practice-quiz',
+  'sci2900-syllabus-ask', 'sci2900-journal2', 'sci2900-journal3', 'sci2900-path-forward',
+];
+
 function seed() {
   return {
     "courses": [
@@ -915,7 +927,7 @@ const FP_KEY = STORE_KEY + '_fp';
 // Stamp for fields written by migrate(). Higher than unstamped (0) so a migration's rewrite spreads
 // to devices that have not run it, far lower than any real edit's time so it never beats one.
 // Bump it with every new migration block, so a newer migration outranks an older one.
-const MIGRATION_STAMP = 14;
+const MIGRATION_STAMP = 15;
 
 function fingerprint(d) {
   const m = {};
@@ -1282,6 +1294,18 @@ function migrate() {
     dirty = true;
   }
 
+  // 2026-10-27, Eric: track only work that is submitted on D2L (Knewton counts, it opens from D2L).
+  // Drops the study, setup and review cards and the SCI class-discussion days, and retypes the oral
+  // presentation so it carries the in-person tag with the exams. Removal runs on every device, so the
+  // arrays above keep these items for the older blocks that reference them.
+  if (!db.meta.d2l_only_v15) {
+    db.assignments = db.assignments.filter(a => !NOT_SUBMITTED_V15.includes(a.id));
+    const talk = db.assignments.find(a => a.id === 'sci2900-oral-presentation');
+    if (talk && talk.type === 'assignment') talk.type = 'presentation';
+    db.meta.d2l_only_v15 = true;
+    dirty = true;
+  }
+
   if (dirty) { db.meta.lastSync = new Date().toISOString(); save(db, MIGRATION_STAMP); }
 }
 // migrate() runs from boot() at the bottom, after a linked device has pulled the other devices'
@@ -1414,6 +1438,14 @@ let justCompletedId = null;
 // ─── Status semantics ──────────────────────────────────────────────────────────
 // complete = banked toward grade · missed = closed, no make-up · active = still on you
 function isComplete(a) { return a.status === 'submitted' || a.status === 'graded'; }
+// Exams and the oral presentation are graded in the room, with nothing to turn in on D2L. Every
+// other card is a D2L or Knewton submission, so these carry their own tag in place of the type.
+const IN_PERSON_TYPES = new Set(['exam', 'presentation']);
+function typeBadge(a) {
+  return IN_PERSON_TYPES.has(a.type)
+    ? `<span class="type-badge in-person" title="Done in person. Nothing to submit on D2L.">In person</span>`
+    : `<span class="type-badge">${a.type || 'other'}</span>`;
+}
 function isMissed(a)   { return a.status === 'missed'; }
 function isActive(a)   { return !isComplete(a) && !isMissed(a); }
 
@@ -1730,7 +1762,7 @@ function renderDashboard() {
         <div class="focus-title">${focus.title}</div>
         <div class="focus-meta">
           ${course ? `<span class="course-tag" style="background:${color}22;color:${color}">${course.code}</span>` : ''}
-          <span class="type-badge">${focus.type || 'other'}</span>
+          ${typeBadge(focus)}
           <span class="focus-due">${dueStr}</span>
           ${focusOverdue ? `<button class="focus-skip" onclick="event.stopPropagation();markMissed('${focus.id}')" title="Can't make up — mark missed">Can't make up — mark missed</button>` : ''}
         </div>
@@ -2326,7 +2358,7 @@ function assignmentRow(a) {
     ${checkCell}
     <div class="assignment-title ${done ? 'strikethrough' : ''} ${miss ? 'missed-text' : ''}">${a.title}</div>
     ${course ? `<span class="course-tag" style="background:${course.color}22;color:${course.color}">${course.code}</span>` : '<span class="course-tag">—</span>'}
-    <span class="type-badge">${a.type || 'other'}</span>
+    ${typeBadge(a)}
     ${dueCell}
     <span style="display:flex;align-items:center;gap:5px"><span class="priority-dot" style="background:${prioColor}"></span><span style="font-size:11px;color:var(--muted);text-transform:capitalize">${a.priority||'—'}</span></span>
     <div class="row-actions">${skipBtn}${restoreBtn}<button class="delete-btn" onclick="event.stopPropagation();deleteAssignment('${a.id}')">×</button></div>
