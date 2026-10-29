@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quiz 3: Polarity and IMFs</title>
+<style>
+  :root {
+    --bg: #F6F7FB; --card: #FEFEFF; --ink: #2E3856; --muted: #586380; --line: #D9DDE8;
+    --indigo: #4255FF; --indigo-dark: #2F3ED6; --indigo-soft: #EDEFFF;
+    --good: #12815A; --good-soft: #E3F5EC; --bad: #C0392B; --bad-soft: #FBE9E7;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 20px 16px 60px; }
+  h1 { font-size: 1.5rem; margin: 4px 0 2px; }
+  .sub { color: var(--muted); margin: 0 0 16px; }
+  .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+  .tab { border: 2px solid var(--line); background: var(--card); color: var(--ink); border-radius: 10px; padding: 9px 14px; font: inherit; font-weight: 600; cursor: pointer; }
+  .tab.on { border-color: var(--indigo); background: var(--indigo-soft); color: var(--indigo-dark); }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px; margin-bottom: 14px; box-shadow: 0 2px 0 var(--line); }
+  h2 { font-size: 1.1rem; margin: 0 0 10px; }
+  table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+  th, td { text-align: left; padding: 7px 6px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; font-size: .8rem; text-transform: uppercase; letter-spacing: .03em; }
+  tr.sn td { border-top: 2px solid var(--ink); }
+  .scroll { overflow-x: auto; }
+  ul.tight, ol.tight { margin: 0; padding-left: 20px; } ul.tight li, ol.tight li { margin: 4px 0; }
+  .btn { border: 0; border-radius: 10px; padding: 11px 18px; font: inherit; font-weight: 700; cursor: pointer; background: var(--indigo); color: #fff; box-shadow: 0 3px 0 var(--indigo-dark); }
+  .btn:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--indigo-dark); }
+  .btn.ghost { background: var(--card); color: var(--ink); border: 2px solid var(--line); box-shadow: 0 3px 0 var(--line); }
+  .btn.good { background: var(--good); box-shadow: 0 3px 0 #0B5E41; }
+  .btn.bad { background: var(--bad); box-shadow: 0 3px 0 #8E2A20; }
+  .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  .flash { min-height: 190px; display: flex; flex-direction: column; justify-content: center; text-align: center; font-size: 1.15rem; }
+  .flash .front { font-weight: 700; }
+  .flash .back { margin-top: 14px; padding-top: 14px; border-top: 2px dashed var(--line); font-size: 1rem; }
+  .meta { color: var(--muted); font-size: .88rem; }
+  .opt { display: block; width: 100%; text-align: left; margin: 8px 0; padding: 12px 14px; border: 2px solid var(--line); border-radius: 10px; background: var(--card); color: var(--ink); font: inherit; cursor: pointer; }
+  .opt:hover:not([disabled]) { border-color: var(--indigo); }
+  .opt.right { border-color: var(--good); background: var(--good-soft); }
+  .opt.wrong { border-color: var(--bad); background: var(--bad-soft); }
+  .why { margin-top: 10px; padding: 10px 12px; border-radius: 10px; background: var(--indigo-soft); }
+  .timer { font-size: 1.6rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .timer.low { color: var(--bad); }
+  .hidden { display: none; }
+  .tag { display: inline-block; font-size: .75rem; font-weight: 700; color: var(--indigo-dark); background: var(--indigo-soft); border-radius: 6px; padding: 2px 7px; margin-bottom: 8px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Quiz 3: Polarity and Intermolecular Forces</h1>
+  <p class="sub">Third in-class quiz, Fri Oct 30, 10:00 to 10:03 AM. It covers the previous class, Wed Oct 28. That deck is not in a D2L export yet, so this set covers what Handout 14 saves for after the shapes: molecular polarity (problem 4) and the dominant IMF (problem 5). Big ideas, not fine detail.</p>
+
+  <div class="tabs" role="tablist">
+    <button class="tab on" data-v="sheet">Cheat sheet</button>
+    <button class="tab" data-v="cards">Flashcards</button>
+    <button class="tab" data-v="drill">3-minute drill</button>
+    <button class="tab" data-v="all">All questions</button>
+  </div>
+
+  <section id="v-sheet">
+    <div class="card">
+      <h2>The six big ideas</h2>
+      <ul class="tight">
+        <li><b>Bond polarity:</b> subtract the electronegativities. A difference of 0 to 0.4 is a nonpolar bond (C-H is 0.4, so it counts as nonpolar). Above 0.4, up to 2.0, the bond is polar, and above 2.0 it is ionic. The more electronegative atom pulls the electrons and gets the partial negative charge (δ−).</li>
+        <li><b>Memorize NClOF:</b> F 4.0, O 3.5, N 3.0, Cl 3.0. Also C 2.5 and H 2.1. Shortcut: a bond from an NClOF atom to C, H, S or P is polar. Between two NClOF atoms, subtract: N-Cl is 0.0 (nonpolar), Cl-O is 0.5 (polar).</li>
+        <li><b>Molecular polarity = polar bonds + shape.</b> Each polar bond is an arrow (a dipole). If the arrows cancel, the molecule is nonpolar even though its bonds are polar: CO2 and CCl4.</li>
+        <li><b>The arrows cancel</b> when every outer atom is the same and the central atom has no lone pairs (or its lone pairs sit symmetrically, as in square planar XeF4 and linear XeF2). <b>They do not cancel</b> when a lone pair on the central atom bends the shape (H2O, NH3, SO2) or when the outer atoms differ (CH2O, CH2Cl2).</li>
+        <li><b>Intermolecular forces (IMFs)</b> are attractions between separate molecules. Bonds hold atoms together inside one molecule. IMFs are much weaker, and boiling a liquid overcomes its IMFs without breaking any bonds.</li>
+        <li><b>The three IMFs on Handout 14:</b> dispersion (every molecule has it, and it grows with the number of electrons), dipole-dipole (polar molecules), and hydrogen bonding (H bonded directly to N, O or F). Stronger IMFs mean a higher boiling point.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2>Shape and polarity, all outer atoms the same, polar bonds</h2>
+      <div class="scroll">
+      <table>
+        <thead><tr><th>SN</th><th>Molecular geometry</th><th>LP</th><th>Molecule</th><th>Example</th></tr></thead>
+        <tbody id="pol"></tbody>
+      </table>
+      </div>
+      <p class="meta">LP = lone pairs on the central atom. Two changes flip a row: different outer atoms usually make a "nonpolar" shape polar (CH2O, CH2Cl2, CHCl3), and a hydrocarbon (only C-H and C-C bonds), like CH4, is treated as nonpolar.</p>
+    </div>
+    <div class="card">
+      <h2>Dominant IMF in three questions</h2>
+      <ol class="tight">
+        <li>Is an H bonded directly to N, O or F? Then <b>hydrogen bonding</b>. H2O, NH3, HF, CH3OH.</li>
+        <li>If not, is the molecule polar? Then <b>dipole-dipole</b>. HCl, SO2, PCl3, CH2O, IF3.</li>
+        <li>If not, <b>dispersion</b> only. CH4, CO2, CCl4, I2, N2.</li>
+      </ol>
+      <p class="meta">Dispersion is present in every molecule. "Dominant" here means the strongest type of IMF the molecule has, the way Handout 14 asks it. The classic trap is CH2O: it has H and it has O, but the H is bonded to C, so CH2O molecules cannot hydrogen-bond to each other.</p>
+    </div>
+    <div class="card">
+      <h2>Boiling-point trends</h2>
+      <ul class="tight">
+        <li><b>Stronger IMFs, higher boiling point.</b> For molecules of similar size: hydrogen bonding &gt; dipole-dipole &gt; dispersion.</li>
+        <li><b>Same size, different IMF:</b> CH4 (16 g/mol) boils at −162 °C, H2O (18 g/mol) at 100 °C. Ethanol (78 °C) and dimethyl ether (−24 °C) share the formula C2H6O, but only ethanol has an O-H.</li>
+        <li><b>More electrons, more dispersion:</b> boiling points rise from He to Xe. At room temperature F2 and Cl2 are gases, Br2 is a liquid and I2 is a solid.</li>
+        <li><b>Shape counts too:</b> a long chain touches its neighbors along more of its length than a compact ball does. Pentane (chain) boils at 36 °C and neopentane (ball) at 9.5 °C, both C5H12.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2>Handout 14, problem 2, worked: iodine trifluoride</h2>
+      <ul class="tight">
+        <li><b>Bond type:</b> covalent (two nonmetals). <b>Formula:</b> IF3.</li>
+        <li><b>Lewis structure:</b> 7 + 3(7) = 28 valence electrons. I in the center, single bonds to three F, three lone pairs on each F, and the last 4 electrons as 2 lone pairs on I. I is in row 5, so it can hold more than an octet.</li>
+        <li><b>SN</b> = 3 bonds + 2 lone pairs = 5. <b>Electron geometry:</b> trigonal bipyramidal. The lone pairs take two equatorial spots, so the <b>molecular geometry</b> is T-shaped, angles under 90°.</li>
+        <li><b>Polarity:</b> polar. The I-F bonds are polar (F is NClOF) and a T does not cancel.</li>
+        <li><b>Dominant IMF:</b> dipole-dipole. Polar, with no H at all.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="v-cards" class="hidden">
+    <div class="card flash" id="flash"></div>
+    <div class="row" id="flash-ctrl"></div>
+    <p class="meta" id="flash-meta"></p>
+  </section>
+
+  <section id="v-drill" class="hidden">
+    <div class="card">
+      <div class="row" style="justify-content:space-between">
+        <span class="timer" id="timer">3:00</span>
+        <span class="meta" id="drill-score"></span>
+      </div>
+      <p class="meta">Six random questions against the clock, like the real quiz. Answer, read why, move on.</p>
+      <div id="drill"></div>
+      <div class="row" style="margin-top:12px"><button class="btn" id="drill-start">Start the drill</button></div>
+    </div>
+  </section>
+
+  <section id="v-all" class="hidden">
+    <p class="meta" id="all-score"></p>
+    <div id="all"></div>
+  </section>
+</div>
+
+<script>
+// [SN, molecular geometry, LP on central atom, dipoles cancel? (implied by the next column), molecule, example]
+const TABLE = [
+  [2, 'linear', 0, 'yes', 'nonpolar', 'CO2'],
+  [3, 'trigonal planar', 0, 'yes', 'nonpolar', 'BF3'],
+  [3, 'bent', 1, 'no', 'polar', 'SO2'],
+  [4, 'tetrahedral', 0, 'yes', 'nonpolar', 'CCl4'],
+  [4, 'trigonal pyramidal', 1, 'no', 'polar', 'NH3, PCl3'],
+  [4, 'bent', 2, 'no', 'polar', 'H2O'],
+  [5, 'trigonal bipyramidal', 0, 'yes', 'nonpolar', 'PCl5'],
+  [5, 'seesaw', 1, 'no', 'polar', 'SF4'],
+  [5, 'T-shaped', 2, 'no', 'polar', 'IF3'],
+  [5, 'linear', 3, 'yes', 'nonpolar', 'XeF2'],
+  [6, 'octahedral', 0, 'yes', 'nonpolar', 'SF6'],
+  [6, 'square pyramidal', 1, 'no', 'polar', 'BrF5'],
+  [6, 'square planar', 2, 'yes', 'nonpolar', 'XeF4'],
+];
+
+const CARDS = [
+  ['Electronegativity values to memorize', 'NClOF: F 4.0, O 3.5, N 3.0, Cl 3.0. Also C 2.5 and H 2.1.'],
+  ['When is a bond polar?', 'When the electronegativity difference is more than 0.4 (up to 2.0). From 0 to 0.4 it is nonpolar, so C-H (2.5 vs 2.1) counts as nonpolar.'],
+  ['Which atom in a polar bond gets δ−?', 'The more electronegative one. In O-H, oxygen is δ− and hydrogen is δ+.'],
+  ['Dipole moment', 'A separation of charge, drawn as an arrow pointing toward the δ− end. A polar molecule has a net dipole moment; in a nonpolar one the bond dipoles add up to zero.'],
+  ['What two things decide whether a molecule is polar?', 'Polar bonds, and a shape that keeps their dipoles from canceling.'],
+  ['How can a molecule with polar bonds be nonpolar?', 'Its shape is symmetric, so the bond dipoles cancel. CO2 (linear) and CCl4 (tetrahedral).'],
+  ['CO2: polar or nonpolar?', 'Nonpolar. The two C=O bonds are polar, but they point in opposite directions, 180° apart, and cancel.'],
+  ['H2O: polar or nonpolar?', 'Polar. Two lone pairs on O make it bent, so the two O-H dipoles add instead of canceling.'],
+  ['NH3: polar or nonpolar?', 'Polar. The lone pair on N makes it trigonal pyramidal, so the N-H dipoles do not cancel.'],
+  ['CCl4 vs CH2Cl2', 'CCl4 is nonpolar: four identical C-Cl dipoles cancel in a tetrahedron. CH2Cl2 is polar: two C-Cl and two C-H bonds cannot balance.'],
+  ['CH2O: polarity and dominant IMF', 'Polar, because the C=O dipole is not balanced by the C-H bonds. Dominant IMF: dipole-dipole, not hydrogen bonding, because its H is bonded to C, not O.'],
+  ['Intermolecular vs intramolecular', 'Intermolecular forces act between molecules. Intramolecular forces are the bonds inside a molecule. IMFs are much weaker.'],
+  ['What is overcome when water boils?', 'The hydrogen bonds between water molecules. The O-H covalent bonds stay intact: the steam is still H2O.'],
+  ['Dispersion forces', 'Brief, shifting dipoles from moving electrons that attract neighbors. Every molecule has them, and they get stronger with more electrons (bigger, heavier molecules).'],
+  ['Dipole-dipole forces', 'The δ+ end of one polar molecule attracts the δ− end of the next. Only polar molecules have them.'],
+  ['Hydrogen bonding', 'An H bonded directly to N, O or F, attracted to a lone pair on an N, O or F of a nearby molecule. The strongest of the three for molecules of similar size.'],
+  ['Dominant IMF: the three questions', '1) H on N, O or F? Hydrogen bonding. 2) Otherwise polar? Dipole-dipole. 3) Otherwise: dispersion only.'],
+  ['IMF strength and boiling point', 'Stronger IMFs, higher boiling point. For similar sizes: hydrogen bonding > dipole-dipole > dispersion.'],
+  ['Halogens at room temperature', 'F2 and Cl2 are gases, Br2 is a liquid, I2 is a solid. More electrons, stronger dispersion.'],
+  ['Ethanol vs dimethyl ether (both C2H6O)', 'Ethanol has an O-H, so it hydrogen-bonds and boils at 78 °C. Dimethyl ether has no O-H, so its strongest IMF is dipole-dipole, and it boils at −24 °C.'],
+  ['Pentane vs neopentane (both C5H12)', 'The chain (pentane, 36 °C) touches its neighbors more than the compact ball (neopentane, 9.5 °C), so its dispersion forces are stronger.'],
+  ['IF3 (Handout 14, problem 2)', 'Covalent. SN 5 with 2 lone pairs on I: trigonal bipyramidal electron geometry, T-shaped molecule. Polar. Dominant IMF: dipole-dipole.'],
+];
+
+// a = correct option (index 0 here; options are shuffled on screen)
+const Q = [
+  ['A bond whose electronegativity difference is 0.4 or less is', ['Nonpolar covalent', 'Polar covalent', 'Ionic', 'A hydrogen bond'], 'His rule: 0 to 0.4 is nonpolar. C-H (2.5 vs 2.1) is exactly 0.4, so C-H counts as nonpolar.'],
+  ['Which bond is polar?', ['C-O', 'C-H', 'Cl-Cl', 'H-H'], 'C-O: 3.5 minus 2.5 is 1.0. C-H is 0.4, which is still nonpolar, and two identical atoms share electrons equally.'],
+  ['In an O-H bond, the partial negative charge (δ−) sits on', ['The oxygen', 'The hydrogen', 'Both atoms equally', 'Neither atom'], 'O (3.5) is more electronegative than H (2.1), so it pulls the shared electrons toward itself.'],
+  ['A molecule with polar bonds can still be nonpolar when', ['Its symmetric shape makes the bond dipoles cancel', 'Its central atom has a lone pair', 'It contains hydrogen', 'It has a double bond'], 'Polarity needs polar bonds AND a shape that keeps them from canceling. CO2 and CCl4 have polar bonds and are nonpolar.'],
+  ['CO2 is nonpolar because', ['Its two C=O dipoles point in opposite directions and cancel', 'C=O bonds are nonpolar', 'Carbon has two lone pairs', 'The molecule is bent'], 'C=O is polar (a difference of 1.0), but CO2 is linear, so the two dipoles cancel exactly.'],
+  ['Which molecule is polar?', ['H2O', 'CO2', 'CH4', 'CCl4'], 'Water is bent, so its O-H dipoles add. The other three are symmetric: CO2 linear, CH4 and CCl4 tetrahedral.'],
+  ['Which molecule is nonpolar?', ['CCl4', 'CH2Cl2', 'NH3', 'HCl'], 'Four identical C-Cl dipoles in a tetrahedron cancel. CH2Cl2 has mixed outer atoms, NH3 has a lone pair, and HCl has a single polar bond.'],
+  ['NH3 is polar mainly because', ['The lone pair on N makes it trigonal pyramidal, so the N-H dipoles do not cancel', 'N-H bonds are nonpolar', 'It is trigonal planar', 'Nitrogen forms a double bond with hydrogen'], 'Electron geometry tetrahedral, molecular geometry trigonal pyramidal. The three N-H dipoles all tilt the same way.'],
+  ['Formaldehyde, CH2O, is', ['Polar, because the C=O dipole is not balanced by the two C-H bonds', 'Nonpolar, because every trigonal planar molecule is nonpolar', 'Nonpolar, because carbon has no lone pairs', 'Ionic'], 'Trigonal planar cancels only when all three outer atoms are the same. Here one is O and two are H.'],
+  ['BF3 is trigonal planar with three identical B-F bonds. The molecule is', ['Nonpolar', 'Polar, because each B-F bond is polar', 'Polar, because boron has a lone pair', 'Polar, because the molecule is bent'], 'Each B-F bond is polar, but three identical dipoles at 120° cancel. Boron has no lone pair in BF3.'],
+  ['SO2 is', ['Polar: the lone pair on S makes it bent', 'Nonpolar: it is linear like CO2', 'Nonpolar: S-O bonds are nonpolar', 'Nonpolar: the two S-O dipoles cancel'], 'SN 3 with 1 lone pair: bent (Quiz 1). S-O is polar (2.5 vs 3.5), and a bent shape does not cancel.'],
+  ['XeF4 has two lone pairs on Xe yet is nonpolar, because', ['The lone pairs sit opposite each other, leaving a square planar shape whose Xe-F dipoles cancel', 'Xe-F bonds are nonpolar', 'Lone pairs never affect polarity', 'XeF4 is tetrahedral'], 'Handout 14 footnote 2 puts the second lone pair opposite the first. The four F sit in a flat square and cancel.'],
+  ['IF3 (T-shaped) is', ['Polar', 'Nonpolar, because all three outer atoms are F', 'Nonpolar, because I-F bonds are nonpolar', 'Ionic'], 'Same outer atoms are not enough. The 2 lone pairs on I leave a T, and a T does not cancel.'],
+  ['Intermolecular forces are', ['Attractions between separate molecules', 'The covalent bonds inside a molecule', 'Attractions between the nucleus and electrons of one atom', 'The ionic bonds in a salt'], 'Inter means between. The bonds inside a molecule are intramolecular, and they are much stronger.'],
+  ['When liquid water boils, what is overcome?', ['The hydrogen bonds between water molecules', 'The O-H covalent bonds inside each molecule', 'The forces inside the oxygen nucleus', 'Ionic bonds between H and O'], 'Boiling separates molecules from each other. The steam is still H2O, so no O-H bond broke.'],
+  ['Which IMF is present in every molecule?', ['Dispersion forces', 'Dipole-dipole forces', 'Hydrogen bonding', 'Ion-dipole forces'], 'Every molecule has electrons that can shift for an instant. Dipole-dipole needs a polar molecule, and hydrogen bonding needs H on N, O or F.'],
+  ['Dispersion forces get stronger as molecules', ['Have more electrons, meaning larger and heavier molecules', 'Get smaller', 'Lose their lone pairs', 'Become more compact and ball-shaped'], 'A bigger electron cloud shifts more easily, so its brief dipoles are bigger.'],
+  ['A hydrogen bond can form when H is bonded directly to', ['N, O or F', 'C', 'Any nonmetal', 'A metal'], 'N, O and F are very electronegative and small, so the δ+ H can get close to a lone pair on the next molecule. Cl matches N at 3.0 but is much larger, so HCl does not hydrogen-bond.'],
+  ['The dominant IMF in methane, CH4, is', ['Dispersion', 'Dipole-dipole', 'Hydrogen bonding', 'Covalent bonding'], 'C-H bonds are nonpolar and the molecule is symmetric, so dispersion is all it has. Covalent bonds are not IMFs.'],
+  ['Which IMF does HCl have that CH4 does not?', ['Dipole-dipole', 'Hydrogen bonding', 'Dispersion', 'None; they have the same IMFs'], 'HCl is polar (3.0 vs 2.1). Its H is bonded to Cl, which is not N, O or F, so no hydrogen bonding. Both have dispersion.'],
+  ['The dominant IMF in ammonia, NH3, is', ['Hydrogen bonding', 'Dipole-dipole only', 'Dispersion only', 'Ionic bonding'], 'H is bonded directly to N, and N has a lone pair for the next molecule\'s H.'],
+  ['The dominant IMF between formaldehyde (CH2O) molecules is', ['Dipole-dipole', 'Hydrogen bonding', 'Dispersion only', 'Ionic bonding'], 'The trap. CH2O has H and O, but the H is bonded to C, so it is not δ+ enough to hydrogen-bond. It is polar, so dipole-dipole.'],
+  ['The dominant IMF in CO2 is', ['Dispersion', 'Dipole-dipole', 'Hydrogen bonding', 'Ion-dipole'], 'Polar bonds, but the linear shape cancels them. A nonpolar molecule has dispersion only.'],
+  ['Which has the highest boiling point?', ['H2O', 'CH4', 'CO2', 'O2'], 'Water hydrogen-bonds and boils at 100 °C. The other three are nonpolar and are all gases at room temperature.'],
+  ['Ethanol and dimethyl ether share the formula C2H6O. Which boils higher, and why?', ['Ethanol, because its O-H lets it hydrogen-bond', 'Dimethyl ether, because it has stronger dispersion', 'Neither; the same formula means the same boiling point', 'Dimethyl ether, because only it is polar'], 'Ethanol 78 °C, dimethyl ether −24 °C. Same atoms, but only ethanol has H on O.'],
+  ['Which halogen is a solid at room temperature?', ['I2', 'F2', 'Cl2', 'Br2'], 'All four are nonpolar, so dispersion decides. I2 has the most electrons. Br2 is a liquid; F2 and Cl2 are gases.'],
+  ['Boiling points of the noble gases from He to Xe', ['Rise, because dispersion grows with the number of electrons', 'Fall, because larger atoms are farther apart', 'Stay the same, because all are nonpolar', 'Rise, because heavier atoms hydrogen-bond'], 'Nonpolar atoms only have dispersion, and more electrons mean stronger dispersion.'],
+  ['Pentane (a chain) boils at 36 °C and neopentane (a compact ball) at 9.5 °C, both C5H12. Why?', ['The chain has more contact with its neighbors, so its dispersion forces are stronger', 'Pentane hydrogen-bonds', 'Neopentane is polar', 'Pentane has more electrons'], 'Same formula, same electrons. Shape decides how much surface touches, and more contact means stronger dispersion.'],
+  ['As the IMFs in a liquid get stronger, its boiling point', ['Rises', 'Falls', 'Stays the same', 'Depends only on the covalent bonds'], 'More energy is needed to pull the molecules apart.'],
+  ['For molecules of similar size, the IMFs rank from strongest to weakest as', ['Hydrogen bonding > dipole-dipole > dispersion', 'Dispersion > dipole-dipole > hydrogen bonding', 'Dipole-dipole > hydrogen bonding > dispersion', 'All three are about equal'], 'Compare CH4 (16 g/mol, −162 °C) with H2O (18 g/mol, 100 °C).'],
+];
+
+const $ = s => document.querySelector(s);
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const sub = s => esc(s).replace(/([A-Z][a-z]?)(\d+)/g, '$1<sub>$2</sub>');
+
+// subscripts in the static cheat sheet
+document.querySelectorAll('#v-sheet li, #v-sheet p.meta').forEach(el => {
+  el.innerHTML = el.innerHTML.replace(/([A-Z][a-z]?)(\d+)(?![^<]*>)/g, '$1<sub>$2</sub>');
+});
+
+// cheat-sheet table
+let last = 0;
+$('#pol').innerHTML = TABLE.map(r => {
+  const first = r[0] !== last; last = r[0];
+  const cells = [first ? r[0] : '', r[1], r[2], r[4] === 'polar' ? '<b>polar</b>' : 'nonpolar', sub(r[5])].map(c => '<td>' + c + '</td>').join('');
+  return '<tr class="' + (first ? 'sn' : '') + '">' + cells + '</tr>';
+}).join('');
+
+// tabs
+document.querySelectorAll('.tab').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('.tab').forEach(x => x.classList.toggle('on', x === b));
+  ['sheet', 'cards', 'drill', 'all'].forEach(v => $('#v-' + v).classList.toggle('hidden', v !== b.dataset.v));
+}));
+
+// flashcards: think first, reveal, then "Got it" retires the card and "Again" sends it to the back
+let deck = shuffle(CARDS.map((c, i) => i)), done = 0, shown = false;
+function drawCard() {
+  const ctrl = $('#flash-ctrl');
+  if (!deck.length) {
+    $('#flash').innerHTML = '<div class="front">All ' + CARDS.length + ' cards cleared.</div>';
+    ctrl.innerHTML = '<button class="btn" id="fc-reset">Go again</button>';
+    $('#fc-reset').onclick = () => { deck = shuffle(CARDS.map((c, i) => i)); done = 0; drawCard(); };
+    $('#flash-meta').textContent = '';
+    return;
+  }
+  const c = CARDS[deck[0]];
+  $('#flash').innerHTML = '<div class="front">' + sub(c[0]) + '</div>' + (shown ? '<div class="back">' + sub(c[1]) + '</div>' : '');
+  ctrl.innerHTML = shown
+    ? '<button class="btn good" id="fc-got">Got it</button><button class="btn bad" id="fc-again">Again</button>'
+    : '<button class="btn" id="fc-show">Say it, then show</button>';
+  if (shown) {
+    $('#fc-got').onclick = () => { deck.shift(); done++; shown = false; drawCard(); };
+    $('#fc-again').onclick = () => { deck.push(deck.shift()); shown = false; drawCard(); };
+  } else {
+    $('#fc-show').onclick = () => { shown = true; drawCard(); };
+  }
+  $('#flash-meta').textContent = done + ' cleared, ' + deck.length + ' to go';
+}
+drawCard();
+
+// one multiple-choice question rendered into a container
+function renderQ(box, q, onAnswer) {
+  const opts = shuffle(q[1].map((t, i) => ({ t, right: i === 0 })));
+  box.innerHTML = '<div class="card"><div class="front" style="font-weight:700">' + sub(q[0]) + '</div>' +
+    opts.map((o, i) => '<button class="opt" data-i="' + i + '">' + sub(o.t) + '</button>').join('') + '<div class="why hidden"></div></div>';
+  box.querySelectorAll('.opt').forEach(b => b.addEventListener('click', () => {
+    const o = opts[+b.dataset.i];
+    box.querySelectorAll('.opt').forEach((x, i) => { x.disabled = true; if (opts[i].right) x.classList.add('right'); });
+    if (!o.right) b.classList.add('wrong');
+    const why = box.querySelector('.why');
+    why.innerHTML = (o.right ? '<b>Right.</b> ' : '<b>Not quite.</b> ') + sub(q[2]);
+    why.classList.remove('hidden');
+    onAnswer(o.right);
+  }));
+}
+
+// all questions
+let allRight = 0, allDone = 0;
+const allBox = $('#all');
+Q.forEach(q => {
+  const d = document.createElement('div');
+  allBox.appendChild(d);
+  renderQ(d, q, ok => { allDone++; allRight += ok; $('#all-score').textContent = allRight + ' of ' + allDone + ' right so far (' + Q.length + ' questions)'; });
+});
+$('#all-score').textContent = Q.length + ' questions. Pick an answer to see why.';
+
+// 3-minute drill
+let tick = null;
+$('#drill-start').onclick = () => {
+  clearInterval(tick);
+  const picks = shuffle(Q).slice(0, 6);
+  let n = 0, right = 0, left = 180;
+  const t = $('#timer');
+  const show = () => { t.textContent = Math.floor(left / 60) + ':' + String(left % 60).padStart(2, '0'); t.classList.toggle('low', left <= 30); };
+  const finish = msg => { clearInterval(tick); $('#drill').innerHTML = '<div class="card"><b>' + msg + '</b> ' + right + ' of ' + picks.length + ' right.</div>'; $('#drill-start').textContent = 'Run it again'; };
+  const next = () => {
+    if (n >= picks.length) return finish('Done with ' + Math.floor(left / 60) + ':' + String(left % 60).padStart(2, '0') + ' left.');
+    $('#drill-score').textContent = 'Question ' + (n + 1) + ' of ' + picks.length;
+    renderQ($('#drill'), picks[n], ok => {
+      right += ok; n++;
+      const go = document.createElement('div'); go.className = 'row'; go.style.marginTop = '10px';
+      go.innerHTML = '<button class="btn">' + (n < picks.length ? 'Next' : 'Finish') + '</button>';
+      go.firstChild.onclick = next;
+      $('#drill .card').appendChild(go);
+    });
+  };
+  show();
+  tick = setInterval(() => { left--; show(); if (left <= 0) finish('Time. In class it would auto-submit here.'); }, 1000);
+  $('#drill-start').textContent = 'Restart';
+  next();
+};
+</script>
+</body>
+</html>
