@@ -1,0 +1,723 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Polarity and IMFs</title>
+<style>
+  :root {
+    --bg: #F8F6F0; --card: #FFFEFA; --ink: #1E2A38; --muted: #5B6676; --line: #E6E0D2; --line-2: #D6CFBE;
+    --green: #237A3B; --green-2: #2B9348; --green-edge: #1A5C2C; --green-soft: #E4F3E7; --green-ink: #1B5E2E;
+    --yellow: #F4B400; --yellow-edge: #B98800; --yellow-soft: #FFF5D6;
+    --coral: #E8613C; --coral-ink: #A93A16; --coral-soft: #FDEDE7; --coral-edge: #7E2A10;
+    --lock: #DDD8CB; --lock-edge: #C2BCAD; --lock-ink: #7D7869;
+    --focus: #2E6FD8;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  button { font: inherit; color: inherit; }
+  :focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+  .app { max-width: 560px; margin: 0 auto; padding: 10px 16px 80px; }
+
+  .hud { position: sticky; top: 8px; z-index: 5; display: flex; justify-content: center; gap: 2px; width: max-content; max-width: 100%; margin: 0 auto 14px; padding: 5px 6px; background: var(--card); border: 2px solid var(--line); border-radius: 999px; box-shadow: 0 3px 0 var(--line); }
+  .stat { display: flex; align-items: center; gap: 6px; padding: 5px 11px; border-radius: 999px; font-weight: 800; font-variant-numeric: tabular-nums; transition: background-color .2s ease-out; }
+  .stat svg { width: 22px; height: 22px; flex: none; }
+  .stat small { font-size: 13px; font-weight: 700; color: var(--muted); }
+  .stat.xp svg, .stat.stars svg { color: var(--yellow); }
+  .stat.streak svg { color: var(--lock-ink); }
+  .stat.streak.hot { background: var(--yellow-soft); }
+  .stat.streak.hot svg { color: var(--coral); }
+  @media (max-width: 360px) { .stat small.word { display: none; } }
+
+  .title { text-align: center; margin: 6px 0 0; }
+  h1 { margin: 0 0 4px; font-size: 28px; line-height: 1.2; font-weight: 800; letter-spacing: -.01em; }
+  .when { margin: 0; color: var(--muted); font-weight: 600; }
+
+  .path { display: flex; flex-direction: column; align-items: center; padding: 58px 0 4px; }
+  .stop { display: flex; flex-direction: column; align-items: center; transform: translateX(var(--x, 0)); margin-bottom: 34px; }
+  .nodewrap { position: relative; }
+  .node { position: relative; z-index: 1; width: 78px; height: 78px; border: 0; border-radius: 50%; display: grid; place-items: center; cursor: pointer; background: var(--green-2); color: #FFFEFA; box-shadow: 0 7px 0 var(--green-edge); transition: transform .12s ease-out, box-shadow .12s ease-out; }
+  .node svg { width: 36px; height: 36px; }
+  .node:active { transform: translateY(5px); box-shadow: 0 2px 0 var(--green-edge); }
+  .node.locked { background: var(--lock); color: var(--lock-ink); box-shadow: 0 7px 0 var(--lock-edge); cursor: not-allowed; }
+  .node.locked:active { transform: none; box-shadow: 0 7px 0 var(--lock-edge); }
+  .node.boss { width: 92px; height: 92px; background: var(--yellow); color: var(--ink); box-shadow: 0 8px 0 var(--yellow-edge); }
+  .node.boss:active { box-shadow: 0 3px 0 var(--yellow-edge); }
+  .node.boss svg { width: 44px; height: 44px; }
+  .node.boss.locked { background: var(--lock); color: var(--lock-ink); box-shadow: 0 8px 0 var(--lock-edge); }
+  .node.shake { animation: shake .3s ease-out; }
+  @keyframes shake { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+  .ring { position: absolute; inset: -9px; border-radius: 50%; border: 4px solid var(--green-2); opacity: 0; pointer-events: none; animation: ring 1.8s ease-out infinite; }
+  .ring.gold { border-color: var(--yellow); }
+  @keyframes ring { 0% { transform: scale(.92); opacity: .55; } 100% { transform: scale(1.22); opacity: 0; } }
+  .tag { position: absolute; z-index: 2; bottom: calc(100% + 16px); left: 50%; transform: translateX(-50%); padding: 5px 14px; border: 2px solid var(--line); border-radius: 12px; background: var(--card); color: var(--green); font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; box-shadow: 0 3px 0 var(--line); }
+  .tag::after { content: ""; position: absolute; top: 100%; left: 50%; margin-left: -7px; border: 7px solid transparent; border-top-color: var(--line); }
+  .label { margin-top: 14px; text-align: center; font-weight: 800; line-height: 1.25; }
+  .label small { display: block; margin-bottom: 2px; font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  .label.dim { color: var(--muted); }
+  .srow { display: flex; justify-content: center; gap: 2px; margin-top: 4px; }
+  .srow svg { width: 18px; height: 18px; color: var(--lock); }
+  .srow svg.on { color: var(--yellow); }
+  .best { margin-top: 4px; font-size: 14px; font-weight: 700; color: var(--muted); }
+  .reset { display: block; margin: 4px auto 0; padding: 10px; border: 0; background: none; color: var(--muted); font-size: 14px; font-weight: 600; text-decoration: underline; cursor: pointer; }
+  .toast { position: fixed; left: 50%; bottom: 24px; z-index: 40; transform: translateX(-50%); padding: 10px 18px; border-radius: 999px; background: var(--ink); color: #FFFEFA; font-weight: 700; white-space: nowrap; }
+
+  .topbar { display: flex; align-items: center; gap: 12px; margin: 0 0 18px; }
+  .iconbtn { flex: none; width: 44px; height: 44px; display: grid; place-items: center; border: 2px solid var(--line); border-radius: 12px; background: var(--card); cursor: pointer; box-shadow: 0 3px 0 var(--line); }
+  .iconbtn svg { width: 22px; height: 22px; }
+  .bar { flex: 1; height: 16px; border-radius: 999px; background: var(--line); overflow: hidden; }
+  .bar i { display: block; width: 0; height: 100%; border-radius: 999px; background: var(--green-2); transition: width .3s ease-out; }
+  .count { flex: none; min-width: 40px; text-align: right; font-weight: 800; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .kicker { margin: 0; text-align: center; font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--green); }
+  .lvl { margin: 2px 0 16px; text-align: center; font-size: 26px; }
+  .box { margin: 0 0 16px; padding: 18px; background: var(--card); border: 2px solid var(--line); border-radius: 18px; box-shadow: 0 3px 0 var(--line); }
+  .box h2 { margin: 0 0 12px; text-align: center; font-size: 19px; line-height: 1.3; }
+  .pts { margin: 0; padding-left: 20px; }
+  .pts li { margin: 7px 0; }
+  .note { margin: 12px 0 0; text-align: center; font-size: 15px; color: var(--muted); }
+
+  .btn { display: block; width: 100%; padding: 15px 18px; border: 0; border-radius: 16px; background: var(--green); color: #FFFEFA; font-size: 17px; font-weight: 800; letter-spacing: .02em; cursor: pointer; box-shadow: 0 5px 0 var(--green-edge); transition: transform .1s ease-out, box-shadow .1s ease-out; }
+  .btn:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--green-edge); }
+  .btn:disabled { background: var(--lock); color: var(--lock-ink); box-shadow: 0 5px 0 var(--lock-edge); cursor: not-allowed; transform: none; }
+  .btn.ghost { background: var(--card); color: var(--ink); border: 2px solid var(--line); box-shadow: 0 5px 0 var(--line); }
+  .btn.ghost:active { box-shadow: 0 1px 0 var(--line); }
+  .btn.miss { background: var(--coral-ink); box-shadow: 0 5px 0 var(--coral-edge); }
+  .btn.miss:active { box-shadow: 0 1px 0 var(--coral-edge); }
+  .btn + .btn { margin-top: 14px; }
+
+  .qtop { min-height: 8px; margin-bottom: 8px; text-align: center; }
+  .chip { display: inline-block; padding: 3px 11px; border-radius: 999px; background: var(--yellow-soft); color: var(--ink); font-size: 13px; font-weight: 800; }
+  .prompt { margin: 0 0 18px; text-align: center; font-size: 21px; line-height: 1.35; font-weight: 800; }
+  .tile { display: flex; align-items: center; gap: 12px; width: 100%; margin: 0 0 12px; padding: 13px 14px; text-align: left; border: 2px solid var(--line); border-radius: 14px; background: var(--card); cursor: pointer; box-shadow: 0 4px 0 var(--line); transition: transform .1s ease-out, border-color .15s ease-out; }
+  .tile:hover:not(:disabled) { border-color: var(--green-2); }
+  .tile:active:not(:disabled) { transform: translateY(3px); box-shadow: 0 1px 0 var(--line); }
+  .tile:disabled { cursor: default; }
+  .tile .k { flex: none; width: 30px; height: 30px; display: grid; place-items: center; border: 2px solid var(--line); border-radius: 9px; font-size: 14px; font-weight: 800; color: var(--muted); }
+  .tile.right { border-color: var(--green-2); background: var(--green-soft); box-shadow: 0 4px 0 var(--green-2); }
+  .tile.right .k { border-color: var(--green-2); color: var(--green-ink); }
+  .tile.wrong { border-color: var(--coral); background: var(--coral-soft); box-shadow: 0 4px 0 var(--coral); }
+  .tile.wrong .k { border-color: var(--coral); color: var(--coral-ink); }
+  .typein { display: block; width: 100%; margin: 0 0 16px; padding: 15px; border: 2px solid var(--line-2); border-radius: 14px; background: var(--card); color: var(--ink); font: inherit; font-size: 19px; text-align: center; }
+  .typein:focus { outline: 3px solid var(--green-2); outline-offset: 2px; border-color: var(--green-2); }
+  .typein:disabled { background: var(--bg); }
+  .fb { margin: 6px 0 16px; padding: 14px 16px; border-radius: 16px; }
+  .fb.ok { background: var(--green-soft); color: var(--green-ink); }
+  .fb.no { background: var(--coral-soft); color: var(--coral-ink); }
+  .fb .head { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 18px; font-weight: 800; }
+  .fb p { margin: 6px 0 0; color: var(--ink); }
+  .pop { flex: none; padding: 2px 10px; border-radius: 999px; background: var(--yellow); color: var(--ink); font-size: 14px; font-weight: 800; animation: pop .35s ease-out; }
+  @keyframes pop { from { transform: scale(.6); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+  .els { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+  @media (max-width: 440px) { .els { grid-template-columns: repeat(3, 1fr); } }
+  .el { padding: 8px 4px; text-align: center; border: 2px solid var(--line); border-radius: 12px; background: var(--card); }
+  .el b { display: block; font-size: 24px; line-height: 1.15; }
+  .el span { font-weight: 700; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .el.hot { background: var(--yellow-soft); border-color: var(--yellow); }
+  .els.states { grid-template-columns: repeat(3, 1fr); }
+  @media (max-width: 440px) { .els.states { grid-template-columns: 1fr; } }
+  .states .el b { font-size: 17px; }
+  .states .el span { display: block; margin-top: 4px; font-size: 14px; font-weight: 600; line-height: 1.35; }
+  .scroll { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; }
+  th, td { padding: 8px 6px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+  th { font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  tr.sn td { border-top: 2px solid var(--line-2); }
+  td.pol { font-weight: 800; }
+  td.non { color: var(--muted); }
+  .force { padding: 14px 0 0; margin-top: 14px; border-top: 1px solid var(--line); text-align: center; }
+  .force:first-of-type { margin-top: 0; padding-top: 0; border-top: 0; }
+  .force p { margin: 8px 0 0; text-align: left; }
+  .steps { margin: 0; padding: 0; list-style: none; counter-reset: s; }
+  .steps li { counter-increment: s; display: grid; grid-template-columns: 34px 1fr; gap: 12px; align-items: start; margin: 0 0 12px; }
+  .steps li::before { content: counter(s); width: 34px; height: 34px; display: grid; place-items: center; border-radius: 50%; background: var(--green-2); color: #FFFEFA; font-weight: 800; }
+  .vs { display: grid; grid-template-columns: 1fr auto 1fr; gap: 8px; align-items: center; text-align: center; }
+  .vs .side { padding: 10px 6px; border: 2px solid var(--line); border-radius: 12px; line-height: 1.35; }
+  .vs .side.hi { border-color: var(--green-2); background: var(--green-soft); }
+  .vs .side b { display: block; }
+  .vs .side span { display: block; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .vs em { font-style: normal; font-size: 13px; font-weight: 800; color: var(--muted); }
+  .vsy { margin: 8px 0 18px; text-align: center; font-size: 15px; color: var(--muted); }
+  .vsy:last-child { margin-bottom: 0; }
+
+  .vid { position: relative; display: block; width: 100%; aspect-ratio: 16 / 9; padding: 0; border: 0; border-radius: 14px; overflow: hidden; background: var(--ink); cursor: pointer; }
+  .vid img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .play { position: absolute; left: 50%; top: 50%; width: 68px; height: 68px; margin: -34px 0 0 -34px; display: grid; place-items: center; border-radius: 50%; background: var(--green); color: #FFFEFA; box-shadow: 0 5px 0 var(--green-edge); }
+  .play svg { width: 30px; height: 30px; margin-left: 4px; }
+  .vframe { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; border-radius: 14px; }
+  .vmeta { margin: 10px 0 0; text-align: center; }
+  .vmeta span { font-size: 15px; color: var(--muted); }
+  .also { margin: 10px 0 0; text-align: center; font-size: 15px; }
+  .also a { color: var(--green-ink); font-weight: 700; }
+  .also span { color: var(--muted); }
+
+  .result { text-align: center; }
+  .result h2 { margin: 0 0 6px; font-size: 26px; }
+  .result p { margin: 4px 0; }
+  .big-stars { display: flex; justify-content: center; gap: 10px; margin: 6px 0 12px; }
+  .big-stars svg { width: 64px; height: 64px; color: var(--lock); }
+  .big-stars svg.on { color: var(--yellow); animation: starpop .45s ease-out both; }
+  .big-stars svg.on:nth-child(2) { animation-delay: .15s; }
+  .big-stars svg.on:nth-child(3) { animation-delay: .3s; }
+  @keyframes starpop { from { transform: scale(.3); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .gain { display: inline-block; margin: 12px 0 18px; padding: 6px 16px; border-radius: 999px; background: var(--yellow); font-size: 18px; font-weight: 800; }
+  .clock { margin: 0 0 14px; text-align: center; font-size: 40px; line-height: 1; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .clock.low { color: var(--coral-ink); }
+  .confetti { position: fixed; inset: 0; z-index: 50; pointer-events: none; }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="hud">
+    <span class="stat xp" title="XP"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.5 2 4.5 13.5h6.2L9.5 22l9-11.5h-6.2z"/></svg><span id="h-xp">0</span><small class="word">XP</small></span>
+    <span class="stat stars" title="Stars"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z"/></svg><span id="h-st">0</span><small>/15</small></span>
+    <span class="stat streak" id="h-streak" title="Streak"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.5c.6 3.2 4.8 5.3 4.8 10.2a4.8 4.8 0 0 1-9.6 0c0-2.4 1.2-4 2.4-5 .1 1.7.9 2.8 1.9 3.2-.1-3 .1-5.6.5-8.4z"/></svg><span id="h-sk">0</span><small class="word">streak</small></span>
+  </div>
+  <main id="view"></main>
+</div>
+
+<template id="lesson-1">
+  <div class="box">
+    <h2>Bond polarity rules</h2>
+    <ul class="pts">
+      <li>Electronegativity is how strongly an atom pulls on the electrons it shares.</li>
+      <li>Subtract the two values. 0 to 0.4 is a nonpolar bond, so C-H (0.4) counts as nonpolar. Above 0.4, up to 2.0, is polar. Above 2.0 is ionic.</li>
+      <li>The atom that pulls harder gets the partial negative charge (δ−), and the other atom gets δ+. Dr. Meyers marks a polar bond with an asterisk.</li>
+      <li>Shortcut: a bond from an NClOF atom to C, H, S or P is polar. Between two NClOF atoms, subtract: N-Cl is 0.0 (nonpolar), Cl-O is 0.5 (polar).</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h2>Electronegativities to memorize</h2>
+    <div class="els">
+      <div class="el hot"><b>F</b><span>4.0</span></div>
+      <div class="el hot"><b>O</b><span>3.5</span></div>
+      <div class="el hot"><b>N</b><span>3.0</span></div>
+      <div class="el hot"><b>Cl</b><span>3.0</span></div>
+      <div class="el"><b>C</b><span>2.5</span></div>
+      <div class="el"><b>H</b><span>2.1</span></div>
+    </div>
+    <p class="note">Other values: S 2.5, P 2.1, B 2.0, I 2.5, Xe 2.6.</p>
+  </div>
+</template>
+
+<template id="lesson-2">
+  <div class="box">
+    <h2>When a molecule is polar</h2>
+    <ul class="pts">
+      <li>A molecule is polar when it has polar bonds and a shape that keeps their dipoles from canceling.</li>
+      <li>Draw each polar bond as an arrow pointing at its δ− atom. In a symmetric shape with identical outer atoms, the arrows cancel: CO2, BF3, CCl4.</li>
+      <li>A lone pair on the central atom bends the shape, so the arrows add up: H2O, NH3, SO2.</li>
+      <li>Different outer atoms also leave a net dipole: CH2O, CH2Cl2, CHCl3.</li>
+      <li>Lone pairs placed symmetrically do not tip the balance: XeF4 (square planar) and XeF2 (linear) are nonpolar.</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h2>Shapes and polarity</h2>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>SN</th><th>Shape</th><th>LP</th><th>Molecule</th><th>Example</th></tr></thead>
+        <tbody id="pol"></tbody>
+      </table>
+    </div>
+    <p class="note">LP is lone pairs on the central atom. Every row assumes polar bonds and identical outer atoms. A hydrocarbon (only C-H and C-C bonds) counts as nonpolar. Edge case: H2S and PH3 have lone pairs but bonds at or under the 0.4 cutoff (S-H 0.4, P-H 0.0); most textbooks call them weakly polar.</p>
+  </div>
+</template>
+
+<template id="lesson-3">
+  <div class="box">
+    <h2>IMFs versus bonds</h2>
+    <ul class="pts">
+      <li>Intermolecular forces (IMFs) pull separate molecules toward each other. Bonds hold atoms together inside one molecule, and bonds are much stronger.</li>
+      <li>Boiling pulls molecules apart. It overcomes IMFs, hydrogen bonds included, and breaks no covalent bonds, so steam is still H2O.</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h2>Solids, liquids and gases</h2>
+    <div class="els states">
+      <div class="el"><b>Solid</b><span>definite shape and volume, incompressible</span></div>
+      <div class="el"><b>Liquid</b><span>takes the container's shape, definite volume, mainly incompressible</span></div>
+      <div class="el"><b>Gas</b><span>no definite shape or volume, compressible</span></div>
+    </div>
+    <ul class="pts" style="margin-top:14px">
+      <li>Kinetic energy keeps particles moving apart (the disruptive force), and IMFs hold them together (the cohesive force). Raising the temperature raises kinetic energy.</li>
+      <li>In a solid the cohesive forces win. In a gas the disruptive forces win.</li>
+      <li>To turn a gas into a liquid, lower the temperature or raise the pressure.</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h2>The three IMFs</h2>
+    <div class="force"><span class="chip">Dispersion</span><p>Electrons shift for an instant and make a brief dipole that pulls on neighbors. Every molecule has it. More electrons mean higher polarizability, so stronger dispersion.</p></div>
+    <div class="force"><span class="chip">Dipole-dipole</span><p>The δ+ end of one polar molecule attracts the δ− end of the next. Polar molecules only.</p></div>
+    <div class="force"><span class="chip">Hydrogen bonding</span><p>An H bonded directly to N, O or F, attracted to a lone pair on an N, O or F in a nearby molecule. The strongest of the three for molecules of similar size.</p></div>
+  </div>
+</template>
+
+<template id="lesson-4">
+  <div class="box">
+    <h2>Finding the dominant IMF</h2>
+    <ol class="steps">
+      <li><span><b>Is an H bonded directly to N, O or F?</b> Hydrogen bonding: H2O, NH3, HF, CH3OH.</span></li>
+      <li><span><b>If not, is the molecule polar?</b> Dipole-dipole: HCl, SO2, PCl3, CH2O, ICl, CHCl3.</span></li>
+      <li><span><b>If not,</b> dispersion only: CH4, CO2, CCl4, I2.</span></li>
+    </ol>
+    <p class="note">The dominant IMF is the strongest type present, and every molecule also has dispersion. CH2O has H and O, but its H is bonded to C, so CH2O molecules cannot hydrogen-bond to each other.</p>
+  </div>
+  <div class="box">
+    <h2>Worked: iodine trifluoride (Handout 14, problem 2)</h2>
+    <ul class="pts">
+      <li>Covalent: two nonmetals. Formula IF3.</li>
+      <li>7 + 3(7) = 28 valence electrons. I goes in the center with single bonds to three F, three lone pairs on each F, and the last 4 electrons as 2 lone pairs on I. I is in row 5, so it can hold more than an octet.</li>
+      <li>SN = 3 bonds + 2 lone pairs = 5. Electron geometry: trigonal bipyramidal. Molecular geometry: T-shaped. The F-I-F angles are a little under 90°, and the two axial F are a little under 180° apart.</li>
+      <li>Polar: the I-F bonds are polar, and a T does not cancel.</li>
+      <li>Dominant IMF: dipole-dipole. It is polar and has no H.</li>
+    </ul>
+  </div>
+</template>
+
+<template id="lesson-5">
+  <div class="box">
+    <h2>Boiling point rules</h2>
+    <ul class="pts">
+      <li>Stronger IMFs mean a higher boiling point. For molecules of similar size: hydrogen bonding &gt; dipole-dipole &gt; dispersion.</li>
+      <li>More electrons mean stronger dispersion, so noble-gas boiling points rise from He to Xe.</li>
+      <li>Shape counts too. Straight chains pack closer together than branched molecules, so their dispersion is stronger.</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h2>Boiling points in pairs</h2>
+    <div class="vs"><div class="side"><b>CH4</b>16 g/mol<span>−162 °C</span></div><em>vs</em><div class="side hi"><b>H2O</b>18 g/mol<span>100 °C</span></div></div>
+    <p class="vsy">Same size. Water hydrogen-bonds.</p>
+    <div class="vs"><div class="side"><b>Dimethyl ether</b>C2H6O<span>−24 °C</span></div><em>vs</em><div class="side hi"><b>Ethanol</b>C2H6O<span>78 °C</span></div></div>
+    <p class="vsy">Same formula. Only ethanol has an O-H.</p>
+    <div class="vs"><div class="side"><b>Isobutane</b>branched, C4H10<span>−11.7 °C</span></div><em>vs</em><div class="side hi"><b>Butane</b>straight chain, C4H10<span>−0.5 °C</span></div></div>
+    <p class="vsy">Same formula. Butane molecules sit closer together, so their dispersion is stronger.</p>
+    <div class="vs"><div class="side"><b>F2 and Cl2</b>gases</div><em>vs</em><div class="side hi"><b>I2</b>solid</div></div>
+    <p class="vsy">At room temperature I2 is a solid because its extra electrons give it the strongest dispersion. Br2, in between, is a liquid.</p>
+  </div>
+</template>
+
+<script>
+// YouTube oEmbed-verified 2026-10-30: { id, title, ch, dur, note?, alt? }
+const VIDEOS = {
+  1: { id: 'QPd1nYyNhyc', title: 'Electronegativity and polar bonds', ch: 'Chemistry with Mrs V', dur: '4:59', note: 'Some videos use other cutoffs, like 0.5 or 1.7. Dr. Meyers uses 0.4 and 2.0.', alt: { id: 'ORIl7h4_Xe8', title: 'Polar vs. Non-polar Bonds', ch: 'Wayne Breslyn (Dr. B.)', dur: '2:21' } },
+  2: { id: 'gy456wJpJew', title: 'Polarity - Introduction to Polar and Nonpolar Molecules', ch: 'Chemistry with Dr Steph', dur: '5:30', alt: { id: 'zrINbZ03UcQ', title: 'Polar Bonds, Polar Molecules, Dipole Moments', ch: 'William Cunningham', dur: '6:58' } },
+  3: { id: 'e1a0JFv7BAQ', title: 'Intermolecular forces - London dispersion forces, dipole-dipole attractions, and hydrogen bonding', ch: 'ChemProfJH', dur: '14:21' },
+  4: { id: 'cjE4KPcDD0o', title: 'Intermolecular Forces Examples - Hydrogen bonding, Dipole-dipole, London dispersion - Dr K', ch: 'ChemSimplified', dur: '7:51' },
+  5: { id: 'ccUj222OFNY', title: 'How to rank boiling points from highest to lowest using IMF - Dr K', ch: 'ChemSimplified', dur: '6:01', alt: { id: 'fclHn2wHEYM', title: 'Boiling Point of NH3 and H2O (Explanation of Difference)', ch: 'Wayne Breslyn (Dr. B.)', dur: '1:29' } },
+};
+
+// [SN, shape, lone pairs on the central atom, polar?, example]
+const TABLE = [
+  [2, 'linear', 0, false, 'CO2'],
+  [3, 'trigonal planar', 0, false, 'BF3'],
+  [3, 'bent', 1, true, 'SO2'],
+  [4, 'tetrahedral', 0, false, 'CCl4'],
+  [4, 'trigonal pyramidal', 1, true, 'NH3, PCl3'],
+  [4, 'bent', 2, true, 'H2O'],
+  [5, 'trigonal bipyramidal', 0, false, 'PCl5'],
+  [5, 'seesaw', 1, true, 'SF4'],
+  [5, 'T-shaped', 2, true, 'IF3'],
+  [5, 'linear', 3, false, 'XeF2'],
+  [6, 'octahedral', 0, false, 'SF6'],
+  [6, 'square pyramidal', 1, true, 'BrF5'],
+  [6, 'square planar', 2, false, 'XeF4'],
+];
+
+const LEVELS = [
+  { n: 1, name: 'Bond polarity', icon: 'bond' },
+  { n: 2, name: 'Polar molecules', icon: 'bent' },
+  { n: 3, name: 'Forces between molecules', icon: 'pair' },
+  { n: 4, name: 'Dominant IMF', icon: 'rank' },
+  { n: 5, name: 'Boiling points', icon: 'thermo' },
+];
+
+// mc: a[0] is correct (options shuffle on screen). type: re tests the normalized answer.
+// boss: true keeps a question out of its level and in the boss pool only.
+const Q = [
+  { lv: 1, t: 'mc', q: 'A bond whose electronegativity difference is 0.4 or less is', a: ['Nonpolar covalent', 'Polar covalent', 'Ionic', 'A hydrogen bond'], why: '0 to 0.4 is nonpolar. C-H (2.5 vs 2.1) is exactly 0.4, so C-H counts as nonpolar.' },
+  { lv: 1, t: 'mc', q: 'Which bond is polar?', a: ['C-O', 'C-H', 'Cl-Cl', 'H-H'], why: 'C-O: 3.5 minus 2.5 is 1.0. C-H is 0.4, still nonpolar, and two identical atoms share electrons equally.' },
+  { lv: 1, t: 'mc', q: 'In an O-H bond, the partial negative charge (δ−) sits on', a: ['The oxygen', 'The hydrogen', 'Both atoms equally', 'Neither atom'], why: 'O (3.5) pulls harder than H (2.1), so the shared electrons sit closer to O.' },
+  { lv: 1, t: 'mc', q: 'Which bond is the most polar?', a: ['H-F', 'O-H', 'N-H', 'C-H'], why: 'The differences are H-F 1.9, O-H 1.4, N-H 0.9 and C-H 0.4. The biggest difference is the most polar bond.' },
+  { lv: 1, t: 'mc', q: 'Using N 3.0 and Cl 3.0, an N-Cl bond is', a: ['Nonpolar', 'Polar', 'Ionic', 'A hydrogen bond'], why: 'The difference is 0.0. Both are NClOF atoms, so subtract instead of using the shortcut.' },
+  { lv: 1, t: 'mc', q: 'A bond with an electronegativity difference of 2.5 is', a: ['Ionic', 'Polar covalent', 'Nonpolar covalent', 'A hydrogen bond'], why: 'Above 2.0 counts as ionic.' },
+  { lv: 1, t: 'type', q: 'Electronegativity of oxygen?', ans: '3.5', re: '^3\\.50*$', why: 'NClOF: F 4.0, O 3.5, N 3.0, Cl 3.0.' },
+  { lv: 1, t: 'type', q: 'Electronegativity of fluorine?', ans: '4.0', re: '^4(\\.0+)?$', why: 'Fluorine is the most electronegative element.' },
+  { lv: 1, t: 'type', q: 'Electronegativity difference in a C-O bond?', ans: '1.0', re: '^1(\\.0+)?$', why: 'O 3.5 minus C 2.5 is 1.0, so C-O is polar.' },
+
+  { lv: 2, t: 'mc', q: 'CO2 is nonpolar because', a: ['Its two C=O dipoles point in opposite directions and cancel', 'C=O bonds are nonpolar', 'Carbon has two lone pairs', 'The molecule is bent'], why: 'C=O is polar (a difference of 1.0), but CO2 is linear, so the two dipoles cancel exactly.' },
+  { lv: 2, t: 'mc', q: 'Which molecule is polar?', a: ['H2O', 'CO2', 'CH4', 'CCl4'], why: 'Water is bent, so its O-H dipoles add. The other three are symmetric: CO2 is linear, and CH4 and CCl4 are tetrahedral.' },
+  { lv: 2, t: 'mc', q: 'Which molecule is nonpolar?', a: ['CCl4', 'CH2Cl2', 'NH3', 'HCl'], why: 'Four identical C-Cl dipoles in a tetrahedron cancel. CH2Cl2 has mixed outer atoms, NH3 has a lone pair, and HCl has a single polar bond.' },
+  { lv: 2, t: 'mc', q: 'NH3 is polar mainly because', a: ['The lone pair on N makes it trigonal pyramidal, so the N-H dipoles do not cancel', 'N-H bonds are nonpolar', 'It is trigonal planar', 'Nitrogen forms a double bond with hydrogen'], why: 'Electron geometry tetrahedral, molecular geometry trigonal pyramidal. The three N-H dipoles all tilt the same way.' },
+  { lv: 2, t: 'mc', q: 'Formaldehyde, CH2O, is', a: ['Polar, because the C=O dipole is not balanced by the two C-H bonds', 'Nonpolar, because every trigonal planar molecule is nonpolar', 'Nonpolar, because carbon has no lone pairs', 'Ionic'], why: 'Trigonal planar cancels only when all three outer atoms are the same. Here one is O and two are H.' },
+  { lv: 2, t: 'mc', q: 'SO2 is', a: ['Polar: the lone pair on S makes it bent', 'Nonpolar: it is linear like CO2', 'Nonpolar: S-O bonds are nonpolar', 'Nonpolar: the two S-O dipoles cancel'], why: 'SN 3 with 1 lone pair gives a bent shape. S-O is polar (2.5 vs 3.5), and a bent shape does not cancel.' },
+  { lv: 2, t: 'mc', q: 'IF3 (T-shaped) is', a: ['Polar', 'Nonpolar, because all three outer atoms are F', 'Nonpolar, because I-F bonds are nonpolar', 'Ionic'], why: 'Identical outer atoms are not enough. The 2 lone pairs on I leave a T, and a T does not cancel.' },
+  { lv: 2, t: 'type', q: 'CO2: polar or nonpolar?', ans: 'nonpolar', re: '^nonpolar(molecule)?$', why: 'Polar C=O bonds, but the linear shape cancels them.' },
+  { lv: 2, boss: true, t: 'mc', q: 'A molecule with polar bonds can still be nonpolar when', a: ['Its symmetric shape makes the bond dipoles cancel', 'Its central atom has a lone pair', 'It contains hydrogen', 'It has a double bond'], why: 'Polarity needs polar bonds and a shape that keeps them from canceling. CO2 and CCl4 have polar bonds and are nonpolar.' },
+  { lv: 2, boss: true, t: 'mc', q: 'BF3 is trigonal planar with three identical B-F bonds. The molecule is', a: ['Nonpolar', 'Polar, because each B-F bond is polar', 'Polar, because boron has a lone pair', 'Polar, because the molecule is bent'], why: 'Each B-F bond is polar, but three identical dipoles at 120° cancel. Boron has no lone pair in BF3.' },
+  { lv: 2, boss: true, t: 'mc', q: 'XeF4 has two lone pairs on Xe yet is nonpolar, because', a: ['The lone pairs sit opposite each other, leaving a square planar shape whose Xe-F dipoles cancel', 'Xe-F bonds are nonpolar', 'Lone pairs never affect polarity', 'XeF4 is tetrahedral'], why: 'The second lone pair goes opposite the first (Handout 14, footnote 2). The four F sit in a flat square and cancel.' },
+
+  { lv: 3, t: 'mc', q: 'Intermolecular forces are', a: ['Attractions between separate molecules', 'The covalent bonds inside a molecule', 'Attractions between the nucleus and electrons of one atom', 'The ionic bonds in a salt'], why: 'Inter means between. The bonds inside a molecule are intramolecular, and they are much stronger.' },
+  { lv: 3, t: 'mc', q: 'When liquid water boils, what is overcome?', a: ['The hydrogen bonds between water molecules', 'The O-H covalent bonds inside each molecule', 'The forces inside the oxygen nucleus', 'Ionic bonds between H and O'], why: 'Boiling separates molecules from each other. The steam is still H2O, so no O-H bond broke.' },
+  { lv: 3, t: 'mc', q: 'Which IMF is present in every molecule?', a: ['Dispersion forces', 'Dipole-dipole forces', 'Hydrogen bonding', 'Ion-dipole forces'], why: 'Every molecule has electrons that can shift for an instant. Dipole-dipole needs a polar molecule, and hydrogen bonding needs H on N, O or F.' },
+  { lv: 3, boss: true, t: 'mc', q: 'Dispersion forces get stronger as molecules', a: ['Have more electrons, meaning larger and heavier molecules', 'Get smaller', 'Lose their lone pairs', 'Become more compact and ball-shaped'], why: 'A bigger electron cloud shifts more easily, so its brief dipoles are bigger.' },
+  { lv: 3, t: 'mc', q: 'A hydrogen bond can form when H is bonded directly to', a: ['N, O or F', 'C', 'Any nonmetal', 'A metal'], why: 'N, O and F are very electronegative and small, so the δ+ H can get close to a lone pair on the next molecule. Cl matches N at 3.0 but is much larger, so HCl does not hydrogen-bond.' },
+  { lv: 3, boss: true, t: 'mc', q: 'Dipole-dipole forces act between', a: ['Polar molecules', 'Nonpolar molecules only', 'Atoms inside one molecule', 'Noble-gas atoms'], why: 'The δ+ end of one polar molecule attracts the δ− end of the next.' },
+  { lv: 3, t: 'type', q: 'Name the IMF that every molecule has.', ans: 'dispersion', re: '^((london(dispersion)?|dispersion)(force|forces)?|ldfs?)$', why: 'Dispersion, also called London dispersion.' },
+  { lv: 3, t: 'mc', q: 'As the number of electrons in a molecule rises, its polarizability', a: ['Rises, so dispersion gets stronger', 'Falls, so dispersion gets weaker', 'Rises, so dispersion gets weaker', 'Stays the same'], why: 'More electrons make a bigger cloud that shifts more easily. Higher polarizability means stronger dispersion.' },
+  { lv: 3, t: 'mc', q: 'To turn a gas into a liquid, you can', a: ['Lower the temperature or raise the pressure', 'Raise the temperature or lower the pressure', 'Raise the temperature only', 'Lower the pressure only'], why: 'Less kinetic energy, or particles pushed closer together, lets the IMFs take over.' },
+  { lv: 3, t: 'mc', q: 'In a gas, which wins?', a: ['Disruptive forces (kinetic energy) win over cohesive forces', 'Cohesive forces (IMFs) win over disruptive forces', 'The two are always exactly equal', 'Neither acts in a gas'], why: 'Gas particles move fast enough to escape their IMFs. In a solid, the cohesive forces win.' },
+  { lv: 3, boss: true, t: 'mc', q: 'Which state has a definite volume but no definite shape?', a: ['Liquid', 'Solid', 'Gas', 'None of them'], why: 'A liquid takes the shape of its container but keeps its volume. A solid keeps both; a gas keeps neither.' },
+
+  { lv: 4, t: 'mc', q: 'The dominant IMF in methane, CH4, is', a: ['Dispersion', 'Dipole-dipole', 'Hydrogen bonding', 'Covalent bonding'], why: 'C-H bonds are nonpolar and the molecule is symmetric, so dispersion is all it has. Covalent bonds are not IMFs.' },
+  { lv: 4, t: 'mc', q: 'Which IMF does HCl have that CH4 does not?', a: ['Dipole-dipole', 'Hydrogen bonding', 'Dispersion', 'None; they have the same IMFs'], why: 'HCl is polar (3.0 vs 2.1). Its H is bonded to Cl, which is not N, O or F, so no hydrogen bonding. Both have dispersion.' },
+  { lv: 4, t: 'mc', q: 'The dominant IMF in ammonia, NH3, is', a: ['Hydrogen bonding', 'Dipole-dipole only', 'Dispersion only', 'Ionic bonding'], why: "H is bonded directly to N, and N has a lone pair for the next molecule's H." },
+  { lv: 4, t: 'mc', q: 'The dominant IMF between formaldehyde (CH2O) molecules is', a: ['Dipole-dipole', 'Hydrogen bonding', 'Dispersion only', 'Ionic bonding'], why: 'CH2O has H and O, but the H is bonded to C, so it is not δ+ enough to hydrogen-bond. CH2O is polar, so dipole-dipole.' },
+  { lv: 4, t: 'mc', q: 'The dominant IMF in methanol, CH3OH, is', a: ['Hydrogen bonding', 'Dipole-dipole', 'Dispersion only', 'Ionic bonding'], why: 'Its O-H puts an H directly on O.' },
+  { lv: 4, t: 'mc', q: 'The dominant IMF in iodine trifluoride, IF3, is', a: ['Dipole-dipole', 'Hydrogen bonding', 'Dispersion only', 'Ionic bonding'], why: 'IF3 is T-shaped and polar, and it has no H at all.' },
+  { lv: 4, t: 'type', q: 'Dominant IMF in water?', ans: 'hydrogen bonding', re: '^(hydrogen|h)(bond|bonds|bonding)(force|forces|interaction|interactions)?$', why: 'Water has H bonded directly to O.' },
+  { lv: 4, t: 'type', q: 'Dominant IMF in SO2?', ans: 'dipole-dipole', re: '^dipole(dipole)?(force|forces|attraction|attractions|interaction|interactions)?$', why: 'SO2 is bent and polar, with no H.' },
+  { lv: 4, boss: true, t: 'mc', q: 'The dominant IMF in CO2 is', a: ['Dispersion', 'Dipole-dipole', 'Hydrogen bonding', 'Ion-dipole'], why: 'Polar bonds, but the linear shape cancels them. A nonpolar molecule has dispersion only.' },
+
+  { lv: 5, t: 'mc', q: 'Which has the highest boiling point?', a: ['H2O', 'CH4', 'CO2', 'O2'], why: 'Water hydrogen-bonds and boils at 100 °C. The other three are nonpolar and are all gases at room temperature.' },
+  { lv: 5, t: 'mc', q: 'Ethanol and dimethyl ether share the formula C2H6O. Which boils higher, and why?', a: ['Ethanol, because its O-H lets it hydrogen-bond', 'Dimethyl ether, because it has stronger dispersion', 'Neither; the same formula means the same boiling point', 'Dimethyl ether, because only it is polar'], why: 'Ethanol boils at 78 °C and dimethyl ether at −24 °C. Same atoms, but only ethanol has H on O.' },
+  { lv: 5, t: 'mc', q: 'Which halogen is a solid at room temperature?', a: ['I2', 'F2', 'Cl2', 'Br2'], why: 'All four are nonpolar, so dispersion decides. I2 has the most electrons. Br2 is a liquid; F2 and Cl2 are gases.' },
+  { lv: 5, t: 'mc', q: 'Boiling points of the noble gases from He to Xe', a: ['Rise, because dispersion grows with the number of electrons', 'Fall, because larger atoms are farther apart', 'Stay the same, because all are nonpolar', 'Rise, because heavier atoms hydrogen-bond'], why: 'Nonpolar atoms only have dispersion, and more electrons mean stronger dispersion.' },
+  { lv: 5, t: 'mc', q: 'Butane (a straight chain) boils at −0.5 °C and isobutane (branched) at −11.7 °C, both C4H10. Why?', a: ['Butane molecules can sit closer together, so their dispersion forces are stronger', 'Butane hydrogen-bonds', 'Isobutane is polar', 'Butane has more electrons'], why: 'Same formula, same electrons. The branched shape keeps isobutane molecules farther apart, so they attract each other less.' },
+  { lv: 5, t: 'mc', q: 'As the IMFs in a liquid get stronger, its boiling point', a: ['Rises', 'Falls', 'Stays the same', 'Depends only on the covalent bonds'], why: 'More energy is needed to pull the molecules apart.' },
+  { lv: 5, t: 'mc', q: 'For molecules of similar size, the IMFs rank from strongest to weakest as', a: ['Hydrogen bonding > dipole-dipole > dispersion', 'Dispersion > dipole-dipole > hydrogen bonding', 'Dipole-dipole > hydrogen bonding > dispersion', 'All three are about equal'], why: 'Propane (44 g/mol, dispersion) boils at −42 °C, dimethyl ether (46 g/mol, dipole-dipole) at −24 °C, and ethanol (46 g/mol, hydrogen bonding) at 78 °C.' },
+  { lv: 5, t: 'type', q: 'Which boils higher, CH4 or H2O?', ans: 'H2O', re: '^(h2o|h20|water)$', why: 'Water hydrogen-bonds. Methane has dispersion only.' },
+];
+
+const ICON = {
+  bond: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="6" cy="12" r="3.5"/><circle cx="18" cy="12" r="3.5"/><path d="M9.5 12h5"/></svg>',
+  bent: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="3.2"/><circle cx="5" cy="17.5" r="2.6"/><circle cx="19" cy="17.5" r="2.6"/><path d="M10 10.6 6.7 15.4M14 10.6l3.3 4.8"/></svg>',
+  pair: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="6" cy="12" r="3.6"/><circle cx="18" cy="12" r="3.6"/><path d="M10.6 12h.5M13 12h.5"/></svg>',
+  rank: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20v-6h4v6M10 20V9h4v11M16 20V4h4v16"/></svg>',
+  thermo: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M10 13.5V5a2 2 0 0 1 4 0v8.5a4 4 0 1 1-4 0z"/><path d="M12 9v6"/></svg>',
+  watch: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="13.5" r="7.5"/><path d="M12 13.5V9.5M10 2.5h4M18.5 6.5 20 5"/></svg>',
+  check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+  lock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/></svg>',
+  back: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>',
+  play: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5.5v13l11-6.5z"/></svg>',
+  star: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z"/></svg>',
+};
+
+const $ = (s, r) => (r || document).querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const norm = s => String(s).trim().toLowerCase().replace(/[\s\-‐-―−_]/g, '').replace(/\.$/, '');
+const checkTyped = (q, s) => new RegExp(q.re).test(norm(s));
+const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// formulas: a capital letter (plus optional lowercase) followed by digits gets the digits as a subscript
+function subify(root) {
+  const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+    acceptNode: n => /[A-Z][a-z]?\d/.test(n.nodeValue) && !n.parentElement.closest('sub, script, style') ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT,
+  });
+  const nodes = [];
+  while (w.nextNode()) nodes.push(w.currentNode);
+  nodes.forEach(n => {
+    const t = document.createElement('template');
+    t.innerHTML = esc(n.nodeValue).replace(/([A-Z][a-z]?)(\d+)/g, '$1<sub>$2</sub>');
+    n.replaceWith(t.content);
+  });
+}
+
+const KEY = 'chem1211q3_game_v1';
+let S = { xp: 0, stars: {}, boss: 0 };
+try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && typeof s === 'object') S = Object.assign(S, s); } catch (e) {}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
+
+let streak = 0, run = null, boss = null, tick = null, curOpts = [];
+const totalStars = () => LEVELS.reduce((t, l) => t + (S.stars[l.n] || 0), 0);
+const unlocked = n => n === 1 || (S.stars[n - 1] || 0) > 0;
+const bossUnlocked = () => LEVELS.every(l => (S.stars[l.n] || 0) > 0);
+const currentLevel = () => { const l = LEVELS.find(x => !(S.stars[x.n] > 0)); return l ? l.n : 'boss'; };
+const levelQs = n => Q.map((q, i) => i).filter(i => Q[i].lv === n && !Q[i].boss);
+
+function hud() {
+  $('#h-xp').textContent = S.xp;
+  $('#h-st').textContent = totalStars();
+  $('#h-sk').textContent = streak;
+  $('#h-streak').classList.toggle('hot', streak >= 3);
+}
+function gain(p) { S.xp += p; if (run) run.gain += p; if (boss) boss.gain += p; save(); hud(); return p; }
+function stopTick() { clearInterval(tick); tick = null; }
+function starRow(n, cls) {
+  return '<div class="' + cls + '" role="img" aria-label="' + n + ' of 3 stars">' + [1, 2, 3].map(i => ICON.star.replace('<svg', '<svg class="' + (i <= n ? 'on' : '') + '"')).join('') + '</div>';
+}
+function toast(msg) {
+  document.querySelectorAll('.toast').forEach(t => t.remove());
+  const t = document.createElement('div');
+  t.className = 'toast'; t.setAttribute('role', 'status'); t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 1800);
+}
+function topbar(progress, count) {
+  const pct = Math.round(Math.max(0, Math.min(1, progress)) * 100);
+  return '<div class="topbar"><button class="iconbtn" id="back" aria-label="Back to the path">' + ICON.back + '</button>' +
+    '<div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + pct + '"><i style="width:' + pct + '%"></i></div>' +
+    '<span class="count">' + (count || '') + '</span></div>';
+}
+function show(html) {
+  const v = $('#view');
+  v.innerHTML = html;
+  if ($('#back')) $('#back').onclick = goPath;
+  subify(v);
+  window.scrollTo(0, 0);
+}
+function goPath() {
+  stopTick();
+  if (history.state && history.state.v) history.back(); else renderPath();
+}
+window.addEventListener('popstate', () => renderPath());
+
+function renderPath() {
+  stopTick(); run = null; boss = null;
+  const cur = currentLevel(), off = [0, -60, 0, 60, 0];
+  let h = '<header class="title"><h1>Polarity and IMFs</h1><p class="when">Oct 26 and Oct 28 lectures</p></header><div class="path">';
+  LEVELS.forEach((l, i) => {
+    const st = S.stars[l.n] || 0, open = unlocked(l.n), state = !open ? 'locked' : st ? 'done' : 'open';
+    h += '<div class="stop" style="--x:' + off[i] + 'px"><div class="nodewrap">' +
+      (cur === l.n ? '<span class="tag">' + (S.xp ? 'Next' : 'Start') + '</span><span class="ring"></span>' : '') +
+      '<button class="node ' + state + '" data-lv="' + l.n + '" aria-label="Level ' + l.n + ', ' + l.name + (state === 'locked' ? ', locked' : st ? ', ' + st + ' of 3 stars' : '') + '">' +
+      (state === 'locked' ? ICON.lock : st ? ICON.check : ICON[l.icon]) + '</button></div>' +
+      '<div class="label' + (open ? '' : ' dim') + '"><small>Level ' + l.n + '</small>' + l.name + '</div>' +
+      (st ? starRow(st, 'srow') : '') + '</div>';
+  });
+  const bo = bossUnlocked();
+  h += '<div class="stop"><div class="nodewrap">' + (cur === 'boss' ? '<span class="tag">Boss</span><span class="ring gold"></span>' : '') +
+    '<button class="node boss' + (bo ? '' : ' locked') + '" id="boss" aria-label="Boss round' + (bo ? '' : ', locked') + '">' + (bo ? ICON.watch : ICON.lock) + '</button></div>' +
+    '<div class="label' + (bo ? '' : ' dim') + '"><small>Boss round</small>3-minute quiz</div>' +
+    (S.boss ? '<div class="best">Best: ' + S.boss + ' of 6</div>' : '') + '</div></div>' +
+    '<button class="reset" id="reset">Reset progress</button>';
+  show(h);
+  document.querySelectorAll('.node[data-lv]').forEach(b => b.onclick = () => {
+    const n = +b.dataset.lv;
+    if (unlocked(n)) return openLevel(n);
+    b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake');
+    toast('Clear level ' + (n - 1) + ' first');
+  });
+  $('#boss').onclick = e => {
+    if (bossUnlocked()) return openBoss();
+    const b = e.currentTarget; b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake');
+    toast('Clear all five levels first');
+  };
+  $('#reset').onclick = e => {
+    const b = e.currentTarget;
+    if (b.dataset.arm) { S = { xp: 0, stars: {}, boss: 0 }; streak = 0; save(); hud(); return renderPath(); }
+    b.dataset.arm = '1'; b.textContent = 'Confirm reset';
+    setTimeout(() => { if (b.isConnected) { delete b.dataset.arm; b.textContent = 'Reset progress'; } }, 4000);
+  };
+}
+
+function videoBox(v) {
+  return '<div class="box"><h2>Watch</h2>' +
+    '<button class="vid" data-id="' + esc(v.id) + '" data-title="' + esc(v.title) + '" aria-label="Play video: ' + esc(v.title) + '"><img src="https://i.ytimg.com/vi/' + esc(v.id) + '/hqdefault.jpg" alt="" loading="lazy"><span class="play">' + ICON.play + '</span></button>' +
+    '<p class="vmeta"><b>' + esc(v.title) + '</b><br><span>' + esc(v.ch) + ', ' + esc(v.dur) + '</span></p>' +
+    (v.note ? '<p class="note">' + esc(v.note) + '</p>' : '') +
+    (v.alt ? '<p class="also">Also good: <a href="https://www.youtube.com/watch?v=' + esc(v.alt.id) + '" target="_blank" rel="noopener">' + esc(v.alt.title) + '</a> <span>(' + esc(v.alt.ch) + ', ' + esc(v.alt.dur) + ')</span></p>' : '') +
+    '</div>';
+}
+function wireVideo() {
+  document.querySelectorAll('.vid').forEach(b => b.onclick = () => {
+    const f = document.createElement('iframe');
+    f.className = 'vframe';
+    f.title = b.dataset.title;
+    f.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(b.dataset.id) + '?autoplay=1&rel=0';
+    f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+    f.allowFullscreen = true;
+    b.replaceWith(f);
+  });
+}
+
+function openLevel(n, replace) {
+  stopTick(); boss = null;
+  history[replace ? 'replaceState' : 'pushState']({ v: 'level' }, '');
+  run = { n, gain: 0 };
+  const l = LEVELS[n - 1], v = VIDEOS[n];
+  show(topbar(0) + '<p class="kicker">Level ' + n + ' of 5</p><h1 class="lvl">' + l.name + '</h1><div id="lesson"></div>' +
+    (v ? videoBox(v) : '') + '<button class="btn" id="go">Start practice (' + levelQs(n).length + ' questions)</button>');
+  const lesson = $('#lesson');
+  lesson.appendChild(document.getElementById('lesson-' + n).content.cloneNode(true));
+  if (n === 2) {
+    let last = 0;
+    $('#pol').innerHTML = TABLE.map(r => {
+      const first = r[0] !== last; last = r[0];
+      return '<tr class="' + (first ? 'sn' : '') + '"><td>' + (first ? r[0] : '') + '</td><td>' + r[1] + '</td><td>' + r[2] + '</td>' +
+        (r[3] ? '<td class="pol">polar</td>' : '<td class="non">nonpolar</td>') + '<td>' + esc(r[4]) + '</td></tr>';
+    }).join('');
+  }
+  subify(lesson);
+  wireVideo();
+  $('#go').onclick = startLevel;
+}
+function startLevel() {
+  Object.assign(run, { queue: shuffle(levelQs(run.n)), i: 0, right: 0, misses: [], fix: false });
+  renderQ();
+}
+
+function qBody(q) {
+  if (q.t === 'type') {
+    return '<p class="prompt">' + esc(q.q) + '</p><input class="typein" id="ans" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Your answer" placeholder="Your answer">' +
+      '<div id="fb" aria-live="polite"></div><button class="btn" id="check" disabled>Check</button>';
+  }
+  curOpts = shuffle(q.a.map((t, i) => ({ t, right: i === 0 })));
+  return '<p class="prompt">' + esc(q.q) + '</p>' +
+    curOpts.map((o, i) => '<button class="tile" data-i="' + i + '"><span class="k">' + 'ABCD'[i] + '</span><span>' + esc(o.t) + '</span></button>').join('') +
+    '<div id="fb" aria-live="polite"></div>';
+}
+function wireQ(q, done) {
+  if (q.t === 'type') {
+    const inp = $('#ans'), chk = $('#check');
+    inp.oninput = () => { chk.disabled = !inp.value.trim(); };
+    const go = () => {
+      if (!inp.value.trim() || inp.disabled) return;
+      inp.disabled = true; chk.remove();
+      done(checkTyped(q, inp.value));
+    };
+    chk.onclick = go;
+    inp.onkeydown = e => { if (e.key === 'Enter') { e.preventDefault(); go(); } };
+    inp.focus({ preventScroll: true });
+    return;
+  }
+  document.querySelectorAll('.tile').forEach(b => b.onclick = () => {
+    const o = curOpts[+b.dataset.i];
+    document.querySelectorAll('.tile').forEach((x, i) => { x.disabled = true; if (curOpts[i].right) x.classList.add('right'); });
+    if (!o.right) b.classList.add('wrong');
+    done(o.right);
+  });
+}
+function feedback(q, ok, pts, next) {
+  const fb = $('#fb');
+  const head = ok ? (streak >= 3 ? 'Correct, ' + streak + ' in a row' : 'Correct') : (q.t === 'type' ? 'Answer: ' + esc(q.ans) : 'Missed');
+  fb.innerHTML = '<div class="fb ' + (ok ? 'ok' : 'no') + '"><div class="head"><span>' + head + '</span>' + (pts ? '<span class="pop">+' + pts + ' XP</span>' : '') + '</div><p>' + esc(q.why) + '</p></div>' +
+    '<button class="btn' + (ok ? '' : ' miss') + '" id="next">Continue</button>';
+  subify(fb);
+  const nb = $('#next');
+  nb.onclick = next;
+  nb.focus({ preventScroll: true });
+  nb.scrollIntoView({ block: 'nearest', behavior: reduced() ? 'auto' : 'smooth' });
+}
+
+function renderQ() {
+  const list = run.fix ? run.misses : run.queue, idx = list[run.i], q = Q[idx];
+  const prog = run.fix ? 1 : run.i / run.queue.length;
+  const count = run.fix ? 'Retry' : (run.i + 1) + '/' + run.queue.length;
+  const chip = run.fix ? '<span class="chip">Second try, ' + (run.i + 1) + ' of ' + run.misses.length + '</span>' : q.t === 'type' ? '<span class="chip">Type it: 20 XP</span>' : '';
+  show(topbar(prog, count) + '<div class="qtop">' + chip + '</div>' + qBody(q));
+  wireQ(q, ok => {
+    const first = !run.fix;
+    if (first) { if (ok) run.right++; else run.misses.push(idx); }
+    let pts = 0;
+    if (ok) {
+      streak++;
+      pts = gain(first ? (q.t === 'type' ? 20 : 10) + (streak >= 3 ? 5 : 0) : 5);
+    } else { streak = 0; hud(); }
+    if (first) $('.bar i').style.width = ((run.i + 1) / run.queue.length * 100) + '%';
+    feedback(q, ok, pts, nextQ);
+  });
+}
+function nextQ() {
+  run.i++;
+  const list = run.fix ? run.misses : run.queue;
+  if (run.i < list.length) return renderQ();
+  if (!run.fix && run.misses.length) { run.fix = true; run.i = 0; return renderQ(); }
+  finishLevel();
+}
+function finishLevel() {
+  const total = run.queue.length, acc = run.right / total, n = run.n;
+  const stars = acc >= 0.9 ? 3 : acc >= 0.75 ? 2 : acc >= 0.6 ? 1 : 0;
+  if (stars) { gain(10 * stars); S.stars[n] = Math.max(S.stars[n] || 0, stars); save(); hud(); }
+  const last = n === LEVELS.length;
+  show(topbar(1) + '<div class="box result">' + starRow(stars, 'big-stars') +
+    '<h2>' + (stars ? 'Level ' + n + ' cleared' : 'Not cleared yet') + '</h2>' +
+    '<p>' + run.right + ' of ' + total + ' right on the first try</p>' +
+    (stars ? '' : '<p>Clearing it takes ' + Math.ceil(0.6 * total) + ' of ' + total + '.</p>') +
+    '<span class="gain">+' + run.gain + ' XP</span>' +
+    (stars
+      ? '<button class="btn" id="fwd">' + (last ? 'Boss round' : 'Next level') + '</button><button class="btn ghost" id="again">Replay level</button>'
+      : '<button class="btn" id="again">Try again</button><button class="btn ghost" id="home">Back to the path</button>') +
+    '</div>');
+  if ($('#fwd')) $('#fwd').onclick = () => last ? (bossUnlocked() ? openBoss(true) : goPath()) : openLevel(n + 1, true);
+  $('#again').onclick = () => openLevel(n, true);
+  if ($('#home')) $('#home').onclick = goPath;
+  if (stars) celebrate();
+}
+
+function openBoss(replace) {
+  stopTick(); run = null;
+  history[replace ? 'replaceState' : 'pushState']({ v: 'boss' }, '');
+  boss = { gain: 0 };
+  show(topbar(0) + '<p class="kicker">Boss round</p><h1 class="lvl">3-minute quiz</h1><div class="box result">' +
+    '<p>6 questions from all five levels, 15 XP each. The clock doesn\'t pause for explanations.</p>' +
+    (S.boss ? '<p><b>Best: ' + S.boss + ' of 6</b></p>' : '') +
+    '<p></p><button class="btn" id="go">Start the clock</button></div>');
+  $('#go').onclick = startBoss;
+}
+function drawClock() {
+  const c = $('#clock');
+  if (!c) return;
+  c.textContent = Math.floor(boss.left / 60) + ':' + String(boss.left % 60).padStart(2, '0');
+  c.classList.toggle('low', boss.left <= 30);
+  const b = $('.bar i');
+  if (b) b.style.width = (boss.left / 180 * 100) + '%';
+}
+function startBoss() {
+  const pool = Q.map((q, i) => i).filter(i => Q[i].t === 'mc');
+  Object.assign(boss, { picks: shuffle(pool).slice(0, 6), i: 0, right: 0, left: 180, gain: 0 });
+  stopTick();
+  tick = setInterval(() => { boss.left--; drawClock(); if (boss.left <= 0) finishBoss(true); }, 1000);
+  renderBossQ();
+}
+function renderBossQ() {
+  const q = Q[boss.picks[boss.i]];
+  show(topbar(boss.left / 180, (boss.i + 1) + '/6') + '<div class="clock" id="clock" role="timer"></div>' + qBody(q));
+  drawClock();
+  wireQ(q, ok => {
+    let pts = 0;
+    if (ok) { boss.right++; streak++; pts = gain(15); } else { streak = 0; hud(); }
+    feedback(q, ok, pts, () => { boss.i++; if (boss.i < boss.picks.length) renderBossQ(); else finishBoss(false); });
+  });
+}
+function finishBoss(timeUp) {
+  stopTick();
+  const r = boss.right, prev = S.boss || 0;
+  if (r === boss.picks.length) gain(30);
+  if (r > prev) { S.boss = r; save(); }
+  show(topbar(1) + '<div class="box result"><p class="kicker">' + (timeUp ? 'Time' : 'Boss round') + '</p>' +
+    '<h2>' + r + ' of 6 right</h2>' +
+    '<p>' + (r > prev ? 'New best' : 'Best: ' + S.boss + ' of 6') + '</p>' +
+    '<span class="gain">+' + boss.gain + ' XP</span>' +
+    '<button class="btn" id="again">Run it again</button><button class="btn ghost" id="home">Back to the path</button></div>');
+  $('#again').onclick = () => openBoss(true);
+  $('#home').onclick = goPath;
+  if (r >= 5) celebrate();
+}
+
+function celebrate() {
+  if (reduced()) return;
+  const c = document.createElement('canvas');
+  c.className = 'confetti';
+  document.body.appendChild(c);
+  const W = c.width = window.innerWidth, H = c.height = window.innerHeight, ctx = c.getContext('2d');
+  const cols = ['#2B9348', '#F4B400', '#E8613C', '#2E6FD8'];
+  const P = Array.from({ length: 90 }, () => ({ x: W / 2, y: H * 0.32, vx: (Math.random() - 0.5) * 14, vy: -4 - Math.random() * 12, s: 5 + Math.random() * 6, c: cols[Math.floor(Math.random() * cols.length)], r: Math.random() * 6 }));
+  const t0 = performance.now();
+  (function frame(t) {
+    ctx.clearRect(0, 0, W, H);
+    P.forEach(p => {
+      p.vy += 0.45; p.x += p.vx; p.y += p.vy; p.r += 0.2;
+      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.r); ctx.fillStyle = p.c; ctx.fillRect(-p.s / 2, -p.s / 4, p.s, p.s / 2); ctx.restore();
+    });
+    if (t - t0 < 1100) requestAnimationFrame(frame); else c.remove();
+  })(t0);
+}
+
+hud();
+renderPath();
+</script>
+</body>
+</html>
