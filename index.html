@@ -930,7 +930,7 @@ const FP_KEY = STORE_KEY + '_fp';
 // Stamp for fields written by migrate(). Higher than unstamped (0) so a migration's rewrite spreads
 // to devices that have not run it, far lower than any real edit's time so it never beats one.
 // Bump it with every new migration block, so a newer migration outranks an older one.
-const MIGRATION_STAMP = 15;
+const MIGRATION_STAMP = 16;
 
 function fingerprint(d) {
   const m = {};

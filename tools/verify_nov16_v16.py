@@ -17,8 +17,12 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 KEY = 'boris_school_fall2026'
 CONTROL = '--control' in sys.argv
 args = [a for a in sys.argv[1:] if not a.startswith('--')]
-old_html = subprocess.run(['git', 'show', 'HEAD:index.html'], cwd=ROOT, capture_output=True, text=True, encoding='utf-8').stdout
-assert 'EXAM3_NOTES_V14' in old_html, 'HEAD is not the v15 page'
+# the v15 page = the parent of the first commit that introduced the v16 flag (HEAD while it is unshipped)
+git = lambda *a: subprocess.run(['git', *a], cwd=ROOT, capture_output=True, text=True, encoding='utf-8').stdout
+intro = git('log', '-S', 'chem1211_nov16_v16', '--format=%H', '--', 'index.html').split()
+REV = (intro[-1] + '~1') if intro else 'HEAD'
+old_html = git('show', f'{REV}:index.html')
+assert 'EXAM3_NOTES_V14' in old_html and 'chem1211_nov16_v16' not in old_html, f'{REV} is not the v15 page'
 tmp = pathlib.Path(tempfile.mkdtemp())
 OLD = tmp / 'index_v15.html'
 OLD.write_text(old_html, encoding='utf-8')
