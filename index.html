@@ -745,10 +745,13 @@ const EXAM2_NOTES_V12 = "SCOPE IS SET: the study guide posted Fri Oct 9 covers A
 const EXAM3_NOTES_V13_OLD = "Covers Chapter 6 (composition of substances and solutions), Chapter 7 (stoichiometry — the longest block of the term at seven lectures), and the start of Chapter 11. ";
 const EXAM3_NOTES_V13 = "The syllabus says Chapter 6 (composition of substances and solutions), Chapter 7 (stoichiometry, the longest block of the term at seven lectures) and the start of Chapter 11. Treat that as provisional. On Mon Oct 19 the class was still in Chapter 4, now on Part 2 (Lewis structures), so Chapter 6 has not opened, and Chapter 10 has never been taught. Both earlier exams were cut to fit the lectures actually given, and each time the study guide, posted the week before, set the real scope. ";
 const EXAM3_NOTES_V14 = "The syllabus says Chapter 6 (composition of substances and solutions), Chapter 7 (stoichiometry, the longest block of the term at seven lectures) and the start of Chapter 11. Treat that as provisional. Through Fri Oct 23 the class was still in Chapter 4 Part 2 (Lewis structures, then molecular geometry), with its homework due Nov 2, so Chapter 6 has not opened and Chapter 10 has never been taught. Exam 2 stopped at section 4.3, so expect the rest of Chapter 4 here. Both earlier exams were cut to fit the lectures actually given, and each time the study guide, posted the week before, set the real scope. From Oct 26 the 3-minute in-class quizzes test the previous lecture's main ideas, which is the same material, a few minutes at a time. ";
+// 2026-11-16 D2L export: the Exam 3 study guide sets the real scope (Ch 4.4-4.6, Ch 6, Ch 10.1).
+// The v16 migration only replaces a stored note that still matches EXAM3_NOTES_V14.
+const EXAM3_NOTES_V16 = "SCOPE IS SET: the Exam 3 study guide (dated Nov 10) covers Chapter 4 sections 4.4 to 4.6 (Lewis structures, formal charge, VSEPR, polarity), all of Chapter 6 except finding a molecular formula from a molar mass, and Chapter 10 section 10.1 only (intermolecular forces). No Chapter 7. Relevant handouts are 13 to 17; relevant homework is Knewton 4.4 to 4.9 and 6.1 to 6.3 plus Problem Sets 6 and 7, and the Chapter 4 Part 2 and Chapter 6 review worksheets have keys in D2L. Memorize what the formula sheet leaves out: elements 1 to 36, the nine polyatomic ions and M = mol solute / L solution (it does give % = part / whole x 100 and C1V1 = C2V2). One key error: Chapter 6 worksheet #2 prints 175.03 g/mol for PF2Cl3, but the molar mass is 175.33, so the answer is 60.66 % Cl, not 60.77 %. Practice with the Exam 3 study game under Resources. ";
 const CHEM1211_EXAMS = [
   {"id":"chem1211-exam1","title":"CHEM 1211 Exam 1","courseId":"chem1211","type":"exam","dueDate":"2026-09-11T10:00:00-04:00","priority":"high","status":"todo","weight":null,"notes":"MOVED: Wed Sep 9 → Fri Sep 11, same 10:00 to 10:50 hour and same room, because Labor Day cancels the Mon Sep 7 class. Announced in the Aug 31, Sep 2 and Sep 4 decks. The scope shrank with it: the study guide covers Chapter 1 in full, Chapter 2 in full, and Chapter 6 section 6.1 only (the mole, molar mass, Avogadro's number). No Chapter 3 — it has not started. Relevant handouts are 1 through 6; relevant homework is every Chapter 1 and Chapter 2 section assignment plus Problem Sets 1 and 2. Provided: the exam booklet, a periodic table and a formula sheet, all three reprinted in the study guide, so nothing about them is a surprise. Four parts — A multiple choice on the Scantron; B short answer, pick two of three for 10 points, and if you answer all three only the first two are graded; C open-ended calculation where work, units and sig figs must be shown; D optional bonus. Meyers' own study order: start with what you are least comfortable with, finish the problems in the Measurements handout, redo every in-class handout, do the Chapter 2 Review Worksheet, then redo the Knewton problem sets. " + EXAM_NOTE},
   {"id":"chem1211-exam2","title":"CHEM 1211 Exam 2","courseId":"chem1211","type":"exam","dueDate":"2026-10-14T10:00:00-04:00","priority":"high","status":"todo","weight":null,"notes":EXAM2_NOTES_V12 + EXAM_NOTE},
-  {"id":"chem1211-exam3","title":"CHEM 1211 Exam 3","courseId":"chem1211","type":"exam","dueDate":"2026-11-18T10:00:00-05:00","priority":"high","status":"todo","weight":null,"notes":EXAM3_NOTES_V14 + EXAM_NOTE},
+  {"id":"chem1211-exam3","title":"CHEM 1211 Exam 3","courseId":"chem1211","type":"exam","dueDate":"2026-11-18T10:00:00-05:00","priority":"high","status":"todo","weight":null,"notes":EXAM3_NOTES_V16 + EXAM_NOTE},
 ];
 
 // Tentative lecture schedule. Rendered on the calendar as "Ch N begins" markers.
@@ -1303,6 +1306,14 @@ function migrate() {
     const talk = db.assignments.find(a => a.id === 'sci2900-oral-presentation');
     if (talk && talk.type === 'assignment') talk.type = 'presentation';
     db.meta.d2l_only_v15 = true;
+    dirty = true;
+  }
+
+  // 2026-11-16 D2L export: Exam 3 scope from its study guide. Leaves a hand-edited note alone.
+  if (!db.meta.chem1211_nov16_v16) {
+    const e3v16 = db.assignments.find(a => a.id === 'chem1211-exam3');
+    if (e3v16 && e3v16.notes === EXAM3_NOTES_V14 + EXAM_NOTE) e3v16.notes = EXAM3_NOTES_V16 + EXAM_NOTE;
+    db.meta.chem1211_nov16_v16 = true;
     dirty = true;
   }
 
@@ -2249,11 +2260,11 @@ function renderResources() {
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--accent-2)" stroke-width="2" style="flex-shrink:0"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12.5"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
       <span>Slides and lecture videos open inline when you launch the <strong style="color:var(--text)">local copy</strong> of this dashboard. On the hosted page this list is a reference index only — open the files in <strong style="color:var(--text)">D2L</strong>.</span>
     </div>
-    <a href="chem1211-polarity-imf.html" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:13px;margin-bottom:10px;padding:14px 16px;background:linear-gradient(135deg, rgba(99,102,241,0.15), rgba(99,102,241,0.03));border:1px solid var(--accent);border-radius:var(--r-md);text-decoration:none;color:var(--text)">
+    <a href="chem1211-exam3-game.html" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:13px;margin-bottom:10px;padding:14px 16px;background:linear-gradient(135deg, rgba(99,102,241,0.15), rgba(99,102,241,0.03));border:1px solid var(--accent);border-radius:var(--r-md);text-decoration:none;color:var(--text)">
       <span style="font-size:22px;flex-shrink:0;line-height:1">🧪</span>
       <span style="flex:1;min-width:0">
-        <span style="display:block;font-weight:700;font-size:14px">CHEM 1211 Polarity and IMFs: study game</span>
-        <span style="display:block;font-size:12px;color:var(--muted);margin-top:2px">Oct 26 and Oct 28 lectures. Five levels with videos, XP and stars, then a 3-minute boss round</span>
+        <span style="display:block;font-weight:700;font-size:14px">CHEM 1211 Exam 3: study game</span>
+        <span style="display:block;font-size:12px;color:var(--muted);margin-top:2px">Wed Nov 18, 10:00. Sixteen levels on Ch 4.4 to 4.6, Ch 6 and Ch 10.1 with videos, XP and stars, then a 10-question boss round</span>
       </span>
       <span style="flex-shrink:0;font-size:12px;font-weight:600;color:var(--accent-2);white-space:nowrap">Open ↗</span>
     </a>

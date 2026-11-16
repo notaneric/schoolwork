@@ -1,0 +1,1391 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CHEM 1211 Exam 3</title>
+<style>
+  :root {
+    --bg: #F8F6F0; --card: #FFFEFA; --ink: #1E2A38; --muted: #5B6676; --line: #E6E0D2; --line-2: #D6CFBE;
+    --green: #237A3B; --green-2: #2B9348; --green-edge: #1A5C2C; --green-soft: #E4F3E7; --green-ink: #1B5E2E;
+    --yellow: #F4B400; --yellow-edge: #B98800; --yellow-soft: #FFF5D6;
+    --coral: #E8613C; --coral-ink: #A93A16; --coral-soft: #FDEDE7; --coral-edge: #7E2A10;
+    --lock: #DDD8CB; --lock-edge: #C2BCAD; --lock-ink: #7D7869;
+    --focus: #2E6FD8;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  button { font: inherit; color: inherit; }
+  :focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+  .app { max-width: 560px; margin: 0 auto; padding: 10px 16px 80px; }
+
+  .hud { position: sticky; top: 8px; z-index: 5; display: flex; justify-content: center; gap: 2px; width: max-content; max-width: 100%; margin: 0 auto 14px; padding: 5px 6px; background: var(--card); border: 2px solid var(--line); border-radius: 999px; box-shadow: 0 3px 0 var(--line); }
+  .stat { display: flex; align-items: center; gap: 6px; padding: 5px 11px; border-radius: 999px; font-weight: 800; font-variant-numeric: tabular-nums; transition: background-color .2s ease-out; }
+  .stat svg { width: 22px; height: 22px; flex: none; }
+  .stat small { font-size: 13px; font-weight: 700; color: var(--muted); }
+  .stat.xp svg, .stat.stars svg { color: var(--yellow); }
+  .stat.streak svg { color: var(--lock-ink); }
+  .stat.streak.hot { background: var(--yellow-soft); }
+  .stat.streak.hot svg { color: var(--coral); }
+  @media (max-width: 360px) { .stat small.word { display: none; } }
+
+  .title { text-align: center; margin: 6px 0 0; }
+  h1 { margin: 0 0 4px; font-size: 28px; line-height: 1.2; font-weight: 800; letter-spacing: -.01em; }
+  .when { margin: 0; color: var(--muted); font-weight: 600; }
+
+  .path { display: flex; flex-direction: column; align-items: center; padding: 26px 0 4px; }
+  .stop { display: flex; flex-direction: column; align-items: center; transform: translateX(var(--x, 0)); margin-bottom: 34px; }
+  .nodewrap { position: relative; }
+  .node { position: relative; z-index: 1; width: 78px; height: 78px; border: 0; border-radius: 50%; display: grid; place-items: center; cursor: pointer; background: var(--green-2); color: #FFFEFA; box-shadow: 0 7px 0 var(--green-edge); transition: transform .12s ease-out, box-shadow .12s ease-out; }
+  .node svg { width: 36px; height: 36px; }
+  .node:active { transform: translateY(5px); box-shadow: 0 2px 0 var(--green-edge); }
+  .node.locked { background: var(--lock); color: var(--lock-ink); box-shadow: 0 7px 0 var(--lock-edge); cursor: not-allowed; }
+  .node.locked:active { transform: none; box-shadow: 0 7px 0 var(--lock-edge); }
+  .node.boss { width: 92px; height: 92px; background: var(--yellow); color: var(--ink); box-shadow: 0 8px 0 var(--yellow-edge); }
+  .node.boss:active { box-shadow: 0 3px 0 var(--yellow-edge); }
+  .node.boss svg { width: 44px; height: 44px; }
+  .node.boss.locked { background: var(--lock); color: var(--lock-ink); box-shadow: 0 8px 0 var(--lock-edge); }
+  .node.shake { animation: shake .3s ease-out; }
+  @keyframes shake { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+  .ring { position: absolute; inset: -9px; border-radius: 50%; border: 4px solid var(--green-2); opacity: 0; pointer-events: none; animation: ring 1.8s ease-out infinite; }
+  .ring.gold { border-color: var(--yellow); }
+  @keyframes ring { 0% { transform: scale(.92); opacity: .55; } 100% { transform: scale(1.22); opacity: 0; } }
+  .tag { position: absolute; z-index: 2; bottom: calc(100% + 16px); left: 50%; transform: translateX(-50%); padding: 5px 14px; border: 2px solid var(--line); border-radius: 12px; background: var(--card); color: var(--green); font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; box-shadow: 0 3px 0 var(--line); }
+  .tag::after { content: ""; position: absolute; top: 100%; left: 50%; margin-left: -7px; border: 7px solid transparent; border-top-color: var(--line); }
+  .label { margin-top: 14px; text-align: center; font-weight: 800; line-height: 1.25; }
+  .label small { display: block; margin-bottom: 2px; font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  .label.dim { color: var(--muted); }
+  .srow { display: flex; justify-content: center; gap: 2px; margin-top: 4px; }
+  .srow svg { width: 18px; height: 18px; color: var(--lock); }
+  .srow svg.on { color: var(--yellow); }
+  .best { margin-top: 4px; font-size: 14px; font-weight: 700; color: var(--muted); }
+  .reset { display: block; margin: 4px auto 0; padding: 10px; border: 0; background: none; color: var(--muted); font-size: 14px; font-weight: 600; text-decoration: underline; cursor: pointer; }
+  .toast { position: fixed; left: 50%; bottom: 24px; z-index: 40; transform: translateX(-50%); padding: 10px 18px; border-radius: 999px; background: var(--ink); color: #FFFEFA; font-weight: 700; white-space: nowrap; }
+
+  .topbar { display: flex; align-items: center; gap: 12px; margin: 0 0 18px; }
+  .iconbtn { flex: none; width: 44px; height: 44px; display: grid; place-items: center; border: 2px solid var(--line); border-radius: 12px; background: var(--card); cursor: pointer; box-shadow: 0 3px 0 var(--line); }
+  .iconbtn svg { width: 22px; height: 22px; }
+  .bar { flex: 1; height: 16px; border-radius: 999px; background: var(--line); overflow: hidden; }
+  .bar i { display: block; width: 0; height: 100%; border-radius: 999px; background: var(--green-2); transition: width .3s ease-out; }
+  .count { flex: none; min-width: 40px; text-align: right; font-weight: 800; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .kicker { margin: 0; text-align: center; font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--green); }
+  .lvl { margin: 2px 0 16px; text-align: center; font-size: 26px; }
+  .box { margin: 0 0 16px; padding: 18px; background: var(--card); border: 2px solid var(--line); border-radius: 18px; box-shadow: 0 3px 0 var(--line); }
+  .box h2 { margin: 0 0 12px; text-align: center; font-size: 19px; line-height: 1.3; }
+  .pts { margin: 0; padding-left: 20px; }
+  .pts li { margin: 7px 0; }
+  .note { margin: 12px 0 0; text-align: center; font-size: 15px; color: var(--muted); }
+
+  .btn { display: block; width: 100%; padding: 15px 18px; border: 0; border-radius: 16px; background: var(--green); color: #FFFEFA; font-size: 17px; font-weight: 800; letter-spacing: .02em; cursor: pointer; box-shadow: 0 5px 0 var(--green-edge); transition: transform .1s ease-out, box-shadow .1s ease-out; }
+  .btn:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--green-edge); }
+  .btn:disabled { background: var(--lock); color: var(--lock-ink); box-shadow: 0 5px 0 var(--lock-edge); cursor: not-allowed; transform: none; }
+  .btn.ghost { background: var(--card); color: var(--ink); border: 2px solid var(--line); box-shadow: 0 5px 0 var(--line); }
+  .btn.ghost:active { box-shadow: 0 1px 0 var(--line); }
+  .btn.miss { background: var(--coral-ink); box-shadow: 0 5px 0 var(--coral-edge); }
+  .btn.miss:active { box-shadow: 0 1px 0 var(--coral-edge); }
+  .btn + .btn { margin-top: 14px; }
+
+  .qtop { min-height: 8px; margin-bottom: 8px; text-align: center; }
+  .chip { display: inline-block; padding: 3px 11px; border-radius: 999px; background: var(--yellow-soft); color: var(--ink); font-size: 13px; font-weight: 800; }
+  .prompt { margin: 0 0 18px; text-align: center; font-size: 21px; line-height: 1.35; font-weight: 800; }
+  .tile { display: flex; align-items: center; gap: 12px; width: 100%; margin: 0 0 12px; padding: 13px 14px; text-align: left; border: 2px solid var(--line); border-radius: 14px; background: var(--card); cursor: pointer; box-shadow: 0 4px 0 var(--line); transition: transform .1s ease-out, border-color .15s ease-out; }
+  .tile:hover:not(:disabled) { border-color: var(--green-2); }
+  .tile:active:not(:disabled) { transform: translateY(3px); box-shadow: 0 1px 0 var(--line); }
+  .tile:disabled { cursor: default; }
+  .tile .k { flex: none; width: 30px; height: 30px; display: grid; place-items: center; border: 2px solid var(--line); border-radius: 9px; font-size: 14px; font-weight: 800; color: var(--muted); }
+  .tile.right { border-color: var(--green-2); background: var(--green-soft); box-shadow: 0 4px 0 var(--green-2); }
+  .tile.right .k { border-color: var(--green-2); color: var(--green-ink); }
+  .tile.wrong { border-color: var(--coral); background: var(--coral-soft); box-shadow: 0 4px 0 var(--coral); }
+  .tile.wrong .k { border-color: var(--coral); color: var(--coral-ink); }
+  .typein { display: block; width: 100%; margin: 0 0 16px; padding: 15px; border: 2px solid var(--line-2); border-radius: 14px; background: var(--card); color: var(--ink); font: inherit; font-size: 19px; text-align: center; }
+  .typein:focus { outline: 3px solid var(--green-2); outline-offset: 2px; border-color: var(--green-2); }
+  .typein:disabled { background: var(--bg); }
+  .fb { margin: 6px 0 16px; padding: 14px 16px; border-radius: 16px; }
+  .fb.ok { background: var(--green-soft); color: var(--green-ink); }
+  .fb.no { background: var(--coral-soft); color: var(--coral-ink); }
+  .fb .head { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 18px; font-weight: 800; }
+  .fb p { margin: 6px 0 0; color: var(--ink); }
+  .pop { flex: none; padding: 2px 10px; border-radius: 999px; background: var(--yellow); color: var(--ink); font-size: 14px; font-weight: 800; animation: pop .35s ease-out; }
+  @keyframes pop { from { transform: scale(.6); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+  .els { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+  @media (max-width: 440px) { .els { grid-template-columns: repeat(3, 1fr); } }
+  .el { padding: 8px 4px; text-align: center; border: 2px solid var(--line); border-radius: 12px; background: var(--card); }
+  .el b { display: block; font-size: 24px; line-height: 1.15; }
+  .el span { font-weight: 700; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .el.hot { background: var(--yellow-soft); border-color: var(--yellow); }
+  .els.states { grid-template-columns: repeat(3, 1fr); }
+  @media (max-width: 440px) { .els.states { grid-template-columns: 1fr; } }
+  .states .el b { font-size: 17px; }
+  .states .el span { display: block; margin-top: 4px; font-size: 14px; font-weight: 600; line-height: 1.35; }
+  .scroll { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; }
+  th, td { padding: 8px 6px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+  th { font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  tr.sn td { border-top: 2px solid var(--line-2); }
+  td.pol { font-weight: 800; }
+  td.non { color: var(--muted); }
+  .force { padding: 14px 0 0; margin-top: 14px; border-top: 1px solid var(--line); text-align: center; }
+  .force:first-of-type { margin-top: 0; padding-top: 0; border-top: 0; }
+  .force p { margin: 8px 0 0; text-align: left; }
+  .steps { margin: 0; padding: 0; list-style: none; counter-reset: s; }
+  .steps li { counter-increment: s; display: grid; grid-template-columns: 34px 1fr; gap: 12px; align-items: start; margin: 0 0 12px; }
+  .steps li::before { content: counter(s); width: 34px; height: 34px; display: grid; place-items: center; border-radius: 50%; background: var(--green-2); color: #FFFEFA; font-weight: 800; }
+  .vs { display: grid; grid-template-columns: 1fr auto 1fr; gap: 8px; align-items: center; text-align: center; }
+  .vs .side { padding: 10px 6px; border: 2px solid var(--line); border-radius: 12px; line-height: 1.35; }
+  .vs .side.hi { border-color: var(--green-2); background: var(--green-soft); }
+  .vs .side b { display: block; }
+  .vs .side span { display: block; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .vs em { font-style: normal; font-size: 13px; font-weight: 800; color: var(--muted); }
+  .vsy { margin: 8px 0 18px; text-align: center; font-size: 15px; color: var(--muted); }
+  .vsy:last-child { margin-bottom: 0; }
+
+  .vid { position: relative; display: block; width: 100%; aspect-ratio: 16 / 9; padding: 0; border: 0; border-radius: 14px; overflow: hidden; background: var(--ink); cursor: pointer; }
+  .vid img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .play { position: absolute; left: 50%; top: 50%; width: 68px; height: 68px; margin: -34px 0 0 -34px; display: grid; place-items: center; border-radius: 50%; background: var(--green); color: #FFFEFA; box-shadow: 0 5px 0 var(--green-edge); }
+  .play svg { width: 30px; height: 30px; margin-left: 4px; }
+  .vframe { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; border-radius: 14px; }
+  .vmeta { margin: 10px 0 0; text-align: center; }
+  .vmeta span { font-size: 15px; color: var(--muted); }
+  .also { margin: 10px 0 0; text-align: center; font-size: 15px; }
+  .also a { color: var(--green-ink); font-weight: 700; }
+  .also span { color: var(--muted); }
+
+  .result { text-align: center; }
+  .result h2 { margin: 0 0 6px; font-size: 26px; }
+  .result p { margin: 4px 0; }
+  .big-stars { display: flex; justify-content: center; gap: 10px; margin: 6px 0 12px; }
+  .big-stars svg { width: 64px; height: 64px; color: var(--lock); }
+  .big-stars svg.on { color: var(--yellow); animation: starpop .45s ease-out both; }
+  .big-stars svg.on:nth-child(2) { animation-delay: .15s; }
+  .big-stars svg.on:nth-child(3) { animation-delay: .3s; }
+  @keyframes starpop { from { transform: scale(.3); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .gain { display: inline-block; margin: 12px 0 18px; padding: 6px 16px; border-radius: 999px; background: var(--yellow); font-size: 18px; font-weight: 800; }
+  .clock { margin: 0 0 14px; text-align: center; font-size: 40px; line-height: 1; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .clock.low { color: var(--coral-ink); }
+  .confetti { position: fixed; inset: 0; z-index: 50; pointer-events: none; }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+  .hint { margin: 8px auto 0; max-width: 34em; color: var(--muted); font-size: 15px; }
+  .unit { align-self: stretch; margin: 0 0 64px; padding-top: 18px; text-align: center; border-top: 2px solid var(--line); }
+  .unit:first-child { padding-top: 0; border-top: 0; }
+  .unit small { display: block; font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--green); }
+  .unit b { display: block; margin-top: 2px; font-size: 20px; line-height: 1.25; }
+  .unit span { display: block; margin-top: 2px; font-size: 14px; font-weight: 600; color: var(--muted); }
+  .eq { margin: 0 0 12px; text-align: center; font-size: 17px; font-weight: 800; line-height: 1.4; }
+  .stop .label { max-width: 200px; }
+  @media (max-width: 400px) { .stop { transform: translateX(calc(var(--x, 0px) * .6)); } }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="hud">
+    <span class="stat xp" title="XP"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.5 2 4.5 13.5h6.2L9.5 22l9-11.5h-6.2z"/></svg><span id="h-xp">0</span><small class="word">XP</small></span>
+    <span class="stat stars" title="Stars"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z"/></svg><span id="h-st">0</span><small>/48</small></span>
+    <span class="stat streak" id="h-streak" title="Streak"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.5c.6 3.2 4.8 5.3 4.8 10.2a4.8 4.8 0 0 1-9.6 0c0-2.4 1.2-4 2.4-5 .1 1.7.9 2.8 1.9 3.2-.1-3 .1-5.6.5-8.4z"/></svg><span id="h-sk">0</span><small class="word">streak</small></span>
+  </div>
+  <main id="view"></main>
+</div>
+
+<template id="lesson-1">
+  <div class="box">
+    <h2>Valence electrons</h2>
+    <ul class="pts">
+      <li>A main-group atom has as many valence electrons as its group A number: Li 1, Mg 2, B 3, C 4, N 5, O 6, F 7, Ne 8. Helium has 2.</li>
+      <li>A Lewis symbol shows each valence electron as a dot around the element symbol. Dr. Meyers draws boron as one pair plus one single dot (2s^2 2p^1).</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h2>Monatomic ions and ionic compounds</h2>
+    <ul class="pts">
+      <li>A cation has lost its valence electrons, so it shows no dots: [Li]^+, [Mg]^2+.</li>
+      <li>An anion has gained electrons up to an octet. The nitride ion is N with 8 dots inside brackets and 3- outside: [N]^3-.</li>
+      <li>An ionic compound is drawn as separate bracketed ions with their charges and no bond line. NaCl is [Na]^+ [Cl]^- with 8 dots on Cl. CaCl2 is [Cl]^- [Ca]^2+ [Cl]^-.</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h2>Bonding pairs and lone pairs</h2>
+    <ul class="pts">
+      <li>A bonding pair is shared by two atoms and drawn as a line. A lone pair stays on one atom and is drawn as two dots.</li>
+      <li>Water has 2 bonding pairs (the two O-H lines) and 2 lone pairs on O.</li>
+    </ul>
+    <div class="els">
+      <div class="el"><b>H</b><span>1 bond</span></div>
+      <div class="el"><b>C</b><span>4 bonds</span></div>
+      <div class="el"><b>N</b><span>3 bonds</span></div>
+      <div class="el"><b>O</b><span>2 bonds</span></div>
+      <div class="el"><b>S</b><span>2 bonds</span></div>
+      <div class="el"><b>Cl</b><span>1 bond</span></div>
+    </div>
+    <p class="note">Bonds each atom usually makes in a neutral molecule (Chapter 4 Part 2 worksheet, #2). It equals the electrons the atom still needs for an octet, or a duet for H.</p>
+  </div>
+</template>
+
+<template id="lesson-2">
+  <div class="box">
+    <h2>The nine ions to memorize</h2>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Name</th><th>Formula</th><th>Valence e-</th></tr></thead>
+        <tbody>
+          <tr><td>ammonium</td><td>NH4^+</td><td>8</td></tr>
+          <tr><td>hydronium</td><td>H3O^+</td><td>8</td></tr>
+          <tr><td>hydroxide</td><td>OH^-</td><td>8</td></tr>
+          <tr><td>acetate</td><td>C2H3O2^-</td><td>24</td></tr>
+          <tr><td>nitrate</td><td>NO3^-</td><td>24</td></tr>
+          <tr><td>chlorate</td><td>ClO3^-</td><td>26</td></tr>
+          <tr><td>carbonate</td><td>CO3^2-</td><td>24</td></tr>
+          <tr><td>sulfate</td><td>SO4^2-</td><td>32</td></tr>
+          <tr><td>phosphate</td><td>PO4^3-</td><td>32</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">The list from the Exam 2 study guide. Names, formulas and charges all count.</p>
+  </div>
+  <div class="box">
+    <h2>Counting electrons in an ion</h2>
+    <ul class="pts">
+      <li>Add one electron for each negative charge. Remove one for each positive charge.</li>
+      <li>NH4^+: 5 + 4(1) - 1 = 8. OH^-: 6 + 1 + 1 = 8. NO3^-: 5 + 3(6) + 1 = 24.</li>
+      <li>CO3^2-: 4 + 3(6) + 2 = 24. SO4^2-: 6 + 4(6) + 2 = 32. PO4^3-: 5 + 4(6) + 3 = 32.</li>
+      <li>Draw the finished ion inside brackets with its charge outside.</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h2>Element names still count</h2>
+    <p>Questions name compounds in words, like chlorine trifluoride or xenon trioxide, so you need the names and symbols of elements 1 to 36. Watch the look-alikes: Mg magnesium and Mn manganese, K potassium and P phosphorus, Si silicon and S sulfur, Co cobalt and Cu copper.</p>
+  </div>
+</template>
+
+<template id="lesson-3">
+  <div class="box">
+    <h2>Dr. Meyers' six steps (Handout 13)</h2>
+    <ol class="steps">
+      <li><span><b>Sum the valence electrons.</b> Add one per negative charge, remove one per positive charge.</span></li>
+      <li><span><b>Pick the central atom.</b> Usually the atom that makes more bonds, and usually the less electronegative one. H is never central.</span></li>
+      <li><span><b>Place the terminal atoms</b> around it.</span></li>
+      <li><span><b>Connect each terminal atom</b> to the center with a single bond.</span></li>
+      <li><span><b>Fill octets, terminal atoms first.</b> Extra electrons go on the central atom. Short of electrons? Share a lone pair as a double or triple bond.</span></li>
+      <li><span><b>Check formal charges</b> and that every electron was used.</span></li>
+    </ol>
+  </div>
+  <div class="box">
+    <h2>Worked: formaldehyde, CH2O (Handout 13, #4)</h2>
+    <ul class="pts">
+      <li>4 + 2(1) + 6 = 12 valence electrons. C is central: it makes 4 bonds, O makes 2, and H is never central.</li>
+      <li>Three single bonds use 6 electrons. Three lone pairs on O use the other 6, but that leaves C with only 6 electrons.</li>
+      <li>Share one O lone pair as a second bond. Final: C=O with 2 lone pairs on O and two C-H bonds. Every formal charge is 0.</li>
+      <li>C=O is polar (3.5 - 2.5 = 1.0), so it gets an asterisk. C-H (0.4) does not.</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h2>Quick ones</h2>
+    <ul class="pts">
+      <li>H2: 2 electrons, one H-H bond, no lone pairs.</li>
+      <li>H2O: 8 electrons, two O-H bonds, 2 lone pairs on O.</li>
+      <li>O2: 12 electrons. A single bond leaves one O with only 6, so O=O with 2 lone pairs on each O.</li>
+      <li>N2: 10 electrons, N≡N with 1 lone pair on each N.</li>
+    </ul>
+  </div>
+</template>
+
+<template id="lesson-4">
+  <div class="box">
+    <h2>Single, double, triple</h2>
+    <ul class="pts">
+      <li>Bond order is the number of shared pairs: single 1, double 2, triple 3.</li>
+      <li>More shared pairs pull the atoms closer and hold them tighter. Length: single &gt; double &gt; triple. Strength: triple &gt; double &gt; single.</li>
+    </ul>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Bond</th><th>Energy (kJ/mol)</th><th>Length (pm)</th></tr></thead>
+        <tbody>
+          <tr><td>C-C</td><td>347</td><td>154</td></tr>
+          <tr><td>C=C</td><td>611</td><td>134</td></tr>
+          <tr><td>C≡C</td><td>837</td><td>120</td></tr>
+          <tr class="sn"><td>N-N</td><td>163</td><td>145</td></tr>
+          <tr><td>N=N</td><td>418</td><td>123</td></tr>
+          <tr><td>N≡N</td><td>946</td><td>110</td></tr>
+          <tr class="sn"><td>C-O</td><td>360</td><td>143</td></tr>
+          <tr><td>C=O</td><td>736</td><td>120</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Values from Dr. Meyers' Oct 19 slides. A triple bond is stronger than a single bond, but for carbon it is only about 2.4 times as strong.</p>
+  </div>
+  <div class="box">
+    <h2>Three ways to break the octet rule</h2>
+    <div class="force"><span class="chip">Odd-electron</span><p>An odd electron total cannot pair up completely. NO has 11 and NO2 has 17, so one atom (N) ends with 7. These are free radicals.</p></div>
+    <div class="force"><span class="chip">Incomplete octet</span><p>A group 3A central atom makes 3 bonds and stops at 6 electrons: BH3, BF3.</p></div>
+    <div class="force"><span class="chip">Expanded octet</span><p>A central atom from row 3 or below (P, S, Cl, Br, I, Xe) can hold more than 8: PCl5 has 10, SF6 has 12, IBr3 has 10.</p></div>
+    <p class="note">C, N, O and F always follow the octet rule. They never hold more than 8.</p>
+  </div>
+</template>
+
+<template id="lesson-5">
+  <div class="box">
+    <h2>Formal charge</h2>
+    <p class="eq">FC = valence e- - (lone-pair e- + ½ bonding e-)</p>
+    <ul class="pts">
+      <li>Shortcut: valence electrons minus (dots + lines) on that atom.</li>
+      <li>The formal charges add up to the overall charge: 0 for a molecule, -1 for NO2^-.</li>
+      <li>Dr. Meyers circles any nonzero formal charge next to the atom.</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h2>Picking the best structure</h2>
+    <ol class="steps">
+      <li><span>It uses the correct number of valence electrons.</span></li>
+      <li><span>Every atom has its octet, and C, N, O and F never go over 8.</span></li>
+      <li><span>Formal charges are zero, or as close to zero as possible.</span></li>
+    </ol>
+    <p class="note">A central atom from row 3 or below may take more than 8 electrons to bring its formal charge to zero.</p>
+  </div>
+  <div class="box">
+    <h2>Worked: chlorite, ClO2^- (Handout 13, #5)</h2>
+    <ul class="pts">
+      <li>7 + 2(6) + 1 = 20 electrons.</li>
+      <li>All single bonds: every atom has an octet, but every atom also carries a formal charge (O -1, Cl +1, O -1). Valid, but not the best.</li>
+      <li>O=Cl-O^- and its mirror image: only one O carries a charge, and Cl expands to 10 electrons, which a row 3 atom may do. Dr. Meyers calls these two equally the best.</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h2>Resonance</h2>
+    <ul class="pts">
+      <li>Resonance structures keep every atom in place and move only electrons: the lone pairs and the multiple bonds.</li>
+      <li>The real species is the average of its forms. Ozone, O3, has two equivalent forms, so each O-O bond has a bond order of 1.5.</li>
+      <li>Nitrate (NO3^-) and carbonate (CO3^2-) have three forms each. Phosphate, drawn with one P=O, has four.</li>
+    </ul>
+  </div>
+</template>
+
+<template id="lesson-6">
+  <div class="box">
+    <h2>Steric number</h2>
+    <ul class="pts">
+      <li>SN = atoms bonded to the central atom + lone pairs on the central atom. A double or triple bond counts once.</li>
+      <li>Electron-pair geometry places every group, lone pairs included. Molecular geometry names only where the atoms are.</li>
+      <li>Lone pairs take more room than bonding pairs and squeeze the angles below the ideal, so you write &lt;120° or &lt;109.5°. The angles are only guaranteed ideal when the central atom has no lone pairs. Lone pairs placed symmetrically can still leave ideal angles: XeF2 stays at 180° and XeF4 at 90°.</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h2>Shapes for SN 2 to 4 (Handout 14)</h2>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>SN</th><th>BP</th><th>LP</th><th>Shape</th><th>Angle</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr class="sn"><td>2</td><td>2</td><td>0</td><td>linear</td><td>180°</td><td>CO2</td></tr>
+          <tr class="sn"><td>3</td><td>3</td><td>0</td><td>trigonal planar</td><td>120°</td><td>BF3, CH2O</td></tr>
+          <tr><td></td><td>2</td><td>1</td><td>bent</td><td>&lt;120°</td><td>SO2</td></tr>
+          <tr class="sn"><td>4</td><td>4</td><td>0</td><td>tetrahedral</td><td>109.5°</td><td>CH4</td></tr>
+          <tr><td></td><td>3</td><td>1</td><td>trigonal pyramidal</td><td>&lt;109.5°</td><td>NH3, PCl3</td></tr>
+          <tr><td></td><td>2</td><td>2</td><td>bent</td><td>&lt;109.5°</td><td>H2O</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Electron-pair geometry by SN: 2 linear, 3 trigonal planar, 4 tetrahedral.</p>
+  </div>
+  <div class="box">
+    <h2>Worked: Handout 14, #1</h2>
+    <ul class="pts">
+      <li>CH2O: SN 3 (two H and one O, no lone pairs on C). Trigonal planar, 120°.</li>
+      <li>SO2: Dr. Meyers draws O=S=O with a lone pair on S. SN 3 (two O and one lone pair). Bent, &lt;120°.</li>
+      <li>PCl3: 26 electrons, so P has 3 bonds and 1 lone pair. SN 4, trigonal pyramidal, &lt;109.5°.</li>
+    </ul>
+  </div>
+</template>
+
+<template id="lesson-7">
+  <div class="box">
+    <h2>Steric number 5: trigonal bipyramidal</h2>
+    <ul class="pts">
+      <li>Three equatorial positions 120° apart, plus two axial positions 90° from the equator.</li>
+      <li>Lone pairs (and multiple bonds) go equatorial first.</li>
+    </ul>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>BP</th><th>LP</th><th>Shape</th><th>Angles</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td>5</td><td>0</td><td>trigonal bipyramidal</td><td>90° ax-eq, 120° eq-eq</td><td>PCl5</td></tr>
+          <tr><td>4</td><td>1</td><td>seesaw</td><td>&lt;90°, &lt;120°</td><td>SF4</td></tr>
+          <tr><td>3</td><td>2</td><td>T-shaped</td><td>&lt;90°</td><td>ClF3, IF3, IBr3</td></tr>
+          <tr><td>2</td><td>3</td><td>linear</td><td>180°</td><td>XeF2</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="box">
+    <h2>Steric number 6: octahedral</h2>
+    <ul class="pts">
+      <li>Six positions, each 90° from its four neighbors. A second lone pair goes opposite the first.</li>
+    </ul>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>BP</th><th>LP</th><th>Shape</th><th>Angles</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td>6</td><td>0</td><td>octahedral</td><td>90°</td><td>SF6</td></tr>
+          <tr><td>5</td><td>1</td><td>square pyramidal</td><td>&lt;90°</td><td>BrF5, IF5</td></tr>
+          <tr><td>4</td><td>2</td><td>square planar</td><td>90°</td><td>XeF4</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Handout 14 also lists SN 6 with 3 lone pairs (T-shaped) and with 4 (linear). Both are rare.</p>
+  </div>
+  <div class="box">
+    <h2>Worked: chlorine trifluoride (Chapter 4 Part 2 worksheet, #4)</h2>
+    <ul class="pts">
+      <li>7 + 3(7) = 28 electrons. Cl has 3 bonds and 2 lone pairs, 10 electrons, which is fine for a row 3 atom.</li>
+      <li>SN 5. Both lone pairs go equatorial, so the three F atoms form a T: T-shaped, F-Cl-F &lt;90°.</li>
+      <li>XeO3 for contrast: Dr. Meyers draws three Xe=O and one lone pair on Xe. SN 4, trigonal pyramidal.</li>
+    </ul>
+  </div>
+</template>
+
+<template id="lesson-8">
+  <div class="box">
+    <h2>One atom at a time</h2>
+    <ul class="pts">
+      <li>Treat the atom you are asked about as the central atom. Count the atoms bonded to it and its lone pairs, then read the shape off the SN table.</li>
+      <li>When C makes 4 bonds, N makes 3 and O makes 2, the octet fixes their lone pairs: C has none, N has 1, O has 2.</li>
+    </ul>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Interior atom</th><th>SN</th><th>Shape</th></tr></thead>
+        <tbody>
+          <tr><td>C with 4 single bonds</td><td>4</td><td>tetrahedral, 109.5°</td></tr>
+          <tr><td>C with one double bond</td><td>3</td><td>trigonal planar, 120°</td></tr>
+          <tr><td>C with a triple bond</td><td>2</td><td>linear, 180°</td></tr>
+          <tr><td>N with 3 single bonds</td><td>4</td><td>trigonal pyramidal, &lt;109.5°</td></tr>
+          <tr><td>O with 2 single bonds</td><td>4</td><td>bent, &lt;109.5°</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="box">
+    <h2>Worked: glycine (Handout 14, #3)</h2>
+    <p class="eq">H2N-CH2-COOH</p>
+    <ol class="steps">
+      <li><span><b>CH2 carbon:</b> 4 single bonds, no lone pairs. SN 4, tetrahedral.</span></li>
+      <li><span><b>N:</b> bonded to 2 H and C, plus 1 lone pair. SN 4, trigonal pyramidal.</span></li>
+      <li><span><b>Carbonyl carbon (C=O):</b> bonded to C, O and O, no lone pairs. SN 3, trigonal planar.</span></li>
+      <li><span><b>Hydroxyl O (O-H):</b> bonded to C and H, plus 2 lone pairs. SN 4, bent.</span></li>
+    </ol>
+    <p class="note">Numbered the way the handout points at them.</p>
+  </div>
+</template>
+
+<template id="lesson-9">
+  <div class="box">
+    <h2>Bond polarity rules</h2>
+    <ul class="pts">
+      <li>Electronegativity is how strongly an atom pulls on the electrons it shares.</li>
+      <li>Subtract the two values. 0 to 0.4 is a nonpolar bond, so C-H (0.4) counts as nonpolar. Above 0.4, up to 2.0, is polar. Above 2.0 is ionic.</li>
+      <li>The atom that pulls harder gets the partial negative charge (δ−), and the other atom gets δ+. Dr. Meyers marks a polar bond with an asterisk.</li>
+      <li>Shortcut: a bond from an NClOF atom to C, H, S or P is polar. Between two NClOF atoms, subtract: N-Cl is 0.0 (nonpolar), Cl-O is 0.5 (polar).</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h2>Electronegativities to memorize</h2>
+    <div class="els">
+      <div class="el hot"><b>F</b><span>4.0</span></div>
+      <div class="el hot"><b>O</b><span>3.5</span></div>
+      <div class="el hot"><b>N</b><span>3.0</span></div>
+      <div class="el hot"><b>Cl</b><span>3.0</span></div>
+      <div class="el"><b>C</b><span>2.5</span></div>
+      <div class="el"><b>H</b><span>2.1</span></div>
+    </div>
+    <p class="note">Other values: S 2.5, P 2.1, B 2.0, I 2.5, Xe 2.6.</p>
+  </div>
+  <div class="box">
+    <h2>When a molecule is polar</h2>
+    <ul class="pts">
+      <li>A molecule is polar when it has polar bonds and a shape that keeps their dipoles from canceling.</li>
+      <li>Draw each polar bond as an arrow pointing at its δ− atom. In a symmetric shape with identical outer atoms, the arrows cancel: CO2, BF3, CCl4.</li>
+      <li>A lone pair on the central atom bends the shape, so the arrows add up: H2O, NH3, SO2.</li>
+      <li>Different outer atoms also leave a net dipole: CH2O, CH2Cl2, CHCl3.</li>
+      <li>Lone pairs placed symmetrically do not tip the balance: XeF4 (square planar) and XeF2 (linear) are nonpolar.</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h2>Shapes and polarity</h2>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>SN</th><th>Shape</th><th>LP</th><th>Molecule</th><th>Example</th></tr></thead>
+        <tbody id="pol"></tbody>
+      </table>
+    </div>
+    <p class="note">LP is lone pairs on the central atom. Every row assumes polar bonds and identical outer atoms. A hydrocarbon (only C-H and C-C bonds) counts as nonpolar. Edge case: H2S and PH3 have lone pairs but bonds at or under the 0.4 cutoff (S-H 0.4, P-H 0.0); most textbooks call them weakly polar.</p>
+  </div>
+</template>
+
+<template id="lesson-10">
+  <div class="box">
+    <h2>IMFs versus bonds</h2>
+    <ul class="pts">
+      <li>Intermolecular forces (IMFs) pull separate molecules toward each other. Bonds hold atoms together inside one molecule, and bonds are much stronger.</li>
+      <li>Boiling pulls molecules apart. It overcomes IMFs, hydrogen bonds included, and breaks no covalent bonds, so steam is still H2O.</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h2>Solids, liquids and gases</h2>
+    <div class="els states">
+      <div class="el"><b>Solid</b><span>definite shape and volume, incompressible</span></div>
+      <div class="el"><b>Liquid</b><span>takes the container's shape, definite volume, mainly incompressible</span></div>
+      <div class="el"><b>Gas</b><span>no definite shape or volume, compressible</span></div>
+    </div>
+    <ul class="pts" style="margin-top:14px">
+      <li>Kinetic energy keeps particles moving apart (the disruptive force), and IMFs hold them together (the cohesive force). Raising the temperature raises kinetic energy.</li>
+      <li>In a solid the cohesive forces win. In a gas the disruptive forces win.</li>
+      <li>To turn a gas into a liquid, lower the temperature or raise the pressure.</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h2>The three IMFs</h2>
+    <div class="force"><span class="chip">Dispersion</span><p>Electrons shift for an instant and make a brief dipole that pulls on neighbors. Every molecule has it. More electrons mean higher polarizability, so stronger dispersion.</p></div>
+    <div class="force"><span class="chip">Dipole-dipole</span><p>The δ+ end of one polar molecule attracts the δ− end of the next. Polar molecules only.</p></div>
+    <div class="force"><span class="chip">Hydrogen bonding</span><p>An H bonded directly to N, O or F, attracted to a lone pair on an N, O or F in a nearby molecule. The strongest of the three for molecules of similar size.</p></div>
+  </div>
+  <div class="box">
+    <h2>Finding the dominant IMF</h2>
+    <ol class="steps">
+      <li><span><b>Is an H bonded directly to N, O or F?</b> Hydrogen bonding: H2O, NH3, HF, CH3OH.</span></li>
+      <li><span><b>If not, is the molecule polar?</b> Dipole-dipole: HCl, SO2, PCl3, CH2O, ICl, CHCl3.</span></li>
+      <li><span><b>If not,</b> dispersion only: CH4, CO2, CCl4, I2.</span></li>
+    </ol>
+    <p class="note">The dominant IMF is the strongest type present, and every molecule also has dispersion. CH2O has H and O, but its H is bonded to C, so CH2O molecules cannot hydrogen-bond to each other.</p>
+  </div>
+  <div class="box">
+    <h2>Worked: iodine trifluoride (Handout 14, problem 2)</h2>
+    <ul class="pts">
+      <li>Covalent: two nonmetals. Formula IF3.</li>
+      <li>7 + 3(7) = 28 valence electrons. I goes in the center with single bonds to three F, three lone pairs on each F, and the last 4 electrons as 2 lone pairs on I. I is in row 5, so it can hold more than an octet.</li>
+      <li>SN = 3 bonds + 2 lone pairs = 5. Electron geometry: trigonal bipyramidal. Molecular geometry: T-shaped. The F-I-F angles are a little under 90°, and the two axial F are a little under 180° apart.</li>
+      <li>Polar: the I-F bonds are polar, and a T does not cancel.</li>
+      <li>Dominant IMF: dipole-dipole. It is polar and has no H.</li>
+    </ul>
+  </div>
+</template>
+
+<template id="lesson-11">
+  <div class="box">
+    <h2>Boiling point rules</h2>
+    <ul class="pts">
+      <li>Stronger IMFs mean a higher boiling point. For molecules of similar size: hydrogen bonding &gt; dipole-dipole &gt; dispersion.</li>
+      <li>More electrons mean stronger dispersion, so noble-gas boiling points rise from He to Xe.</li>
+      <li>Shape counts too. Straight chains pack closer together than branched molecules, so their dispersion is stronger.</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h2>Boiling points in pairs</h2>
+    <div class="vs"><div class="side"><b>CH4</b>16 g/mol<span>−162 °C</span></div><em>vs</em><div class="side hi"><b>H2O</b>18 g/mol<span>100 °C</span></div></div>
+    <p class="vsy">Same size. Water hydrogen-bonds.</p>
+    <div class="vs"><div class="side"><b>Dimethyl ether</b>C2H6O<span>−24 °C</span></div><em>vs</em><div class="side hi"><b>Ethanol</b>C2H6O<span>78 °C</span></div></div>
+    <p class="vsy">Same formula. Only ethanol has an O-H.</p>
+    <div class="vs"><div class="side"><b>Isobutane</b>branched, C4H10<span>−11.7 °C</span></div><em>vs</em><div class="side hi"><b>Butane</b>straight chain, C4H10<span>−0.5 °C</span></div></div>
+    <p class="vsy">Same formula. Butane molecules sit closer together, so their dispersion is stronger.</p>
+    <div class="vs"><div class="side"><b>F2 and Cl2</b>gases</div><em>vs</em><div class="side hi"><b>I2</b>solid</div></div>
+    <p class="vsy">At room temperature I2 is a solid because its extra electrons give it the strongest dispersion. Br2, in between, is a liquid.</p>
+  </div>
+  <div class="box">
+    <h2>Solubility: like dissolves like</h2>
+    <ul class="pts">
+      <li>Polar and ionic substances dissolve in polar water. Nonpolar substances dissolve in nonpolar solvents like hexane.</li>
+      <li>Hexane (C6H14) and water do not mix. They separate into two layers.</li>
+      <li>I2 is nonpolar, so it dissolves in the hexane layer. KMnO4 is ionic, so it dissolves in the water layer, held there by ion-dipole forces between the ions and the polar water molecules.</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h2>Handout 15, #1</h2>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Species</th><th>Polarity</th><th>Dominant IMF</th><th>In water</th></tr></thead>
+        <tbody>
+          <tr><td>methane</td><td>nonpolar</td><td>dispersion</td><td>insoluble</td></tr>
+          <tr><td>benzaldehyde</td><td>polar</td><td>dipole-dipole</td><td>slightly soluble</td></tr>
+          <tr><td>glucose</td><td>polar</td><td>hydrogen bond</td><td>soluble</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Handout 15, #2: helium (dispersion only) boils at −269 °C, acetone (dipole-dipole) at 56 °C.</p>
+  </div>
+</template>
+
+<template id="lesson-12">
+  <div class="box">
+    <h2>Mass percent of an element</h2>
+    <p class="eq">% element = mass of the element in 1 mol ÷ molar mass × 100</p>
+    <ul class="pts">
+      <li>Multiply each atomic mass by its subscript. Parentheses multiply too: Fe(NO3)3 has 3 N and 9 O.</li>
+      <li>Use the periodic table on the exam: H 1.0079, C 12.011, N 14.007, O 15.999.</li>
+      <li>A percent works as a conversion factor: 17.37 % N means 17.37 g N per 100 g of compound.</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h2>Worked: N in Fe(NO3)3 (Handout 16, #1)</h2>
+    <ul class="pts">
+      <li>Molar mass: 55.845 + 3(14.007) + 9(15.999) = 241.857 g/mol.</li>
+      <li>Nitrogen: 3(14.007) = 42.021 g.</li>
+      <li>% N = 42.021 ÷ 241.857 × 100 = 17.37 %.</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h2>Check the key</h2>
+    <p>Chapter 6 worksheet #2 prints 175.03 g/mol for PF2Cl3 and 60.77 % Cl. The sum is 30.974 + 2(18.998) + 3(35.453) = 175.33 g/mol, so % Cl = 60.66 %. If you get 60.66 %, your work is right.</p>
+  </div>
+</template>
+
+<template id="lesson-13">
+  <div class="box">
+    <h2>Empirical vs molecular</h2>
+    <ul class="pts">
+      <li>The molecular formula gives the actual atoms in one molecule. The empirical formula is the lowest whole-number ratio.</li>
+      <li>Glucose, C6H12O6, has the empirical formula CH2O. Benzene, C6H6, is CH. H2O and CO2 are already empirical.</li>
+      <li>Finding a molecular formula from a molar mass is not on Exam 3.</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h2>From percent to formula</h2>
+    <ol class="steps">
+      <li><span><b>Get every percent.</b> If O is not given, it is 100 minus the rest.</span></li>
+      <li><span><b>Assume 100.0 g</b>, so each percent becomes grams. Convert each to moles.</span></li>
+      <li><span><b>Divide by the smallest</b> mole amount and round to the hundredths.</span></li>
+      <li><span><b>Clear fractions</b> by multiplying every value by the same factor.</span></li>
+    </ol>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Ends in</th><th>.20</th><th>.25</th><th>.33</th><th>.40</th><th>.50</th><th>.67</th><th>.75</th><th>.80</th></tr></thead>
+        <tbody><tr><td>Times</td><td>5</td><td>4</td><td>3</td><td>5</td><td>2</td><td>3</td><td>4</td><td>5</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="box">
+    <h2>Worked: Chapter 6 worksheet #4</h2>
+    <ul class="pts">
+      <li>58.23 % C and 10.75 % H, so O = 31.02 %.</li>
+      <li>C: 58.23 ÷ 12.011 = 4.848 mol. H: 10.75 ÷ 1.0079 = 10.67 mol. O: 31.02 ÷ 15.999 = 1.939 mol.</li>
+      <li>Divide by 1.939: C 2.50, H 5.50, O 1.00. Halves, so double everything: C5H11O2.</li>
+    </ul>
+    <p class="note">Handout 16, #2 (52.14 % C, 13.13 % H, 34.73 % O) works out to C2H6O, the formula of both ethanol and dimethyl ether.</p>
+  </div>
+</template>
+
+<template id="lesson-14">
+  <div class="box">
+    <h2>Solute and solvent</h2>
+    <ul class="pts">
+      <li>The solvent is the component present in the largest amount. Everything dissolved in it is a solute.</li>
+      <li>Aqueous (aq) means water is the solvent.</li>
+      <li>Natural gas (97 % methane): methane is the solvent, and ethane, CO2 and N2 are solutes. Rose gold (75 % gold): gold is the solvent, copper and silver are solutes. Dental amalgam (about 50 % mercury by mass, the rest a silver, tin and copper alloy): mercury is the largest single part, so it is the solvent.</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h2>Molarity</h2>
+    <p class="eq">M = mol solute ÷ L solution</p>
+    <ul class="pts">
+      <li>It is not on the formula sheet. Memorize it.</li>
+      <li>Grams to M: g ÷ molar mass = mol, then ÷ L. M to grams: L × M = mol, then × molar mass.</li>
+      <li>Convert mL to L first: 125 mL = 0.125 L.</li>
+      <li>Ions multiply: 1 M CaCl2 gives [Ca^2+] = 1 M and [Cl^-] = 2 M.</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h2>Worked: Handout 17, #2 and #4</h2>
+    <ul class="pts">
+      <li>4.83 g Na2S2O3 in 125 mL: 4.83 ÷ 158.11 = 0.03055 mol, then ÷ 0.125 L = 0.244 M.</li>
+      <li>NaCl for 150. mL of 0.855 M: 0.150 L × 0.855 = 0.1283 mol, then × 58.443 = 7.50 g.</li>
+    </ul>
+  </div>
+</template>
+
+<template id="lesson-15">
+  <div class="box">
+    <h2>Three more units</h2>
+    <div class="force"><span class="chip">% m/m, also called % w/w</span><p>g solute ÷ g solution × 100. The solution mass is solute plus solvent.</p></div>
+    <div class="force"><span class="chip">% v/v</span><p>mL solute ÷ mL solution × 100. Rubbing alcohol is 70 % v/v isopropyl alcohol.</p></div>
+    <div class="force"><span class="chip">ppm</span><p>g solute ÷ g solution × 10^6. In a dilute water solution, 1 ppm is about 1 mg per liter.</p></div>
+    <p class="note">The formula sheet has % = part ÷ whole × 100, but not the 10^6 for ppm. Dr. Meyers' slides never define % v/v or ppm, so these follow the textbook's chapter 6 definitions.</p>
+  </div>
+  <div class="box">
+    <h2>Worked: Handout 17, #3</h2>
+    <ul class="pts">
+      <li>2.52 g sucrose in 25.0 g water. Solution mass = 2.52 + 25.0 = 27.5 g.</li>
+      <li>% m/m = 2.52 ÷ 27.5 × 100 = 9.16 %.</li>
+      <li>Dividing by the 25.0 g of water alone gives 10.1 %, the classic mistake.</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h2>Worked: Chapter 6 worksheet #9</h2>
+    <ul class="pts">
+      <li>1.15 M NaBr with a density of 1.08 g/mL. Take 1 L of solution.</li>
+      <li>Solute: 1.15 mol × 102.89 g/mol = 118.3 g. Solution: 1000 mL × 1.08 g/mL = 1080 g.</li>
+      <li>% m/m = 118.3 ÷ 1080 × 100 = 11.0 %. The 235 mL in the problem does not matter.</li>
+    </ul>
+  </div>
+</template>
+
+<template id="lesson-16">
+  <div class="box">
+    <h2>C1V1 = C2V2</h2>
+    <ul class="pts">
+      <li>Adding solvent lowers the concentration, but the moles of solute stay the same. That is why C1V1 = C2V2 works. It is on the formula sheet.</li>
+      <li>1 is the stock you start with. 2 is the new solution.</li>
+      <li>V2 is the total final volume, not the water you add.</li>
+      <li>Always add acid to water.</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h2>Worked: Handout 17, #5</h2>
+    <ul class="pts">
+      <li>9.00 mL of water is added to 1.00 mL of 0.325 M Cr^3+, so V2 = 10.00 mL.</li>
+      <li>C2 = (0.325 M)(1.00 mL) ÷ 10.00 mL = 0.0325 M.</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h2>Worked: Chapter 6 worksheet #10</h2>
+    <ul class="pts">
+      <li>Make 500. mL of 6 M HCl from 12 M HCl. The 12 M stock is the 1, and the new 6 M solution is the 2.</li>
+      <li>V1 = (6 M)(500. mL) ÷ 12 M = 250. mL.</li>
+      <li>Add 250. mL of 12 M HCl to 250. mL of water, for 500. mL total.</li>
+    </ul>
+  </div>
+</template>
+
+<script>
+// YouTube oEmbed-verified 2026-11-16 (all 26 ids returned 200): { id, title, ch, dur, note?, alt? }
+const VIDEOS = {
+  1: { id: '2urppjeSfgA', title: 'How to Draw Lewis Dot Structures for Ionic Compounds/Bonds', ch: 'Wayne Breslyn (Dr. B.)', dur: '5:42', alt: { id: 'xhItoqhHoEE', title: 'How To Draw The Lewis Structures of Ionic Compounds', ch: 'The Organic Chemistry Tutor', dur: '6:23' } },
+  3: { id: 'YZpZQ5l_uqU', title: 'Lewis Structures for Covalent Molecules: Step-by-Step', ch: 'Wayne Breslyn (Dr. B.)', dur: '10:29', alt: { id: '1ZlnzyHahvo', title: 'How to Draw Lewis Structures: Five Easy Steps', ch: 'Wayne Breslyn (Dr. B.)', dur: '5:57' } },
+  4: { id: 'Dkj-SMBLQzM', title: 'Exceptions to the Octet Rule', ch: 'Wayne Breslyn (Dr. B.)', dur: '5:31', alt: { id: 'fvk8yN4TzGc', title: 'Bond Order, Bond Lengths, and Bond Strengths', ch: 'Shawn Shields', dur: '4:47' } },
+  5: { id: 'fYCzeFEAfjg', title: 'Resonance Structures/Assigning Formal Charge', ch: 'Professor Dave Explains', dur: '12:32', alt: { id: '9B5FGPDwX_E', title: 'Resonance Structures, Basic Introduction - How To Draw The Resonance Hybrid, Chemistry', ch: 'The Organic Chemistry Tutor', dur: '10:31' } },
+  6: { id: 'Q9-JjyAEqnU', title: 'VSEPR Theory and Molecular Geometry', ch: 'Professor Dave Explains', dur: '6:31', note: 'Dr. Meyers writes angles squeezed by lone pairs as less than the ideal: <120°, <109.5°.', alt: { id: 'W-_WS8c4Eeg', title: 'VSEPR Theory and Bond Angles | Melissa Maribel', ch: 'Chemmunity', dur: '11:11' } },
+  7: { id: 'Rh9T_xMwOu8', title: 'VSEPR theory and Molecular Geometry (Shape) - Fully Explained! (seesaw, t-shaped, square pyramidal)', ch: 'Chemistry with Dr Steph', dur: '7:35', alt: { id: 'cdo6FtSU_k8', title: 'VSEPR Theory Part 2: Trigonal Bipyramidal Family', ch: 'Tyler DeWitt', dur: '15:06' } },
+  8: { id: 'mpT5rVjP724', title: 'Molecular Shapes of Larger Molecules', ch: "Ben's Chem Videos", dur: '7:28', alt: { id: 'QApiTPGl64Q', title: 'Molecular Geometry when there are Multiple Central Atoms', ch: 'Science, Math, and Chemistry', dur: '4:13' } },
+  9: { id: 'QPd1nYyNhyc', title: 'Electronegativity and polar bonds', ch: 'Chemistry with Mrs V', dur: '4:59', note: 'Some videos use other cutoffs, like 0.5 or 1.7. Dr. Meyers uses 0.4 and 2.0.', alt: { id: 'gy456wJpJew', title: 'Polarity - Introduction to Polar and Nonpolar Molecules', ch: 'Chemistry with Dr Steph', dur: '5:30' } },
+  10: { id: 'cjE4KPcDD0o', title: 'Intermolecular Forces Examples - Hydrogen bonding, Dipole-dipole, London dispersion - Dr K', ch: 'ChemSimplified', dur: '7:51', alt: { id: 'e1a0JFv7BAQ', title: 'Intermolecular forces - London dispersion forces, dipole-dipole attractions, and hydrogen bonding', ch: 'ChemProfJH', dur: '14:21' } },
+  11: { id: 'ccUj222OFNY', title: 'How to rank boiling points from highest to lowest using IMF - Dr K', ch: 'ChemSimplified', dur: '6:01', alt: { id: 'fclHn2wHEYM', title: 'Boiling Point of NH3 and H2O (Explanation of Difference)', ch: 'Wayne Breslyn (Dr. B.)', dur: '1:29' } },
+  12: { id: 'Snnt0CpkWSM', title: 'How to Find the Percent Composition by Mass for a Compound', ch: 'Wayne Breslyn (Dr. B.)', dur: '5:59', alt: { id: 'lywmGCfIUIA', title: 'Percent Composition By Mass', ch: 'Tyler DeWitt', dur: '6:58' } },
+  13: { id: 'JeSSucG-CVw', title: 'Empirical Formula & Molecular Formula Determination From Percent Composition', ch: 'The Organic Chemistry Tutor', dur: '11:00', note: 'The part that finds a molecular formula from a molar mass is not on Exam 3.', alt: { id: 'jCOkJ7adp3c', title: 'Calculating Empirical Formulas with Percent Composition', ch: 'GGHS Chemistry', dur: '6:51' } },
+  14: { id: 'KLjWa9cE2uk', title: 'Molarity Made Easy: How to Calculate Molarity and Make Solutions', ch: 'ketzbook', dur: '8:46', alt: { id: 'QRnHFQLYS8w', title: 'Finding Grams and Liters Using Molarity - Final Exam Review', ch: 'Melissa Maribel', dur: '9:29' } },
+  15: { id: '_73qfPTsR_s', title: 'Concentration of Solution Formulas', ch: 'The Organic Chemistry Tutor', dur: '11:42', alt: { id: 'gR_3Z_02mi0', title: 'Parts Per Million (ppm) and Parts Per Billion (ppb) - Solution Concentration', ch: 'The Organic Chemistry Tutor', dur: '11:00' } },
+  16: { id: 'v6dnEp58mVk', title: 'Dilution Problems - Chemistry Tutorial', ch: 'TheChemistrySolution', dur: '6:14', alt: { id: 'qwkB_gLdg6s', title: 'Solution Dilutions: How to Make and Calculate Dilutions using M1V1=M2V2 with Examples!', ch: 'ItsDrDan', dur: '13:09' } },
+};
+
+// [SN, shape, lone pairs on the central atom, polar?, example]
+const TABLE = [
+  [2, 'linear', 0, false, 'CO2'],
+  [3, 'trigonal planar', 0, false, 'BF3'],
+  [3, 'bent', 1, true, 'SO2'],
+  [4, 'tetrahedral', 0, false, 'CCl4'],
+  [4, 'trigonal pyramidal', 1, true, 'NH3, PCl3'],
+  [4, 'bent', 2, true, 'H2O'],
+  [5, 'trigonal bipyramidal', 0, false, 'PCl5'],
+  [5, 'seesaw', 1, true, 'SF4'],
+  [5, 'T-shaped', 2, true, 'IF3'],
+  [5, 'linear', 3, false, 'XeF2'],
+  [6, 'octahedral', 0, false, 'SF6'],
+  [6, 'square pyramidal', 1, true, 'BrF5'],
+  [6, 'square planar', 2, false, 'XeF4'],
+];
+
+// unit: a header drawn above the level on the path; its first level is always open.
+const LEVELS = [
+  { n: 1, name: 'Valence electrons and ions', icon: 'dots', unit: 'Unit 1', uname: 'Lewis structures', sub: 'Ch 4.4 and 4.5, Handout 13' },
+  { n: 2, name: 'Polyatomic ions', icon: 'ion' },
+  { n: 3, name: 'Drawing Lewis structures', icon: 'dbl' },
+  { n: 4, name: 'Bond order and octet exceptions', icon: 'expand' },
+  { n: 5, name: 'Formal charge and resonance', icon: 'fc' },
+  { n: 6, name: 'VSEPR: steric number 2 to 4', icon: 'tetra', unit: 'Unit 2', uname: 'Shapes, polarity and IMFs', sub: 'Ch 4.6 and 10.1, Handouts 14 and 15' },
+  { n: 7, name: 'VSEPR: steric number 5 and 6', icon: 'octa' },
+  { n: 8, name: 'Interior atoms', icon: 'bent' },
+  { n: 9, name: 'Polar bonds and molecules', icon: 'bond' },
+  { n: 10, name: 'IMFs and the dominant force', icon: 'pair' },
+  { n: 11, name: 'Boiling points and solubility', icon: 'thermo' },
+  { n: 12, name: 'Percent composition', icon: 'pct', unit: 'Unit 3', uname: 'Composition and solutions', sub: 'Ch 6, Handouts 16 and 17' },
+  { n: 13, name: 'Empirical formulas', icon: 'ratio' },
+  { n: 14, name: 'Solutions and molarity', icon: 'flask' },
+  { n: 15, name: 'Percent and ppm', icon: 'drop' },
+  { n: 16, name: 'Dilution', icon: 'dilute' },
+];
+
+// mc: a[0] is correct (options shuffle on screen). type: re tests the normalized answer.
+// boss: true keeps a question out of its level and in the boss pool only.
+// Charges and exponents use ^ (SO4^2-, 10^6); the page renders them as superscripts.
+const Q = [
+  { lv: 1, t: 'mc', q: 'How many valence electrons does a neutral sulfur atom have?', a: ['6', '16', '4', '2'], why: 'S is in group 6A, so it has 6 valence electrons (3s^2 3p^4). 16 is its atomic number.' },
+  { lv: 1, t: 'mc', q: 'How many dots go around B in the Lewis symbol of a boron atom?', a: ['3', '5', '2', '8'], why: 'Boron is in group 3A, so 3 valence electrons. Dr. Meyers draws one pair and one single dot.' },
+  { lv: 1, t: 'mc', q: 'Which is the Lewis structure of the lithium ion?', a: ['[Li]^+ with no dots', 'Li with one dot', '[Li]^+ with eight dots', '[Li]^- with two dots'], why: 'Li gives up its one valence electron. Nothing is left to show, so it is written [Li]^+ with no dots.' },
+  { lv: 1, t: 'mc', q: 'How many dots surround N in the Lewis structure of the nitride ion, N^3-?', a: ['8', '5', '3', '2'], why: 'N has 5 valence electrons and gains 3, giving 8. The ion goes in brackets with 3- outside.' },
+  { lv: 1, t: 'mc', q: 'How is the Lewis structure of NaCl drawn?', a: ['[Na]^+ and [Cl]^- as separate bracketed ions, with 8 dots on Cl', 'Na-Cl with a single bond line', 'Na=Cl with a double bond', 'One neutral NaCl unit sharing 8 dots'], why: 'NaCl is ionic. The electron is transferred, not shared, so there is no bond line.' },
+  { lv: 1, t: 'mc', q: 'Which Lewis structure fits CaCl2?', a: ['[Cl]^- [Ca]^2+ [Cl]^-, with 8 dots on each Cl and none on Ca', 'Cl-Ca-Cl with two single bonds', '[Ca]^2+ [Cl2]^2-, with Cl2 drawn as one unit', 'Ca=Cl with a double bond to one Cl'], why: 'Ca loses 2 electrons and each Cl gains 1. Ionic compounds are drawn as separate ions with their charges.' },
+  { lv: 1, t: 'mc', q: 'A lone pair is', a: ['Two valence electrons that stay on one atom', 'Two electrons shared between two atoms', 'Any electron in an inner shell', 'A single unpaired electron'], why: 'A bonding pair is shared and drawn as a line. A lone pair belongs to one atom and is drawn as two dots.' },
+  { lv: 1, t: 'mc', q: 'How many bonding pairs and lone pairs does water have?', a: ['2 bonding pairs and 2 lone pairs on O', '2 bonding pairs and no lone pairs', '4 bonding pairs and 2 lone pairs', '1 bonding pair and 3 lone pairs'], why: '8 valence electrons. The two O-H bonds use 4, and the other 4 sit on O as 2 lone pairs.' },
+  { lv: 1, t: 'mc', q: 'In a neutral molecule, nitrogen usually makes how many bonds?', a: ['3', '4', '2', '5'], why: 'N has 5 valence electrons and needs 3 more for an octet: 3 bonds plus 1 lone pair, as in NH3.' },
+  { lv: 1, t: 'type', q: 'How many bonds does carbon usually make in a neutral molecule?', ans: '4', re: '^(4|four)$', why: 'C has 4 valence electrons and needs 4 more: 4 bonds and no lone pairs, as in CH4.' },
+  { lv: 1, t: 'type', q: 'How many bonds does sulfur usually make in a neutral molecule?', ans: '2', re: '^(2|two)$', why: 'S, like O, has 6 valence electrons and needs 2 more (Chapter 4 Part 2 worksheet, #2).' },
+  { lv: 1, t: 'type', q: 'How many dots surround Mg in the Lewis structure of the Mg^2+ ion?', ans: '0', re: '^(0|zero|none)$', why: 'Mg gives up both valence electrons, so [Mg]^2+ shows no dots.' },
+
+  { lv: 2, t: 'mc', q: 'Sulfate is', a: ['SO4^2-', 'SO3^2-', 'SO4^-', 'S2O4^2-'], why: 'Sulfate is SO4^2-. SO3^2- is sulfite, which is not on the list.' },
+  { lv: 2, t: 'mc', q: 'Phosphate is', a: ['PO4^3-', 'PO3^3-', 'PO4^2-', 'P2O4^3-'], why: 'Phosphate is PO4^3-, with 5 + 4(6) + 3 = 32 valence electrons.' },
+  { lv: 2, t: 'mc', q: 'Ammonium is', a: ['NH4^+', 'NH3^+', 'NH4^-', 'NH3'], why: 'Ammonium is NH4^+. NH3 is ammonia, a neutral molecule.' },
+  { lv: 2, t: 'mc', q: 'Hydronium is', a: ['H3O^+', 'H2O^+', 'OH^-', 'H3O^-'], why: 'Hydronium is H3O^+, a water molecule plus an H^+. OH^- is hydroxide.' },
+  { lv: 2, t: 'mc', q: 'Chlorate is', a: ['ClO3^-', 'ClO4^-', 'ClO2^-', 'Cl^-'], why: 'Chlorate is ClO3^-. ClO4^- is perchlorate, ClO2^- is chlorite (Handout 13, #5), and Cl^- is chloride.' },
+  { lv: 2, t: 'mc', q: 'Carbonate is', a: ['CO3^2-', 'CO3^-', 'CO2^2-', 'C2O4^2-'], why: 'Carbonate is CO3^2-, with 4 + 3(6) + 2 = 24 valence electrons.' },
+  { lv: 2, t: 'mc', q: 'Acetate is', a: ['C2H3O2^-', 'C2H3O2^+', 'CH3O^-', 'C2H5O^-'], why: 'Acetate is C2H3O2^-, also written CH3COO^-.' },
+  { lv: 2, t: 'type', q: 'Name the ion OH^-.', ans: 'hydroxide', re: '^hydroxide(ion)?$', why: 'OH^- is hydroxide. It has 8 valence electrons and a -1 formal charge on O.' },
+  { lv: 2, t: 'type', q: 'Name the ion NO3^-.', ans: 'nitrate', re: '^nitrate(ion)?$', why: 'NO3^- is nitrate. NO2^- is nitrite.' },
+  { lv: 2, t: 'type', q: 'How many valence electrons are in the carbonate ion, CO3^2-?', ans: '24', re: '^24$', why: '4 + 3(6) + 2 = 24. Add 2 for the 2- charge.' },
+  { lv: 2, t: 'mc', q: 'How many valence electrons are in NH4^+?', a: ['8', '9', '10', '11'], why: '5 + 4(1) - 1 = 8. A positive charge removes an electron.' },
+  { lv: 2, t: 'mc', q: 'Which element has the symbol Mn?', a: ['Manganese', 'Magnesium', 'Molybdenum', 'Mercury'], why: 'Mn is manganese, element 25. Magnesium is Mg, molybdenum is Mo and mercury is Hg.' },
+  { lv: 2, t: 'mc', q: 'What is the symbol for potassium?', a: ['K', 'P', 'Po', 'Pt'], why: 'Potassium is K, element 19. P is phosphorus.' },
+
+  { lv: 3, t: 'mc', q: 'How many valence electrons are in NBr3?', a: ['26', '24', '28', '22'], why: '5 + 3(7) = 26.' },
+  { lv: 3, t: 'mc', q: 'Which atom is central in CH2O?', a: ['C', 'O', 'H', 'Either C or O'], why: 'C makes 4 bonds and O makes 2, so C goes in the middle. H is never central.' },
+  { lv: 3, t: 'mc', q: 'In formaldehyde, CH2O, the carbon-oxygen bond is', a: ['A double bond', 'A single bond', 'A triple bond', 'An ionic bond'], why: 'With single bonds only, C ends at 6 electrons. Sharing one O lone pair makes C=O and gives C its octet.' },
+  { lv: 3, t: 'mc', q: 'The Lewis structure of O2 has', a: ['O=O with two lone pairs on each O', 'O-O with three lone pairs on each O', 'O≡O with one lone pair on each O', 'O-O with two lone pairs on each O'], why: 'O2 has 12 electrons. O-O with three lone pairs on each O would need 14. O=O with two lone pairs on each uses exactly 12 and gives both O an octet.' },
+  { lv: 3, t: 'mc', q: 'How many lone pairs sit on N in NBr3?', a: ['1', '0', '2', '3'], why: '26 electrons - 6 in bonds - 18 in the Br lone pairs = 2 left, one lone pair on N.' },
+  { lv: 3, t: 'mc', q: 'How many valence electrons are in the chlorite ion, ClO2^-?', a: ['20', '19', '21', '18'], why: '7 + 2(6) + 1 = 20. The negative charge adds one.' },
+  { lv: 3, t: 'mc', q: 'For a cation, the charge is', a: ['Subtracted from the valence electron total', 'Added to the valence electron total', 'Ignored when counting electrons', 'Added as a lone pair on the central atom'], why: 'A cation has lost electrons. NH4^+: 5 + 4 - 1 = 8.' },
+  { lv: 3, t: 'mc', q: 'The single bonds are in and the terminal atoms are full (2 on H, 8 on the rest), but the central C, N or O has only 6 electrons. Next step?', a: ['Share a terminal lone pair as a second bond to the central atom', 'Add two more electrons to the total', 'Remove a terminal atom', 'Put a lone pair on a hydrogen'], why: 'Step 5: when you are short of electrons, share them through a multiple bond.' },
+  { lv: 3, t: 'mc', q: 'Which molecule has a triple bond?', a: ['N2', 'O2', 'F2', 'H2O'], why: 'N2 has 10 electrons: N≡N with one lone pair on each N. O2 has a double bond, and F2 and H2O have only single bonds.' },
+  { lv: 3, t: 'mc', q: 'The Lewis structure of HCN, with C in the middle, is', a: ['H-C≡N with one lone pair on N', 'H-C=N with two lone pairs on N', 'H-C-N with three lone pairs on N', 'H=C=N with one lone pair on N'], why: '1 + 4 + 5 = 10 electrons. H-C≡N with one lone pair on N uses all 10 and gives C and N octets. H only ever makes one bond.' },
+  { lv: 3, t: 'type', q: 'How many valence electrons are in SO4^2-?', ans: '32', re: '^32$', why: '6 + 4(6) + 2 = 32.' },
+  { lv: 3, t: 'type', q: 'How many valence electrons are in CO2?', ans: '16', re: '^16$', why: '4 + 2(6) = 16, drawn as O=C=O with two lone pairs on each O.' },
+  { lv: 3, t: 'type', q: 'How many electrons are in the Lewis structure of H2?', ans: '2', re: '^(2|two)$', why: 'Each H brings 1. One shared pair, H-H, gives each H its duet.' },
+
+  { lv: 4, t: 'mc', q: 'Rank the carbon-carbon bonds from shortest to longest.', a: ['C≡C < C=C < C-C', 'C-C < C=C < C≡C', 'C=C < C≡C < C-C', 'All three are the same length'], why: 'More shared pairs pull the atoms closer: C≡C 120 pm, C=C 134 pm, C-C 154 pm.' },
+  { lv: 4, t: 'mc', q: 'Which bond is the strongest?', a: ['N≡N', 'N=N', 'N-N', 'All three are equally strong'], why: 'Triple > double > single for the same two atoms: 946, 418 and 163 kJ/mol.' },
+  { lv: 4, t: 'mc', q: 'Compared with a C-O single bond, a C=O double bond is', a: ['Shorter and stronger', 'Longer and stronger', 'Shorter and weaker', 'Longer and weaker'], why: 'C=O is 120 pm and 736 kJ/mol. C-O is 143 pm and 360 kJ/mol.' },
+  { lv: 4, t: 'mc', q: 'A double bond contains how many shared electrons?', a: ['4', '2', '6', '8'], why: 'Two shared pairs, so 4 electrons.' },
+  { lv: 4, t: 'mc', q: 'NO has 11 valence electrons. It is', a: ['An odd-electron molecule (a free radical)', 'An expanded octet', 'An incomplete octet', 'An ionic compound'], why: 'An odd total cannot pair up completely, so one atom, N, ends with 7. That is the odd-electron case. An incomplete octet is an even count that stops at 6 around a group 3A atom, like B in BF3.' },
+  { lv: 4, t: 'mc', q: 'In BF3, boron has how many electrons around it?', a: ['6', '8', '10', '4'], why: 'Three B-F single bonds and no lone pairs on B: 6 electrons. A group 3A central atom is the incomplete-octet case.' },
+  { lv: 4, t: 'mc', q: 'Which central atom can hold an expanded octet?', a: ['S', 'O', 'N', 'C'], why: 'Only atoms from row 3 and below can hold more than 8. C, N, O and F always follow the octet rule.' },
+  { lv: 4, t: 'mc', q: 'Which molecule has an expanded octet on its central atom?', a: ['SF6', 'CF4', 'NF3', 'BF3'], why: 'S makes 6 bonds, 12 electrons. CF4 and NF3 have octets, and BF3 has only 6.' },
+  { lv: 4, t: 'mc', q: 'Which atom always follows the octet rule?', a: ['F', 'P', 'Xe', 'I'], why: 'C, N, O and F always follow the octet rule. P, Xe and I sit in row 3 or below and can expand.' },
+  { lv: 4, t: 'mc', q: 'How many valence electrons does ClF3 have, and how many sit around Cl?', a: ['28 total, 10 around Cl', '28 total, 8 around Cl', '26 total, 10 around Cl', '28 total, 6 around Cl'], why: '7 + 3(7) = 28. Cl makes 3 bonds and keeps 2 lone pairs: 6 + 4 = 10, an expanded octet.' },
+  { lv: 4, t: 'type', q: 'How many valence electrons are in NO2?', ans: '17', re: '^17$', why: '5 + 2(6) = 17, an odd number, so NO2 is a free radical.' },
+  { lv: 4, t: 'type', q: 'How many electrons surround S in SF6?', ans: '12', re: '^12$', why: 'Six S-F bonds at 2 electrons each. S is in row 3, so it can expand.' },
+  { lv: 4, t: 'type', q: 'How many electrons surround P in PCl5?', ans: '10', re: '^10$', why: 'Five P-Cl bonds and no lone pairs on P.' },
+
+  { lv: 5, t: 'mc', q: 'Formal charge equals', a: ['Valence electrons - (lone-pair electrons + ½ bonding electrons)', 'Valence electrons + lone-pair electrons - bonding electrons', 'Bonding electrons - lone-pair electrons', 'Number of bonds - number of lone pairs'], why: 'Shortcut: valence electrons minus (dots + lines) on that atom.' },
+  { lv: 5, t: 'mc', q: 'What is the formal charge on O in water?', a: ['0', '-1', '+1', '-2'], why: 'O has 4 dots and 2 lines: 6 - (4 + 2) = 0.' },
+  { lv: 5, t: 'mc', q: 'What is the formal charge on N in NH4^+?', a: ['+1', '0', '-1', '+4'], why: 'N has no dots and 4 lines: 5 - (0 + 4) = +1. The charges add to the ion charge, +1.' },
+  { lv: 5, t: 'mc', q: 'What is the formal charge on O in OH^-?', a: ['-1', '0', '+1', '-2'], why: 'O has 3 lone pairs and 1 bond: 6 - (6 + 1) = -1. That is the circled minus in Dr. Meyers\' key.' },
+  { lv: 5, t: 'mc', q: 'In a polyatomic ion, the formal charges add up to', a: ['The charge of the ion', 'Zero', 'The number of bonds', 'The number of lone pairs'], why: 'They add to 0 in a neutral molecule and to the ion charge in an ion, like -1 for NO2^-.' },
+  { lv: 5, t: 'mc', q: 'By Dr. Meyers\' rules, the best Lewis structure has', a: ['The right electron count, octets where required, and formal charges closest to zero', 'The most double bonds', 'The most lone pairs on the central atom', 'Every formal charge on the central atom'], why: 'His NO2^- key: correct valence electrons, each atom has its octet, and formal charges equal to or closest to zero.' },
+  { lv: 5, t: 'mc', q: 'For NO2^-, why is O=N=O with a lone pair on N not allowed?', a: ['N would hold 10 electrons, and N never exceeds an octet', 'N would hold only 6 electrons', 'The structure has only 16 electrons', 'O cannot form a double bond'], why: 'The count is right (18), but two double bonds plus a lone pair put 10 electrons on N. C, N, O and F never go over 8.' },
+  { lv: 5, t: 'mc', q: 'In the best structure of NO2^-, the -1 formal charge sits on', a: ['The singly bonded O', 'N', 'The doubly bonded O', 'No atom, because every charge is zero'], why: 'O=N-O^-: N is 5 - (2 + 3) = 0, the double-bonded O is 6 - (4 + 2) = 0, and the single-bonded O is 6 - (6 + 1) = -1.' },
+  { lv: 5, t: 'mc', q: 'Which chlorite (ClO2^-) structure did Dr. Meyers call best (Handout 13, #5)?', a: ['O=Cl-O^- and its mirror image', 'All single bonds, with a charge on every atom', 'Cl bonded to two O with no lone pairs on Cl', 'An O-O bond with Cl on the end'], why: 'Cl is in row 3, so it can take 10 electrons to bring its formal charge to 0, leaving one charged O. The all-single-bond form is valid but puts a charge on every atom.' },
+  { lv: 5, t: 'mc', q: 'Resonance structures differ only in', a: ['Where the lone pairs and multiple bonds go', 'Where the atoms go', 'The total number of electrons', 'The overall charge'], why: 'The atoms stay put. Only electrons move between resonance forms.' },
+  { lv: 5, t: 'mc', q: 'Ozone, O3, has two equivalent resonance forms. The bond order of each O-O bond is', a: ['1.5', '1', '2', '3'], why: 'One form has the double bond on the left and the other on the right. The real molecule averages them: (1 + 2) ÷ 2 = 1.5.' },
+  { lv: 5, t: 'mc', q: 'How many resonance structures does nitrate, NO3^-, have?', a: ['3', '1', '2', '4'], why: 'The N=O double bond can sit on any of the three O atoms.' },
+  { lv: 5, t: 'mc', q: 'Phosphate is drawn with one P=O and three P-O single bonds. The formal charge on P is', a: ['0', '+1', '-1', '+5'], why: 'P has no dots and 5 lines: 5 - 5 = 0. Each single-bonded O is -1, adding up to -3. P is in row 3, so it can hold 10 electrons.' },
+  { lv: 5, t: 'type', q: 'What is the formal charge on C in CO2 (O=C=O)?', ans: '0', re: '^(0|zero)$', why: 'C has no dots and 4 lines: 4 - 4 = 0. Each O: 6 - (4 + 2) = 0.' },
+
+  { lv: 6, t: 'mc', q: 'What is the steric number of C in CO2?', a: ['2', '4', '3', '6'], why: 'Two O atoms and no lone pairs on C. Each double bond counts once.' },
+  { lv: 6, t: 'mc', q: 'Water: electron-pair geometry and molecular geometry?', a: ['Tetrahedral and bent', 'Bent and bent', 'Tetrahedral and tetrahedral', 'Trigonal planar and bent'], why: 'SN 4 (2 H + 2 lone pairs) gives a tetrahedral electron-pair geometry. Naming only the atoms gives bent.' },
+  { lv: 6, t: 'mc', q: 'The molecular geometry of NH3 is', a: ['Trigonal pyramidal', 'Trigonal planar', 'Tetrahedral', 'T-shaped'], why: 'SN 4: 3 H + 1 lone pair.' },
+  { lv: 6, t: 'mc', q: 'The H-N-H angle in NH3 is', a: ['Less than 109.5°', 'Exactly 109.5°', '120°', '90°'], why: 'The lone pair takes more room than a bond and squeezes the angles. Write <109.5°.' },
+  { lv: 6, t: 'mc', q: 'BF3: shape and bond angle?', a: ['Trigonal planar, 120°', 'Trigonal pyramidal, <109.5°', 'T-shaped, <90°', 'Bent, <120°'], why: 'SN 3 with no lone pairs on B, so the angle is exactly 120°.' },
+  { lv: 6, t: 'mc', q: 'SO2: shape and bond angle?', a: ['Bent, <120°', 'Linear, 180°', 'Bent, <109.5°', 'Trigonal planar, 120°'], why: 'Dr. Meyers draws O=S=O with a lone pair on S. SN 3 (2 O + 1 lone pair) gives bent, under 120°.' },
+  { lv: 6, t: 'mc', q: 'The molecular geometry of PCl3 is', a: ['Trigonal pyramidal', 'Trigonal planar', 'T-shaped', 'Tetrahedral'], why: '26 electrons, so P has 3 bonds and 1 lone pair. SN 4, trigonal pyramidal, <109.5°.' },
+  { lv: 6, t: 'mc', q: 'CH2O: shape and bond angle?', a: ['Trigonal planar, 120°', 'Tetrahedral, 109.5°', 'Bent, <120°', 'Trigonal pyramidal, <109.5°'], why: 'SN 3: two H and one O, with C=O counted once and no lone pairs on C.' },
+  { lv: 6, t: 'mc', q: 'Which molecule has the smallest bond angle?', a: ['H2O', 'NH3', 'CH4', 'BF3'], why: 'Two lone pairs squeeze hardest: H2O about 104.5°, NH3 about 107°, CH4 109.5°, BF3 120°.' },
+  { lv: 6, t: 'mc', q: 'How do electron-pair geometry and molecular geometry differ?', a: ['Electron-pair geometry counts lone pairs as positions; molecular geometry names only where the atoms are', 'They always have the same name', 'Molecular geometry counts lone pairs; electron-pair geometry ignores them', 'Electron-pair geometry only applies to ions'], why: 'They match only when the central atom has no lone pairs.' },
+  { lv: 6, t: 'type', q: 'What is the steric number of C in CH4?', ans: '4', re: '^(4|four)$', why: '4 H atoms and no lone pairs: tetrahedral, 109.5°.' },
+  { lv: 6, t: 'type', q: 'Ideal bond angle of a tetrahedral molecule, in degrees?', ans: '109.5', re: '^109\\.5(°|degrees?)?$', why: 'Tetrahedral is 109.5°. Lone pairs push it lower.' },
+  { lv: 6, t: 'type', q: 'Bond angle in a linear molecule, in degrees?', ans: '180', re: '^180(°|degrees?)?$', why: 'Linear is 180°, as in CO2.' },
+
+  { lv: 7, t: 'mc', q: 'The molecular geometry of SF4 is', a: ['Seesaw', 'Tetrahedral', 'Square planar', 'Trigonal pyramidal'], why: '34 electrons: S has 4 bonds and 1 lone pair, SN 5. The lone pair goes equatorial, which leaves a seesaw.' },
+  { lv: 7, t: 'mc', q: 'The molecular geometry of ClF3 is', a: ['T-shaped', 'Trigonal planar', 'Trigonal pyramidal', 'Seesaw'], why: 'SN 5 with 2 lone pairs. Both go equatorial, so the three F atoms form a T.' },
+  { lv: 7, t: 'mc', q: 'The molecular geometry of XeF2 is', a: ['Linear', 'Bent', 'T-shaped', 'Seesaw'], why: '22 electrons: Xe has 2 bonds and 3 lone pairs, SN 5. All three lone pairs sit equatorial, so F-Xe-F is 180°.' },
+  { lv: 7, t: 'mc', q: 'The molecular geometry of XeF4 is', a: ['Square planar', 'Tetrahedral', 'Seesaw', 'Square pyramidal'], why: '36 electrons: Xe has 4 bonds and 2 lone pairs, SN 6. The second lone pair goes opposite the first.' },
+  { lv: 7, t: 'mc', q: 'The molecular geometry of BrF5 is', a: ['Square pyramidal', 'Trigonal bipyramidal', 'Octahedral', 'Seesaw'], why: '42 electrons: Br has 5 bonds and 1 lone pair, SN 6.' },
+  { lv: 7, t: 'mc', q: 'In a trigonal bipyramid, lone pairs go', a: ['Equatorial first', 'Axial first', 'Anywhere there is room', 'One axial, then one equatorial'], why: 'An equatorial position has only two neighbors at 90°, so it has more room (Handout 14, footnote 1).' },
+  { lv: 7, t: 'mc', q: 'The bond angles in PCl5 are', a: ['90° (axial to equatorial) and 120° (equatorial to equatorial)', '109.5° only', '90° only', '120° only'], why: 'SN 5 with no lone pairs: trigonal bipyramidal.' },
+  { lv: 7, t: 'mc', q: 'The F-Cl-F bond angle in ClF3 is predicted to be', a: ['Less than 90°', 'Exactly 90°', '120°', '109.5°'], why: 'T-shaped. The two lone pairs push the F atoms together, so each axial-to-equatorial F-Cl-F angle drops below 90° (Chapter 4 Part 2 worksheet, #4).' },
+  { lv: 7, t: 'mc', q: 'What is the molecular geometry of IBr3?', a: ['T-shaped', 'Trigonal pyramidal', 'Trigonal planar', 'Seesaw'], why: '28 electrons, like ClF3. I has 3 bonds and 2 lone pairs, SN 5.' },
+  { lv: 7, t: 'mc', q: 'XeO3, drawn with three Xe=O and one lone pair on Xe, has what shape?', a: ['Trigonal pyramidal', 'Trigonal planar', 'T-shaped', 'Tetrahedral'], why: 'Three O atoms + 1 lone pair = SN 4. Double bonds count once.' },
+  { lv: 7, t: 'mc', q: 'The molecular geometry of SF6 is', a: ['Octahedral', 'Trigonal bipyramidal', 'Square planar', 'Hexagonal'], why: 'SN 6 with no lone pairs. Every angle between neighboring F atoms is 90°.' },
+  { lv: 7, t: 'type', q: 'What is the steric number of Xe in XeF4?', ans: '6', re: '^(6|six)$', why: '4 F + 2 lone pairs.' },
+  { lv: 7, t: 'type', q: 'How many lone pairs are on Cl in ClF3?', ans: '2', re: '^(2|two)$', why: '28 - 6 in bonds - 18 on the three F = 4 electrons, so 2 lone pairs on Cl.' },
+
+  { lv: 8, t: 'mc', q: 'In ethane, H3C-CH3, each carbon is', a: ['Tetrahedral', 'Trigonal planar', 'Linear', 'Trigonal pyramidal'], why: 'Each C has 4 single bonds and no lone pairs: SN 4.' },
+  { lv: 8, t: 'mc', q: 'In ethene, H2C=CH2, each carbon is', a: ['Trigonal planar', 'Tetrahedral', 'Linear', 'Bent'], why: 'Each C bonds to 3 atoms (2 H and the other C), and the double bond counts once: SN 3.' },
+  { lv: 8, t: 'mc', q: 'In ethyne, HC≡CH, each carbon is', a: ['Linear', 'Trigonal planar', 'Tetrahedral', 'Bent'], why: 'Each C bonds to 2 atoms: SN 2, 180°.' },
+  { lv: 8, t: 'mc', q: 'The oxygen in methanol, CH3-O-H, is', a: ['Bent', 'Linear', 'Trigonal planar', 'Tetrahedral'], why: 'O bonds to C and H and keeps 2 lone pairs: SN 4, bent, <109.5°.' },
+  { lv: 8, t: 'mc', q: 'In glycine, H2N-CH2-COOH, the nitrogen is', a: ['Trigonal pyramidal', 'Trigonal planar', 'Tetrahedral', 'Bent'], why: 'N bonds to 2 H and C and keeps 1 lone pair: SN 4 (Handout 14, #3).' },
+  { lv: 8, t: 'mc', q: 'In glycine, the carbon of the COOH group is', a: ['Trigonal planar', 'Tetrahedral', 'Linear', 'Trigonal pyramidal'], why: 'It bonds to C, O and O (C=O counts once) and has no lone pairs: SN 3.' },
+  { lv: 8, t: 'mc', q: 'In glycine, the CH2 carbon is', a: ['Tetrahedral', 'Trigonal planar', 'Bent', 'Linear'], why: 'Four single bonds (N, C and 2 H): SN 4.' },
+  { lv: 8, t: 'mc', q: 'In acetic acid, CH3COOH, the oxygen of the O-H group is', a: ['Bent', 'Linear', 'Trigonal planar', 'Trigonal pyramidal'], why: 'Bonded to C and H with 2 lone pairs: SN 4, bent.' },
+  { lv: 8, t: 'mc', q: 'The nitrogen in methylamine, CH3-NH2, is', a: ['Trigonal pyramidal', 'Trigonal planar', 'Bent', 'Tetrahedral'], why: 'N bonds to C and 2 H and keeps 1 lone pair: SN 4.' },
+  { lv: 8, t: 'mc', q: 'In HCN, the carbon is', a: ['Linear', 'Bent', 'Trigonal planar', 'Tetrahedral'], why: 'C bonds to H and N, and the triple bond counts once: SN 2.' },
+  { lv: 8, t: 'type', q: 'Steric number of the carbonyl carbon (the C in C=O) in acetic acid?', ans: '3', re: '^(3|three)$', why: 'Bonded to CH3, =O and -OH, with no lone pairs: trigonal planar.' },
+  { lv: 8, t: 'type', q: 'Steric number of the N in glycine?', ans: '4', re: '^(4|four)$', why: '3 atoms (2 H and C) + 1 lone pair: trigonal pyramidal.' },
+
+  { lv: 9, t: 'mc', q: 'A bond whose electronegativity difference is 0.4 or less is', a: ['Nonpolar covalent', 'Polar covalent', 'Ionic', 'A hydrogen bond'], why: '0 to 0.4 is nonpolar. C-H (2.5 vs 2.1) is exactly 0.4, so C-H counts as nonpolar.' },
+  { lv: 9, t: 'mc', q: 'Which bond is polar?', a: ['C-O', 'C-H', 'Cl-Cl', 'H-H'], why: 'C-O: 3.5 minus 2.5 is 1.0. C-H is 0.4, still nonpolar, and two identical atoms share electrons equally.' },
+  { lv: 9, boss: true, t: 'mc', q: 'In an O-H bond, the partial negative charge (δ−) sits on', a: ['The oxygen', 'The hydrogen', 'Both atoms equally', 'Neither atom'], why: 'O (3.5) pulls harder than H (2.1), so the shared electrons sit closer to O.' },
+  { lv: 9, t: 'mc', q: 'Which bond is the most polar?', a: ['H-F', 'O-H', 'N-H', 'C-H'], why: 'The differences are H-F 1.9, O-H 1.4, N-H 0.9 and C-H 0.4. The biggest difference is the most polar bond.' },
+  { lv: 9, t: 'mc', q: 'Using N 3.0 and Cl 3.0, an N-Cl bond is', a: ['Nonpolar', 'Polar', 'Ionic', 'A hydrogen bond'], why: 'The difference is 0.0. Both are NClOF atoms, so subtract instead of using the shortcut.' },
+  { lv: 9, boss: true, t: 'mc', q: 'A bond with an electronegativity difference of 2.5 is', a: ['Ionic', 'Polar covalent', 'Nonpolar covalent', 'A hydrogen bond'], why: 'Above 2.0 counts as ionic.' },
+  { lv: 9, t: 'type', q: 'Electronegativity of oxygen?', ans: '3.5', re: '^3\\.50*$', why: 'NClOF: F 4.0, O 3.5, N 3.0, Cl 3.0.' },
+  { lv: 9, t: 'type', q: 'Electronegativity of fluorine?', ans: '4.0', re: '^4(\\.0+)?$', why: 'Fluorine is the most electronegative element.' },
+  { lv: 9, t: 'type', q: 'Electronegativity difference in a C-O bond?', ans: '1.0', re: '^1(\\.0+)?$', why: 'O 3.5 minus C 2.5 is 1.0, so C-O is polar.' },
+  { lv: 9, t: 'mc', q: 'CO2 is nonpolar because', a: ['Its two C=O dipoles point in opposite directions and cancel', 'C=O bonds are nonpolar', 'Carbon has two lone pairs', 'The molecule is bent'], why: 'C=O is polar (a difference of 1.0), but CO2 is linear, so the two dipoles cancel exactly.' },
+  { lv: 9, boss: true, t: 'mc', q: 'Which molecule is polar?', a: ['H2O', 'CO2', 'CH4', 'CCl4'], why: 'Water is bent, so its O-H dipoles add. The other three are symmetric: CO2 is linear, and CH4 and CCl4 are tetrahedral.' },
+  { lv: 9, t: 'mc', q: 'Which molecule is nonpolar?', a: ['CCl4', 'CH2Cl2', 'NH3', 'HCl'], why: 'Four identical C-Cl dipoles in a tetrahedron cancel. CH2Cl2 has mixed outer atoms, NH3 has a lone pair, and HCl has a single polar bond.' },
+  { lv: 9, t: 'mc', q: 'NH3 is polar mainly because', a: ['The lone pair on N makes it trigonal pyramidal, so the N-H dipoles do not cancel', 'N-H bonds are nonpolar', 'It is trigonal planar', 'Nitrogen forms a double bond with hydrogen'], why: 'Electron geometry tetrahedral, molecular geometry trigonal pyramidal. The three N-H dipoles all tilt the same way.' },
+  { lv: 9, t: 'mc', q: 'Formaldehyde, CH2O, is', a: ['Polar, because the C=O dipole is not balanced by the two C-H bonds', 'Nonpolar, because every trigonal planar molecule is nonpolar', 'Nonpolar, because carbon has no lone pairs', 'Ionic'], why: 'Trigonal planar cancels only when all three outer atoms are the same. Here one is O and two are H.' },
+  { lv: 9, boss: true, t: 'mc', q: 'SO2 is', a: ['Polar: the lone pair on S makes it bent', 'Nonpolar: it is linear like CO2', 'Nonpolar: S-O bonds are nonpolar', 'Nonpolar: the two S-O dipoles cancel'], why: 'SN 3 with 1 lone pair gives a bent shape. S-O is polar (2.5 vs 3.5), and a bent shape does not cancel.' },
+  { lv: 9, t: 'mc', q: 'IF3 (T-shaped) is', a: ['Polar', 'Nonpolar, because all three outer atoms are F', 'Nonpolar, because I-F bonds are nonpolar', 'Ionic'], why: 'Identical outer atoms are not enough. The 2 lone pairs on I leave a T, and a T does not cancel.' },
+  { lv: 9, t: 'type', q: 'CO2: polar or nonpolar?', ans: 'nonpolar', re: '^nonpolar(molecule)?$', why: 'Polar C=O bonds, but the linear shape cancels them.' },
+  { lv: 9, boss: true, t: 'mc', q: 'A molecule with polar bonds can still be nonpolar when', a: ['Its symmetric shape makes the bond dipoles cancel', 'Its central atom has a lone pair', 'It contains hydrogen', 'It has a double bond'], why: 'Polarity needs polar bonds and a shape that keeps them from canceling. CO2 and CCl4 have polar bonds and are nonpolar.' },
+  { lv: 9, boss: true, t: 'mc', q: 'BF3 is trigonal planar and every outer atom is F. The molecule is', a: ['Nonpolar', 'Polar, because each B-F bond is polar', 'Polar, because boron has a lone pair', 'Polar, because the molecule is bent'], why: 'Each B-F bond is polar, but three identical dipoles at 120° cancel. Boron has no lone pair in BF3.' },
+  { lv: 9, boss: true, t: 'mc', q: 'XeF4 has two lone pairs on Xe yet is nonpolar, because', a: ['The lone pairs sit opposite each other, leaving a square planar shape whose Xe-F dipoles cancel', 'Xe-F bonds are nonpolar', 'Lone pairs never affect polarity', 'XeF4 is tetrahedral'], why: 'The second lone pair goes opposite the first (Handout 14, footnote 2). The four F sit in a flat square and cancel.' },
+  { lv: 10, t: 'mc', q: 'Intermolecular forces are', a: ['Attractions between separate molecules', 'The covalent bonds inside a molecule', 'Attractions between the nucleus and electrons of one atom', 'The ionic bonds in a salt'], why: 'Inter means between. The bonds inside a molecule are intramolecular, and they are much stronger.' },
+  { lv: 10, t: 'mc', q: 'When liquid water boils, what is overcome?', a: ['The hydrogen bonds between water molecules', 'The O-H covalent bonds inside each molecule', 'The forces inside the oxygen nucleus', 'Ionic bonds between H and O'], why: 'Boiling separates molecules from each other. The steam is still H2O, so no O-H bond broke.' },
+  { lv: 10, t: 'mc', q: 'Which IMF is present in every molecule?', a: ['Dispersion forces', 'Dipole-dipole forces', 'Hydrogen bonding', 'Ion-dipole forces'], why: 'Every molecule has electrons that can shift for an instant. Dipole-dipole needs a polar molecule, and hydrogen bonding needs H on N, O or F.' },
+  { lv: 10, boss: true, t: 'mc', q: 'Dispersion forces get stronger as molecules', a: ['Have more electrons, meaning larger and heavier molecules', 'Get smaller', 'Lose their lone pairs', 'Become more compact and ball-shaped'], why: 'A bigger electron cloud shifts more easily, so its brief dipoles are bigger.' },
+  { lv: 10, t: 'mc', q: 'A hydrogen bond can form when H is bonded directly to', a: ['N, O or F', 'C', 'Any nonmetal', 'A metal'], why: 'N, O and F are very electronegative and small, so the δ+ H can get close to a lone pair on the next molecule. Cl matches N at 3.0 but is much larger, so HCl does not hydrogen-bond.' },
+  { lv: 10, boss: true, t: 'mc', q: 'Dipole-dipole forces act between', a: ['Polar molecules', 'Nonpolar molecules only', 'Atoms inside one molecule', 'Noble-gas atoms'], why: 'The δ+ end of one polar molecule attracts the δ− end of the next.' },
+  { lv: 10, t: 'type', q: 'Name the IMF that every molecule has.', ans: 'dispersion', re: '^((london(dispersion)?|dispersion)(force|forces)?|ldfs?)$', why: 'Dispersion, also called London dispersion.' },
+  { lv: 10, boss: true, t: 'mc', q: 'As the number of electrons in a molecule rises, its polarizability', a: ['Rises, so dispersion gets stronger', 'Falls, so dispersion gets weaker', 'Rises, so dispersion gets weaker', 'Stays the same'], why: 'More electrons make a bigger cloud that shifts more easily. Higher polarizability means stronger dispersion.' },
+  { lv: 10, t: 'mc', q: 'To turn a gas into a liquid, you can', a: ['Lower the temperature or raise the pressure', 'Raise the temperature or lower the pressure', 'Raise the temperature only', 'Lower the pressure only'], why: 'Less kinetic energy, or particles pushed closer together, lets the IMFs take over.' },
+  { lv: 10, boss: true, t: 'mc', q: 'In a gas, which wins?', a: ['Disruptive forces (kinetic energy) win over cohesive forces', 'Cohesive forces (IMFs) win over disruptive forces', 'The two are always exactly equal', 'Neither acts in a gas'], why: 'Gas particles move fast enough to escape their IMFs. In a solid, the cohesive forces win.' },
+  { lv: 10, boss: true, t: 'mc', q: 'Which state has a definite volume but no definite shape?', a: ['Liquid', 'Solid', 'Gas', 'None of them'], why: 'A liquid takes the shape of its container but keeps its volume. A solid keeps both; a gas keeps neither.' },
+  { lv: 10, t: 'mc', q: 'The dominant IMF in methane, CH4, is', a: ['Dispersion', 'Dipole-dipole', 'Hydrogen bonding', 'Covalent bonding'], why: 'C-H bonds are nonpolar and the molecule is symmetric, so dispersion is all it has. Covalent bonds are not IMFs.' },
+  { lv: 10, t: 'mc', q: 'Which IMF does HCl have that CH4 does not?', a: ['Dipole-dipole', 'Hydrogen bonding', 'Dispersion', 'None; they have the same IMFs'], why: 'HCl is polar (3.0 vs 2.1). Its H is bonded to Cl, which is not N, O or F, so no hydrogen bonding. Both have dispersion.' },
+  { lv: 10, t: 'mc', q: 'The dominant IMF in ammonia, NH3, is', a: ['Hydrogen bonding', 'Dipole-dipole only', 'Dispersion only', 'Ionic bonding'], why: "H is bonded directly to N, and N has a lone pair for the next molecule's H." },
+  { lv: 10, t: 'mc', q: 'The dominant IMF between formaldehyde (CH2O) molecules is', a: ['Dipole-dipole', 'Hydrogen bonding', 'Dispersion only', 'Ionic bonding'], why: 'CH2O has H and O, but the H is bonded to C, so it is not δ+ enough to hydrogen-bond. CH2O is polar, so dipole-dipole.' },
+  { lv: 10, t: 'mc', q: 'The dominant IMF in methanol, CH3OH, is', a: ['Hydrogen bonding', 'Dipole-dipole', 'Dispersion only', 'Ionic bonding'], why: 'Its O-H puts an H directly on O.' },
+  { lv: 10, t: 'mc', q: 'The dominant IMF in iodine trifluoride, IF3, is', a: ['Dipole-dipole', 'Hydrogen bonding', 'Dispersion only', 'Ionic bonding'], why: 'IF3 is T-shaped and polar, and it has no H at all.' },
+  { lv: 10, t: 'type', q: 'Dominant IMF in water?', ans: 'hydrogen bonding', re: '^(hydrogen|h)(bond|bonds|bonding)(force|forces|interaction|interactions)?$', why: 'Water has H bonded directly to O.' },
+  { lv: 10, t: 'type', q: 'Dominant IMF in SO2?', ans: 'dipole-dipole', re: '^dipole(dipole)?(force|forces|attraction|attractions|interaction|interactions)?$', why: 'SO2 is bent and polar, with no H.' },
+  { lv: 10, boss: true, t: 'mc', q: 'The dominant IMF in CO2 is', a: ['Dispersion', 'Dipole-dipole', 'Hydrogen bonding', 'Ion-dipole'], why: 'Polar bonds, but the linear shape cancels them. A nonpolar molecule has dispersion only.' },
+  { lv: 11, t: 'mc', q: 'Which has the highest boiling point?', a: ['H2O', 'CH4', 'CO2', 'O2'], why: 'Water hydrogen-bonds and boils at 100 °C. The other three are nonpolar and are all gases at room temperature.' },
+  { lv: 11, t: 'mc', q: 'Ethanol and dimethyl ether share the formula C2H6O. Which boils higher, and why?', a: ['Ethanol, because its O-H lets it hydrogen-bond', 'Dimethyl ether, because it has stronger dispersion', 'Neither; the same formula means the same boiling point', 'Dimethyl ether, because only it is polar'], why: 'Ethanol boils at 78 °C and dimethyl ether at −24 °C. Same atoms, but only ethanol has H on O.' },
+  { lv: 11, boss: true, t: 'mc', q: 'Which halogen is a solid at room temperature?', a: ['I2', 'F2', 'Cl2', 'Br2'], why: 'All four are nonpolar, so dispersion decides. I2 has the most electrons. Br2 is a liquid; F2 and Cl2 are gases.' },
+  { lv: 11, t: 'mc', q: 'Boiling points of the noble gases from He to Xe', a: ['Rise, because dispersion grows with the number of electrons', 'Fall, because larger atoms are farther apart', 'Stay the same, because all are nonpolar', 'Rise, because heavier atoms hydrogen-bond'], why: 'Nonpolar atoms only have dispersion, and more electrons mean stronger dispersion.' },
+  { lv: 11, t: 'mc', q: 'Butane (a straight chain) boils at −0.5 °C and isobutane (branched) at −11.7 °C, both C4H10. Why?', a: ['Butane molecules can sit closer together, so their dispersion forces are stronger', 'Butane hydrogen-bonds', 'Isobutane is polar', 'Butane has more electrons'], why: 'Same formula, same electrons. The branched shape keeps isobutane molecules farther apart, so they attract each other less.' },
+  { lv: 11, boss: true, t: 'mc', q: 'As the IMFs in a liquid get stronger, its boiling point', a: ['Rises', 'Falls', 'Stays the same', 'Depends only on the covalent bonds'], why: 'More energy is needed to pull the molecules apart.' },
+  { lv: 11, t: 'mc', q: 'For molecules of similar size, the IMFs rank from strongest to weakest as', a: ['Hydrogen bonding > dipole-dipole > dispersion', 'Dispersion > dipole-dipole > hydrogen bonding', 'Dipole-dipole > hydrogen bonding > dispersion', 'All three are about equal'], why: 'Propane (44 g/mol, dispersion) boils at −42 °C, dimethyl ether (46 g/mol, dipole-dipole) at −24 °C, and ethanol (46 g/mol, hydrogen bonding) at 78 °C.' },
+  { lv: 11, t: 'type', q: 'Which boils higher, CH4 or H2O?', ans: 'H2O', re: '^(h2o|h20|water)$', why: 'Water hydrogen-bonds. Methane has dispersion only.' },
+
+  { lv: 11, t: 'mc', q: 'Is methane soluble in water?', a: ['No: methane is nonpolar and water is polar', 'Yes: both contain hydrogen', 'Yes: methane hydrogen-bonds with water', 'Only when heated'], why: 'Like dissolves like. Methane has dispersion forces only (Handout 15, #1).' },
+  { lv: 11, t: 'mc', q: 'Which IMFs are present in a sample of glucose?', a: ['Dispersion, dipole-dipole and hydrogen bonding', 'Hydrogen bonding only', 'Dipole-dipole only', 'Dispersion only'], why: 'Every molecule has dispersion. Glucose is polar, so dipole-dipole too, and its O-H groups add hydrogen bonding, the dominant one.' },
+  { lv: 11, t: 'mc', q: 'Which IMFs are present in a sample of ClF3?', a: ['Dispersion and dipole-dipole', 'Dispersion only', 'Dipole-dipole and hydrogen bonding', 'All three'], why: 'ClF3 is polar, so dipole-dipole. It has no O-H, N-H or F-H bond, so no hydrogen bonding (Chapter 4 Part 2 worksheet, #7).' },
+  { lv: 11, t: 'mc', q: 'Benzaldehyde, C6H5CHO, is a benzene ring carrying an H-C=O group. Its dominant IMF is', a: ['Dipole-dipole', 'Hydrogen bonding', 'Dispersion', 'Ion-dipole'], why: 'Every H is bonded to C, so there is no hydrogen bonding. The C=O makes the molecule polar, so its dominant IMF is dipole-dipole (Handout 15, #1). It is only slightly soluble in water because the polar C=O is a small part of a large nonpolar ring.' },
+  { lv: 11, t: 'mc', q: 'Which has the higher boiling point, helium or acetone?', a: ['Acetone, because its dipole-dipole forces beat helium\'s weak dispersion', 'Helium, because it is a noble gas', 'They boil at the same temperature', 'Helium, because its atoms are smaller'], why: 'He boils at −269 °C and acetone at 56 °C (Handout 15, #2). A stronger IMF takes more energy to overcome.' },
+  { lv: 11, t: 'mc', q: 'Hexane (C6H14) and water are poured together. They', a: ['Separate into two layers, because nonpolar hexane and polar water do not mix', 'Mix completely, because both are liquids', 'React to form a new compound', 'Mix, because both contain hydrogen'], why: 'Like dissolves like. Hexane is a nonpolar hydrocarbon.' },
+  { lv: 11, t: 'mc', q: 'I2 is added to a funnel holding hexane and water. Where does it dissolve?', a: ['In the hexane', 'In the water', 'In both equally', 'In neither'], why: 'I2 is nonpolar, so it dissolves in nonpolar hexane.' },
+  { lv: 11, t: 'mc', q: 'KMnO4 is added to the same funnel. Where does it dissolve?', a: ['In the water', 'In the hexane', 'In both equally', 'In neither'], why: 'KMnO4 is ionic. Polar water dissolves many ionic compounds through ion-dipole attractions.' },
+
+  { lv: 12, t: 'mc', q: 'What is the mass percent of O in H2O?', a: ['88.81 %', '11.19 %', '33.33 %', '50.00 %'], why: '15.999 ÷ 18.015 × 100 = 88.81 %. 11.19 % is the hydrogen, and 33.33 % counts atoms instead of mass.' },
+  { lv: 12, t: 'mc', q: 'What is the mass percent of N in Fe(NO3)3? (Handout 16, #1)', a: ['17.37 %', '5.79 %', '59.54 %', '11.89 %'], why: '3(14.007) ÷ 241.857 × 100 = 17.37 %. 5.79 % counts only one N, 59.54 % is the oxygen, and 11.89 % ignores the 3 outside the parentheses.' },
+  { lv: 12, t: 'type', q: 'Mass percent of V in V2O5? Number only. (Chapter 6 worksheet #1)', ans: '56.02', re: '^56\\.0[12]?%?$', why: '2(50.942) ÷ 181.879 × 100 = 56.02 %. Rounded masses, like 101.88 ÷ 181.88, give 56.01 %, which is also accepted.' },
+  { lv: 12, t: 'mc', q: 'What is the mass percent of Cl in PF2Cl3? (Chapter 6 worksheet #2)', a: ['60.66 %', '60.77 %', '20.22 %', '21.67 %'], why: '3(35.453) ÷ 175.33 × 100 = 60.66 %. The key prints 60.77 % because it used 175.03 g/mol, but 30.974 + 2(18.998) + 3(35.453) = 175.33.' },
+  { lv: 12, t: 'mc', q: 'Which has the larger mass percent of carbon?', a: ['CO', 'CO2', 'They are equal', 'It depends on the sample size'], why: 'CO: 12.011 ÷ 28.010 = 42.88 %. CO2: 12.011 ÷ 44.009 = 27.29 %. Percent composition never depends on sample size.' },
+  { lv: 12, t: 'mc', q: 'What is the mass percent of Na in NaCl?', a: ['39.34 %', '60.66 %', '50.00 %', '22.99 %'], why: '22.990 ÷ 58.443 × 100 = 39.34 %. 60.66 % is the chlorine.' },
+  { lv: 12, t: 'type', q: 'Mass percent of C in CH4, to two decimal places? Number only.', ans: '74.87', re: '^74\\.87%?$', why: '12.011 ÷ 16.043 × 100 = 74.87 %.' },
+  { lv: 12, t: 'mc', q: 'What is the mass percent of Ca in CaCO3?', a: ['40.04 %', '12.00 %', '47.96 %', '20.02 %'], why: '40.078 ÷ 100.086 × 100 = 40.04 %. 12.00 % is the carbon and 47.96 % is the oxygen.' },
+  { lv: 12, t: 'mc', q: 'A compound is 17.37 % N. How many grams of N are in 200.0 g of it?', a: ['34.74 g', '17.37 g', '3474 g', '1151 g'], why: 'Use the percent as a conversion factor: 200.0 g × 17.37 g N per 100 g = 34.74 g N. 3474 g forgets to divide by 100.' },
+  { lv: 12, t: 'mc', q: 'The mass percent of an element in a pure compound depends on', a: ['Only the formula', 'The size of the sample', 'The temperature', 'Whether the sample is solid or liquid'], why: 'Every sample of a pure compound has the same composition.' },
+
+  { lv: 13, t: 'mc', q: 'The empirical formula of glucose, C6H12O6, is', a: ['CH2O', 'C6H12O6', 'C2H4O2', 'C3H6O3'], why: 'Divide every subscript by 6: CH2O.' },
+  { lv: 13, t: 'mc', q: 'Which formula is already an empirical formula?', a: ['C2H6O', 'C2H4', 'C6H6', 'H2O2'], why: '2 : 6 : 1 cannot be reduced. C2H4 reduces to CH2, C6H6 to CH, and H2O2 to HO.' },
+  { lv: 13, t: 'mc', q: 'A compound is 52.14 % C, 13.13 % H and 34.73 % O (Handout 16, #2). Its empirical formula is', a: ['C2H6O', 'CH3O', 'C2H5O', 'C3H8O'], why: 'Moles: C 4.341, H 13.03, O 2.171. Divide by 2.171: 2.00 : 6.00 : 1.00.' },
+  { lv: 13, t: 'mc', q: 'After dividing by the smallest, you get C 1.00, H 2.50, O 1.00. The empirical formula is', a: ['C2H5O2', 'CH3O', 'CH2O', 'C2H5O'], why: 'A value ending in .50 means halves, so multiply every value by 2: 2 : 5 : 2.' },
+  { lv: 13, t: 'mc', q: 'After dividing, you get C 1.00 and H 1.33. Multiply every value by', a: ['3', '2', '4', '1.33'], why: '.33 is a third, so multiply by 3 to get C3H4.' },
+  { lv: 13, t: 'type', q: 'A C, H, O compound is 66.63 % C and 11.18 % H (Chapter 6 worksheet #3). Empirical formula, as CxHyOz?', ans: 'C4H8O', re: '^c4h8o1?$', why: 'O = 22.19 %. Moles: C 5.547, H 11.09, O 1.387. Divide by 1.387: 4.00 : 8.00 : 1.00.' },
+  { lv: 13, t: 'mc', q: 'A problem gives only % C and % H for a compound of C, H and O. First step?', a: ['Find % O by subtracting from 100 %', 'Assume there is no oxygen', 'Divide % C by % H', 'Look up the molar mass of the compound'], why: 'Step 1: get every percent. The O is whatever is left.' },
+  { lv: 13, t: 'mc', q: 'With a 100.0 g sample, 40.00 % C becomes', a: ['40.00 g C', '0.4000 g C', '40.00 mol C', '100.0 g C'], why: 'Assume 100.0 g, and each percent turns straight into grams. Then convert the grams to moles.' },
+  { lv: 13, t: 'type', q: 'A compound is 40.00 % S and 60.00 % O. Empirical formula?', ans: 'SO3', re: '^so3$', why: 'S: 40.00 ÷ 32.065 = 1.247 mol. O: 60.00 ÷ 15.999 = 3.750 mol. 3.750 ÷ 1.247 = 3.01, so SO3.' },
+  { lv: 13, t: 'type', q: 'A hydrocarbon is 85.62 % C and 14.38 % H. Empirical formula?', ans: 'CH2', re: '^c1?h2$', why: 'C: 7.128 mol. H: 14.27 mol. 14.27 ÷ 7.128 = 2.00, so CH2.' },
+  { lv: 13, t: 'mc', q: 'How do a molecular formula and an empirical formula relate?', a: ['The molecular formula is a whole-number multiple of the empirical formula', 'They are always different', 'The empirical formula always has more atoms', 'The empirical formula shows the actual atoms in one molecule'], why: 'Glucose: C6H12O6 is 6 × CH2O. Sometimes the multiple is 1, as in H2O.' },
+  { lv: 13, t: 'mc', q: 'Dividing by the smallest gives C 1.50, H 2.50, O 1.00. The empirical formula is', a: ['C3H5O2', 'C2H3O', 'C3H5O', 'CHO'], why: 'Values ending in .50 mean halves, so double everything: 3 : 5 : 2. Adipic acid, C6H10O4, has this empirical formula.' },
+
+  { lv: 14, t: 'mc', q: 'In an aqueous NaOH solution, the solvent is', a: ['Water', 'NaOH', 'Both', 'Neither'], why: 'Aqueous means dissolved in water (Chapter 6 worksheet #5).' },
+  { lv: 14, t: 'mc', q: 'Natural gas is 97 % methane, 1.5 % ethane, 1 % CO2 and 0.5 % N2. The solvent is', a: ['Methane', 'Ethane', 'Carbon dioxide', 'Dinitrogen'], why: 'The solvent is the component present in the largest amount. A solution can be a gas.' },
+  { lv: 14, t: 'mc', q: 'Rose gold is 75 % gold, 22.25 % copper and 2.75 % silver. The solutes are', a: ['Copper and silver', 'Gold only', 'Gold and copper', 'Silver only'], why: 'Gold is the largest part, so it is the solvent. Everything else is a solute.' },
+  { lv: 14, t: 'mc', q: 'Dental amalgam is about 50 % mercury by mass, mixed with a powdered silver, tin and copper alloy. The solvent is', a: ['Mercury', 'Silver', 'Tin', 'Copper'], why: 'Mercury is the largest single part, and it is the liquid the other metals dissolve in (Handout 17, #1c).' },
+  { lv: 14, t: 'mc', q: 'Molarity is', a: ['Moles of solute per liter of solution', 'Moles of solute per liter of solvent', 'Grams of solute per liter of solution', 'Moles of solute per kilogram of solvent'], why: 'M = mol solute ÷ L solution. Moles per kilogram of solvent is molality, a different unit.' },
+  { lv: 14, t: 'mc', q: '4.83 g of Na2S2O3 is dissolved to make 125 mL of solution (Handout 17, #2). Its molarity is', a: ['0.244 M', '0.0305 M', '38.6 M', '0.0386 M'], why: '4.83 g ÷ 158.11 g/mol = 0.03055 mol, then ÷ 0.125 L = 0.244 M. 0.0305 forgets to divide by the liters, and 38.6 divides grams by liters.' },
+  { lv: 14, t: 'type', q: 'Mass of NaCl, in g, for 150. mL of 0.855 M NaCl? (Handout 17, #4)', ans: '7.50', re: '^7\\.50(g|gnacl)?$', why: '0.150 L × 0.855 mol/L = 0.1283 mol, then × 58.443 g/mol = 7.50 g. Three sig figs, so 7.50, not 7.5.' },
+  { lv: 14, t: 'type', q: 'Molarity of 0.653 g NaOH in 350.0 mL of solution? (Chapter 6 worksheet #6)', ans: '0.0466', re: '^0?\\.0466(m|mnaoh)?$', why: '0.653 ÷ 39.997 = 0.01633 mol, then ÷ 0.3500 L = 0.0466 M.' },
+  { lv: 14, t: 'mc', q: 'How many moles of solute are in 250. mL of 0.400 M glucose?', a: ['0.100 mol', '100. mol', '1.60 mol', '0.00160 mol'], why: '0.250 L × 0.400 mol/L = 0.100 mol. Convert mL to L first.' },
+  { lv: 14, t: 'mc', q: 'What volume of 0.500 M KCl contains 0.125 mol of KCl?', a: ['250. mL', '62.5 mL', '4.00 L', '0.0625 mL'], why: '0.125 mol ÷ 0.500 mol/L = 0.250 L = 250. mL.' },
+  { lv: 14, t: 'mc', q: 'In 0.150 M CaCl2, the concentration of Cl^- is', a: ['0.300 M', '0.150 M', '0.0750 M', '0.450 M'], why: 'Each CaCl2 releases 2 Cl^-: 2 × 0.150 = 0.300 M. [Ca^2+] is 0.150 M.' },
+  { lv: 14, t: 'type', q: 'Mass of glucose (180.16 g/mol), in g, for 500. mL of 0.200 M solution?', ans: '18.0', re: '^18\\.0(g)?$', why: '0.500 L × 0.200 mol/L = 0.100 mol, then × 180.16 g/mol = 18.0 g. Three sig figs, so 18.0, not 18.' },
+
+  { lv: 15, t: 'mc', q: '2.52 g of sucrose is dissolved in 25.0 g of water (Handout 17, #3). The % m/m is', a: ['9.16 %', '10.1 %', '2.52 %', '91.6 %'], why: 'Divide by the solution mass, 2.52 + 25.0 = 27.5 g: 9.16 %. 10.1 % divides by the water alone.' },
+  { lv: 15, t: 'mc', q: '% v/v means', a: ['mL solute ÷ mL solution × 100', 'mL solute ÷ mL solvent × 100', 'g solute ÷ mL solution × 100', 'mol solute ÷ L solution × 100'], why: 'Volume of solute over the volume of the whole solution.' },
+  { lv: 15, t: 'mc', q: '70.0 mL of isopropyl alcohol is diluted with water to 100.0 mL total. The % v/v is', a: ['70.0 %', '41.2 %', '30.0 %', '233 %'], why: '70.0 ÷ 100.0 × 100 = 70.0 %. The 100.0 mL is already the whole solution.' },
+  { lv: 15, t: 'mc', q: 'Parts per million (ppm) is', a: ['g solute ÷ g solution × 10^6', 'g solute ÷ g solution × 100', 'mol solute ÷ L solution × 10^6', 'g solute ÷ g solvent × 1000'], why: 'The same idea as a percent, but per million instead of per hundred.' },
+  { lv: 15, t: 'mc', q: 'A 1.0 kg water sample holds 0.0050 g of lead. Its concentration is', a: ['5.0 ppm', '0.0050 ppm', '5000 ppm', '0.50 ppm'], why: '0.0050 g ÷ 1000 g × 10^6 = 5.0 ppm. Convert kg to g first.' },
+  { lv: 15, t: 'type', q: '15.0 g of NaCl in 135.0 g of water. % m/m? Number only.', ans: '10.0', re: '^10\\.0%?$', why: '15.0 ÷ (15.0 + 135.0) × 100 = 10.0 %. Three sig figs, so 10.0, not 10.' },
+  { lv: 15, t: 'mc', q: 'How many grams of a 2.0 % m/m phenolphthalein solution hold 75 mg of phenolphthalein? (Chapter 6 worksheet #8)', a: ['3.8 g', '1.5 g', '0.0015 g', '37.5 g'], why: '0.075 g ÷ 0.020 = 3.75 g, or 3.8 g to 2 sig figs. 0.0015 g multiplies instead of dividing, and 1.5 g also skips the mg-to-g step.' },
+  { lv: 15, t: 'mc', q: 'To turn a molarity into a % m/m, you also need', a: ['The density of the solution', 'The volume of the container', 'Avogadro\'s number', 'The boiling point'], why: 'Molarity uses liters of solution and % m/m uses grams of solution. Density links the two (Chapter 6 worksheet #9).' },
+  { lv: 15, t: 'type', q: 'A 1.15 M NaBr solution has a density of 1.08 g/mL. Its % m/m? Number only. (Chapter 6 worksheet #9)', ans: '11.0', re: '^11\\.0%?$', why: 'In 1 L: 1.15 mol × 102.89 g/mol = 118.3 g NaBr in 1080 g of solution. 118.3 ÷ 1080 × 100 = 11.0 %. Three sig figs, so 11.0, not 11.' },
+  { lv: 15, t: 'mc', q: 'Which unit suits a trace contaminant in drinking water?', a: ['ppm', '% m/m', '% v/v', 'Mass of solvent in kg'], why: 'Very small amounts give awkward percents. ppm (or ppb) keeps the numbers readable.' },
+  { lv: 15, t: 'mc', q: 'In a dilute water solution, 1 ppm is about', a: ['1 mg per liter', '1 g per liter', '1 mg per mL', '1 g per 100 mL'], why: 'A liter of dilute solution weighs about 1000 g, and 1 mg in 1000 g is one part per million.' },
+
+  { lv: 16, t: 'mc', q: 'In C1V1 = C2V2, V2 is', a: ['The total volume of the diluted solution', 'The volume of water added', 'The volume of the stock solution', 'The volume of solute'], why: 'V2 is the whole final solution, stock plus added water.' },
+  { lv: 16, t: 'mc', q: '9.00 mL of water is added to 1.00 mL of 0.325 M Cr^3+ (Handout 17, #5). The new concentration is', a: ['0.0325 M', '0.0361 M', '3.25 M', '0.325 M'], why: 'V2 = 1.00 + 9.00 = 10.00 mL, so C2 = 0.325 × 1.00 ÷ 10.00 = 0.0325 M. 0.0361 M divides by the 9.00 mL of water only.' },
+  { lv: 16, t: 'mc', q: 'To make 500. mL of 6 M HCl from 12 M HCl (Chapter 6 worksheet #10), you mix', a: ['250. mL of 12 M HCl with 250. mL of water', '500. mL of 12 M HCl with 500. mL of water', '250. mL of 12 M HCl with 500. mL of water', '1000 mL of 12 M HCl with 500. mL of water'], why: 'V1 = (6 M)(500. mL) ÷ 12 M = 250. mL. Water brings the total to 500. mL, and the acid goes into the water.' },
+  { lv: 16, t: 'mc', q: 'Diluting a solution changes', a: ['Its concentration, but not the moles of solute', 'The moles of solute, but not the concentration', 'Both', 'Neither'], why: 'Only solvent is added, so the same moles spread through more volume.' },
+  { lv: 16, t: 'type', q: '25.0 mL of 2.00 M NaCl is diluted to 100.0 mL. New molarity?', ans: '0.500', re: '^0?\\.500(m)?$', why: '2.00 × 25.0 ÷ 100.0 = 0.500 M. Three sig figs, so 0.500, not 0.5.' },
+  { lv: 16, t: 'type', q: 'Volume of 6.0 M HCl, in mL, needed to make 300. mL of 1.5 M HCl?', ans: '75', re: '^75(ml)?$', why: 'V1 = 1.5 × 300. ÷ 6.0 = 75 mL. Add it to water and bring the total to 300. mL.' },
+  { lv: 16, t: 'mc', q: 'When you dilute a concentrated acid, you', a: ['Add the acid to the water', 'Add the water to the acid', 'Pour both in at once', 'Can use either order'], why: 'Dr. Meyers: always add acid to water.' },
+  { lv: 16, t: 'mc', q: 'From a 1.00 M stock, which gives 0.100 M?', a: ['10.0 mL diluted to 100.0 mL total', '10.0 mL plus 100.0 mL of water', '100.0 mL diluted to 10.0 mL', '1.00 mL diluted to 1000 mL'], why: '1.00 × 10.0 ÷ 100.0 = 0.100 M. Adding 100.0 mL of water makes 110.0 mL, which gives 0.0909 M.' },
+  { lv: 16, t: 'mc', q: 'How much water must be added to 50.0 mL of 0.800 M KNO3 to make it 0.200 M?', a: ['150. mL', '200. mL', '12.5 mL', '40.0 mL'], why: 'V2 = 0.800 × 50.0 ÷ 0.200 = 200. mL total, so add 200. - 50.0 = 150. mL of water.' },
+  { lv: 16, t: 'mc', q: '8 mol of solute in 1 L (8 M) is diluted to 3 L. The new concentration is', a: ['2.67 M', '24 M', '8 M', '0.375 M'], why: '8 × 1 ÷ 3 = 2.67 M. The same 8 mol now spread over 3 L. Dr. Meyers\' slide keeps three digits even though 8 and 3 have one sig fig.' },
+];
+
+const ICON = {
+  bond: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="6" cy="12" r="3.5"/><circle cx="18" cy="12" r="3.5"/><path d="M9.5 12h5"/></svg>',
+  bent: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="3.2"/><circle cx="5" cy="17.5" r="2.6"/><circle cx="19" cy="17.5" r="2.6"/><path d="M10 10.6 6.7 15.4M14 10.6l3.3 4.8"/></svg>',
+  pair: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="6" cy="12" r="3.6"/><circle cx="18" cy="12" r="3.6"/><path d="M10.6 12h.5M13 12h.5"/></svg>',
+  rank: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20v-6h4v6M10 20V9h4v11M16 20V4h4v16"/></svg>',
+  thermo: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M10 13.5V5a2 2 0 0 1 4 0v8.5a4 4 0 1 1-4 0z"/><path d="M12 9v6"/></svg>',
+  dots: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><circle cx="12" cy="3.6" r="1.3" fill="currentColor" stroke="none"/><circle cx="12" cy="20.4" r="1.3" fill="currentColor" stroke="none"/><circle cx="3.6" cy="12" r="1.3" fill="currentColor" stroke="none"/><circle cx="20.4" cy="12" r="1.3" fill="currentColor" stroke="none"/></svg>',
+  ion: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4.5H3.5v15H5M19 4.5h1.5v15H19"/><path d="M12 8.5v7M8.5 12h7"/></svg>',
+  dbl: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="12" r="3"/><circle cx="19" cy="12" r="3"/><path d="M8.5 9.8h7M8.5 14.2h7"/></svg>',
+  expand: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="2.8"/><path d="M12 9.2V3M12 14.8V21M9.2 12H3M14.4 10.6l5.4-3.1M14.4 13.4l5.4 3.1"/></svg>',
+  fc: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="13.5" r="6"/><circle cx="18.5" cy="5.5" r="3.4"/><path d="M17 5.5h3"/></svg>',
+  tetra: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 3.5 18.5h17z"/><path d="M12 3v10.5M3.5 18.5 12 13.5l8.5 5"/></svg>',
+  octa: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="2.4"/><path d="M12 9.6V3M12 14.4V21M9.6 12H3M14.4 12H21M10.3 10.3 6.2 6.2M13.7 13.7l4.1 4.1"/></svg>',
+  pct: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18.5 5.5l-13 13"/><circle cx="7" cy="7" r="2.6"/><circle cx="17" cy="17" r="2.6"/></svg>',
+  ratio: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><circle cx="12" cy="6.5" r="1.7" fill="currentColor" stroke="none"/><circle cx="12" cy="17.5" r="1.7" fill="currentColor" stroke="none"/></svg>',
+  flask: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 3h5M10.5 3v6.2L5 19.4c-.4.8.1 1.6 1 1.6h12c.9 0 1.4-.8 1-1.6L13.5 9.2V3"/><path d="M7.4 15h9.2"/></svg>',
+  drop: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5c3.6 4.5 6 7.8 6 10.8a6 6 0 0 1-12 0c0-3 2.4-6.3 6-10.8z"/></svg>',
+  dilute: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9v10a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V9"/><path d="M6 15h12"/><path d="M12 2.5c1.3 1.6 2.1 2.8 2.1 3.8a2.1 2.1 0 0 1-4.2 0c0-1 .8-2.2 2.1-3.8z"/></svg>',
+  watch: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="13.5" r="7.5"/><path d="M12 13.5V9.5M10 2.5h4M18.5 6.5 20 5"/></svg>',
+  check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+  lock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/></svg>',
+  back: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>',
+  play: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5.5v13l11-6.5z"/></svg>',
+  star: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z"/></svg>',
+};
+
+const $ = (s, r) => (r || document).querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const norm = s => String(s).trim().toLowerCase().replace(/[\s\-‐-―−_]/g, '').replace(/\.$/, '');
+const checkTyped = (q, s) => new RegExp(q.re).test(norm(s));
+const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// formulas: a capital letter (plus optional lowercase) followed by digits gets the digits as a subscript;
+// a caret marks a charge or exponent (SO4^2-, Cr^3+, 10^6) and becomes a superscript
+function subify(root) {
+  const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+    acceptNode: n => /[A-Z][a-z]?\d|\^/.test(n.nodeValue) && !n.parentElement.closest('sub, sup, script, style') ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT,
+  });
+  const nodes = [];
+  while (w.nextNode()) nodes.push(w.currentNode);
+  nodes.forEach(n => {
+    const t = document.createElement('template');
+    t.innerHTML = esc(n.nodeValue).replace(/\^(\d*[+\-−])(?!\d)/g, '<sup>$1</sup>').replace(/\^([+\-−]?\d+)/g, '<sup>$1</sup>').replace(/([A-Z][a-z]?)(\d+)/g, '$1<sub>$2</sub>');
+    n.replaceWith(t.content);
+  });
+}
+
+const KEY = 'chem1211e3_game_v1';
+const BOSS_N = 10, BOSS_SECS = 300;
+let S = { xp: 0, stars: {}, boss: 0 };
+try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && typeof s === 'object') S = Object.assign(S, s); } catch (e) {}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
+
+let streak = 0, run = null, boss = null, tick = null, curOpts = [];
+const totalStars = () => LEVELS.reduce((t, l) => t + (S.stars[l.n] || 0), 0);
+const unlocked = n => n === 1 || !!LEVELS[n - 1].unit || (S.stars[n - 1] || 0) > 0;
+const bossUnlocked = () => LEVELS.every(l => (S.stars[l.n] || 0) > 0);
+const currentLevel = () => { const l = LEVELS.find(x => !(S.stars[x.n] > 0)); return l ? l.n : 'boss'; };
+const levelQs = n => Q.map((q, i) => i).filter(i => Q[i].lv === n && !Q[i].boss);
+
+function hud() {
+  $('#h-xp').textContent = S.xp;
+  $('#h-st').textContent = totalStars();
+  $('#h-sk').textContent = streak;
+  $('#h-streak').classList.toggle('hot', streak >= 3);
+}
+function gain(p) { S.xp += p; if (run) run.gain += p; if (boss) boss.gain += p; save(); hud(); return p; }
+function stopTick() { clearInterval(tick); tick = null; }
+function starRow(n, cls) {
+  return '<div class="' + cls + '" role="img" aria-label="' + n + ' of 3 stars">' + [1, 2, 3].map(i => ICON.star.replace('<svg', '<svg class="' + (i <= n ? 'on' : '') + '"')).join('') + '</div>';
+}
+function toast(msg) {
+  document.querySelectorAll('.toast').forEach(t => t.remove());
+  const t = document.createElement('div');
+  t.className = 'toast'; t.setAttribute('role', 'status'); t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 1800);
+}
+function topbar(progress, count) {
+  const pct = Math.round(Math.max(0, Math.min(1, progress)) * 100);
+  return '<div class="topbar"><button class="iconbtn" id="back" aria-label="Back to the path">' + ICON.back + '</button>' +
+    '<div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + pct + '"><i style="width:' + pct + '%"></i></div>' +
+    '<span class="count">' + (count || '') + '</span></div>';
+}
+function show(html) {
+  const v = $('#view');
+  v.innerHTML = html;
+  if ($('#back')) $('#back').onclick = goPath;
+  subify(v);
+  window.scrollTo(0, 0);
+}
+function goPath() {
+  stopTick();
+  if (history.state && history.state.v) history.back(); else renderPath();
+}
+window.addEventListener('popstate', () => renderPath());
+
+function renderPath() {
+  stopTick(); run = null; boss = null;
+  const cur = currentLevel(), off = [0, -60, 0, 60];
+  let h = '<header class="title"><h1>Exam 3 study game</h1><p class="when">Wed Nov 18, 10:00, LDSC 210</p><p class="hint">Start with the unit you know least. The first level of each unit is open.</p></header><div class="path">';
+  LEVELS.forEach((l, i) => {
+    const st = S.stars[l.n] || 0, open = unlocked(l.n), state = !open ? 'locked' : st ? 'done' : 'open';
+    h += (l.unit ? '<div class="unit"><small>' + l.unit + '</small><b>' + l.uname + '</b><span>' + l.sub + '</span></div>' : '') +
+      '<div class="stop" style="--x:' + off[i % off.length] + 'px"><div class="nodewrap">' +
+      (cur === l.n ? '<span class="tag">' + (S.xp ? 'Next' : 'Start') + '</span><span class="ring"></span>' : '') +
+      '<button class="node ' + state + '" data-lv="' + l.n + '" aria-label="Level ' + l.n + ', ' + l.name + (state === 'locked' ? ', locked' : st ? ', ' + st + ' of 3 stars' : '') + '">' +
+      (state === 'locked' ? ICON.lock : st ? ICON.check : ICON[l.icon]) + '</button></div>' +
+      '<div class="label' + (open ? '' : ' dim') + '"><small>Level ' + l.n + '</small>' + l.name + '</div>' +
+      (st ? starRow(st, 'srow') : '') + '</div>';
+  });
+  const bo = bossUnlocked();
+  h += '<div class="stop"><div class="nodewrap">' + (cur === 'boss' ? '<span class="tag">Boss</span><span class="ring gold"></span>' : '') +
+    '<button class="node boss' + (bo ? '' : ' locked') + '" id="boss" aria-label="Boss round' + (bo ? '' : ', locked') + '">' + (bo ? ICON.watch : ICON.lock) + '</button></div>' +
+    '<div class="label' + (bo ? '' : ' dim') + '"><small>Boss round</small>' + BOSS_N + ' questions, 5 minutes</div>' +
+    (S.boss ? '<div class="best">Best: ' + S.boss + ' of ' + BOSS_N + '</div>' : '') + '</div></div>' +
+    '<button class="reset" id="reset">Reset progress</button>';
+  show(h);
+  document.querySelectorAll('.node[data-lv]').forEach(b => b.onclick = () => {
+    const n = +b.dataset.lv;
+    if (unlocked(n)) return openLevel(n);
+    b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake');
+    toast('Clear level ' + (n - 1) + ' first');
+  });
+  $('#boss').onclick = e => {
+    if (bossUnlocked()) return openBoss();
+    const b = e.currentTarget; b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake');
+    toast('Clear all ' + LEVELS.length + ' levels first');
+  };
+  $('#reset').onclick = e => {
+    const b = e.currentTarget;
+    if (b.dataset.arm) { S = { xp: 0, stars: {}, boss: 0 }; streak = 0; save(); hud(); return renderPath(); }
+    b.dataset.arm = '1'; b.textContent = 'Confirm reset';
+    setTimeout(() => { if (b.isConnected) { delete b.dataset.arm; b.textContent = 'Reset progress'; } }, 4000);
+  };
+}
+
+function videoBox(v) {
+  return '<div class="box"><h2>Watch</h2>' +
+    '<button class="vid" data-id="' + esc(v.id) + '" data-title="' + esc(v.title) + '" aria-label="Play video: ' + esc(v.title) + '"><img src="https://i.ytimg.com/vi/' + esc(v.id) + '/hqdefault.jpg" alt="" loading="lazy"><span class="play">' + ICON.play + '</span></button>' +
+    '<p class="vmeta"><b>' + esc(v.title) + '</b><br><span>' + esc(v.ch) + ', ' + esc(v.dur) + '</span></p>' +
+    (v.note ? '<p class="note">' + esc(v.note) + '</p>' : '') +
+    (v.alt ? '<p class="also">Also good: <a href="https://www.youtube.com/watch?v=' + esc(v.alt.id) + '" target="_blank" rel="noopener">' + esc(v.alt.title) + '</a> <span>(' + esc(v.alt.ch) + ', ' + esc(v.alt.dur) + ')</span></p>' : '') +
+    '</div>';
+}
+function wireVideo() {
+  document.querySelectorAll('.vid').forEach(b => b.onclick = () => {
+    // YouTube refuses embeds on a file:// page (Error 153: no referrer), so a local copy opens the video on YouTube instead
+    if (location.protocol === 'file:') return void window.open('https://www.youtube.com/watch?v=' + encodeURIComponent(b.dataset.id), '_blank', 'noopener');
+    const f = document.createElement('iframe');
+    f.className = 'vframe';
+    f.title = b.dataset.title;
+    f.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(b.dataset.id) + '?autoplay=1&rel=0';
+    f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+    f.allowFullscreen = true;
+    b.replaceWith(f);
+  });
+}
+
+function openLevel(n, replace) {
+  stopTick(); boss = null;
+  history[replace ? 'replaceState' : 'pushState']({ v: 'level' }, '');
+  run = { n, gain: 0 };
+  const l = LEVELS[n - 1], v = VIDEOS[n];
+  show(topbar(0) + '<p class="kicker">Level ' + n + ' of ' + LEVELS.length + '</p><h1 class="lvl">' + l.name + '</h1><div id="lesson"></div>' +
+    (v ? videoBox(v) : '') + '<button class="btn" id="go">Start practice (' + levelQs(n).length + ' questions)</button>');
+  const lesson = $('#lesson');
+  lesson.appendChild(document.getElementById('lesson-' + n).content.cloneNode(true));
+  if ($('#pol')) {
+    let last = 0;
+    $('#pol').innerHTML = TABLE.map(r => {
+      const first = r[0] !== last; last = r[0];
+      return '<tr class="' + (first ? 'sn' : '') + '"><td>' + (first ? r[0] : '') + '</td><td>' + r[1] + '</td><td>' + r[2] + '</td>' +
+        (r[3] ? '<td class="pol">polar</td>' : '<td class="non">nonpolar</td>') + '<td>' + esc(r[4]) + '</td></tr>';
+    }).join('');
+  }
+  subify(lesson);
+  wireVideo();
+  $('#go').onclick = startLevel;
+}
+function startLevel() {
+  Object.assign(run, { queue: shuffle(levelQs(run.n)), i: 0, right: 0, misses: [], fix: false });
+  renderQ();
+}
+
+function qBody(q) {
+  if (q.t === 'type') {
+    return '<p class="prompt">' + esc(q.q) + '</p><input class="typein" id="ans" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Your answer" placeholder="Your answer">' +
+      '<div id="fb" aria-live="polite"></div><button class="btn" id="check" disabled>Check</button>';
+  }
+  curOpts = shuffle(q.a.map((t, i) => ({ t, right: i === 0 })));
+  return '<p class="prompt">' + esc(q.q) + '</p>' +
+    curOpts.map((o, i) => '<button class="tile" data-i="' + i + '"><span class="k">' + 'ABCD'[i] + '</span><span>' + esc(o.t) + '</span></button>').join('') +
+    '<div id="fb" aria-live="polite"></div>';
+}
+function wireQ(q, done) {
+  if (q.t === 'type') {
+    const inp = $('#ans'), chk = $('#check');
+    inp.oninput = () => { chk.disabled = !inp.value.trim(); };
+    const go = () => {
+      if (!inp.value.trim() || inp.disabled) return;
+      inp.disabled = true; chk.remove();
+      done(checkTyped(q, inp.value));
+    };
+    chk.onclick = go;
+    inp.onkeydown = e => { if (e.key === 'Enter') { e.preventDefault(); go(); } };
+    inp.focus({ preventScroll: true });
+    return;
+  }
+  document.querySelectorAll('.tile').forEach(b => b.onclick = () => {
+    const o = curOpts[+b.dataset.i];
+    document.querySelectorAll('.tile').forEach((x, i) => { x.disabled = true; if (curOpts[i].right) x.classList.add('right'); });
+    if (!o.right) b.classList.add('wrong');
+    done(o.right);
+  });
+}
+function feedback(q, ok, pts, next) {
+  const fb = $('#fb');
+  const head = ok ? (streak >= 3 ? 'Correct, ' + streak + ' in a row' : 'Correct') : (q.t === 'type' ? 'Answer: ' + esc(q.ans) : 'Missed');
+  fb.innerHTML = '<div class="fb ' + (ok ? 'ok' : 'no') + '"><div class="head"><span>' + head + '</span>' + (pts ? '<span class="pop">+' + pts + ' XP</span>' : '') + '</div><p>' + esc(q.why) + '</p></div>' +
+    '<button class="btn' + (ok ? '' : ' miss') + '" id="next">Continue</button>';
+  subify(fb);
+  const nb = $('#next');
+  nb.onclick = next;
+  nb.focus({ preventScroll: true });
+  nb.scrollIntoView({ block: 'nearest', behavior: reduced() ? 'auto' : 'smooth' });
+}
+
+function renderQ() {
+  const list = run.fix ? run.misses : run.queue, idx = list[run.i], q = Q[idx];
+  const prog = run.fix ? 1 : run.i / run.queue.length;
+  const count = run.fix ? 'Retry' : (run.i + 1) + '/' + run.queue.length;
+  const chip = run.fix ? '<span class="chip">Second try, ' + (run.i + 1) + ' of ' + run.misses.length + '</span>' : q.t === 'type' ? '<span class="chip">Type it: 20 XP</span>' : '';
+  show(topbar(prog, count) + '<div class="qtop">' + chip + '</div>' + qBody(q));
+  wireQ(q, ok => {
+    const first = !run.fix;
+    if (first) { if (ok) run.right++; else run.misses.push(idx); }
+    let pts = 0;
+    if (ok) {
+      streak++;
+      pts = gain(first ? (q.t === 'type' ? 20 : 10) + (streak >= 3 ? 5 : 0) : 5);
+    } else { streak = 0; hud(); }
+    if (first) $('.bar i').style.width = ((run.i + 1) / run.queue.length * 100) + '%';
+    feedback(q, ok, pts, nextQ);
+  });
+}
+function nextQ() {
+  run.i++;
+  const list = run.fix ? run.misses : run.queue;
+  if (run.i < list.length) return renderQ();
+  if (!run.fix && run.misses.length) { run.fix = true; run.i = 0; return renderQ(); }
+  finishLevel();
+}
+function finishLevel() {
+  const total = run.queue.length, acc = run.right / total, n = run.n;
+  const stars = acc >= 0.9 ? 3 : acc >= 0.75 ? 2 : acc >= 0.6 ? 1 : 0;
+  if (stars) { gain(10 * stars); S.stars[n] = Math.max(S.stars[n] || 0, stars); save(); hud(); }
+  const last = n === LEVELS.length;
+  show(topbar(1) + '<div class="box result">' + starRow(stars, 'big-stars') +
+    '<h2>' + (stars ? 'Level ' + n + ' cleared' : 'Not cleared yet') + '</h2>' +
+    '<p>' + run.right + ' of ' + total + ' right on the first try</p>' +
+    (stars ? '' : '<p>Clearing it takes ' + Math.ceil(0.6 * total) + ' of ' + total + '.</p>') +
+    '<span class="gain">+' + run.gain + ' XP</span>' +
+    (stars
+      ? '<button class="btn" id="fwd">' + (last ? 'Boss round' : 'Next level') + '</button><button class="btn ghost" id="again">Replay level</button>'
+      : '<button class="btn" id="again">Try again</button><button class="btn ghost" id="home">Back to the path</button>') +
+    '</div>');
+  if ($('#fwd')) $('#fwd').onclick = () => last ? (bossUnlocked() ? openBoss(true) : goPath()) : openLevel(n + 1, true);
+  $('#again').onclick = () => openLevel(n, true);
+  if ($('#home')) $('#home').onclick = goPath;
+  if (stars) celebrate();
+}
+
+function openBoss(replace) {
+  stopTick(); run = null;
+  history[replace ? 'replaceState' : 'pushState']({ v: 'boss' }, '');
+  boss = { gain: 0 };
+  show(topbar(0) + '<p class="kicker">Boss round</p><h1 class="lvl">' + BOSS_N + ' questions, 5 minutes</h1><div class="box result">' +
+    '<p>' + BOSS_N + ' multiple-choice questions from all ' + LEVELS.length + ' levels, 15 XP each. The clock doesn\'t pause for explanations.</p>' +
+    (S.boss ? '<p><b>Best: ' + S.boss + ' of ' + BOSS_N + '</b></p>' : '') +
+    '<p></p><button class="btn" id="go">Start the clock</button></div>');
+  $('#go').onclick = startBoss;
+}
+function drawClock() {
+  const c = $('#clock');
+  if (!c) return;
+  c.textContent = Math.floor(boss.left / 60) + ':' + String(boss.left % 60).padStart(2, '0');
+  c.classList.toggle('low', boss.left <= 30);
+  const b = $('.bar i');
+  if (b) b.style.width = (boss.left / BOSS_SECS * 100) + '%';
+}
+function startBoss() {
+  const pool = Q.map((q, i) => i).filter(i => Q[i].t === 'mc');
+  Object.assign(boss, { picks: shuffle(pool).slice(0, BOSS_N), i: 0, right: 0, left: BOSS_SECS, gain: 0 });
+  stopTick();
+  tick = setInterval(() => { boss.left--; drawClock(); if (boss.left <= 0) finishBoss(true); }, 1000);
+  renderBossQ();
+}
+function renderBossQ() {
+  const q = Q[boss.picks[boss.i]];
+  show(topbar(boss.left / BOSS_SECS, (boss.i + 1) + '/' + BOSS_N) + '<div class="clock" id="clock" role="timer"></div>' + qBody(q));
+  drawClock();
+  wireQ(q, ok => {
+    let pts = 0;
+    if (ok) { boss.right++; streak++; pts = gain(15); } else { streak = 0; hud(); }
+    feedback(q, ok, pts, () => { boss.i++; if (boss.i < boss.picks.length) renderBossQ(); else finishBoss(false); });
+  });
+}
+function finishBoss(timeUp) {
+  stopTick();
+  const r = boss.right, prev = S.boss || 0;
+  if (r === boss.picks.length) gain(30);
+  if (r > prev) { S.boss = r; save(); }
+  show(topbar(1) + '<div class="box result"><p class="kicker">' + (timeUp ? 'Time' : 'Boss round') + '</p>' +
+    '<h2>' + r + ' of ' + BOSS_N + ' right</h2>' +
+    '<p>' + (r > prev ? 'New best' : 'Best: ' + S.boss + ' of ' + BOSS_N) + '</p>' +
+    '<span class="gain">+' + boss.gain + ' XP</span>' +
+    '<button class="btn" id="again">Run it again</button><button class="btn ghost" id="home">Back to the path</button></div>');
+  $('#again').onclick = () => openBoss(true);
+  $('#home').onclick = goPath;
+  if (r >= BOSS_N - 1) celebrate();
+}
+
+function celebrate() {
+  if (reduced()) return;
+  const c = document.createElement('canvas');
+  c.className = 'confetti';
+  document.body.appendChild(c);
+  const W = c.width = window.innerWidth, H = c.height = window.innerHeight, ctx = c.getContext('2d');
+  const cols = ['#2B9348', '#F4B400', '#E8613C', '#2E6FD8'];
+  const P = Array.from({ length: 90 }, () => ({ x: W / 2, y: H * 0.32, vx: (Math.random() - 0.5) * 14, vy: -4 - Math.random() * 12, s: 5 + Math.random() * 6, c: cols[Math.floor(Math.random() * cols.length)], r: Math.random() * 6 }));
+  const t0 = performance.now();
+  (function frame(t) {
+    ctx.clearRect(0, 0, W, H);
+    P.forEach(p => {
+      p.vy += 0.45; p.x += p.vx; p.y += p.vy; p.r += 0.2;
+      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.r); ctx.fillStyle = p.c; ctx.fillRect(-p.s / 2, -p.s / 4, p.s, p.s / 2); ctx.restore();
+    });
+    if (t - t0 < 1100) requestAnimationFrame(frame); else c.remove();
+  })(t0);
+}
+
+hud();
+renderPath();
+</script>
+</body>
+</html>
