@@ -3,12 +3,14 @@
 Usage: python tools/exam3/check_exam3_game.py <page.html> <screenshot dir> [--only-lock] [--http]
 (--http serves the page from a local server so the YouTube embed path runs; without it the page is a
 file:// URL and the checker expects the video to open on YouTube in a new tab instead.)
-Covers: unlock rules (levels 1, 6, 12 open on a fresh start), XP math, the second-try flow,
-typed answers driven by the page's own checkTyped, the 10-question boss, persistence across reload,
-reduced motion, carets/sup rendering, overflow at 1280/390/320 on every lesson and a practice screen.
+Covers: open access (all 16 levels and the boss open on a fresh start, any level playable in any
+order), XP math, the second-try flow, typed answers driven by the page's own checkTyped, the
+10-question boss, persistence across reload, reduced motion, carets/sup rendering, overflow at
+1280/390/320 on every lesson and a practice screen.
 
-Failing control (must FAIL on the lock checks):
-  sed 's/const unlocked = n => n === 1 ||/const unlocked = n => true ||/' page.html > mutant.html
+Failing controls (each must FAIL on the lock checks; they restore the old gating):
+  sed 's/const unlocked = () => true;/const unlocked = n => n === 1;/' page.html > mutant.html
+  sed 's/const bossUnlocked = () => true;/const bossUnlocked = () => false;/' page.html > mutant2.html
   python tools/exam3/check_exam3_game.py mutant.html <dir> --only-lock
 """
 import pathlib
@@ -134,15 +136,29 @@ def lab(pg, n):
 with sync_playwright() as p:
     b = p.chromium.launch()
 
-    # 1. fresh start, lock rules (the negative control targets these)
+    # 1. fresh start, open access (the failing controls target these)
     ctx, pg, errs = new_page(b, 1280)
     open_set = [n for n in range(1, 17) if 'locked' not in lab(pg, n)]
-    ok(open_set == [1, 6, 12], f'lock: fresh start opens exactly levels 1, 6, 12 (open: {open_set})')
-    ok('locked' in pg.get_attribute('#boss', 'aria-label'), 'lock: boss locked on a fresh start')
-    pg.click('.node[data-lv="2"]')
+    ok(open_set == list(range(1, 17)), f'lock: fresh start opens all 16 levels (open: {open_set})')
+    ok(pg.locator('.node.locked').count() == 0 and pg.locator('.label.dim').count() == 0, 'lock: no node or label renders locked')
+    ok('locked' not in pg.get_attribute('#boss', 'aria-label'), 'lock: boss open on a fresh start')
+    ok('Every level is open' in pg.inner_text('.hint'), 'lock: the hint says every level is open')
+    pg.click('.node[data-lv="9"]')
     pg.wait_for_timeout(150)
-    ok(pg.locator('#go').count() == 0 and pg.locator('.path').count() == 1, 'lock: clicking locked level 2 stays on the path')
-    ok('Clear level 1 first' in pg.inner_text('body'), 'lock: the toast names the level to clear')
+    # text_content, not inner_text: .kicker is uppercased by CSS. Back is clicked only if the screen
+    # changed, so a gated mutant fails these named checks instead of crashing on a missing #back.
+    opened = pg.locator('#go').count() == 1
+    ok(opened and 'Level 9 of 16' in (pg.text_content('.kicker') or ''), 'lock: level 9 opens with nothing cleared')
+    if pg.locator('#back').count():
+        pg.click('#back')
+        pg.wait_for_timeout(200)
+    pg.click('#boss')
+    pg.wait_for_timeout(150)
+    ok(pg.locator('#go').count() == 1 and '5 minutes' in pg.inner_text('body'), 'lock: boss round opens with nothing cleared')
+    if pg.locator('#back').count():
+        pg.click('#back')
+        pg.wait_for_timeout(200)
+    ok(pg.locator('.path').count() == 1, 'lock: back returns to the path')
     if ONLY_LOCK:
         b.close()
         print('PASS' if not fails else 'FAIL')
@@ -196,7 +212,7 @@ with sync_playwright() as p:
     pg.wait_for_timeout(250)
     ok(pg.locator('.path').count() == 1, 'Back arrow returns to the path')
     ok(f'{exp_st} of 3 stars' in lab(pg, 2) and 'locked' not in lab(pg, 3), f'Path: level 2 shows {exp_st} star(s) and level 3 opens')
-    ok('locked' in lab(pg, 4) and 'locked' in lab(pg, 5) and 'locked' in lab(pg, 7) and 'locked' not in lab(pg, 6), 'Path: 4, 5, 7 locked; unit start 6 open')
+    ok(all('locked' not in lab(pg, n) for n in (4, 5, 6, 7)), 'Path: unplayed levels 4 to 7 stay open')
     ok(pg.locator('.stop', has=pg.locator('.node[data-lv="3"]')).locator('.tag').count() == 1, 'Path: the Next tag moves to level 3')
 
     pg.click('.node[data-lv="3"]')
@@ -206,10 +222,10 @@ with sync_playwright() as p:
     ok('Clearing it takes' in pg.inner_text('.result'), 'L3: says what clearing takes')
     pg.click('#home')
     pg.wait_for_timeout(250)
-    ok('locked' in lab(pg, 4), 'L4 stays locked after a failed level 3')
+    ok('locked' not in lab(pg, 4), 'L4 stays open after a failed level 3')
 
-    pg.click('.node[data-lv="6"]')
-    ok(pg.locator('#go').count() == 1, 'L6 (unit start) opens with no stars on 5')
+    pg.click('.node[data-lv="7"]')
+    ok(pg.locator('#go').count() == 1, 'L7 opens with no stars on 4 to 6')
     pg.click('#back')
     pg.wait_for_timeout(200)
 
@@ -243,9 +259,9 @@ with sync_playwright() as p:
     # 2. boss round
     ctx, pg, errs = new_page(b, 390)
     set_state(pg, {str(n): 1 for n in range(1, 16)}, 0, 500)
-    ok('locked' in pg.get_attribute('#boss', 'aria-label'), 'Boss stays locked with 15 of 16 levels starred')
+    ok('locked' not in pg.get_attribute('#boss', 'aria-label'), 'Boss open with 15 of 16 levels starred')
     set_state(pg, {str(n): 3 for n in range(1, 17)}, 0, 500)
-    ok('locked' not in pg.get_attribute('#boss', 'aria-label'), 'Boss unlocks when all 16 levels have a star')
+    ok('locked' not in pg.get_attribute('#boss', 'aria-label'), 'Boss open when all 16 levels have a star')
     ok(norm(pg.text_content('.tag')) == 'Boss', 'Path: the Boss tag shows once every level is cleared')
     ok(pg.inner_text('#h-st') == '48', 'HUD: 48 stars when all 3-starred')
     overflow(pg, 390, 'path 390, all cleared')
@@ -317,3 +333,4 @@ with sync_playwright() as p:
 print('PASS' if not fails else 'FAIL', f'({len(oks)} ok, {len(fails)} failed)')
 for m in fails:
     print('  FAIL', m)
+sys.exit(1 if fails else 0)  # a failed check must fail the run, not just print FAIL

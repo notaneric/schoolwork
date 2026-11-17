@@ -1097,8 +1097,9 @@ const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch
 
 let streak = 0, run = null, boss = null, tick = null, curOpts = [];
 const totalStars = () => LEVELS.reduce((t, l) => t + (S.stars[l.n] || 0), 0);
-const unlocked = n => n === 1 || !!LEVELS[n - 1].unit || (S.stars[n - 1] || 0) > 0;
-const bossUnlocked = () => LEVELS.every(l => (S.stars[l.n] || 0) > 0);
+// every level and the boss round are open from the start; stars only record progress
+const unlocked = () => true;
+const bossUnlocked = () => true;
 const currentLevel = () => { const l = LEVELS.find(x => !(S.stars[x.n] > 0)); return l ? l.n : 'boss'; };
 const levelQs = n => Q.map((q, i) => i).filter(i => Q[i].lv === n && !Q[i].boss);
 
@@ -1142,7 +1143,7 @@ window.addEventListener('popstate', () => renderPath());
 function renderPath() {
   stopTick(); run = null; boss = null;
   const cur = currentLevel(), off = [0, -60, 0, 60];
-  let h = '<header class="title"><h1>Exam 3 study game</h1><p class="when">Wed Nov 18, 10:00, LDSC 210</p><p class="hint">Start with the unit you know least. The first level of each unit is open.</p></header><div class="path">';
+  let h = '<header class="title"><h1>Exam 3 study game</h1><p class="when">Wed Nov 18, 10:00, LDSC 210</p><p class="hint">Every level is open. Jump to any topic, starting with the one you know least.</p></header><div class="path">';
   LEVELS.forEach((l, i) => {
     const st = S.stars[l.n] || 0, open = unlocked(l.n), state = !open ? 'locked' : st ? 'done' : 'open';
     h += (l.unit ? '<div class="unit"><small>' + l.unit + '</small><b>' + l.uname + '</b><span>' + l.sub + '</span></div>' : '') +

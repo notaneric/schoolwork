@@ -96,11 +96,14 @@ E = [
     ('<title>Polarity and IMFs</title>', '<title>CHEM 1211 Exam 3</title>'),
     ('<small>/15</small>', f'<small>/{NL * 3}</small>'),
     ("const KEY = 'chem1211q3_game_v1';", "const KEY = 'chem1211e3_game_v1';\nconst BOSS_N = 10, BOSS_SECS = 300;"),
+    # Nov 16 revision: no gating. Every level and the boss round are open from the start, so any
+    # topic can be studied first; stars still record progress.
     ('const unlocked = n => n === 1 || (S.stars[n - 1] || 0) > 0;',
-     'const unlocked = n => n === 1 || !!LEVELS[n - 1].unit || (S.stars[n - 1] || 0) > 0;'),
+     '// every level and the boss round are open from the start; stars only record progress\nconst unlocked = () => true;'),
+    ('const bossUnlocked = () => LEVELS.every(l => (S.stars[l.n] || 0) > 0);', 'const bossUnlocked = () => true;'),
     ('off = [0, -60, 0, 60, 0];', 'off = [0, -60, 0, 60];'),
     ('<h1>Polarity and IMFs</h1><p class="when">Oct 26 and Oct 28 lectures</p></header>',
-     '<h1>Exam 3 study game</h1><p class="when">Wed Nov 18, 10:00, LDSC 210</p><p class="hint">Start with the unit you know least. The first level of each unit is open.</p></header>'),
+     '<h1>Exam 3 study game</h1><p class="when">Wed Nov 18, 10:00, LDSC 210</p><p class="hint">Every level is open. Jump to any topic, starting with the one you know least.</p></header>'),
     ("""h += '<div class="stop" style="--x:' + off[i] + 'px">""",
      """h += (l.unit ? '<div class="unit"><small>' + l.unit + '</small><b>' + l.uname + '</b><span>' + l.sub + '</span></div>' : '') +
       '<div class="stop" style="--x:' + off[i % off.length] + 'px">"""),
