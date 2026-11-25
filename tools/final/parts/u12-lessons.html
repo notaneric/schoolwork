@@ -1,0 +1,308 @@
+<template id="lesson-1">
+  <div class="box">
+    <h2>Scientific notation</h2>
+    <ul class="pts">
+      <li>A number between 1 and 10, times 10 raised to an integer. 61,500 is 6.15 x 10^4 and 0.0000568 is 5.68 x 10^-5.</li>
+      <li>Dr. Meyers' mnemonic: + means x10, - means /10. A positive exponent gives a value above 1, a negative exponent gives a value below 1.</li>
+      <li>To compare two values, look at the exponent first. 7.6 x 10^-2 beats 6.2 x 10^-3 even though 7.6 is not much bigger than 6.2.</li>
+      <li>Multiplying adds the exponents: 10^2 x 10^3 = 10^5. Dividing subtracts them: 10^2 / 10^3 = 10^-1.</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h2>Counting significant figures</h2>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Rule</th><th>Example</th><th>Sig figs</th></tr></thead>
+        <tbody>
+          <tr><td>Nonzero digits count</td><td>32415</td><td>5</td></tr>
+          <tr><td>Captive zeros count</td><td>32015</td><td>5</td></tr>
+          <tr><td>Leading zeros do not</td><td>0.032015</td><td>5</td></tr>
+          <tr><td>Trailing zeros after a decimal count</td><td>0.03201500</td><td>7</td></tr>
+          <tr><td>Trailing zeros with no decimal might</td><td>3201500</td><td>5, 6 or 7</td></tr>
+          <tr><td>A decimal point at the end makes them all count</td><td>3201500.</td><td>7</td></tr>
+          <tr><td>In scientific notation only the coefficient counts</td><td>3.20 x 10^6</td><td>3</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Exact numbers, from a count or a definition (60 s = 1 min), have infinite sig figs and never limit an answer.</p>
+  </div>
+  <div class="box">
+    <h2>Sig figs in calculations, and rounding</h2>
+    <ul class="pts">
+      <li>Multiply or divide: the answer keeps as many sig figs as the least precise value. 100. / 9.8 = 10.204, so 10. (2 sig figs). 5.55 x 2525 = 14,013.75, so 1.40 x 10^4.</li>
+      <li>Add or subtract: the answer keeps as many decimal places as the value with the fewest. 152.39 - 74.4 = 77.99, so 78.0.</li>
+      <li>Round half up: 2.73894 to 3 sig figs is 2.74.</li>
+      <li>With mixed steps, finish each step with its own rule: (24.20 - 21.2) / 3.00 has 1 decimal after the subtraction (3.0, 2 sig figs), so the answer has 2 sig figs.</li>
+    </ul>
+    <p class="eq">Accuracy = close to the accepted value. Precision = close to each other.</p>
+  </div>
+</template>
+
+<template id="lesson-2">
+  <div class="box">
+    <h2>Prefixes to know</h2>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Prefix</th><th>Symbol</th><th>Multiplier</th></tr></thead>
+        <tbody>
+          <tr><td>giga</td><td>G</td><td>10^9</td></tr>
+          <tr><td>mega</td><td>M</td><td>10^6</td></tr>
+          <tr><td>kilo</td><td>k</td><td>10^3</td></tr>
+          <tr><td>deci</td><td>d</td><td>10^-1</td></tr>
+          <tr><td>centi</td><td>c</td><td>10^-2</td></tr>
+          <tr><td>milli</td><td>m</td><td>10^-3</td></tr>
+          <tr><td>micro</td><td>µ</td><td>10^-6</td></tr>
+          <tr><td>nano</td><td>n</td><td>10^-9</td></tr>
+          <tr><td>pico</td><td>p</td><td>10^-12</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">1 mm = 10^-3 m, which is the same as 10^3 mm = 1 m. 1 mL = 1 cm^3.</p>
+  </div>
+  <div class="box">
+    <h2>Dr. Meyers' factor-label setup</h2>
+    <ol class="steps">
+      <li><span><b>Know.</b> Write each given as an equality, and put the starting quantity over 1.</span></li>
+      <li><span><b>Want.</b> Write the unit you need with a question mark.</span></li>
+      <li><span><b>Pathway.</b> Draw a units-only arrow chain, such as mi to gal to $. One arrow is one conversion factor.</span></li>
+      <li><span><b>Factor-label bars.</b> Chain the fractions so the unit to cancel sits on the bottom of the next factor. Circle the unit left over.</span></li>
+    </ol>
+    <p class="note">Words that signal an equality: equal, is, per, has, in, for every, for each, contains. The sig figs come from the measured values only, never from conversion factors that are definitions.</p>
+  </div>
+  <div class="box">
+    <h2>Squared and cubed units</h2>
+    <ul class="pts">
+      <li>Square or cube the whole factor, number and unit. (1 m / 100 cm) squared is 1 m^2 / 10,000 cm^2.</li>
+      <li>1500. cm^2 is 0.1500 m^2. 2.0 m^3 is 2.0 x 10^6 cm^3. 0.42 cm^2 is 0.065 in^2 (divide by 2.54^2 = 6.4516).</li>
+      <li>Forgetting to square the number is the most common mistake. A cm^3 is tiny, so a volume in cm^3 is a big number.</li>
+    </ul>
+    <p class="eq">405 mi x (1 gal / 24 mi) x ($3.50 / 1 gal) = $59.0625, so $59</p>
+  </div>
+</template>
+
+<template id="lesson-3">
+  <div class="box">
+    <h2>Density</h2>
+    <p class="eq">rho = m / V</p>
+    <ul class="pts">
+      <li>Density is mass per volume. Common units are g/mL (same as g/cm^3) and kg/m^3.</li>
+      <li>Rearrange it for the unknown: m = rho x V and V = m / rho. Convert to the units of rho first, such as 1.25 L to 1250 mL.</li>
+      <li>Density is intensive. Cut a block in half and each piece has the same density.</li>
+      <li>A solid or liquid floats on water if its density is below 1.00 g/mL, and sinks if it is above.</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h2>Volume by displacement</h2>
+    <ul class="pts">
+      <li>For an odd-shaped solid, drop it in a graduated cylinder. Its volume is the rise in water level.</li>
+      <li>A 45.2 g rock raises the water from 25.0 to 31.4 mL. V = 31.4 - 25.0 = 6.4 mL, so rho = 45.2 / 6.4 = 7.1 g/mL.</li>
+      <li>For a rectangular block, V = length x width x height, and cm^3 = mL.</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h2>Temperature</h2>
+    <p class="eq">K = °C + 273.15 and °F = 9/5 °C + 32</p>
+    <ul class="pts">
+      <li>Kelvin is the SI base unit. The K scale never goes below 0.</li>
+      <li>°F to °C: subtract 32 first, then multiply by 5/9. 98.6 °F gives 66.6 x 5/9 = 37.0 °C.</li>
+      <li>Add and subtract with decimal-place sig figs: 25 °C + 273.15 = 298 K.</li>
+      <li>To find the coldest of several readings, put them all in kelvin.</li>
+    </ul>
+  </div>
+</template>
+
+<template id="lesson-4">
+  <div class="box">
+    <h2>Classifying matter</h2>
+    <ul class="pts">
+      <li>Matter is either a pure substance or a mixture.</li>
+      <li>A pure substance has a constant composition. It is either an element (cannot be broken down by chemical change) or a compound (can be broken into elements).</li>
+      <li>A mixture is homogeneous (uniform, also called a solution: filtered air, salt water) or heterogeneous (composition varies from point to point: sand in water, a cookie).</li>
+      <li>An element can be made of molecules. N2 and O2 are elements. CO2 and H2O are compounds.</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h2>States of matter</h2>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>State</th><th>Shape</th><th>Volume</th><th>Particles</th></tr></thead>
+        <tbody>
+          <tr><td>Solid</td><td>definite</td><td>definite</td><td>fixed positions</td></tr>
+          <tr><td>Liquid</td><td>takes the container's</td><td>definite</td><td>touching, free to move past each other</td></tr>
+          <tr><td>Gas</td><td>takes the container's</td><td>fills the container, easily compressed</td><td>far apart</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Taking the container's shape is true of both liquids and gases, so it cannot tell them apart.</p>
+  </div>
+  <div class="box">
+    <h2>Properties and changes</h2>
+    <ul class="pts">
+      <li>A physical property can be measured without changing the substance: density, color, hardness, melting and boiling point.</li>
+      <li>A chemical property is the ability to turn into another substance: flammability, reactivity, toxicity.</li>
+      <li>Physical change: same substance, new form or state (melting, boiling, grinding). Chemical change: new substances (burning, rusting, souring).</li>
+      <li>Intensive properties do not depend on the amount (density, color, melting point). Extensive properties do (mass, volume, length).</li>
+    </ul>
+  </div>
+</template>
+
+<template id="lesson-5">
+  <div class="box">
+    <h2>Three particles</h2>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Particle</th><th>Charge</th><th>Mass</th><th>Where</th></tr></thead>
+        <tbody>
+          <tr><td>Proton</td><td>1+</td><td>about 1 amu</td><td>nucleus</td></tr>
+          <tr><td>Neutron</td><td>0</td><td>about 1 amu</td><td>nucleus</td></tr>
+          <tr><td>Electron</td><td>1-</td><td>about 0.00055 amu (1/1836 of a proton)</td><td>cloud around nucleus</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Almost all the mass sits in the tiny nucleus.</p>
+  </div>
+  <div class="box">
+    <h2>Counting from a symbol</h2>
+    <ul class="pts">
+      <li>Atomic number Z = protons. It names the element.</li>
+      <li>Mass number A = protons + neutrons. So neutrons = A - Z.</li>
+      <li>In a neutral atom, electrons = protons.</li>
+      <li>In a nuclear symbol the mass number goes top left, the atomic number bottom left, and the charge top right. Written in words: silicon-30, or Si-30.</li>
+    </ul>
+    <p class="eq">Si-30: 14 protons, 30 - 14 = 16 neutrons, 14 electrons</p>
+  </div>
+  <div class="box">
+    <h2>Ions</h2>
+    <ul class="pts">
+      <li>A cation lost electrons, so charge = protons - electrons is positive. An anion gained them.</li>
+      <li>Only the electrons change. Protons and neutrons stay the same.</li>
+      <li>Cu-65 with a 2+ charge: 29 protons, 36 neutrons, 29 - 2 = 27 electrons.</li>
+      <li>N-15 with a 3- charge: 7 protons, 8 neutrons, 7 + 3 = 10 electrons.</li>
+      <li>37 protons, 48 neutrons and 36 electrons: Z = 37 is Rb, A = 85, charge 37 - 36 = 1+.</li>
+    </ul>
+  </div>
+</template>
+
+<template id="lesson-6">
+  <div class="box">
+    <h2>Isotopes</h2>
+    <ul class="pts">
+      <li>Isotopes are atoms of one element with different numbers of neutrons. Same Z, different A.</li>
+      <li>Br-79 has 44 neutrons and Br-81 has 46. Both have 35 protons.</li>
+      <li>Isotopes of one element have the same protons and, when neutral, the same electrons, so they behave almost the same in chemical reactions.</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h2>Average atomic mass</h2>
+    <p class="eq">Average atomic mass = sum of (isotope abundance x isotope mass)</p>
+    <ul class="pts">
+      <li>It is a weighted average, not a plain average. Turn each percent into a decimal first.</li>
+      <li>Chlorine: (0.75770 x 34.969) + (0.24230 x 36.966) = 35.453 amu.</li>
+      <li>Abundances must add up to 100%. If one is missing, subtract the rest from 100.</li>
+      <li>The average lands closer to the more abundant isotope. Cu is 63.546, so Cu-63 is more common than Cu-65.</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h2>Solving for a missing mass</h2>
+    <ul class="pts">
+      <li>Boron: B-10 is 10.0129 amu at 19.80%, and the average is 10.811 amu. B-11 is 80.20%.</li>
+      <li>10.811 = (0.1980 x 10.0129) + (0.8020 x m), so m = (10.811 - 1.9826) / 0.8020 = 11.0080 amu. The accepted value is 11.0093 amu.</li>
+      <li>Do not swap the two abundances.</li>
+    </ul>
+    <p class="note">Average atomic mass is the number under the symbol on the periodic table, in amu or g/mol. It is almost never a whole number. Mass number always is.</p>
+  </div>
+</template>
+
+<template id="lesson-7">
+  <div class="box">
+    <h2>Atoms, molecules, compounds, ions</h2>
+    <ul class="pts">
+      <li>Atom: one particle of an element (Na, He).</li>
+      <li>Molecule: atoms bonded together. It can be an element (O2, N2) or a compound (H2O, CO2).</li>
+      <li>Compound: two or more different elements in a fixed ratio. Ionic compounds such as NaCl are lattices of ions, and their particle is called a formula unit: the simplest ratio of ions, one Na^+ to one Cl^-.</li>
+      <li>Monatomic ion: one atom with a charge (Cl^-, Mg^2+). Polyatomic ion: bonded atoms with a net charge (NH4^+, SO4^2-).</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h2>The periodic table</h2>
+    <ul class="pts">
+      <li>A period is a horizontal row. A group is a vertical column, and members of a group behave alike.</li>
+      <li>Group 1A is the alkali metals, 2A the alkaline earth metals, 7A the halogens, 8A the noble gases.</li>
+      <li>Metals are on the left, nonmetals on the right, and metalloids touch the staircase between them: B, Si, Ge, As, Sb, Te.</li>
+      <li>Dalton (1808): atoms of an element are alike, compounds are whole-number ratios of atoms, and atoms rearrange but do not change in reactions. Proust: a compound has a definite ratio of elements.</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h2>First 36 elements</h2>
+    <div class="els">
+      <div class="el"><b>H</b><span>hydrogen</span></div>
+      <div class="el"><b>He</b><span>helium</span></div>
+      <div class="el"><b>Li</b><span>lithium</span></div>
+      <div class="el"><b>Be</b><span>beryllium</span></div>
+      <div class="el"><b>B</b><span>boron</span></div>
+      <div class="el"><b>C</b><span>carbon</span></div>
+      <div class="el"><b>N</b><span>nitrogen</span></div>
+      <div class="el"><b>O</b><span>oxygen</span></div>
+      <div class="el"><b>F</b><span>fluorine</span></div>
+      <div class="el"><b>Ne</b><span>neon</span></div>
+      <div class="el"><b>Na</b><span>sodium</span></div>
+      <div class="el"><b>Mg</b><span>magnesium</span></div>
+      <div class="el"><b>Al</b><span>aluminum</span></div>
+      <div class="el"><b>Si</b><span>silicon</span></div>
+      <div class="el"><b>P</b><span>phosphorus</span></div>
+      <div class="el"><b>S</b><span>sulfur</span></div>
+      <div class="el"><b>Cl</b><span>chlorine</span></div>
+      <div class="el"><b>Ar</b><span>argon</span></div>
+      <div class="el"><b>K</b><span>potassium</span></div>
+      <div class="el"><b>Ca</b><span>calcium</span></div>
+      <div class="el"><b>Sc</b><span>scandium</span></div>
+      <div class="el"><b>Ti</b><span>titanium</span></div>
+      <div class="el"><b>V</b><span>vanadium</span></div>
+      <div class="el"><b>Cr</b><span>chromium</span></div>
+      <div class="el"><b>Mn</b><span>manganese</span></div>
+      <div class="el"><b>Fe</b><span>iron</span></div>
+      <div class="el"><b>Co</b><span>cobalt</span></div>
+      <div class="el"><b>Ni</b><span>nickel</span></div>
+      <div class="el"><b>Cu</b><span>copper</span></div>
+      <div class="el"><b>Zn</b><span>zinc</span></div>
+      <div class="el"><b>Ga</b><span>gallium</span></div>
+      <div class="el"><b>Ge</b><span>germanium</span></div>
+      <div class="el"><b>As</b><span>arsenic</span></div>
+      <div class="el"><b>Se</b><span>selenium</span></div>
+      <div class="el"><b>Br</b><span>bromine</span></div>
+      <div class="el"><b>Kr</b><span>krypton</span></div>
+    </div>
+    <p class="note">Look-alikes: Mg and Mn, K and P, Si and S, Co and Cu, Cl and Cr, Zn and Zr.</p>
+  </div>
+</template>
+
+<template id="lesson-8">
+  <div class="box">
+    <h2>The mole</h2>
+    <p class="eq">1 mol = 6.022 x 10^23 particles</p>
+    <ul class="pts">
+      <li>The mole is a counting unit, like a dozen. The particle can be an atom, a molecule, a formula unit or a pen.</li>
+      <li>Molar mass (g/mol) is the number under the symbol on the periodic table. For a compound, add up every atom in the formula.</li>
+      <li>Other names for molar mass: atomic mass, molecular mass, molecular weight, molar weight, formula weight.</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h2>The conversion path</h2>
+    <p class="eq">grams  to  moles  to  particles</p>
+    <ul class="pts">
+      <li>Always route through moles. Divide grams by molar mass to get moles. Multiply moles by 6.022 x 10^23 to get particles.</li>
+      <li>5.00 g C x (1 mol / 12.011 g) x (6.022 x 10^23 / 1 mol) = 2.51 x 10^23 atoms.</li>
+      <li>Watch the prefix: 20.3 ng is 20.3 x 10^-9 g, and 125. mg is 0.125 g.</li>
+      <li>Sanity check: a sample lighter than one molar mass holds fewer than 6.022 x 10^23 particles.</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h2>Reading a formula</h2>
+    <ul class="pts">
+      <li>A subscript outside parentheses multiplies everything inside. Fe(NO3)3 is 1 Fe, 3 N and 9 O, so 13 atoms per formula unit.</li>
+      <li>Fe(NO3)3 molar mass: 55.845 + 3(14.007) + 9(15.999) = 241.86 g/mol. The classic trap is using 3 oxygens instead of 9.</li>
+      <li>1 mol of H2O holds 2 mol of H atoms and 1 mol of O atoms. 2.00 mol of CO2 holds 4.00 mol of O atoms.</li>
+      <li>Equal masses do not mean equal atoms. Lighter atoms means more atoms: 10.0 g of C has more atoms than 10.0 g of Fe.</li>
+    </ul>
+  </div>
+</template>

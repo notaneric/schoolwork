@@ -1,0 +1,290 @@
+<template id="lesson-9">
+  <div class="box">
+    <h2>Light as a wave</h2>
+    <ul class="pts">
+      <li>All EM radiation travels at c = 3.00 x 10^8 m/s in a vacuum. What changes is wavelength (λ), frequency (ν) and energy.</li>
+      <li>Long wavelength means low frequency and low energy. Short wavelength means high frequency and high energy.</li>
+      <li>Amplitude is the wave height. It sets brightness, not color.</li>
+      <li>Wavelength sets color. Visible light runs from about 400 nm (violet, highest energy) to 750 nm (red, lowest).</li>
+    </ul>
+    <p class="eq">c = λν &nbsp;&nbsp; E = hν &nbsp;&nbsp; E = hc/λ</p>
+    <p class="note">The exam gives c = 3.00 x 10^8 m/s and h = 6.626 x 10^-34 J s on the formula sheet.</p>
+  </div>
+  <div class="box">
+    <h2>The spectrum, low to high energy</h2>
+    <div class="els">
+      <div class="el"><b>Radio</b><span>NMR (nuclei)</span></div>
+      <div class="el"><b>Microwave</b><span>rotation</span></div>
+      <div class="el"><b>Infrared</b><span>bond vibration</span></div>
+      <div class="el"><b>Visible</b><span>electrons</span></div>
+      <div class="el"><b>Ultraviolet</b><span>electrons</span></div>
+      <div class="el"><b>X-ray</b><span>electron clouds</span></div>
+      <div class="el"><b>Gamma</b><span>highest energy</span></div>
+    </div>
+    <p class="note">Dr. Meyers' mnemonic: RaMIVUXGam. The observed color of an object is the color it reflects. The color it absorbs is the complement.</p>
+  </div>
+  <div class="box">
+    <h2>Photon energy: the working steps</h2>
+    <ul class="pts">
+      <li>Convert first. Wavelength goes to m (1 nm = 10^-9 m) and frequency goes to Hz (1 MHz = 10^6 Hz).</li>
+      <li>Given wavelength, use E = hc/λ. Given frequency, use E = hν.</li>
+      <li>E is for one photon. For a mole, multiply by 6.022 x 10^23.</li>
+    </ul>
+    <p class="eq">400. nm = 4.00 x 10^-7 m &nbsp; E = (6.626 x 10^-34)(3.00 x 10^8)/(4.00 x 10^-7) = 4.97 x 10^-19 J</p>
+    <p class="note">Wave-particle duality: light and electrons act as both. Electrons through two slits make an interference pattern, which only waves do.</p>
+  </div>
+</template>
+
+<template id="lesson-10">
+  <div class="box">
+    <h2>Why spectra have lines</h2>
+    <ul class="pts">
+      <li>An excited atom gives off light only at certain exact energies. The pattern of lines is the emission spectrum, and each element has its own, like a fingerprint (flame tests).</li>
+      <li>Lines mean the electron energies are quantized: only certain levels are allowed.</li>
+      <li>Absorbing a photon moves the electron up (nf larger than ni). Emitting a photon moves it down (nf smaller than ni). The photon carries the gap between the two levels.</li>
+      <li>The levels crowd closer together as n grows.</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h2>The Rydberg equation</h2>
+    <p class="eq">1/λ, ν or ΔE = RH (1/nf squared - 1/ni squared)</p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>You want</th><th>RH to use</th></tr></thead>
+        <tbody>
+          <tr><td>1/λ (then invert for λ)</td><td>1.097 x 10^7 m^-1</td></tr>
+          <tr><td>frequency ν</td><td>3.290 x 10^15 Hz</td></tr>
+          <tr><td>energy ΔE</td><td>2.18 x 10^-18 J</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Dr. Meyers' sign rule: a positive answer means energy was emitted, a negative one means absorbed. Some textbooks give the atom's own energy change, which flips the sign. Use his rule on his exam.</p>
+  </div>
+  <div class="box">
+    <h2>Worked example: n = 3 to n = 2</h2>
+    <ul class="pts">
+      <li>1/λ = (1.097 x 10^7)(1/4 - 1/9) = 1.52 x 10^6 m^-1.</li>
+      <li>Invert: λ = 6.56 x 10^-7 m, which is 656 nm, red visible light.</li>
+      <li>Solving for a shell: divide by RH, set equal to 1/nf squared - 1/ni squared, solve for 1/ni squared, invert, then take the square root. Shell numbers are whole numbers.</li>
+    </ul>
+    <p class="note">Traps: forgetting the final inversion for λ, forgetting the square root for n, and mixing up which shell is ni and which is nf.</p>
+  </div>
+</template>
+
+<template id="lesson-11">
+  <div class="box">
+    <h2>The four quantum numbers</h2>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Number</th><th>Name</th><th>Values</th><th>Tells you</th></tr></thead>
+        <tbody>
+          <tr><td>n</td><td>principal</td><td>1, 2, 3, ...</td><td>shell: size and energy</td></tr>
+          <tr><td>l</td><td>angular momentum</td><td>0 to n - 1</td><td>subshell: shape (s, p, d, f)</td></tr>
+          <tr><td>ml</td><td>magnetic</td><td>-l to +l</td><td>orbital orientation</td></tr>
+          <tr><td>ms</td><td>spin</td><td>+1/2 or -1/2</td><td>electron spin</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Check an orbital left to right: n first, then l against n, then ml against l. (1, 1, 0) fails at l, and (3, 1, 2) fails at ml.</p>
+  </div>
+  <div class="box">
+    <h2>Counting</h2>
+    <ul class="pts">
+      <li>A subshell has 2l + 1 orbitals: s has 1, p has 3, d has 5, f has 7. Each orbital holds 2 electrons.</li>
+      <li>A shell has n squared orbitals and holds 2n squared electrons: 2, 8, 18, 32.</li>
+      <li>Shell n has n subshells. The 4th shell has 4s, 4p, 4d and 4f (16 orbitals). There is no 2d, and f starts at n = 4.</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h2>Shapes</h2>
+    <ul class="pts">
+      <li>s orbitals are spheres. Every shell has one.</li>
+      <li>p orbitals are dumbbells. The three point along x, y and z at right angles to each other. Each has one nodal plane through the nucleus, where the electron is never found.</li>
+      <li>d orbitals are mostly cloverleaves, and f orbitals are more complex.</li>
+      <li>An orbital plot encloses the region where the electron is found 90% of the time.</li>
+    </ul>
+  </div>
+</template>
+
+<template id="lesson-12">
+  <div class="box">
+    <h2>Filling rules</h2>
+    <ul class="pts">
+      <li>Aufbau: fill the lowest-energy subshell first. Order: 1s 2s 2p 3s 3p 4s 3d 4p 5s 4d 5p 6s.</li>
+      <li>Pauli: an orbital holds at most 2 electrons, with opposite spins.</li>
+      <li>Hund: spread electrons over the orbitals in a subshell with the same spin before pairing any.</li>
+      <li>Why 4s before 3d, and 2s before 2p: s electrons penetrate closer to the nucleus, so they are shielded less. They feel a larger Zeff and sit lower in energy. Zeff = Z - S.</li>
+    </ul>
+    <p class="note">Noble-gas notation: Ca is [Ar]4s^2 and S is [Ne]3s^2 3p^4. The noble gas stands for all the core electrons.</p>
+  </div>
+  <div class="box">
+    <h2>Ions, magnetism, valence and core</h2>
+    <ul class="pts">
+      <li>Transition metals lose their outer s electrons first. Fe is [Ar]3d^6 4s^2, so Fe^2+ is [Ar]3d^6 and Fe^3+ is [Ar]3d^5.</li>
+      <li>Exceptions: Cr is [Ar]3d^5 4s^1 and Cu is [Ar]3d^10 4s^1, because half-full and full d subshells are favored.</li>
+      <li>Paramagnetic means at least one unpaired electron. Diamagnetic means all paired. Decide it from the orbital diagram.</li>
+      <li>For a main-group atom, valence electrons are in the outermost shell (the group A number), and everything else is core, including a filled 3d. Ge has 4 valence and 28 core.</li>
+      <li>Isoelectronic species have the same number of electrons: Cl^-, Ar and K^+ all have 18.</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h2>Reading a configuration</h2>
+    <ul class="pts">
+      <li>The last term names the element: [Kr]5s^2 4d^10 5p^3 is row 5, p block, third column, so Sb.</li>
+      <li>Count unpaired electrons from the last subshell: nitrogen 2p^3 has 3, oxygen 2p^4 has 2.</li>
+    </ul>
+    <p class="note">Traps: skipping the 3d^10 in Ge through Br, and removing d electrons before s when making a cation.</p>
+  </div>
+</template>
+
+<template id="lesson-13">
+  <div class="box">
+    <h2>The trends</h2>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Property</th><th>Down a group</th><th>Across a period</th></tr></thead>
+        <tbody>
+          <tr><td>Atomic radius</td><td>increases</td><td>decreases</td></tr>
+          <tr><td>First ionization energy</td><td>decreases</td><td>increases</td></tr>
+          <tr><td>Electron affinity</td><td>no clear trend</td><td>more negative</td></tr>
+          <tr><td>Metallic character</td><td>increases</td><td>decreases</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Size and metallic character grow toward the bottom left. Ionization energy grows toward the top right. Zeff rises across a period and pulls the same shell in. Down a group the outer orbital is bigger and farther away.</p>
+  </div>
+  <div class="box">
+    <h2>Ions and successive ionization energy</h2>
+    <ul class="pts">
+      <li>A cation is smaller than its atom. An anion is larger.</li>
+      <li>In an isoelectronic series, more protons means a smaller ion: Ca^2+ is smaller than K^+, which is smaller than Cl^-, which is smaller than S^2-.</li>
+      <li>Each successive ionization energy is larger, with a huge jump once a core electron is removed. K has a much bigger second one than Ca.</li>
+      <li>Two dips in the first IE across period 2: B is lower than Be, and O is lower than N, because O has a paired 2p electron that is repelled. Period 3 repeats them: Al is lower than Mg, and S is lower than P.</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h2>Predicting ion charges</h2>
+    <ul class="pts">
+      <li>Metals lose their valence electrons. Group 1A forms +1, 2A forms +2 and 3A forms +3.</li>
+      <li>Nonmetals gain electrons to reach 8. Group 5A forms -3, 6A forms -2 and 7A forms -1.</li>
+      <li>Each ion ends up with the electron count of the nearest noble gas. Mg is [Ne]3s^2 and gives Mg^2+. S is [Ne]3s^2 3p^4 and gives S^2-.</li>
+    </ul>
+  </div>
+</template>
+
+<template id="lesson-14">
+  <div class="box">
+    <h2>Ionic and covalent bonds</h2>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Bond</th><th>What happens</th><th>Between</th></tr></thead>
+        <tbody>
+          <tr><td>Ionic</td><td>electrons transferred, ions attract</td><td>metal + nonmetal</td></tr>
+          <tr><td>Covalent</td><td>electrons shared</td><td>nonmetal + nonmetal</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <ul class="pts">
+      <li>Octet rule: atoms gain, lose or share electrons to reach 8 valence electrons (2 for H).</li>
+      <li>Pb and Sn are metals even though they sit in the p block, so PbS2 is ionic.</li>
+      <li>Some compounds have both: Na2SO4 and Ca(OH)2 have ionic bonds between the ions and covalent bonds inside the polyatomic ion.</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h2>Writing an ionic formula</h2>
+    <ul class="pts">
+      <li>Total positive charge must equal total negative charge.</li>
+      <li>Al^3+ and O^2-: 2 x (+3) = +6 and 3 x (-2) = -6, so Al2O3.</li>
+      <li>Put a polyatomic ion in parentheses when it needs a subscript: Ca3(PO4)2 and (NH4)2SO4.</li>
+      <li>Count ions, not atoms: Ca(NO3)2 is 3 ions (1 Ca^2+ and 2 NO3^-) but 9 atoms.</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h2>Naming what you see</h2>
+    <ul class="pts">
+      <li>Atom: one neutral atom, such as He. Monatomic ion: one atom with a charge, such as Cl^-.</li>
+      <li>Polyatomic ion: a charged group of bonded atoms, such as NO3^-.</li>
+      <li>Molecule: atoms joined by covalent bonds, such as O2, N2 or H2O. Compound: two or more elements, ionic (NaCl) or molecular (CO2).</li>
+    </ul>
+  </div>
+</template>
+
+<template id="lesson-15">
+  <div class="box">
+    <h2>The nine polyatomic ions</h2>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Name</th><th>Formula</th><th>Name</th><th>Formula</th></tr></thead>
+        <tbody>
+          <tr><td>ammonium</td><td>NH4^+</td><td>hydroxide</td><td>OH^-</td></tr>
+          <tr><td>hydronium</td><td>H3O^+</td><td>nitrate</td><td>NO3^-</td></tr>
+          <tr><td>acetate</td><td>C2H3O2^-</td><td>phosphate</td><td>PO4^3-</td></tr>
+          <tr><td>carbonate</td><td>CO3^2-</td><td>sulfate</td><td>SO4^2-</td></tr>
+          <tr><td>chlorate</td><td>ClO3^-</td><td></td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Names, formulas and charges all count. The -ite ion has one fewer O than -ate, and per- has the most O (ClO4^- is perchlorate).</p>
+  </div>
+  <div class="box">
+    <h2>Naming ionic compounds</h2>
+    <ul class="pts">
+      <li>Cation first, then anion. No prefixes: CaCl2 is calcium chloride, not calcium dichloride.</li>
+      <li>Monatomic anions end in -ide: chloride, oxide, nitride, phosphide, sulfide.</li>
+      <li>Groups 1A, 2A and 3A have one charge, so no numeral. Transition metals (and Pb and Sn) need a Roman numeral for the charge.</li>
+      <li>Find the metal's charge from the anions: Fe2O3 has 3 x (-2) = -6, so each Fe is +3, and the name is iron(III) oxide.</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h2>Going from name to formula</h2>
+    <ul class="pts">
+      <li>Write each ion with its charge, then balance the charges. Cobalt(III) sulfide is Co^3+ and S^2-, so Co2S3.</li>
+      <li>Aluminum sulfate is Al^3+ and SO4^2-, so Al2(SO4)3. Iron(III) nitrate is Fe(NO3)3.</li>
+      <li>The Roman numeral is the charge of one metal ion, not the total.</li>
+    </ul>
+    <p class="note">Know the names and symbols of elements 1 to 36. Watch the look-alikes: Mn manganese and Mg magnesium, K potassium and P phosphorus, Ca calcium and Cl chlorine.</p>
+  </div>
+</template>
+
+<template id="lesson-16">
+  <div class="box">
+    <h2>Greek prefixes</h2>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th></tr></thead>
+        <tbody>
+          <tr><td>mono</td><td>di</td><td>tri</td><td>tetra</td><td>penta</td><td>hexa</td><td>hepta</td><td>octa</td><td>nona</td><td>deca</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="box">
+    <h2>Naming a molecular compound</h2>
+    <ul class="pts">
+      <li>Use prefixes only when no metal is present: two nonmetals, or a metalloid such as B, Si or As with a nonmetal. A metal means ionic, and ionic names take no prefixes.</li>
+      <li>Name the elements in formula order. The second ends in -ide.</li>
+      <li>Never use mono- on the first element: CO is carbon monoxide, not monocarbon monoxide.</li>
+      <li>Drop the a or o before oxide: monoxide, tetroxide, pentoxide.</li>
+    </ul>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Formula</th><th>Name</th></tr></thead>
+        <tbody>
+          <tr><td>PCl5</td><td>phosphorus pentachloride</td></tr>
+          <tr><td>N2O4</td><td>dinitrogen tetroxide</td></tr>
+          <tr><td>SF6</td><td>sulfur hexafluoride</td></tr>
+          <tr><td>CS2</td><td>carbon disulfide</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="box">
+    <h2>Name to formula, and which style</h2>
+    <ul class="pts">
+      <li>Prefixes become subscripts. Dichlorine heptoxide is Cl2O7. A missing prefix on the first element means 1.</li>
+      <li>Metal present: ionic, so MgO is magnesium oxide and Al2O3 is aluminum oxide.</li>
+      <li>Two nonmetals: molecular, so N2O3 is dinitrogen trioxide.</li>
+    </ul>
+    <p class="note">The textbook also uses Stock names like phosphorus(V) chloride. On his exam, use the prefix style he teaches.</p>
+  </div>
+</template>
